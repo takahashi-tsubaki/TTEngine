@@ -64,37 +64,6 @@ void GameScene::Initalize()
 	particle2_->SetPosition({ objPlayer_->position.x - 1 ,objPlayer_->position.y,objPlayer_->position.z });
 	particle2_->SetColor({ 1,1,1,0.7f });
 
-	
-
-	//modelskydome_ = Model::CreateFromOBJ("sphere");
-	//skydome_ = Object3d::Create();
-	////モデルをセット
-	//skydome_->SetModel(modelskydome_);
-	//skydome_->SetPosition({ -5,0,-10 });
-
-
-
-	//modelPlayer_ = Model::CreateFromOBJ("sphere");
-	//player_ = Object3d::Create();
-	////モデルをセット
-	//player_->SetModel(modelPlayer_);
-	//player_->SetPosition({ 6,0,0 });
-
-	//modelGround_ = Model::CreateFromOBJ("Wall");
-	//ground_ = Object3d::Create();
-	//ground_->SetModel(modelGround_);
-	//ground_->SetPosition({0,-5,0});
-	//ground_->SetScale({ 1,0.1f,0.1f });
-
-	//changeSphere = Model::CreateFromOBJ("skydome");
-	//
-	////球の座標をプレイヤーに置き換え
-	//sphere.center = XMVectorSet(0,5,0,1);
-	//sphere.radius = 1.0f;
-
-	////平面の座標の置き換え
-	//plane.normal = XMVectorSet(0,1,0,0);
-	//plane.distance = 0.0f;
 }
 
 void GameScene::Update()
@@ -110,8 +79,6 @@ void GameScene::Update()
 			isParticle = false;
 		}
 	}
-	
-	
 
 	if (input_->PushKey(DIK_W))
 	{
