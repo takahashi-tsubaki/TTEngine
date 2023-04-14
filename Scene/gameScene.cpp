@@ -79,8 +79,6 @@ void GameScene::Update()
 			isParticle = false;
 		}
 	}
-	
-	
 
 	if (input_->PushKey(DIK_W))
 	{
