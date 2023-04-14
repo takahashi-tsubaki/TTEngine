@@ -109,7 +109,6 @@ void GameScene::Draw()
 	Sprite::PreDraw(dxCommon_->GetCommandList());
 	// 背景スプライト描画
 
-	
 	/// <summary>
 	/// ここに背景スプライトの描画処理を追加できる
 	/// </summary>
