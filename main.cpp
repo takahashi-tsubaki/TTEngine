@@ -6,6 +6,7 @@
 #include "Object3d.h"
 #include "Light.h"
 #include "ParticleManager.h"
+
 void DebugOutputFormatString(const char* format, ...) {
 #ifdef _DEBUG
 	va_list valist;
