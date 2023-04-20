@@ -68,6 +68,7 @@ void GameScene::Initalize()
 
 void GameScene::Update()
 {
+
 	if (input_->TriggerKey(DIK_SPACE))
 	{
 		if (isParticle == false)

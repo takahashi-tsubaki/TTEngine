@@ -6,6 +6,7 @@
 #include "Object3d.h"
 #include "Light.h"
 #include "ParticleManager.h"
+
 void DebugOutputFormatString(const char* format, ...) {
 #ifdef _DEBUG
 	va_list valist;
@@ -20,6 +21,7 @@ LRESULT WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam);
 
 int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int)
 {
+
 	ID3D12DebugDevice* debugInterface;
 	OutputDebugStringA("Hello DirectX!!\n");
 	//FPS
@@ -31,6 +33,8 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int)
 	DirectXCommon* dxCommon = nullptr;
 
 	GameScene* gameScene = nullptr;
+
+	
 
 	winApp = new WinApp();
 	winApp->Initialize();
