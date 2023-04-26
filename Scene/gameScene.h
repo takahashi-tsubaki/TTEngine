@@ -13,6 +13,8 @@
 
 #include "Vector3.h"
 
+struct LevelEditer;
+
 class GameScene
 {
 
@@ -56,4 +58,6 @@ private:
 	Object3d* objPlayer_ = nullptr;
 
 	bool isParticle = false;
+
+	LevelEditer* levelEditer = nullptr;
 };

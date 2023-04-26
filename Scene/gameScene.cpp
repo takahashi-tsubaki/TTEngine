@@ -1,4 +1,8 @@
 #include "gameScene.h"
+#include "levelLoader.h"
+#include <cassert>
+#include <sstream>
+#include <iomanip>
 
 GameScene::GameScene() {}
 
@@ -63,6 +67,40 @@ void GameScene::Initalize()
 	particle2_->SetModel(modelParticle2_);
 	particle2_->SetPosition({ objPlayer_->position.x - 1 ,objPlayer_->position.y,objPlayer_->position.z });
 	particle2_->SetColor({ 1,1,1,0.7f });
+
+	levelEditer = LevelLoader::LoadFile("untitled");
+
+	// レベルデータからオブジェクトを生成、配置
+	for (auto& objectData : levelEditer->objects) {
+		// ファイル名から登録済みモデルを検索
+		Model* model = nullptr;
+		decltype(models)::iterator it = models.find(objectData.fileName);
+		if (it != models.end()) 
+		{
+			model = it->second;
+		}
+
+		// モデルを指定して3Dオブジェクトを生成
+		Object3d* newObject = Object3d::Create(model);
+
+		// 座標
+		DirectX::XMFLOAT3 pos;
+		DirectX::XMStoreFloat3(&pos, objectData.translation);
+		newObject->SetPosition(pos);
+
+		// 回転角
+		DirectX::XMFLOAT3 rot;
+		DirectX::XMStoreFloat3(&rot, objectData.rotation);
+		newObject->SetRotation(rot);
+
+		// 座標
+		DirectX::XMFLOAT3 scale;
+		DirectX::XMStoreFloat3(&scale, objectData.scaling);
+		newObject->SetScale(scale);
+
+		// 配列に登録
+		objects.push_back(newObject);
+	}
 
 }
 
