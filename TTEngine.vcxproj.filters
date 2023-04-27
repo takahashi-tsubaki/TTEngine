@@ -120,6 +120,9 @@
     <ClCompile Include="FBX\FbxLoader.cpp">
       <Filter>ソース ファイル\FBX</Filter>
     </ClCompile>
+    <ClCompile Include="FBX\FbxModel.cpp">
+      <Filter>ソース ファイル\FBX</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Base\DirectXCommon.h">
@@ -177,6 +180,9 @@
       <Filter>ヘッダー ファイル\Particle</Filter>
     </ClInclude>
     <ClInclude Include="FBX\FbxLoader.h">
+      <Filter>ヘッダー ファイル\FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="FBX\FbxModel.h">
       <Filter>ヘッダー ファイル\FBX</Filter>
     </ClInclude>
   </ItemGroup>
