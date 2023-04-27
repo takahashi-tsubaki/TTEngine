@@ -59,7 +59,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Base;$(SolutionDir)2D;$(SolutionDir)3D;$(SolutionDir)Scene;$(SolutionDir)Math;$(SolutionDir)Particle;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Base;$(SolutionDir)2D;$(SolutionDir)3D;$(SolutionDir)Scene;$(SolutionDir)Math;$(SolutionDir)Particle;$(SolutionDir)FBX</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -75,7 +75,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Base;$(SolutionDir)2D;$(SolutionDir)3D;$(SolutionDir)Scene;$(SolutionDir)Math;$(SolutionDir)Particle;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Base;$(SolutionDir)2D;$(SolutionDir)3D;$(SolutionDir)Scene;$(SolutionDir)Math;$(SolutionDir)Particle;$(SolutionDir)FBX</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -102,6 +102,7 @@
     <ClCompile Include="Base\FPS.cpp" />
     <ClCompile Include="Base\Input.cpp" />
     <ClCompile Include="Base\WinApp.cpp" />
+    <ClCompile Include="FBX\FbxLoader.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Math\Matrix4.cpp" />
     <ClCompile Include="Math\MyMath.cpp" />
@@ -123,6 +124,7 @@
     <ClInclude Include="Base\FPS.h" />
     <ClInclude Include="Base\Input.h" />
     <ClInclude Include="Base\WinApp.h" />
+    <ClInclude Include="FBX\FbxLoader.h" />
     <ClInclude Include="Math\Matrix4.h" />
     <ClInclude Include="Math\MyMath.h" />
     <ClInclude Include="Math\Vector2.h" />
