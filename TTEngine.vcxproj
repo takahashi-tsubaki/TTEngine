@@ -103,6 +103,7 @@
     <ClCompile Include="Base\Input.cpp" />
     <ClCompile Include="Base\WinApp.cpp" />
     <ClCompile Include="FBX\FbxLoader.cpp" />
+    <ClCompile Include="FBX\FbxModel.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Math\Matrix4.cpp" />
     <ClCompile Include="Math\MyMath.cpp" />
@@ -125,6 +126,7 @@
     <ClInclude Include="Base\Input.h" />
     <ClInclude Include="Base\WinApp.h" />
     <ClInclude Include="FBX\FbxLoader.h" />
+    <ClInclude Include="FBX\FbxModel.h" />
     <ClInclude Include="Math\Matrix4.h" />
     <ClInclude Include="Math\MyMath.h" />
     <ClInclude Include="Math\Vector2.h" />

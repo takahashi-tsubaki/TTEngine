@@ -7,6 +7,8 @@
 
 #include <string>
 
+#include "FbxModel.h"
+
 class FbxLoader
 {
 private:
@@ -39,6 +41,9 @@ public:
 	void Finalize();
 
 	void LoadModelFromFile(const string& modelname);
+
+
+	void ParseNodeRecursive(FbxModel*fbxModel, FbxNode* fbxNode, Node* parent = nullptr);
 
 private:
 	// privateなコンストラクタ（シングルトンパターン）
