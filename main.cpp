@@ -7,6 +7,8 @@
 #include "Light.h"
 #include "ParticleManager.h"
 
+#include "FbxLoader.h"
+
 void DebugOutputFormatString(const char* format, ...) {
 #ifdef _DEBUG
 	va_list valist;
@@ -52,6 +54,9 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int)
 	Light::StaticInitalize(dxCommon->GetDevice());
 	Particle::StaticInitialize(dxCommon->GetDevice());
 
+	//FBXの初期化
+	FbxLoader::GetInstance()->Initialize(dxCommon->GetDevice());
+
 	//ゲームシーンの初期化
 	gameScene = new GameScene();
 	gameScene->Initalize();
@@ -90,6 +95,9 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int)
 	}
 	//windowAPIの終了処理
 	winApp->Finalize();
+	//FBXメモリ開放
+	FbxLoader::GetInstance()->Finalize();
+
 	//入力解放
 	delete winApp;
 	delete gameScene;

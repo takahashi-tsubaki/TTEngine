@@ -1,4 +1,7 @@
 #include "gameScene.h"
+#include "FbxLoader.h"
+
+
 
 GameScene::GameScene() {}
 
@@ -38,68 +41,70 @@ void GameScene::Initalize()
 	sprite2_ = Sprite::Create(2, { 300.0f,0.0f });
 	sprite2_->SetSize({207.0f/2,205.0f/2});
 
-	modelSkydome_ = Model::CreateFromOBJ("skydome");
-	objSkydome_ = Object3d::Create();
-	
-	objSkydome_->SetModel(modelSkydome_);
-	objSkydome_->SetColor({ 1,1,1,0.7f });
+	//modelSkydome_ = Model::CreateFromOBJ("skydome");
+	//objSkydome_ = Object3d::Create();
+	//
+	//objSkydome_->SetModel(modelSkydome_);
+	//objSkydome_->SetColor({ 1,1,1,0.7f });
 
-	modelPlayer_ = Model::CreateFromOBJ("player");
-	objPlayer_ = Object3d::Create();
+	//modelPlayer_ = Model::CreateFromOBJ("player");
+	//objPlayer_ = Object3d::Create();
 
-	objPlayer_->SetModel(modelPlayer_);
+	//objPlayer_->SetModel(modelPlayer_);
 
-	modelParticle_ = Model::CreateFromOBJ("enemy");
-	particle_ = Particle::Create();
+	//modelParticle_ = Model::CreateFromOBJ("enemy");
+	//particle_ = Particle::Create();
 
-	particle_->SetModel(modelParticle_);
-	particle_->SetPosition({ objPlayer_->position.x+1 ,objPlayer_->position .y,objPlayer_->position.z});
-	particle_->SetColor({ 1,1,1,0.7f });
+	//particle_->SetModel(modelParticle_);
+	//particle_->SetPosition({ objPlayer_->position.x+1 ,objPlayer_->position .y,objPlayer_->position.z});
+	//particle_->SetColor({ 1,1,1,0.7f });
 
 
-	modelParticle2_ = Model::CreateFromOBJ("enemy2");
-	particle2_ = Particle::Create();
+	//modelParticle2_ = Model::CreateFromOBJ("enemy2");
+	//particle2_ = Particle::Create();
 
-	particle2_->SetModel(modelParticle2_);
-	particle2_->SetPosition({ objPlayer_->position.x - 1 ,objPlayer_->position.y,objPlayer_->position.z });
-	particle2_->SetColor({ 1,1,1,0.7f });
+	//particle2_->SetModel(modelParticle2_);
+	//particle2_->SetPosition({ objPlayer_->position.x - 1 ,objPlayer_->position.y,objPlayer_->position.z });
+	//particle2_->SetColor({ 1,1,1,0.7f });
+
+	FbxLoader::GetInstance()->LoadModelFromFile("cube");
 
 }
 
 void GameScene::Update()
 {
 
-	if (input_->TriggerKey(DIK_SPACE))
-	{
-		if (isParticle == false)
-		{
-			isParticle = true;
-		}
-		else
-		{
-			isParticle = false;
-		}
-	}
+	//if (input_->TriggerKey(DIK_SPACE))
+	//{
+	//	if (isParticle == false)
+	//	{
+	//		isParticle = true;
+	//	}
+	//	else
+	//	{
+	//		isParticle = false;
+	//	}
+	//}
 
-	if (input_->PushKey(DIK_W))
-	{
-		camera_->eye.z += 0.2f;
-		camera_->target.z += 0.2f;
-		camera_->SetEye(camera_->eye);
-	}
-	if (input_->PushKey(DIK_S))
-	{
-		camera_->eye.z -= 0.2f;
-		camera_->target.z -= 0.2f;
-		camera_->SetEye(camera_->eye);
-	}
+	//if (input_->PushKey(DIK_W))
+	//{
+	//	camera_->eye.z += 0.2f;
+	//	camera_->target.z += 0.2f;
+	//	camera_->SetEye(camera_->eye);
+	//}
+	//if (input_->PushKey(DIK_S))
+	//{
+	//	camera_->eye.z -= 0.2f;
+	//	camera_->target.z -= 0.2f;
+	//	camera_->SetEye(camera_->eye);
+	//}
 	camera_->Update();
 
 
-	objSkydome_->Update();
-	objPlayer_->Update();
-	particle_->Update();
-	particle2_->Update();
+	//objSkydome_->Update();
+	//objPlayer_->Update();
+	//particle_->Update();
+	//particle2_->Update();
 	light_->Update();
 }
 
@@ -124,10 +129,10 @@ void GameScene::Draw()
 	Object3d::PreDraw(dxCommon_->GetCommandList());
 
 	//// 3Dオブジェクトの描画
-	objSkydome_->Draw();
+	//objSkydome_->Draw();
 
 
-	objPlayer_->Draw();
+	//objPlayer_->Draw();
 	///// <summary>
 	///// ここに3Dオブジェクトの描画処理を追加できる
 	///// </summary>
@@ -143,11 +148,11 @@ void GameScene::Draw()
 
 	//// 3Dオブジェクトの描画
 	/*objEnemy_->Draw();*/
-	if (isParticle == true)
+	/*if (isParticle == true)
 	{
 		particle_->Draw();
 		particle2_->Draw();
-	}
+	}*/
 	
 	///// <summary>
 	///// ここに3Dオブジェクトの描画処理を追加できる
@@ -165,8 +170,8 @@ void GameScene::Draw()
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
-	sprite_->Draw();
-	sprite2_->Draw();
+	/*sprite_->Draw();
+	sprite2_->Draw();*/
 	//
 	// スプライト描画後処理
 	Sprite::PostDraw();

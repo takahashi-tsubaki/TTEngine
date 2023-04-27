@@ -55,6 +55,12 @@
     <Filter Include="ヘッダー ファイル\math">
       <UniqueIdentifier>{a84848a6-d6a9-4bda-8985-b1356d029920}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\FBX">
+      <UniqueIdentifier>{8f65eccf-4ff9-4643-b9f9-632bd3136876}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\FBX">
+      <UniqueIdentifier>{7bfa3e61-5462-44ee-ad26-feed01b82e3f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -111,6 +117,9 @@
     <ClCompile Include="Particle\ParticleManager.cpp">
       <Filter>ソース ファイル\Particle</Filter>
     </ClCompile>
+    <ClCompile Include="FBX\FbxLoader.cpp">
+      <Filter>ソース ファイル\FBX</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Base\DirectXCommon.h">
@@ -166,6 +175,9 @@
     </ClInclude>
     <ClInclude Include="Particle\ParticleManager.h">
       <Filter>ヘッダー ファイル\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="FBX\FbxLoader.h">
+      <Filter>ヘッダー ファイル\FBX</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
