@@ -42,7 +42,7 @@ void GameScene::Initalize()
 	sprite2_ = Sprite::Create(2, { 300.0f,0.0f });
 	sprite2_->SetSize({207.0f/2,205.0f/2});
 
-	modelSkydome_ = Model::CreateFromOBJ("skydome");
+	/*modelSkydome_ = Model::CreateFromOBJ("skydome");
 	objSkydome_ = Object3d::Create();
 	
 	objSkydome_->SetModel(modelSkydome_);
@@ -66,7 +66,7 @@ void GameScene::Initalize()
 
 	particle2_->SetModel(modelParticle2_);
 	particle2_->SetPosition({ objPlayer_->position.x - 1 ,objPlayer_->position.y,objPlayer_->position.z });
-	particle2_->SetColor({ 1,1,1,0.7f });
+	particle2_->SetColor({ 1,1,1,0.7f });*/
 
 	levelEditer = LevelLoader::LoadFile("untitled");
 
@@ -74,14 +74,15 @@ void GameScene::Initalize()
 	for (auto& objectData : levelEditer->objects) {
 		// ファイル名から登録済みモデルを検索
 		Model* model = nullptr;
-		decltype(models)::iterator it = models.find(objectData.fileName);
+		decltype(models)::iterator it = models.find(objectData.filename);
 		if (it != models.end()) 
 		{
 			model = it->second;
 		}
 
 		// モデルを指定して3Dオブジェクトを生成
-		Object3d* newObject = Object3d::Create(model);
+		Object3d* newObject = Object3d::Create();
+		newObject->SetModel(model);
 
 		// 座標
 		DirectX::XMFLOAT3 pos;
@@ -107,7 +108,7 @@ void GameScene::Initalize()
 void GameScene::Update()
 {
 
-	if (input_->TriggerKey(DIK_SPACE))
+	/*if (input_->TriggerKey(DIK_SPACE))
 	{
 		if (isParticle == false)
 		{
@@ -137,7 +138,7 @@ void GameScene::Update()
 	objSkydome_->Update();
 	objPlayer_->Update();
 	particle_->Update();
-	particle2_->Update();
+	particle2_->Update();*/
 	light_->Update();
 }
 
@@ -162,10 +163,10 @@ void GameScene::Draw()
 	Object3d::PreDraw(dxCommon_->GetCommandList());
 
 	//// 3Dオブジェクトの描画
-	objSkydome_->Draw();
+	//objSkydome_->Draw();
 
 
-	objPlayer_->Draw();
+	//objPlayer_->Draw();
 	///// <summary>
 	///// ここに3Dオブジェクトの描画処理を追加できる
 	///// </summary>
@@ -181,12 +182,12 @@ void GameScene::Draw()
 
 	//// 3Dオブジェクトの描画
 	/*objEnemy_->Draw();*/
-	if (isParticle == true)
-	{
-		particle_->Draw();
-		particle2_->Draw();
-	}
-	
+	//if (isParticle == true)
+	//{
+	//	particle_->Draw();
+	//	particle2_->Draw();
+	//}
+	//
 	///// <summary>
 	///// ここに3Dオブジェクトの描画処理を追加できる
 	///// </summary>
@@ -203,8 +204,8 @@ void GameScene::Draw()
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
-	sprite_->Draw();
-	sprite2_->Draw();
+	//sprite_->Draw();
+	//sprite2_->Draw();
 	//
 	// スプライト描画後処理
 	Sprite::PostDraw();

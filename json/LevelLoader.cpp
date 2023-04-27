@@ -2,6 +2,13 @@
 #include <cassert>
 #include <fstream>
 
+#include<json.hpp>
+
+const std::string LevelLoader::directry = "Resources/levels/";
+
+//ファイル拡張子
+const std::string LevelLoader::kakutyousi = ".json";
+
 LevelEditer* LevelLoader::LoadFile(const std::string& filename)
 {
 	//連結してフルパスを得る

@@ -1,9 +1,7 @@
 #pragma once
-
 #include <vector>
 #include <string>
 #include <DirectXMath.h>
-#include "json.hpp"
 
 struct LevelEditer
 {

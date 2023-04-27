@@ -13,6 +13,8 @@
 
 #include "Vector3.h"
 
+#include <map>
+
 struct LevelEditer;
 
 class GameScene
@@ -60,4 +62,6 @@ private:
 	bool isParticle = false;
 
 	LevelEditer* levelEditer = nullptr;
+	std::map<std::string, Model*> models;
+	std::vector<Object3d*> objects;
 };
