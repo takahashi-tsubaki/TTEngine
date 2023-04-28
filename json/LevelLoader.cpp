@@ -66,32 +66,31 @@ LevelEditer* LevelLoader::LoadFile(const std::string& filename)
 			{
 				//ファイル名
 				objectData.filename = object["file_name"];
-
-				//トランスフォームパラメータの読み込み
-				nlohmann::json& transform = object["transform"];
-				// 平行移動
-				objectData.translation.m128_f32[0] = (float)transform["translation"][1];
-				objectData.translation.m128_f32[1] = (float)transform["translation"][2];
-				objectData.translation.m128_f32[2] = -(float)transform["translation"][0];
-				objectData.translation.m128_f32[3] = 1.0f;
-				// 回転角
-				objectData.rotation.m128_f32[0] = -(float)transform["rotation"][1];
-				objectData.rotation.m128_f32[1] = -(float)transform["rotation"][2];
-				objectData.rotation.m128_f32[2] = (float)transform["rotation"][0];
-				objectData.rotation.m128_f32[3] = 0.0f;
-				// スケーリング
-				objectData.scaling.m128_f32[0] = (float)transform["scaling"][1];
-				objectData.scaling.m128_f32[1] = (float)transform["scaling"][2];
-				objectData.scaling.m128_f32[2] = (float)transform["scaling"][0];
-				objectData.scaling.m128_f32[3] = 0.0f;
+				
 			}
+
+			//トランスフォームパラメータの読み込み
+			nlohmann::json& transform = object["transform"];
+			// 平行移動
+			objectData.translation.m128_f32[0] = (float)transform["translation"][1];
+			objectData.translation.m128_f32[1] = (float)transform["translation"][2];
+			objectData.translation.m128_f32[2] = -(float)transform["translation"][0];
+			objectData.translation.m128_f32[3] = 1.0f;
+			// 回転角
+			objectData.rotation.m128_f32[0] = -(float)transform["rotation"][1];
+			objectData.rotation.m128_f32[1] = -(float)transform["rotation"][2];
+			objectData.rotation.m128_f32[2] = (float)transform["rotation"][0];
+			objectData.rotation.m128_f32[3] = 0.0f;
+			// スケーリング
+			objectData.scaling.m128_f32[0] = (float)transform["scaling"][1];
+			objectData.scaling.m128_f32[1] = (float)transform["scaling"][2];
+			objectData.scaling.m128_f32[2] = (float)transform["scaling"][0];
+			objectData.scaling.m128_f32[3] = 0.0f;
 			// TODO: オブジェクト走査を再帰関数にまとめ、再帰呼出で枝を走査する
 			if (object.contains("children")) {
 
 			}
 		}
-
-
 	}
 
 

@@ -59,6 +59,9 @@ private:
 	Model* modelPlayer_ = nullptr;
 	Object3d* objPlayer_ = nullptr;
 
+	Model* modelBume_ = nullptr;
+	Object3d* objBume_ = nullptr;
+
 	bool isParticle = false;
 
 	LevelEditer* levelEditer = nullptr;

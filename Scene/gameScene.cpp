@@ -42,6 +42,8 @@ void GameScene::Initalize()
 	sprite2_ = Sprite::Create(2, { 300.0f,0.0f });
 	sprite2_->SetSize({207.0f/2,205.0f/2});
 
+	
+
 	/*modelSkydome_ = Model::CreateFromOBJ("skydome");
 	objSkydome_ = Object3d::Create();
 	
@@ -69,6 +71,10 @@ void GameScene::Initalize()
 	particle2_->SetColor({ 1,1,1,0.7f });*/
 
 	levelEditer = LevelLoader::LoadFile("untitled");
+
+	modelBume_ = Model::CreateFromOBJ("bume");
+
+	models.insert(std::make_pair("bume", modelBume_));
 
 	// レベルデータからオブジェクトを生成、配置
 	for (auto& objectData : levelEditer->objects) {
@@ -108,38 +114,43 @@ void GameScene::Initalize()
 void GameScene::Update()
 {
 
-	/*if (input_->TriggerKey(DIK_SPACE))
-	{
-		if (isParticle == false)
-		{
-			isParticle = true;
-		}
-		else
-		{
-			isParticle = false;
-		}
-	}
+	//if (input_->TriggerKey(DIK_SPACE))
+	//{
+	//	if (isParticle == false)
+	//	{
+	//		isParticle = true;
+	//	}
+	//	else
+	//	{
+	//		isParticle = false;
+	//	}
+	//}
 
-	if (input_->PushKey(DIK_W))
-	{
-		camera_->eye.z += 0.2f;
-		camera_->target.z += 0.2f;
-		camera_->SetEye(camera_->eye);
-	}
-	if (input_->PushKey(DIK_S))
-	{
-		camera_->eye.z -= 0.2f;
-		camera_->target.z -= 0.2f;
-		camera_->SetEye(camera_->eye);
-	}
+	//if (input_->PushKey(DIK_W))
+	//{
+	//	camera_->eye.z += 0.2f;
+	//	camera_->target.z += 0.2f;
+	//	camera_->SetEye(camera_->eye);
+	//}
+	//if (input_->PushKey(DIK_S))
+	//{
+	//	camera_->eye.z -= 0.2f;
+	//	camera_->target.z -= 0.2f;
+	//	camera_->SetEye(camera_->eye);
+	//}
+	//objSkydome_->Update();
+	//objPlayer_->Update();
+	//particle_->Update();
+	//particle2_->Update();
+
+	camera_->SetEye({ 0,0,-100 });
+
 	camera_->Update();
-
-
-	objSkydome_->Update();
-	objPlayer_->Update();
-	particle_->Update();
-	particle2_->Update();*/
 	light_->Update();
+
+	for (auto& object : objects) {
+		object->Update();
+	}
 }
 
 void GameScene::Draw()
@@ -165,6 +176,9 @@ void GameScene::Draw()
 	//// 3Dオブジェクトの描画
 	//objSkydome_->Draw();
 
+	for (auto& object : objects) {
+		object->Draw();
+	}
 
 	//objPlayer_->Draw();
 	///// <summary>
