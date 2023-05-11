@@ -342,7 +342,7 @@ void FbxLoader::LoadTexture(FbxModel* fbxModel, const std::string& fullpath)
 
     result = LoadFromWICFile(
         wfilepath,WIC_FLAGS_NONE,
-    &metadata, scratchImg);
+        &metadata, scratchImg);
     if (FAILED(result))
     {
         assert(0);
@@ -353,7 +353,7 @@ std::string FbxLoader::ExtractFileName(const std::string& path)
 {
     size_t pos1;
     //区切り文字 '\\' が出てくる一番最後の部分を検索
-    pos1 == path.rfind('\\');
+    pos1 = path.rfind('\\');
     if (pos1 != string::npos)
     {
         return path.substr(pos1 + 1,path.size() - pos1 - 1);
