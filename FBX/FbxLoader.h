@@ -48,7 +48,7 @@ public:
 	/// </summary>
 	void Finalize();
 
-	void LoadModelFromFile(const string& modelname);
+	FbxModel* LoadModelFromFile(const string& modelname);
 
 
 	void ParseNodeRecursive(FbxModel*fbxModel, FbxNode* fbxNode, Node* parent = nullptr);
