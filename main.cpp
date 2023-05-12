@@ -95,8 +95,8 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int)
 	}
 	//windowAPI‚ÌI—¹ˆ—
 	winApp->Finalize();
-	//FBXƒƒ‚ƒŠŠJ•ú
-	FbxLoader::GetInstance()->Finalize();
+	////FBXƒƒ‚ƒŠŠJ•ú
+	//FbxLoader::GetInstance()->Finalize();
 
 	//“ü—Í‰ð•ú
 	delete winApp;

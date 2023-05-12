@@ -13,6 +13,8 @@
 
 #include "Vector3.h"
 
+#include "FbxObject3d.h"
+
 class GameScene
 {
 
@@ -42,18 +44,6 @@ private:
 	Camera* camera_ = nullptr;
 	Light* light_ = nullptr;
 
-	Model* modelSkydome_ = nullptr;
-	Object3d* objSkydome_ = nullptr;
-
-	Model* modelParticle_ = nullptr;
-	Particle* particle_ = nullptr;
-
-
-	Model* modelParticle2_ = nullptr;
-	Particle* particle2_ = nullptr;
-
-	Model* modelPlayer_ = nullptr;
-	Object3d* objPlayer_ = nullptr;
-
-	bool isParticle = false;
+	FbxModel* fbxModel = nullptr;
+	FbxObject3d* fbxObject = nullptr;
 };
