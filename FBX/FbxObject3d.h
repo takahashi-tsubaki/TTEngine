@@ -1,5 +1,5 @@
 #pragma once
-
+#include "FbxLoader.h"
 #include "FbxModel.h"
 #include "Camera.h"
 
@@ -12,6 +12,10 @@
 
 class FbxObject3d
 {
+public:
+	//ボーンの最大数
+	static const int MAX_BONES = 1000;//HLSL側を合わせる
+
 protected://エイリアス
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 	//DirectXを省略
@@ -28,7 +32,10 @@ public://サブクラス
 		XMMATRIX world;
 		XMFLOAT3 cameraPos;
 	};
-
+	struct ConstBufferDataSkin
+	{
+		XMMATRIX bones[MAX_BONES];
+	};
 public://情的メンバ関数
 	//setter
 	static void SetDevice(ID3D12Device* device) { FbxObject3d::device = device; }
@@ -72,6 +79,9 @@ public://メンバ関数
 protected:
 	//定数バッファ
 	ComPtr<ID3D12Resource> constBuffTransform;
+
+	//定数バッファ(スキン)
+	ComPtr<ID3D12Resource> constBuffSkin;
 
 	// ローカルスケール
 	XMFLOAT3 scale = { 1,1,1 };

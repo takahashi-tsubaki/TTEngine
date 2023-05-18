@@ -34,6 +34,7 @@ struct Node
 
 class FbxModel
 {
+public:
 	//ƒ{[ƒ“\‘¢‘Ì
 	struct Bone
 	{

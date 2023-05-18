@@ -458,7 +458,7 @@ void FbxLoader::ParseSkin(FbxModel* fbxModel, FbxMesh* fbxMesh)
         double* controlPointWeights = fbxCluster->GetControlPointWeights();
 
         //影響を受ける全頂点について
-        for (int j = 0; j < clusterCount; j++)
+        for (int j = 0; j < controlPointIndicesCount; j++)
         {
             //頂点番号
             int vertIndex = controlPointIndices[j];

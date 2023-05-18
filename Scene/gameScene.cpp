@@ -42,7 +42,7 @@ void GameScene::Initalize()
 	Sprite::LoadTexture(1, L"Resources/kuribo-.jpg");
 	Sprite::LoadTexture(2, L"Resources/mario.jpg");
 
-	fbxModel = FbxLoader::GetInstance()->LoadModelFromFile("cube");
+	fbxModel = FbxLoader::GetInstance()->LoadModelFromFile("boss_prot4");
 
 	
 
@@ -55,9 +55,11 @@ void GameScene::Initalize()
 
 void GameScene::Update()
 {
-	fbxObject->Update();
 	camera_->Update();
 	light_->Update();
+
+	fbxObject->Update();
+
 	
 }
 
