@@ -1,10 +1,16 @@
 #include "FbxModel.h"
 
+FbxModel::~FbxModel()
+{
+	//FBXシーンの開放
+	fbxScene->Destroy();
+}
+
 void FbxModel::CreateBuffers(ID3D12Device* device)
 {
 	HRESULT result;
 	//頂点データ全体のサイズ
-	UINT sizeVB = static_cast<UINT>(sizeof(VertexPosNormalUv)) * vertices.size();
+	UINT sizeVB = static_cast<UINT>(sizeof(VertexPosNormalUvSkin)) * vertices.size();
 
 	// ヒーププロパティ
 	CD3DX12_HEAP_PROPERTIES heapPropsVertexBuffer = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
@@ -18,7 +24,7 @@ void FbxModel::CreateBuffers(ID3D12Device* device)
 	assert(SUCCEEDED(result));
 
 	//頂点バッファへのデータ転送
-	VertexPosNormalUv* vertMap = nullptr;
+	VertexPosNormalUvSkin* vertMap = nullptr;
 	result = vertBuff->Map(0, nullptr, (void**)&vertMap);
 	if (SUCCEEDED(result))
 	{
