@@ -11,6 +11,8 @@
 #include <d3d12.h>
 #include <d3dx12.h>
 
+#include <fbxsdk.h>
+
 struct Node
 {
 	//名前
@@ -32,17 +34,36 @@ struct Node
 
 class FbxModel
 {
+	//ボーン構造体
+	struct Bone
+	{
+		//名前
+		std::string name;
+		//初期姿勢の逆行列
+		DirectX::XMMATRIX invInitialPose;
+		//クラスター(FBX側のボーン情報
+		FbxCluster* fbxCluster;
+		//コンストラクタ
+		Bone(const std::string& name) {
+			this->name = name;
+		}
+	};
 public:
 
 	//フレンドクラス
 	friend class FbxLoader;
+public://定数
+	//ボーンインデックスの最大数
+	static const int MAX_BONE_INDICES = 4;
 
 public://サブクラス
-	struct VertexPosNormalUv
+	struct VertexPosNormalUvSkin
 	{
 		DirectX::XMFLOAT3 pos;//xyz座標
 		DirectX::XMFLOAT3 normal;//法線ベクトル
 		DirectX::XMFLOAT3 uv;//uv座標
+		UINT boneIndex[MAX_BONE_INDICES];//ボーン　番号
+		float boneWeight[MAX_BONE_INDICES];//ボーン　重み
 	};
 
 private://エイリアス
@@ -61,6 +82,9 @@ private://エイリアス
 
 public://メンバ関数
 
+	//デストラクタ
+	~FbxModel();
+
 	//バッファ生成
 	void CreateBuffers(ID3D12Device* device);
 
@@ -68,6 +92,12 @@ public://メンバ関数
 	void Draw(ID3D12GraphicsCommandList* cmdList);
 	//モデルの変形行列取得
 	const XMMATRIX& GetModelTransform() { return meshNode->worldTransform; }
+
+	//getter
+	std::vector<Bone>& GetBones() { return bones; }
+
+	//getter
+	FbxScene* GetFbxScene() { return fbxScene; }
 
 private://メンバ変数
 
@@ -80,7 +110,7 @@ private://メンバ変数
 	//メッシュを持つノード
 	Node* meshNode = nullptr;
 	//頂点データ配列
-	std::vector<VertexPosNormalUv> vertices;
+	std::vector<VertexPosNormalUvSkin> vertices;
 	//インデックス配列
 	std::vector<unsigned short> indices;
 
@@ -105,4 +135,12 @@ private://メンバ変数
 	D3D12_INDEX_BUFFER_VIEW ibView = {};
 	//SRV用デスクリプタヒープ
 	ComPtr<ID3D12DescriptorHeap> descHeapSRV;
+
+	//ボーン配列
+	std::vector<Bone> bones;
+
+
+	//FBXシーン
+	FbxScene* fbxScene = nullptr;
+	
 };
