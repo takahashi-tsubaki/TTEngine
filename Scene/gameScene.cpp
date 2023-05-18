@@ -2,7 +2,6 @@
 #include "FbxLoader.h"
 #include "FbxObject3d.h"
 
-
 GameScene::GameScene() {}
 
 GameScene::~GameScene() {
