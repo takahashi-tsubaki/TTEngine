@@ -74,7 +74,14 @@ public://メンバ関数
 	/// <param name="fbxModel"></param>
 	void SetModel(FbxModel* fbxModel) { this->fbxModel = fbxModel; }
 
+	void SetScale(XMFLOAT3 scale) {this->scale = scale;}
+
 	void SetPosition(XMFLOAT3 position) { this->position = position; }
+
+	/// <summary>
+	/// アニメーション開始
+	/// </summary>
+	void PlayAnimetion(int AnimNum);
 
 protected:
 	//定数バッファ
@@ -93,5 +100,16 @@ protected:
 	XMMATRIX matWorld;
 
 	FbxModel* fbxModel = nullptr;
+
+	//1フレームの時間
+	FbxTime frameTime;
+	//アニメーション開始時間
+	FbxTime startTime;
+	//アニメーション終了時間
+	FbxTime endTime;
+	//現在時間
+	FbxTime currentTime;
+	//アニメーション再生中
+	bool isPlay = false;
 
 };

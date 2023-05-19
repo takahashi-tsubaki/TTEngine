@@ -22,7 +22,7 @@ void GameScene::Initalize()
 	camera_ = new Camera(WinApp::window_width, WinApp::window_height);
 	camera_->SetEye({0,0,-100});
 	// カメラ注視点をセット
-	camera_->SetTarget({ 0, 20, 0 });
+	camera_->SetTarget({ 0, 0, 0 });
 	// 3Dオブジェクトにカメラをセット
 	Object3d::SetCamera(camera_);
 	//ライト生成
@@ -42,19 +42,27 @@ void GameScene::Initalize()
 	Sprite::LoadTexture(1, L"Resources/kuribo-.jpg");
 	Sprite::LoadTexture(2, L"Resources/mario.jpg");
 
-	fbxModel = FbxLoader::GetInstance()->LoadModelFromFile("boss_prot4");
+	fbxModel = FbxLoader::GetInstance()->LoadModelFromFile("boneTest");
 
 	
 
 	fbxObject =  new FbxObject3d();
 	fbxObject->Initialize();
 	fbxObject->SetModel(fbxModel);
+	fbxObject->SetScale({0.01f,0.01f,0.01f});
 
-	fbxObject->SetPosition({0,-30,100});
+	//fbxObject->SetPosition({0,0,100});
+	//fbxObject->PlayAnimetion(3);
 }
 
 void GameScene::Update()
 {
+
+	/*if (input_->TriggerKey(DIK_SPACE))
+	{
+		fbxObject->PlayAnimetion(2);
+	}*/
+
 	camera_->Update();
 	light_->Update();
 
