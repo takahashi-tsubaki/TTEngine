@@ -6,6 +6,7 @@
 #include "Object3d.h"
 #include "Light.h"
 #include "ParticleManager.h"
+#include "PostEffect.h"
 
 #include "FbxLoader.h"
 
@@ -34,6 +35,8 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int)
 	Input* input = nullptr;
 	DirectXCommon* dxCommon = nullptr;
 
+	PostEffect* postEffect = nullptr;
+
 	GameScene* gameScene = nullptr;
 
 	
@@ -57,6 +60,11 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int)
 	//FBX‚Ì‰Šú‰»
 	FbxLoader::GetInstance()->Initialize(dxCommon->GetDevice());
 
+	Sprite::LoadTexture(100,L"Resources/white1x1.png");
+
+	postEffect = new PostEffect();
+	postEffect->Initialize();
+
 	//ƒQ[ƒ€ƒV[ƒ“‚Ì‰Šú‰»
 	gameScene = new GameScene();
 	gameScene->Initalize();
@@ -78,6 +86,8 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int)
 
 		//•`‰æ‘Oˆ—
 		dxCommon->preDraw();
+
+		postEffect->Draw(dxCommon->GetCommandList());
 
 		//ƒQ[ƒ€ƒV[ƒ“‚Ì•`‰æ
 		gameScene->Draw();
