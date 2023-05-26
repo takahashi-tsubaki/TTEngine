@@ -42,26 +42,27 @@ void GameScene::Initalize()
 	Sprite::LoadTexture(1, L"Resources/kuribo-.jpg");
 	Sprite::LoadTexture(2, L"Resources/mario.jpg");
 
-	fbxModel = FbxLoader::GetInstance()->LoadModelFromFile("boneTest");
+	fbxModel = FbxLoader::GetInstance()->LoadModelFromFile("boss_prot4");
 
 	
 
 	fbxObject =  new FbxObject3d();
 	fbxObject->Initialize();
 	fbxObject->SetModel(fbxModel);
-	fbxObject->SetScale({0.01f,0.01f,0.01f});
+	//fbxObject->SetScale({0.1f,0.1f,0.1f});
+	//fbxObject->SetPosition({ 0,-50,0 });
 
-	//fbxObject->SetPosition({0,0,100});
-	//fbxObject->PlayAnimetion(3);
+	fbxObject->SetPosition({0,-10,10});
+	fbxObject->PlayAnimetion(5);
 }
 
 void GameScene::Update()
 {
 
-	/*if (input_->TriggerKey(DIK_SPACE))
+	if (input_->TriggerKey(DIK_SPACE))
 	{
 		fbxObject->PlayAnimetion(2);
-	}*/
+	}
 
 	camera_->Update();
 	light_->Update();
