@@ -403,7 +403,6 @@ void FbxLoader::ParseSkin(FbxModel* fbxModel, FbxMesh* fbxMesh)
             fbxModel->vertices[i].boneIndex[0] = 0;
             fbxModel->vertices[i].boneWeight[0] = 1.0f;
         }
-
         return;
     }
 
