@@ -23,10 +23,11 @@ void DirectXCommon::InitializeDevice()
 {
 #ifdef _DEBUG
 	//デバックレイヤーをオンに
-	ID3D12Debug* debugController;
+	ID3D12Debug1* debugController;
 	if (SUCCEEDED(D3D12GetDebugInterface(IID_PPV_ARGS(&debugController))))
 	{
 		debugController->EnableDebugLayer();
+		debugController->SetEnableGPUBasedValidation(TRUE);
 	}
 #endif
 	//DXGIファクトリーの生成
@@ -88,6 +89,19 @@ void DirectXCommon::InitializeDevice()
 			break;
 		}
 	}
+#ifdef _DEBUG
+
+	ID3D12InfoQueue* infoQueue;
+	if (SUCCEEDED(dev->QueryInterface(IID_PPV_ARGS(&infoQueue))))
+	{
+		infoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_CORRUPTION,true);
+		infoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_ERROR,true);
+		infoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_WARNING,true);
+		infoQueue->Release();
+	}
+
+#endif
+
 
 }
 void DirectXCommon::InitializeCommand()

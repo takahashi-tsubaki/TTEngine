@@ -84,13 +84,15 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int)
 
 		gameScene->Update();
 
+		postEffect->PreDrawScene(dxCommon->GetCommandList());
+		//ゲームシーンの描画
+		gameScene->Draw();
+		postEffect->PostDrawScene(dxCommon->GetCommandList());
+
 		//描画前処理
 		dxCommon->preDraw();
 
 		postEffect->Draw(dxCommon->GetCommandList());
-
-		//ゲームシーンの描画
-		gameScene->Draw();
 
 		//描画後処理
 		dxCommon->postDraw();
@@ -99,10 +101,12 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int)
 		fps->FpsControlEnd();
 		//ここまでDirectX毎フレーム処理
 	}
-	if (SUCCEEDED(dxCommon->GetDevice()->QueryInterface(&debugInterface))) {
+
+	/*if (SUCCEEDED(dxCommon->GetDevice()->QueryInterface(&debugInterface))) {
 		debugInterface->ReportLiveDeviceObjects(D3D12_RLDO_DETAIL | D3D12_RLDO_IGNORE_INTERNAL);
 		debugInterface->Release();
-	}
+	}*/
+
 	//windowAPIの終了処理
 	winApp->Finalize();
 	////FBXメモリ開放
