@@ -6,9 +6,11 @@ SamplerState smp : register(s0);		//0番スロットに設定されたサンプラー
 
 float4 main(VSOutput input) : SV_TARGET
 {
+	float2 add = { 0.5f,0.0f };
 
-	float4 texcolor = tex.Sample(smp,input.uv);
 
-	return float4(texcolor.rgb,1);
+	float4 texcolor = tex.Sample(smp,input.uv+ add);
+
+	return float4(1.0f - texcolor.rgb,1);
 
 }
