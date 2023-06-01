@@ -3,6 +3,7 @@
 #include "Input.h"
 
 #include "Sprite.h"
+#include "PostEffect.h"
 
 #include "Camera.h"
 #include "Light.h"
@@ -40,6 +41,7 @@ private:
 	Sprite* sprite_ = nullptr;
 	Sprite* sprite2_ = nullptr;
 
+	PostEffect* postEffect = nullptr;
 
 	Camera* camera_ = nullptr;
 	Light* light_ = nullptr;
