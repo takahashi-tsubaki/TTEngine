@@ -39,8 +39,14 @@ void GameScene::Initalize()
 	//グラフィックスパイプライン生成
 	FbxObject3d::CreateGraphicsPipeline();
 
+	postEffect = new PostEffect();
+	postEffect->Initialize();
+
 	Sprite::LoadTexture(1, L"Resources/kuribo-.jpg");
 	Sprite::LoadTexture(2, L"Resources/mario.jpg");
+
+	sprite_ = Sprite::Create(1,{WinApp::window_width,WinApp::window_height});
+
 
 	fbxModel = FbxLoader::GetInstance()->LoadModelFromFile("boss_prot4");
 
@@ -64,6 +70,8 @@ void GameScene::Update()
 		fbxObject->PlayAnimetion(2);
 	}
 
+
+
 	camera_->Update();
 	light_->Update();
 
@@ -78,7 +86,7 @@ void GameScene::Draw()
 	// 背景スプライト描画前処理
 	Sprite::PreDraw(dxCommon_->GetCommandList());
 	// 背景スプライト描画
-
+	
 	
 	/// <summary>
 	/// ここに背景スプライトの描画処理を追加できる
@@ -120,10 +128,27 @@ void GameScene::Draw()
 
 #pragma endregion
 
+//#pragma region ぺらポリゴン描画
+//	postEffect->PreDrawScene(dxCommon_->GetCommandList());
+//
+//	//// ぺらポリゴンの描画
+//	postEffect->Draw(dxCommon_->GetCommandList());
+//	///// <summary>
+//	///// ここにぺらポリゴンの描画処理を追加できる
+//	///// </summary>
+//
+//	
+//
+//	postEffect->PostDrawScene(dxCommon_->GetCommandList());
+//
+//
+//
+//#pragma endregion
 #pragma region 前景スプライト描画
 	// 前景スプライト描画前処理
 	Sprite::PreDraw(dxCommon_->GetCommandList());
 
+	//sprite_->Draw();
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>

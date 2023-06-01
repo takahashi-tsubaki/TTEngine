@@ -33,7 +33,7 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int)
 
 	WinApp* winApp = nullptr;
 	Input* input = nullptr;
-	DirectXCommon* dxCommon = nullptr;
+	DirectXCommon* dxCommon_ = nullptr;
 
 	PostEffect* postEffect = nullptr;
 
@@ -46,21 +46,21 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int)
 	input = Input::GetInstance();
 	input->Initialize(winApp);
 
-	dxCommon = DirectXCommon::GetInstance();
-	dxCommon->Initialize(winApp);
+	dxCommon_ = DirectXCommon::GetInstance();
+	dxCommon_->Initialize(winApp);
 
 	//情的初期化
-	Sprite::StaticInitialize(dxCommon->GetDevice(), WinApp::window_width, WinApp::window_height);
+	Sprite::StaticInitialize(dxCommon_->GetDevice(), WinApp::window_width, WinApp::window_height);
 	// 3Dオブジェクト静的初期化
-	Object3d::StaticInitialize(dxCommon->GetDevice());
+	Object3d::StaticInitialize(dxCommon_->GetDevice());
 	//ライト情的初期化
-	Light::StaticInitalize(dxCommon->GetDevice());
-	Particle::StaticInitialize(dxCommon->GetDevice());
+	Light::StaticInitalize(dxCommon_->GetDevice());
+	Particle::StaticInitialize(dxCommon_->GetDevice());
 
 	//FBXの初期化
-	FbxLoader::GetInstance()->Initialize(dxCommon->GetDevice());
+	FbxLoader::GetInstance()->Initialize(dxCommon_->GetDevice());
 
-	Sprite::LoadTexture(100,L"Resources/white1x1.png");
+	/*Sprite::LoadTexture(100,L"Resources/white1x1.png");*/
 
 	postEffect = new PostEffect();
 	postEffect->Initialize();
@@ -84,18 +84,18 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int)
 
 		gameScene->Update();
 
-		postEffect->PreDrawScene(dxCommon->GetCommandList());
+		postEffect->PreDrawScene(dxCommon_->GetCommandList());
 		//ゲームシーンの描画
 		gameScene->Draw();
-		postEffect->PostDrawScene(dxCommon->GetCommandList());
+		postEffect->PostDrawScene(dxCommon_->GetCommandList());
 
 		//描画前処理
-		dxCommon->preDraw();
+		dxCommon_->preDraw();
 
-		postEffect->Draw(dxCommon->GetCommandList());
-
+		postEffect->Draw(dxCommon_->GetCommandList());
+	
 		//描画後処理
-		dxCommon->postDraw();
+		dxCommon_->postDraw();
 
 
 		fps->FpsControlEnd();
