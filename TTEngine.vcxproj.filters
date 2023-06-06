@@ -61,141 +61,159 @@
     <Filter Include="ヘッダー ファイル\FBX">
       <UniqueIdentifier>{7bfa3e61-5462-44ee-ad26-feed01b82e3f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\FrameWork">
+      <UniqueIdentifier>{844941aa-2c64-4fc9-a491-ca64d05bca21}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\FrameWork">
+      <UniqueIdentifier>{7b695deb-89f7-472f-98e5-ccebb714bc11}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Base\DirectXCommon.cpp">
-      <Filter>Base\.cpp</Filter>
-    </ClCompile>
-    <ClCompile Include="Base\FPS.cpp">
-      <Filter>Base\.cpp</Filter>
-    </ClCompile>
-    <ClCompile Include="Base\Input.cpp">
-      <Filter>Base\.cpp</Filter>
-    </ClCompile>
-    <ClCompile Include="Base\WinApp.cpp">
-      <Filter>Base\.cpp</Filter>
-    </ClCompile>
-    <ClCompile Include="2D\Sprite.cpp">
-      <Filter>ソース ファイル\2D</Filter>
-    </ClCompile>
-    <ClCompile Include="3D\Camera.cpp">
-      <Filter>ソース ファイル\3D</Filter>
-    </ClCompile>
-    <ClCompile Include="3D\Light.cpp">
-      <Filter>ソース ファイル\3D</Filter>
-    </ClCompile>
-    <ClCompile Include="3D\Material.cpp">
-      <Filter>ソース ファイル\3D</Filter>
-    </ClCompile>
-    <ClCompile Include="3D\Mesh.cpp">
-      <Filter>ソース ファイル\3D</Filter>
-    </ClCompile>
-    <ClCompile Include="3D\Model.cpp">
-      <Filter>ソース ファイル\3D</Filter>
-    </ClCompile>
-    <ClCompile Include="3D\Object3d.cpp">
-      <Filter>ソース ファイル\3D</Filter>
-    </ClCompile>
-    <ClCompile Include="Math\Matrix4.cpp">
-      <Filter>ソース ファイル\math</Filter>
-    </ClCompile>
-    <ClCompile Include="Math\MyMath.cpp">
-      <Filter>ソース ファイル\math</Filter>
-    </ClCompile>
-    <ClCompile Include="Math\Vector2.cpp">
-      <Filter>ソース ファイル\math</Filter>
-    </ClCompile>
-    <ClCompile Include="Math\Vector3.cpp">
-      <Filter>ソース ファイル\math</Filter>
-    </ClCompile>
     <ClCompile Include="Scene\gameScene.cpp">
       <Filter>ソース ファイル\scene</Filter>
     </ClCompile>
-    <ClCompile Include="Particle\ParticleManager.cpp">
+    <ClCompile Include="Engine\Base\DirectXCommon.cpp">
+      <Filter>Base\.cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Base\FPS.cpp">
+      <Filter>Base\.cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Base\Input.cpp">
+      <Filter>Base\.cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Base\WinApp.cpp">
+      <Filter>Base\.cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\2D\PostEffect.cpp">
+      <Filter>ソース ファイル\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\2D\Sprite.cpp">
+      <Filter>ソース ファイル\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\3D\Camera.cpp">
+      <Filter>ソース ファイル\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\3D\Light.cpp">
+      <Filter>ソース ファイル\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\3D\Material.cpp">
+      <Filter>ソース ファイル\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\3D\Mesh.cpp">
+      <Filter>ソース ファイル\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\3D\Model.cpp">
+      <Filter>ソース ファイル\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\3D\Object3d.cpp">
+      <Filter>ソース ファイル\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\FBX\FbxLoader.cpp">
+      <Filter>ソース ファイル\FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\FBX\FbxModel.cpp">
+      <Filter>ソース ファイル\FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\FBX\FbxObject3d.cpp">
+      <Filter>ソース ファイル\FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Math\Matrix4.cpp">
+      <Filter>ソース ファイル\math</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Math\MyMath.cpp">
+      <Filter>ソース ファイル\math</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Math\Vector2.cpp">
+      <Filter>ソース ファイル\math</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Math\Vector3.cpp">
+      <Filter>ソース ファイル\math</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Particle\ParticleManager.cpp">
       <Filter>ソース ファイル\Particle</Filter>
     </ClCompile>
-    <ClCompile Include="FBX\FbxLoader.cpp">
-      <Filter>ソース ファイル\FBX</Filter>
+    <ClCompile Include="Engine\FrameWork\MyGame.cpp">
+      <Filter>ソース ファイル\FrameWork</Filter>
     </ClCompile>
-    <ClCompile Include="FBX\FbxModel.cpp">
-      <Filter>ソース ファイル\FBX</Filter>
-    </ClCompile>
-    <ClCompile Include="FBX\FbxObject3d.cpp">
-      <Filter>ソース ファイル\FBX</Filter>
-    </ClCompile>
-    <ClCompile Include="2D\PostEffect.cpp">
-      <Filter>ソース ファイル\2D</Filter>
+    <ClCompile Include="Engine\FrameWork\Framework.cpp">
+      <Filter>ソース ファイル\FrameWork</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Base\DirectXCommon.h">
-      <Filter>Base\.h</Filter>
-    </ClInclude>
-    <ClInclude Include="Base\ErrorException.h">
-      <Filter>Base\.h</Filter>
-    </ClInclude>
-    <ClInclude Include="Base\FPS.h">
-      <Filter>Base\.h</Filter>
-    </ClInclude>
-    <ClInclude Include="Base\Input.h">
-      <Filter>Base\.h</Filter>
-    </ClInclude>
-    <ClInclude Include="Base\WinApp.h">
-      <Filter>Base\.h</Filter>
-    </ClInclude>
-    <ClInclude Include="3D\Camera.h">
-      <Filter>ヘッダー ファイル\3D</Filter>
-    </ClInclude>
-    <ClInclude Include="3D\Light.h">
-      <Filter>ヘッダー ファイル\3D</Filter>
-    </ClInclude>
-    <ClInclude Include="3D\Material.h">
-      <Filter>ヘッダー ファイル\3D</Filter>
-    </ClInclude>
-    <ClInclude Include="3D\Mesh.h">
-      <Filter>ヘッダー ファイル\3D</Filter>
-    </ClInclude>
-    <ClInclude Include="3D\Model.h">
-      <Filter>ヘッダー ファイル\3D</Filter>
-    </ClInclude>
-    <ClInclude Include="3D\Object3d.h">
-      <Filter>ヘッダー ファイル\3D</Filter>
-    </ClInclude>
-    <ClInclude Include="2D\Sprite.h">
-      <Filter>ヘッダー ファイル\2D</Filter>
-    </ClInclude>
-    <ClInclude Include="Math\Matrix4.h">
-      <Filter>ヘッダー ファイル\math</Filter>
-    </ClInclude>
-    <ClInclude Include="Math\MyMath.h">
-      <Filter>ヘッダー ファイル\math</Filter>
-    </ClInclude>
-    <ClInclude Include="Math\Vector2.h">
-      <Filter>ヘッダー ファイル\math</Filter>
-    </ClInclude>
-    <ClInclude Include="Math\Vector3.h">
-      <Filter>ヘッダー ファイル\math</Filter>
-    </ClInclude>
     <ClInclude Include="Scene\gameScene.h">
       <Filter>ヘッダー ファイル\scene</Filter>
     </ClInclude>
-    <ClInclude Include="Particle\ParticleManager.h">
+    <ClInclude Include="Engine\Base\DirectXCommon.h">
+      <Filter>Base\.h</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Base\ErrorException.h">
+      <Filter>Base\.h</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Base\FPS.h">
+      <Filter>Base\.h</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Base\Input.h">
+      <Filter>Base\.h</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Base\WinApp.h">
+      <Filter>Base\.h</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\2D\PostEffect.h">
+      <Filter>ヘッダー ファイル\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\2D\Sprite.h">
+      <Filter>ヘッダー ファイル\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\3D\Camera.h">
+      <Filter>ヘッダー ファイル\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\3D\Light.h">
+      <Filter>ヘッダー ファイル\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\3D\Material.h">
+      <Filter>ヘッダー ファイル\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\3D\Mesh.h">
+      <Filter>ヘッダー ファイル\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\3D\Model.h">
+      <Filter>ヘッダー ファイル\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\3D\Object3d.h">
+      <Filter>ヘッダー ファイル\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\FBX\FbxLoader.h">
+      <Filter>ヘッダー ファイル\FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\FBX\FbxModel.h">
+      <Filter>ヘッダー ファイル\FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\FBX\FbxObject3d.h">
+      <Filter>ヘッダー ファイル\FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Math\Matrix4.h">
+      <Filter>ヘッダー ファイル\math</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Math\MyMath.h">
+      <Filter>ヘッダー ファイル\math</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Math\Vector2.h">
+      <Filter>ヘッダー ファイル\math</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Math\Vector3.h">
+      <Filter>ヘッダー ファイル\math</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Particle\ParticleManager.h">
       <Filter>ヘッダー ファイル\Particle</Filter>
     </ClInclude>
-    <ClInclude Include="FBX\FbxLoader.h">
-      <Filter>ヘッダー ファイル\FBX</Filter>
+    <ClInclude Include="Engine\FrameWork\MyGame.h">
+      <Filter>ヘッダー ファイル\FrameWork</Filter>
     </ClInclude>
-    <ClInclude Include="FBX\FbxModel.h">
-      <Filter>ヘッダー ファイル\FBX</Filter>
-    </ClInclude>
-    <ClInclude Include="FBX\FbxObject3d.h">
-      <Filter>ヘッダー ファイル\FBX</Filter>
-    </ClInclude>
-    <ClInclude Include="2D\PostEffect.h">
-      <Filter>ヘッダー ファイル\2D</Filter>
+    <ClInclude Include="Engine\FrameWork\Framework.h">
+      <Filter>ヘッダー ファイル\FrameWork</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

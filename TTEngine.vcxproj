@@ -45,13 +45,13 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)DirectXTex;$(ProjectDir)lib\fbx_sdk\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ProjectDir)lib\fbx_sdk\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)External\DirectXTex;$(ProjectDir)External\lib\fbx_sdk\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)External\lib\fbx_sdk\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(SolutionDir)DirectXTex;$(ProjectDir)lib\fbx_sdk\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ProjectDir)lib\fbx_sdk\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)External\DirectXTex;$(ProjectDir)External\lib\fbx_sdk\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)External\lib\fbx_sdk\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -59,7 +59,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Base;$(SolutionDir)2D;$(SolutionDir)3D;$(SolutionDir)Scene;$(SolutionDir)Math;$(SolutionDir)Particle;$(SolutionDir)FBX</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Engine\Base;$(SolutionDir)Engine\2D;$(SolutionDir)Engine\3D;$(SolutionDir)Scene;$(SolutionDir)Engine\Math;$(SolutionDir)Engine\Particle;$(SolutionDir)Engine\FBX;$(SolutionDir)External\DirectXTex;$(SolutionDir)External\lib\fbx_sdk\include;$(SolutionDir)Engine\FrameWork</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -78,7 +78,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Base;$(SolutionDir)2D;$(SolutionDir)3D;$(SolutionDir)Scene;$(SolutionDir)Math;$(SolutionDir)Particle;$(SolutionDir)FBX</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Engine\Base;$(SolutionDir)Engine\2D;$(SolutionDir)Engine\3D;$(SolutionDir)Scene;$(SolutionDir)Engine\Math;$(SolutionDir)Engine\Particle;$(SolutionDir)Engine\FBX;$(SolutionDir)External\DirectXTex;$(SolutionDir)External\lib\fbx_sdk\include;$(SolutionDir)Engine\FrameWork</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -89,56 +89,55 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ProjectReference Include="DirectXTex\DirectXTex_Desktop_2022_Win10.vcxproj">
-      <Project>{371b9fa9-4c90-4ac6-a123-aced756d6c77}</Project>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="2D\PostEffect.cpp" />
-    <ClCompile Include="2D\Sprite.cpp" />
-    <ClCompile Include="3D\Camera.cpp" />
-    <ClCompile Include="3D\Light.cpp" />
-    <ClCompile Include="3D\Material.cpp" />
-    <ClCompile Include="3D\Mesh.cpp" />
-    <ClCompile Include="3D\Model.cpp" />
-    <ClCompile Include="3D\Object3d.cpp" />
-    <ClCompile Include="Base\DirectXCommon.cpp" />
-    <ClCompile Include="Base\FPS.cpp" />
-    <ClCompile Include="Base\Input.cpp" />
-    <ClCompile Include="Base\WinApp.cpp" />
-    <ClCompile Include="FBX\FbxLoader.cpp" />
-    <ClCompile Include="FBX\FbxModel.cpp" />
-    <ClCompile Include="FBX\FbxObject3d.cpp" />
+    <ClCompile Include="Engine\2D\PostEffect.cpp" />
+    <ClCompile Include="Engine\2D\Sprite.cpp" />
+    <ClCompile Include="Engine\3D\Camera.cpp" />
+    <ClCompile Include="Engine\3D\Light.cpp" />
+    <ClCompile Include="Engine\3D\Material.cpp" />
+    <ClCompile Include="Engine\3D\Mesh.cpp" />
+    <ClCompile Include="Engine\3D\Model.cpp" />
+    <ClCompile Include="Engine\3D\Object3d.cpp" />
+    <ClCompile Include="Engine\Base\DirectXCommon.cpp" />
+    <ClCompile Include="Engine\Base\FPS.cpp" />
+    <ClCompile Include="Engine\Base\Input.cpp" />
+    <ClCompile Include="Engine\Base\WinApp.cpp" />
+    <ClCompile Include="Engine\FBX\FbxLoader.cpp" />
+    <ClCompile Include="Engine\FBX\FbxModel.cpp" />
+    <ClCompile Include="Engine\FBX\FbxObject3d.cpp" />
+    <ClCompile Include="Engine\FrameWork\Framework.cpp" />
+    <ClCompile Include="Engine\FrameWork\MyGame.cpp" />
+    <ClCompile Include="Engine\Math\Matrix4.cpp" />
+    <ClCompile Include="Engine\Math\MyMath.cpp" />
+    <ClCompile Include="Engine\Math\Vector2.cpp" />
+    <ClCompile Include="Engine\Math\Vector3.cpp" />
+    <ClCompile Include="Engine\Particle\ParticleManager.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Math\Matrix4.cpp" />
-    <ClCompile Include="Math\MyMath.cpp" />
-    <ClCompile Include="Math\Vector2.cpp" />
-    <ClCompile Include="Math\Vector3.cpp" />
-    <ClCompile Include="Particle\ParticleManager.cpp" />
     <ClCompile Include="Scene\gameScene.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="2D\PostEffect.h" />
-    <ClInclude Include="2D\Sprite.h" />
-    <ClInclude Include="3D\Camera.h" />
-    <ClInclude Include="3D\Light.h" />
-    <ClInclude Include="3D\Material.h" />
-    <ClInclude Include="3D\Mesh.h" />
-    <ClInclude Include="3D\Model.h" />
-    <ClInclude Include="3D\Object3d.h" />
-    <ClInclude Include="Base\DirectXCommon.h" />
-    <ClInclude Include="Base\ErrorException.h" />
-    <ClInclude Include="Base\FPS.h" />
-    <ClInclude Include="Base\Input.h" />
-    <ClInclude Include="Base\WinApp.h" />
-    <ClInclude Include="FBX\FbxLoader.h" />
-    <ClInclude Include="FBX\FbxModel.h" />
-    <ClInclude Include="FBX\FbxObject3d.h" />
-    <ClInclude Include="Math\Matrix4.h" />
-    <ClInclude Include="Math\MyMath.h" />
-    <ClInclude Include="Math\Vector2.h" />
-    <ClInclude Include="Math\Vector3.h" />
-    <ClInclude Include="Particle\ParticleManager.h" />
+    <ClInclude Include="Engine\2D\PostEffect.h" />
+    <ClInclude Include="Engine\2D\Sprite.h" />
+    <ClInclude Include="Engine\3D\Camera.h" />
+    <ClInclude Include="Engine\3D\Light.h" />
+    <ClInclude Include="Engine\3D\Material.h" />
+    <ClInclude Include="Engine\3D\Mesh.h" />
+    <ClInclude Include="Engine\3D\Model.h" />
+    <ClInclude Include="Engine\3D\Object3d.h" />
+    <ClInclude Include="Engine\Base\DirectXCommon.h" />
+    <ClInclude Include="Engine\Base\ErrorException.h" />
+    <ClInclude Include="Engine\Base\FPS.h" />
+    <ClInclude Include="Engine\Base\Input.h" />
+    <ClInclude Include="Engine\Base\WinApp.h" />
+    <ClInclude Include="Engine\FBX\FbxLoader.h" />
+    <ClInclude Include="Engine\FBX\FbxModel.h" />
+    <ClInclude Include="Engine\FBX\FbxObject3d.h" />
+    <ClInclude Include="Engine\FrameWork\Framework.h" />
+    <ClInclude Include="Engine\FrameWork\MyGame.h" />
+    <ClInclude Include="Engine\Math\Matrix4.h" />
+    <ClInclude Include="Engine\Math\MyMath.h" />
+    <ClInclude Include="Engine\Math\Vector2.h" />
+    <ClInclude Include="Engine\Math\Vector3.h" />
+    <ClInclude Include="Engine\Particle\ParticleManager.h" />
     <ClInclude Include="Scene\gameScene.h" />
   </ItemGroup>
   <ItemGroup>
@@ -209,6 +208,11 @@
     <None Include="Resources\shaders\ParticleShader.hlsli" />
     <None Include="Resources\shaders\PostEffectTest.hlsli" />
     <None Include="Resources\shaders\Sprite.hlsli" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="External\DirectXTex\DirectXTex_Desktop_2022_Win10.vcxproj">
+      <Project>{371b9fa9-4c90-4ac6-a123-aced756d6c77}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
