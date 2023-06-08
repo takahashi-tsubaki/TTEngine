@@ -11,6 +11,7 @@
 #include "FbxLoader.h"
 
 #include "Framework.h"
+#include "ImguiManager.h"
 
 class MyGame : public Framework
 {
@@ -38,6 +39,7 @@ private:
 
 	PostEffect* postEffect = nullptr;
 
+	Framework* framework = nullptr;
 	GameScene* gameScene = nullptr;
-
+	ImguiManager* imgui = nullptr;
 };

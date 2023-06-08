@@ -27,6 +27,10 @@ void MyGame::Initialize()
 	dxCommon_ = DirectXCommon::GetInstance();
 	dxCommon_->Initialize(winApp);
 
+	imgui = ImguiManager::GetInstance();
+	imgui->Initialize(winApp,dxCommon_);
+
+
 	//情的初期化
 	Sprite::StaticInitialize(dxCommon_->GetDevice(), WinApp::window_width, WinApp::window_height);
 	// 3Dオブジェクト静的初期化
@@ -56,6 +60,7 @@ void MyGame::Finalize()
 
 	//入力解放
 	delete winApp;
+	delete imgui;
 	delete gameScene;
 
 	//基底クラスの終了処理
@@ -76,12 +81,14 @@ void MyGame::Update()
 		fps->FpsControlBegin();
 		if (winApp->ProcessMessage())
 		{
+			Framework::SetRequest(true);
 			//ゲームループを抜ける
-			break;
 		}
 		//ここからDirectX毎フレーム処理
 
 		input->Update();
+
+		
 
 		gameScene->Update();
 	
@@ -91,6 +98,9 @@ void MyGame::Update()
 		//ここまでDirectX毎フレーム処理
 	}
 
+	ImGui::Begin("Pause");
+	
+	ImGui::End();
 }
 
 void MyGame::Draw()

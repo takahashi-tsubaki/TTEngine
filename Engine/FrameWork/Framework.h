@@ -1,4 +1,6 @@
 #pragma once
+#include "WinApp.h"
+
 class Framework
 {
 public:
@@ -14,6 +16,8 @@ public:
 
 	//描画
 	virtual void Draw() = 0;
+
+	virtual void SetRequest(bool request) { endRequest_ = request; }
 
 	//終了チェック
 	virtual bool IsEndRequest() { return endRequest_; }

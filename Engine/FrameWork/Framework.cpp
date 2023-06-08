@@ -6,10 +6,12 @@ void Framework::Initialize()
 
 void Framework::Finalize()
 {
+	
 }
 
 void Framework::Update()
 {
+
 }
 
 void Framework::Run()
