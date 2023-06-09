@@ -83,7 +83,10 @@ public://メンバ関数
 	/// </summary>
 	void PlayAnimetion(int AnimNum);
 
-protected:
+
+	XMFLOAT3 GetPosition() { return this->position; }
+
+public:
 	//定数バッファ
 	ComPtr<ID3D12Resource> constBuffTransform;
 

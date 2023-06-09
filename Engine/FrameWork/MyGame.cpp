@@ -89,7 +89,7 @@ void MyGame::Update()
 		input->Update();
 
 		
-
+		imgui->Begin();
 		gameScene->Update();
 	
 		Draw();
@@ -98,9 +98,9 @@ void MyGame::Update()
 		//‚±‚±‚Ü‚ÅDirectX–ˆƒtƒŒ[ƒ€ˆ—
 	}
 
-	ImGui::Begin("Pause");
 	
-	ImGui::End();
+
+	
 }
 
 void MyGame::Draw()
@@ -114,6 +114,10 @@ void MyGame::Draw()
 	dxCommon_->preDraw();
 
 	postEffect->Draw(dxCommon_->GetCommandList());
+
+	imgui->End();
+
+	imgui->Draw();
 
 	//•`‰æŒãˆ—
 	dxCommon_->postDraw();
