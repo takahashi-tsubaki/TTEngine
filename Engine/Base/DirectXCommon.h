@@ -62,5 +62,8 @@ public:
 	ID3D12Device* GetDevice()const { return dev.Get(); }
 	ID3D12GraphicsCommandList* GetCommandList()const { return commandList.Get(); }
 	static DirectXCommon* GetInstance();
+
+	//バックバッファの数を取得
+	size_t GetBackBufferCount() const { return backBuffers.size(); }
 };
 

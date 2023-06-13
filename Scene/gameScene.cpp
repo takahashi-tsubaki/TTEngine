@@ -2,6 +2,8 @@
 #include "FbxLoader.h"
 #include "FbxObject3d.h"
 
+#include "ImguiManager.h"
+
 GameScene::GameScene() {}
 
 GameScene::~GameScene() {
@@ -77,6 +79,11 @@ void GameScene::Update()
 
 	fbxObject->Update();
 
+	ImGui::Begin("Pause");
+	ImGui::SetWindowPos({200 , 200});
+	ImGui::SetWindowSize({100,100});
+	ImGui::InputFloat3("isPause" , &fbxObject->position.x);
+	ImGui::End();
 	
 }
 
