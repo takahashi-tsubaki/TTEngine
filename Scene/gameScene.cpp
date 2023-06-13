@@ -72,8 +72,6 @@ void GameScene::Update()
 		fbxObject->PlayAnimetion(2);
 	}
 
-
-
 	camera_->Update();
 	light_->Update();
 
