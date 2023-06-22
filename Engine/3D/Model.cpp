@@ -1,4 +1,5 @@
 #include "Model.h"
+#include "Vector3.h"
 #include <algorithm>
 #include <fstream>
 #include <sstream>

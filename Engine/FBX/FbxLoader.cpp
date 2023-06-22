@@ -366,7 +366,7 @@ std::string FbxLoader::ExtractFileName(const std::string& path)
         return path.substr(pos1 + 1,path.size() - pos1 - 1);
     }
     //区切り文字 '/' が出てくる一番最後の部分を検索
-    pos1 == path.rfind('/');
+    pos1 = path.rfind('/');
     if (pos1 != string::npos)
     {
         return path.substr(pos1 + 1, path.size() - pos1 - 1);

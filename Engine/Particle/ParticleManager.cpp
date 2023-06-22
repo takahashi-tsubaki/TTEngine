@@ -251,29 +251,29 @@ void Particle::Update() {
 	matWorld *= matRot;            // ワールド行列に回転を反映
 	matWorld *= matTrans;          // ワールド行列に平行移動を反映
 
-	if (isBillboard) {
-		const XMMATRIX& matBillboard = sCamera_->GetBillboardMatrix();
+	//if (isBillboard) {
+	//	const XMMATRIX& matBillboard = sCamera_->GetBillboardMatrix();
 
-		matWorld = XMMatrixIdentity();
-		matWorld *= matScale; // ワールド行列にスケーリングを反映
-		matWorld *= matRot;   // ワールド行列に回転を反映
-		matWorld *= matBillboard;
-		matWorld *= matTrans; // ワールド行列に平行移動を反映
-	}
+	//	matWorld = XMMatrixIdentity();
+	//	matWorld *= matScale; // ワールド行列にスケーリングを反映
+	//	matWorld *= matRot;   // ワールド行列に回転を反映
+	//	matWorld *= matBillboard;
+	//	matWorld *= matTrans; // ワールド行列に平行移動を反映
+	//}
 
-	const XMMATRIX& matViewProjection = sCamera_->GetViewProjectionMatrix();
-	const XMFLOAT3& cameraPos = sCamera_->GetEye();
-	// 親オブジェクトがあれば
-	if (parent != nullptr) {
-		// 親オブジェクトのワールド行列を掛ける
-		matWorld *= parent->matWorld;
-	}
+	//const XMMATRIX& matViewProjection = sCamera_->GetViewProjectionMatrix();
+	//const XMFLOAT3& cameraPos = sCamera_->GetEye();
+	//// 親オブジェクトがあれば
+	//if (parent != nullptr) {
+	//	// 親オブジェクトのワールド行列を掛ける
+	//	matWorld *= parent->matWorld;
+	//}
 
-	// 定数バッファへデータ転送
-	constMap->viewproj = matViewProjection;
-	constMap->world = matWorld;
-	constMap->cameraPos = cameraPos;
-	constMap->color = this->color;
+	//// 定数バッファへデータ転送
+	//constMap->viewproj = matViewProjection;
+	//constMap->world = matWorld;
+	//constMap->cameraPos = cameraPos;
+	//constMap->color = this->color;
 }
 
 void Particle::Draw() {

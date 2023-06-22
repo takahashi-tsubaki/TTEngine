@@ -238,11 +238,11 @@ void FbxObject3d::Update()
 	matWorld *= matTrans;
 
 	//ビュープロジェクション行列
-	const XMMATRIX& matViewProjection = camera->GetViewProjectionMatrix();
+	const Matrix4& matViewProjection = camera->GetViewProjectionMatrix();
 
 	const XMMATRIX& modelTransform = fbxModel->GetModelTransform();
 
-	const XMFLOAT3& cameraPos = camera->GetEye();
+	const Vector3& cameraPos = camera->GetEye();
 
 	HRESULT result;
 

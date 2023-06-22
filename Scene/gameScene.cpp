@@ -1,8 +1,10 @@
 #include "gameScene.h"
+#pragma warning(push)
 #include "FbxLoader.h"
 #include "FbxObject3d.h"
 
 #include "ImguiManager.h"
+#pragma warning(pop)
 
 GameScene::GameScene() {}
 
@@ -41,8 +43,9 @@ void GameScene::Initalize()
 	//グラフィックスパイプライン生成
 	FbxObject3d::CreateGraphicsPipeline();
 
-	postEffect = new PostEffect();
-	postEffect->Initialize();
+	object = Object3d::Create();
+	model = Model::CreateFromOBJ("cube");
+	object->SetModel(model);
 
 	Sprite::LoadTexture(1, L"Resources/kuribo-.jpg");
 	Sprite::LoadTexture(2, L"Resources/mario.jpg");
@@ -67,24 +70,47 @@ void GameScene::Initalize()
 void GameScene::Update()
 {
 
+	Vector3 move;
+	if (input_->PushKey(DIK_A))
+	{
+		move.x -= 0.5f;
+	}
+	if (input_->PushKey(DIK_D))
+	{
+		move.x += 0.5f;
+	}
+	if (input_->PushKey(DIK_W))
+	{
+		move.z += 0.5f;
+	}
+
+	if (input_->PushKey(DIK_S))
+	{
+		move.z -= 0.5f;
+	}
+
 	if (input_->TriggerKey(DIK_SPACE))
 	{
 		fbxObject->PlayAnimetion(2);
 	}
 
-	camera_->Update();
+
 	light_->Update();
 
 	fbxObject->Update();
 
-	ImGui::Begin("Pause");
-	ImGui::SetWindowPos({200 , 200});
-	ImGui::SetWindowSize({100,100});
-	ImGui::InputFloat3("isPause" , &fbxObject->position.x);
+	ImGui::Begin("cameraPos");
+	ImGui::SetWindowPos({ 200 , 200 });
+	ImGui::SetWindowSize({ 500,100 });
+	ImGui::InputFloat3("isPause", &camera_->eye.x);
 	ImGui::End();
+
+	object->Update();
+
+	camera_->MoveVector(move);
+	camera_->Update();
 	
 }
-
 void GameScene::Draw()
 {
 #pragma region 背景スプライト描画
@@ -107,8 +133,8 @@ void GameScene::Draw()
 
 	//// 3Dオブジェクトの描画
 
-	fbxObject->Draw(dxCommon_->GetCommandList());
-
+	/*fbxObject->Draw(dxCommon_->GetCommandList());*/
+	object->Draw();
 	///// <summary>
 	///// ここに3Dオブジェクトの描画処理を追加できる
 	///// </summary>

@@ -8,8 +8,11 @@
 #include <string>
 #include "Model.h"
 #include "Camera.h"
-
 #include "Light.h"
+
+#include "worldTransform.h"
+
+#include "Vector3.h"
 
 /// <summary>
 /// 3Dオブジェクト
@@ -39,11 +42,7 @@ public: // サブクラス
 	// 定数バッファ用データ構造体B0
 	struct ConstBufferDataB0
 	{
-		XMMATRIX viewproj; //ビュープロジェクション行列
-		XMMATRIX world;//ワールド行列
-		XMFLOAT3 cameraPos;//カメラ座標
-		float pad1;
-		XMFLOAT4 color;
+		Matrix4 mat; // 3D変換行列
 	};
 
 private: // 定数
@@ -107,6 +106,9 @@ public: // メンバ関数
 	/// </summary>
 	void Draw();
 
+	const Vector3& GetPosition() const {};
+
+
 	/// <summary>
 	/// 座標の取得
 	/// </summary>
@@ -150,6 +152,8 @@ public: // メンバ関数
 
 private: // メンバ変数
 	ComPtr<ID3D12Resource> constBuffB0; // 定数バッファ
+	ComPtr<ID3D12Resource> constBuffCameraPosition; // 定数バッファ
+
 	// 親オブジェクト
 	Object3d* parent = nullptr;
 	// モデル
@@ -162,6 +166,10 @@ private: // メンバ変数
 	//ライト
 	static Light* light;
 public:
+
+	//ワールド行列
+	WorldTransform worldTransform;
+
 	// 色
 	XMFLOAT4 color = { 1,1,1,1 };
 	// ローカルスケール
@@ -173,5 +181,8 @@ public:
 	// ローカルワールド変換行列
 	XMMATRIX matWorld;
 	
+
+
+
 };
 
