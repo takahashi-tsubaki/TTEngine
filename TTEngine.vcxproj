@@ -60,6 +60,7 @@
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)Engine\Base;$(SolutionDir)Engine\2D;$(SolutionDir)Engine\3D;$(SolutionDir)Scene;$(SolutionDir)Engine\Math;$(SolutionDir)Engine\Particle;$(SolutionDir)Engine\FBX;$(SolutionDir)External\DirectXTex;$(SolutionDir)External\lib\fbx_sdk\include;$(SolutionDir)Engine\FrameWork;$(SolutionDir)External\imgui</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -82,6 +83,7 @@
       <AdditionalIncludeDirectories>$(SolutionDir)Engine\Base;$(SolutionDir)Engine\2D;$(SolutionDir)Engine\3D;$(SolutionDir)Scene;$(SolutionDir)Engine\Math;$(SolutionDir)Engine\Particle;$(SolutionDir)Engine\FBX;$(SolutionDir)External\DirectXTex;$(SolutionDir)External\lib\fbx_sdk\include;$(SolutionDir)Engine\FrameWork;$(SolutionDir)External\imgui</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
