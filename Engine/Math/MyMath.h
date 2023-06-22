@@ -1,7 +1,10 @@
 #pragma once
 
+#include <DirectXMath.h>
+
 #include "Vector2.h"
 #include "Vector3.h"
+#include "Vector4.h"
 #include "Matrix4.h"
 
 namespace MyMath {
@@ -23,13 +26,6 @@ namespace MyMath {
 	float Vector3Dot(const Vector3& v1, const Vector3& v2);
 	// 外積を求める
 	Vector3 Vector3Cross(const Vector3& v1, const Vector3& v2);
-
-	// 2項演算子オーバーロード
-	const Vector3 operator+(const Vector3& v1, const Vector3& v2);
-	const Vector3 operator-(const Vector3& v1, const Vector3& v2);
-	const Vector3 operator*(const Vector3& v, float s);
-	const Vector3 operator*(float s, const Vector3& v);
-	const Vector3 operator/(const Vector3& v, float s);
 
 	// 単位行列を求める
 	Matrix4 Matrix4Identity();
@@ -70,5 +66,30 @@ namespace MyMath {
 
 	// 線形補間
 	float Lerp(float a, float b, float t);
+
+	Matrix4 Initialize();
+	Matrix4 Scale(Vector3 scale);
+	Matrix4 Rotate(Vector3 rotation, int X_1_Y_2_Z_3_XYZ_6);
+	Matrix4 Move(Vector3 move);
+	//void  affin(WorldTransform& affin);
+
+	Vector3 MatVector(const Vector3 vector3, const Matrix4 matrix4);
+
+	Vector3 GetWorldtransform(const Matrix4 matrix4);
+
+	Vector3 AddVector(const Vector3 v1, const Vector3 v2);
+
+	Vector3 bVelocity(Vector3& velocity, Matrix4& mat);
+
+	//座標変換
+	Vector3 wDivision(const Vector3& v, const Matrix4& m);
+
+	float FieldOfViewY(float focalLengs, float sensor);
+
+	Matrix4 ConvertXMMATtoMat4(DirectX::XMMATRIX XMMatrix);
+	DirectX::XMMATRIX ConvertMat4toXMMat(Matrix4 m);
+
+	Matrix4 MakeInverse(const Matrix4* mat);
+
 
 } // namespace MathUtility

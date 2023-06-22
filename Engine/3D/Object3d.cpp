@@ -236,34 +236,42 @@ bool Object3d::Initialize() {
 void Object3d::Update() {
 	assert(sCamera_);
 
-	XMMATRIX matScale, matRot, matTrans;
+	HRESULT result;
 
-	// スケール、回転、平行移動行列の計算
-	matScale = XMMatrixScaling(scale.x, scale.y, scale.z);
-	matRot = XMMatrixIdentity();
-	matRot *= XMMatrixRotationZ(XMConvertToRadians(rotation.z));
-	matRot *= XMMatrixRotationX(XMConvertToRadians(rotation.x));
-	matRot *= XMMatrixRotationY(XMConvertToRadians(rotation.y));
-	matTrans = XMMatrixTranslation(position.x, position.y, position.z);
+	//XMMATRIX matScale, matRot, matTrans;
 
-	// ワールド行列の合成
-	matWorld = XMMatrixIdentity(); // 変形をリセット
-	matWorld *= matScale;          // ワールド行列にスケーリングを反映
-	matWorld *= matRot;            // ワールド行列に回転を反映
-	matWorld *= matTrans;          // ワールド行列に平行移動を反映
+	//// スケール、回転、平行移動行列の計算
+	//matScale = XMMatrixScaling(scale.x, scale.y, scale.z);
+	//matRot = XMMatrixIdentity();
+	//matRot *= XMMatrixRotationZ(XMConvertToRadians(rotation.z));
+	//matRot *= XMMatrixRotationX(XMConvertToRadians(rotation.x));
+	//matRot *= XMMatrixRotationY(XMConvertToRadians(rotation.y));
+	//matTrans = XMMatrixTranslation(position.x, position.y, position.z);
 
-	if (isBillboard) {
-		const XMMATRIX& matBillboard = sCamera_->GetBillboardMatrix();
+	//// ワールド行列の合成
+	//matWorld = XMMatrixIdentity(); // 変形をリセット
+	//matWorld *= matScale;          // ワールド行列にスケーリングを反映
+	//matWorld *= matRot;            // ワールド行列に回転を反映
+	//matWorld *= matTrans;          // ワールド行列に平行移動を反映
 
-		matWorld = XMMatrixIdentity();
-		matWorld *= matScale; // ワールド行列にスケーリングを反映
-		matWorld *= matRot;   // ワールド行列に回転を反映
-		matWorld *= matBillboard;
-		matWorld *= matTrans; // ワールド行列に平行移動を反映
-	}
+	worldTransform.UpdateMatWorld();
 
-	const XMMATRIX& matViewProjection = sCamera_->GetViewProjectionMatrix();
-	const XMFLOAT3& cameraPos = sCamera_->GetEye();
+	//if (isBillboard) {
+	//	const XMMATRIX& matBillboard = sCamera_->GetBillboardMatrix();
+
+	//	matWorld = XMMatrixIdentity();
+	//	matWorld *= matScale; // ワールド行列にスケーリングを反映
+	//	matWorld *= matRot;   // ワールド行列に回転を反映
+	//	matWorld *= matBillboard;
+	//	matWorld *= matTrans; // ワールド行列に平行移動を反映
+	//}
+
+	/*const XMMATRIX& matViewProjection = sCamera_->GetViewProjectionMatrix();
+	const XMFLOAT3& cameraPos = sCamera_->GetEye();*/
+
+	XMVECTOR CameraVec = { 10000.0f,10000.0f,10000.0f/*camera_->GetEye().x - worldTransform.translation_.x + 2.0f,camera_->GetEye().x - worldTransform.translation_.y + 2.0f,camera_->GetEye().x - worldTransform.translation_.z*/ };
+
+	CameraVec = XMVector3Normalize(CameraVec);
 	// 親オブジェクトがあれば
 	if (parent != nullptr) {
 		// 親オブジェクトのワールド行列を掛ける
@@ -271,10 +279,19 @@ void Object3d::Update() {
 	}
 
 	// 定数バッファへデータ転送
-	constMap->viewproj = matViewProjection;
-	constMap->world = matWorld;
-	constMap->cameraPos = cameraPos;
-	constMap->color = this->color;
+	ConstBufferDataB0* constMap = nullptr;
+	result = constBuffB0->Map(0, nullptr, (void**)&constMap);
+	//constMap->color = color;
+	Matrix4 myMat = worldTransform.matWorld_;
+	myMat *= sCamera_->GetViewProjectionMatrix();	// 行列の合成 
+	constMap->mat = myMat;
+	constBuffB0->Unmap(0, nullptr);
+
+	//// 定数バッファへデータ転送
+	//constMap->viewproj = matViewProjection;
+	//constMap->world = matWorld;
+	//constMap->cameraPos = cameraPos;
+	//constMap->color = this->color;
 }
 
 void Object3d::Draw() {

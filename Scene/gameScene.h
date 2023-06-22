@@ -41,6 +41,9 @@ private:
 	Sprite* sprite_ = nullptr;
 	Sprite* sprite2_ = nullptr;
 
+	Model* model = nullptr;
+	Object3d* object = nullptr;
+
 	PostEffect* postEffect = nullptr;
 
 	Camera* camera_ = nullptr;

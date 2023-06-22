@@ -65,6 +65,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>libfbxsdk-md.lib;libxml2-md.lib;zlib-md.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalOptions>/IGNORE:4099 %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <PostBuildEvent>
       <Command>copy "$(TargetPath)" "$(ProjectDir)"</Command>
@@ -72,7 +73,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
@@ -88,6 +89,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>libfbxsdk-mt.lib;libxml2-mt.lib;zlib-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalOptions>/IGNORE:4099 %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -100,6 +102,7 @@
     <ClCompile Include="Engine\3D\Mesh.cpp" />
     <ClCompile Include="Engine\3D\Model.cpp" />
     <ClCompile Include="Engine\3D\Object3d.cpp" />
+    <ClCompile Include="Engine\3D\worldTransform.cpp" />
     <ClCompile Include="Engine\Base\DirectXCommon.cpp" />
     <ClCompile Include="Engine\Base\FPS.cpp" />
     <ClCompile Include="Engine\Base\Input.cpp" />
@@ -113,9 +116,15 @@
     <ClCompile Include="Engine\Math\MyMath.cpp" />
     <ClCompile Include="Engine\Math\Vector2.cpp" />
     <ClCompile Include="Engine\Math\Vector3.cpp" />
+    <ClCompile Include="Engine\Math\Vector4.cpp" />
     <ClCompile Include="Engine\Particle\ParticleManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Scene\gameScene.cpp" />
+    <ClCompile Include="Scene\IScene.cpp" />
+    <ClCompile Include="Scene\PlayScene.cpp" />
+    <ClCompile Include="Scene\ResultScene.cpp" />
+    <ClCompile Include="Scene\SceneManager.cpp" />
+    <ClCompile Include="Scene\TitleScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\2D\ImguiManager.h" />
@@ -127,6 +136,7 @@
     <ClInclude Include="Engine\3D\Mesh.h" />
     <ClInclude Include="Engine\3D\Model.h" />
     <ClInclude Include="Engine\3D\Object3d.h" />
+    <ClInclude Include="Engine\3D\worldTransform.h" />
     <ClInclude Include="Engine\Base\DirectXCommon.h" />
     <ClInclude Include="Engine\Base\ErrorException.h" />
     <ClInclude Include="Engine\Base\FPS.h" />
@@ -141,8 +151,15 @@
     <ClInclude Include="Engine\Math\MyMath.h" />
     <ClInclude Include="Engine\Math\Vector2.h" />
     <ClInclude Include="Engine\Math\Vector3.h" />
+    <ClInclude Include="Engine\Math\Vector4.h" />
     <ClInclude Include="Engine\Particle\ParticleManager.h" />
     <ClInclude Include="Scene\gameScene.h" />
+    <ClInclude Include="Scene\IScene.h" />
+    <ClInclude Include="Scene\PlayScene.h" />
+    <ClInclude Include="Scene\ResultScene.h" />
+    <ClInclude Include="Scene\SceneInc.h" />
+    <ClInclude Include="Scene\SceneManager.h" />
+    <ClInclude Include="Scene\TitleScene.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\shaders\FBXPS.hlsl">

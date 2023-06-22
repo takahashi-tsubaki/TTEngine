@@ -28,9 +28,9 @@ public://サブクラス
 	//定数バッファ用データ構造体(座標変換行列用)
 	struct ConstBufferDataTransfrom
 	{
-		XMMATRIX viewproj;
+		Matrix4 viewproj;
 		XMMATRIX world;
-		XMFLOAT3 cameraPos;
+		Vector3 cameraPos;
 	};
 	struct ConstBufferDataSkin
 	{

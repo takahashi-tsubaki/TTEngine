@@ -1,4 +1,4 @@
-#include "OBJShaderHeader.hlsli"
+#include "ParticleShader.hlsli"
 ////Lambart”½ŽË
 //VSOutput main(float4 pos : POSITION, float3 normal : NORMAL, float2 uv : TEXCOORD)
 //{
