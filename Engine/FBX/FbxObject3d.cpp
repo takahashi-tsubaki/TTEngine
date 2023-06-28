@@ -9,8 +9,8 @@ using namespace DirectX;
 /// <summary>
 /// 情的メンバ変数の実体
 /// </summary>
-ID3D12Device* FbxObject3d::device = nullptr;
-Camera* FbxObject3d::camera = nullptr;
+ID3D12Device* FbxObject3d::device_ = nullptr;
+Camera* FbxObject3d::camera_ = nullptr;
 ComPtr<ID3D12RootSignature> FbxObject3d::rootsignature;
 ComPtr<ID3D12PipelineState> FbxObject3d::pipelineState;
 
@@ -21,7 +21,7 @@ void FbxObject3d::CreateGraphicsPipeline()
 	ComPtr<ID3DBlob> psBlob;    // ピクセルシェーダオブジェクト
 	ComPtr<ID3DBlob> errorBlob; // エラーオブジェクト
 
-	assert(device);
+	assert(device_);
 
 	// 頂点シェーダの読み込みとコンパイル
 	result = D3DCompileFromFile(
@@ -167,13 +167,13 @@ void FbxObject3d::CreateGraphicsPipeline()
 	// バージョン自動判定のシリアライズ
 	result = D3DX12SerializeVersionedRootSignature(&rootSignatureDesc, D3D_ROOT_SIGNATURE_VERSION_1_0, &rootSigBlob, &errorBlob);
 	// ルートシグネチャの生成
-	result = device->CreateRootSignature(0, rootSigBlob->GetBufferPointer(), rootSigBlob->GetBufferSize(), IID_PPV_ARGS(rootsignature.ReleaseAndGetAddressOf()));
+	result = device_->CreateRootSignature(0, rootSigBlob->GetBufferPointer(), rootSigBlob->GetBufferSize(), IID_PPV_ARGS(rootsignature.ReleaseAndGetAddressOf()));
 	if (FAILED(result)) { assert(0); }
 
 	gpipeline.pRootSignature = rootsignature.Get();
 
 	// グラフィックスパイプラインの生成
-	result = device->CreateGraphicsPipelineState(&gpipeline, IID_PPV_ARGS(pipelineState.ReleaseAndGetAddressOf()));
+	result = device_->CreateGraphicsPipelineState(&gpipeline, IID_PPV_ARGS(pipelineState.ReleaseAndGetAddressOf()));
 	if (FAILED(result)) { assert(0); }
 }
 
@@ -186,7 +186,7 @@ void FbxObject3d::Initialize()
 	// リソース設定
 	CD3DX12_RESOURCE_DESC resourceDescConstBuffer = CD3DX12_RESOURCE_DESC::Buffer((sizeof(ConstBufferDataTransfrom) + 0xff)& ~0xff);
 	//定数バッファの生成
-	result = device->CreateCommittedResource(
+	result = device_->CreateCommittedResource(
 		&heapPropsConstBuffer,
 		D3D12_HEAP_FLAG_NONE,
 		&resourceDescConstBuffer,
@@ -200,7 +200,7 @@ void FbxObject3d::Initialize()
 	CD3DX12_RESOURCE_DESC boneResourceDesc =
 		CD3DX12_RESOURCE_DESC::Buffer((sizeof(ConstBufferDataSkin) + 0xff) & ~0xff);
 	// 定数バッファの生成
-	result = device->CreateCommittedResource(
+	result = device_->CreateCommittedResource(
 		&boneHeapProps,
 		D3D12_HEAP_FLAG_NONE,
 		&boneResourceDesc,
@@ -222,27 +222,24 @@ void FbxObject3d::Initialize()
 
 void FbxObject3d::Update()
 {
-	XMMATRIX matScale, matRot, matTrans;
+	Matrix4 matScale, matRot, matTrans;
 
-	matScale = XMMatrixScaling(scale.x, scale.y, scale.z);
-	matRot = XMMatrixIdentity();
-	matRot *= XMMatrixRotationZ(XMConvertToRadians(rotation.z));
-	matRot *= XMMatrixRotationX(XMConvertToRadians(rotation.x));
-	matRot *= XMMatrixRotationY(XMConvertToRadians(rotation.y));
-	matTrans = XMMatrixTranslation(position.x, position.y, position.z);
+	matScale = MyMath::Scale(scale_);
+	matRot = MyMath::Rotate(rotation,6);
+	matTrans = MyMath::Move(position_);
 
 	//ワールド行列の合成
-	matWorld = XMMatrixIdentity();
+	matWorld = MyMath::Matrix4Identity();
 	matWorld *= matScale;
 	matWorld *= matRot;
 	matWorld *= matTrans;
 
 	//ビュープロジェクション行列
-	const Matrix4& matViewProjection = camera->GetViewProjectionMatrix();
+	const Matrix4& matViewProjection = camera_->GetViewProjectionMatrix();
 
-	const XMMATRIX& modelTransform = fbxModel->GetModelTransform();
+	const Matrix4& modelTransform = fbxModel_->GetModelTransform();
 
-	const Vector3& cameraPos = camera->GetEye();
+	const Vector3& cameraPos = camera_->GetEye();
 
 	HRESULT result;
 
@@ -258,7 +255,7 @@ void FbxObject3d::Update()
 	}
 
 	//ボーン配列
-	std::vector<FbxModel::Bone>& bones = fbxModel->GetBones();
+	std::vector<FbxModel::Bone>& bones = fbxModel_->GetBones();
 
 	//アニメーション
 	if (isPlay)
@@ -296,7 +293,7 @@ void FbxObject3d::Update()
 void FbxObject3d::Draw(ID3D12GraphicsCommandList* cmdList)
 {
 	//モデルの割り当てがなければ描画しない
-	if (fbxModel == nullptr)
+	if (fbxModel_ == nullptr)
 	{
 		return;
 	}
@@ -313,12 +310,12 @@ void FbxObject3d::Draw(ID3D12GraphicsCommandList* cmdList)
 	cmdList->SetGraphicsRootConstantBufferView(2, constBuffSkin->GetGPUVirtualAddress());
 
 	//モデル描画
-	fbxModel->Draw(cmdList);
+	fbxModel_->Draw(cmdList);
 }
 
 void FbxObject3d::PlayAnimetion(int AnimNum)
 {
-	FbxScene* fbxScene = fbxModel->GetFbxScene();
+	FbxScene* fbxScene = fbxModel_->GetFbxScene();
 	//0番のアニメーション取得
 	FbxAnimStack* animstack = fbxScene->GetSrcObject<FbxAnimStack>(AnimNum);
 	//取得したアニメーションに変更

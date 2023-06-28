@@ -1,9 +1,9 @@
 #include "TitleScene.h"
 
-TitleScene::TitleScene(SceneManager* controller)
-{
-}
-
-TitleScene::~TitleScene()
-{
-}
+//TitleScene::TitleScene(SceneManager* controller)
+//{
+//}
+//
+//TitleScene::~TitleScene()
+//{
+//}

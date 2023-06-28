@@ -41,14 +41,14 @@ class Mesh {
 
   private: // 静的メンバ変数
 	// デバイス
-	static ID3D12Device* device;
+	static ID3D12Device* device_;
 
   public: // メンバ関数
 	/// <summary>
 	/// 名前を取得
 	/// </summary>
 	/// <returns>名前</returns>
-	const std::string& GetName() { return name; }
+	const std::string& GetName() { return name_; }
 
 	/// <summary>
 	/// 名前をセット
@@ -72,7 +72,7 @@ class Mesh {
 	/// マテリアルの取得
 	/// </summary>
 	/// <returns>マテリアル</returns>
-	Material* GetMaterial() { return material; }
+	Material* GetMaterial() { return material_; }
 
 	/// <summary>
 	/// マテリアルの割り当て
@@ -123,7 +123,7 @@ class Mesh {
 
   private: // メンバ変数
 	// 名前
-	std::string name;
+	std::string name_;
 	// 頂点バッファ
 	ComPtr<ID3D12Resource> vertBuff;
 	// インデックスバッファ
@@ -137,7 +137,7 @@ class Mesh {
 	// 頂点インデックス配列
 	std::vector<unsigned short> indices;
 	// マテリアル
-	Material* material = nullptr;
+	Material* material_ = nullptr;
 	// 頂点バッファのマップ
 	VertexPosNormalUv* vertMap = nullptr;
 	// インデックスバッファのマップ

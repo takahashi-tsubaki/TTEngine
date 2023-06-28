@@ -10,7 +10,7 @@ void FbxModel::CreateBuffers(ID3D12Device* device)
 {
 	HRESULT result;
 	//頂点データ全体のサイズ
-	UINT sizeVB = static_cast<UINT>(sizeof(VertexPosNormalUvSkin)) * vertices.size();
+	UINT sizeVB = static_cast<UINT>(sizeof(VertexPosNormalUvSkin) * vertices.size());
 
 	// ヒーププロパティ
 	CD3DX12_HEAP_PROPERTIES heapPropsVertexBuffer = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);

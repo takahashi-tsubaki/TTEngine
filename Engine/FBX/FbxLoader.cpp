@@ -1,4 +1,5 @@
 ﻿#include "FbxLoader.h"
+#include "MyMath.h"
 
 #include <cassert>
 
@@ -107,21 +108,27 @@ void FbxLoader::ParseNodeRecursive(FbxModel* fbxModel, FbxNode* fbxNode, Node* p
     node.translation = { (float)translation[0],(float)translation[1],(float)translation[2],1.0f };
 
     //回転角をDegreeからラジアンに変換
-    node.rotation.m128_f32[0] = XMConvertToRadians(node.rotation.m128_f32[0]);
-    node.rotation.m128_f32[1] = XMConvertToRadians(node.rotation.m128_f32[1]);
-    node.rotation.m128_f32[2] = XMConvertToRadians(node.rotation.m128_f32[2]);
+    node.rotation.x = XMConvertToRadians(node.rotation.x);
+    node.rotation.y = XMConvertToRadians(node.rotation.y);
+    node.rotation.z = XMConvertToRadians(node.rotation.z);
+
+    mat.normalize();
 
     //スケール、回転　平行移動行列の計算
     XMMATRIX matscaling, matrotation, matTranslation;
-    matscaling = XMMatrixScalingFromVector(node.scaling);
-    matrotation = XMMatrixRotationRollPitchYawFromVector(node.rotation);
-    matTranslation = XMMatrixTranslationFromVector(node.translation);
+    matscaling = XMMatrixScalingFromVector(mat.Vec4ToXMVEC(node.scaling));
+    matrotation = XMMatrixRotationRollPitchYawFromVector(mat.Vec4ToXMVEC(node.rotation));
+    matTranslation = XMMatrixTranslationFromVector(mat.Vec4ToXMVEC(node.translation));
 
     //ローカル変換行列の計算
-    node.transform = XMMatrixIdentity();
-    node.transform *= matscaling;
-    node.transform *= matrotation;
-    node.transform *= matTranslation;
+    node.transform = MyMath::Matrix4Identity();
+    node.transform *= MyMath::Matrix4Scaling(node.scaling.x, node.scaling.y, node.scaling.z);
+
+    node.transform *= MyMath::Matrix4RotationZ(node.rotation.z);
+    node.transform *= MyMath::Matrix4RotationX(node.rotation.x);
+    node.transform *= MyMath::Matrix4RotationY(node.rotation.y);
+
+    node.transform *= MyMath::Matrix4Translation(node.translation.x, node.translation.y, node.translation.z);
 
     //グローバル変換行列計算
     node.worldTransform = node.transform;
@@ -258,7 +265,7 @@ void FbxLoader::ParseMeshFaces(FbxModel* fbxModel, FbxMesh* fbxMesh)
             if (j < 3)
             {
                 //1点追加し、他の2点と3角形を構築する
-                indices.push_back(index);
+                indices.push_back((unsigned short)index);
             }
             //4頂点目
             else
@@ -268,9 +275,9 @@ void FbxLoader::ParseMeshFaces(FbxModel* fbxModel, FbxMesh* fbxMesh)
                 int index2 = indices[indices.size() - 1];
                 int index3 = index;
                 int index4 = indices[indices.size() - 3];
-                indices.push_back(index2);
-                indices.push_back(index3);
-                indices.push_back(index4);
+                indices.push_back((unsigned short)index2);
+                indices.push_back((unsigned short)index3);
+                indices.push_back((unsigned short)index4);
             }
         }
     }

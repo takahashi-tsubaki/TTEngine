@@ -14,7 +14,7 @@ using namespace std;
 /// <summary>
 /// 静的メンバ変数の実体
 /// </summary>
-ID3D12Device* Particle::device = nullptr;
+ID3D12Device* Particle::device_ = nullptr;
 ID3D12GraphicsCommandList* Particle::sCommandList = nullptr;
 Particle::PipelineSet Particle::pipelineSet;
 Camera* Particle::sCamera_ = nullptr;
@@ -23,7 +23,7 @@ void Particle::StaticInitialize(ID3D12Device* device, Camera* camera) {
 	// nullptrチェック
 	assert(device);
 
-	Particle::device = device;
+	device_ = device;
 	sCamera_ = camera;
 
 	// グラフィックパイプラインの生成
@@ -162,7 +162,7 @@ void Particle::CreateGraphicsPipeline() {
 	result = D3DX12SerializeVersionedRootSignature(
 		&rootSignatureDesc, D3D_ROOT_SIGNATURE_VERSION_1_0, &rootSigBlob, &errorBlob);
 	// ルートシグネチャの生成
-	result = device->CreateRootSignature(
+	result = device_->CreateRootSignature(
 		0, rootSigBlob->GetBufferPointer(), rootSigBlob->GetBufferSize(),
 		IID_PPV_ARGS(&pipelineSet.rootsignature));
 	assert(SUCCEEDED(result));
@@ -171,7 +171,7 @@ void Particle::CreateGraphicsPipeline() {
 
 	// グラフィックスパイプラインの生成
 	result =
-		device->CreateGraphicsPipelineState(&gpipeline, IID_PPV_ARGS(&pipelineSet.pipelinestate));
+		device_->CreateGraphicsPipelineState(&gpipeline, IID_PPV_ARGS(&pipelineSet.pipelinestate));
 	assert(SUCCEEDED(result));
 }
 
@@ -210,7 +210,7 @@ Particle* Particle::Create() {
 
 bool Particle::Initialize() {
 	// nullptrチェック
-	assert(device);
+	assert(device_);
 
 	// ヒーププロパティ
 	CD3DX12_HEAP_PROPERTIES heapProps = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
@@ -220,7 +220,7 @@ bool Particle::Initialize() {
 
 	HRESULT result;
 	// 定数バッファの生成
-	result = device->CreateCommittedResource(
+	result = device_->CreateCommittedResource(
 		&heapProps, D3D12_HEAP_FLAG_NONE, &resourceDesc, D3D12_RESOURCE_STATE_GENERIC_READ, nullptr,
 		IID_PPV_ARGS(&constBuffB0));
 	assert(SUCCEEDED(result));
@@ -238,12 +238,12 @@ void Particle::Update() {
 	XMMATRIX matScale, matRot, matTrans;
 
 	// スケール、回転、平行移動行列の計算
-	matScale = XMMatrixScaling(scale.x, scale.y, scale.z);
+	matScale = XMMatrixScaling(scale_.x, scale_.y, scale_.z);
 	matRot = XMMatrixIdentity();
-	matRot *= XMMatrixRotationZ(XMConvertToRadians(rotation.z));
-	matRot *= XMMatrixRotationX(XMConvertToRadians(rotation.x));
-	matRot *= XMMatrixRotationY(XMConvertToRadians(rotation.y));
-	matTrans = XMMatrixTranslation(position.x, position.y, position.z);
+	matRot *= XMMatrixRotationZ(XMConvertToRadians(rotation_.z));
+	matRot *= XMMatrixRotationX(XMConvertToRadians(rotation_.x));
+	matRot *= XMMatrixRotationY(XMConvertToRadians(rotation_.y));
+	matTrans = XMMatrixTranslation(position_.x, position_.y, position_.z);
 
 	// ワールド行列の合成
 	matWorld = XMMatrixIdentity(); // 変形をリセット
@@ -278,11 +278,11 @@ void Particle::Update() {
 
 void Particle::Draw() {
 	// nullptrチェック
-	assert(device);
+	assert(device_);
 	assert(sCommandList);
 
 	// モデルの割り当てがなければ描画しない
-	if (model == nullptr) {
+	if (model_ == nullptr) {
 		return;
 	}
 
@@ -293,7 +293,7 @@ void Particle::Draw() {
 	// 定数バッファビューをセット
 	sCommandList->SetGraphicsRootConstantBufferView(0, constBuffB0->GetGPUVirtualAddress());
 	// モデル描画
-	model->Draw(sCommandList);
+	model_->Draw(sCommandList);
 
 }
 

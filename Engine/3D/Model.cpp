@@ -10,11 +10,11 @@ using namespace std;
 /// 静的メンバ変数の実体
 /// </summary>
 const std::string Model::baseDirectory = "Resources/";
-ID3D12Device* Model::device = nullptr;
+ID3D12Device* Model::device_ = nullptr;
 UINT Model::descriptorHandleIncrementSize = 0;
 
 void Model::StaticInitialize(ID3D12Device* device) {
-	Model::device = device;
+	device_ = device;
 
 	// メッシュの静的初期化
 	Mesh::StaticInitialize(device);
@@ -55,8 +55,8 @@ void Model::Initialize(const std::string& modelname, bool smoothing) {
 
 	// メッシュ生成
 	Mesh* mesh = new Mesh;
-	int indexCountTex = 0;
-	int indexCountNoTex = 0;
+	unsigned short indexCountTex = 0;
+	//int indexCountNoTex = 0;
 
 	vector<XMFLOAT3> positions; // 頂点座標
 	vector<XMFLOAT3> normals;   // 法線ベクトル
@@ -75,10 +75,10 @@ void Model::Initialize(const std::string& modelname, bool smoothing) {
 		//マテリアル
 		if (key == "mtllib") {
 			// マテリアルのファイル名読み込み
-			string filename;
-			line_stream >> filename;
+			string filename_;
+			line_stream >> filename_;
 			// マテリアル読み込み
-			LoadMaterial(directoryPath, filename);
+			LoadMaterial(directoryPath, filename_);
 		}
 		// 先頭文字列がgならグループの開始
 		if (key == "g") {
@@ -376,13 +376,13 @@ void Model::CreateDescriptorHeap() {
 		descHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
 		descHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE; //シェーダから見えるように
 		descHeapDesc.NumDescriptors = (UINT)count; // シェーダーリソースビューの数
-		result = device->CreateDescriptorHeap(&descHeapDesc, IID_PPV_ARGS(&descHeap)); //生成
+		result = device_->CreateDescriptorHeap(&descHeapDesc, IID_PPV_ARGS(&descHeap)); //生成
 		assert(SUCCEEDED(result));
 	}
 
 	// デスクリプタサイズを取得
 	descriptorHandleIncrementSize =
-		device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+		device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 }
 
 void Model::LoadTextures() {

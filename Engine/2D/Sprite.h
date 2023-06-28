@@ -86,11 +86,11 @@ protected: // 静的メンバ変数
 	// 頂点数
 	static const int vertNum = 4;
 	// デバイス
-	static ID3D12Device* device;
+	static ID3D12Device* device_;
 	// デスクリプタサイズ
 	static UINT descriptorHandleIncrementSize;
 	// コマンドリスト
-	static ID3D12GraphicsCommandList* cmdList;
+	static ID3D12GraphicsCommandList* cmdList_;
 	// ルートシグネチャ
 	static ComPtr<ID3D12RootSignature> rootSignature;
 	// パイプラインステートオブジェクト
@@ -170,27 +170,27 @@ protected: // メンバ変数
 	// 頂点バッファビュー
 	D3D12_VERTEX_BUFFER_VIEW vbView{};
 	// テクスチャ番号
-	UINT texNumber = 0;
+	UINT texNumber_ = 0;
 	// Z軸回りの回転角
-	float rotation = 0.0f;
+	float rotation_ = 0.0f;
 	// 座標
-	XMFLOAT2 position{};
+	XMFLOAT2 position_{};
 	// スプライト幅、高さ
-	XMFLOAT2 size = { 1.0f, 1.0f };
+	XMFLOAT2 size_ = { 1.0f, 1.0f };
 	// アンカーポイント
-	XMFLOAT2 anchorpoint = { 0, 0 };
+	XMFLOAT2 anchorpoint_ = { 0, 0 };
 	// ワールド行列
-	XMMATRIX matWorld{};
+	XMMATRIX matWorld_{};
 	// 色
-	XMFLOAT4 color = { 1, 1, 1, 1 };
+	XMFLOAT4 color_ = { 1, 1, 1, 1 };
 	// 左右反転
-	bool isFlipX = false;
+	bool isFlipX_ = false;
 	// 上下反転
-	bool isFlipY = false;
+	bool isFlipY_ = false;
 	// テクスチャ始点
-	XMFLOAT2 texBase = { 0, 0 };
+	XMFLOAT2 texBase_ = { 0, 0 };
 	// テクスチャ幅、高さ
-	XMFLOAT2 texSize = { 1.0f, 1.0f };
+	XMFLOAT2 texSize_ = { 1.0f, 1.0f };
 
 private: // メンバ関数
 	/// <summary>

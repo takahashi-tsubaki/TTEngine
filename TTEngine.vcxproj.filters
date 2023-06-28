@@ -73,6 +73,30 @@
     <Filter Include="ソース ファイル\scene\SceneManager">
       <UniqueIdentifier>{2ed97eb2-d924-4e0f-a45e-f94e0610e9e7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Camera">
+      <UniqueIdentifier>{f20b9a7b-0ad1-4f2c-8f78-a1bd5cc20bab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Camera">
+      <UniqueIdentifier>{97be2f05-9787-4b11-8195-073013f22483}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Light">
+      <UniqueIdentifier>{55675658-9f23-4351-9ed3-8e23f34f892a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Light">
+      <UniqueIdentifier>{ef40a2dc-e545-403e-abfe-a68913fb41c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Player">
+      <UniqueIdentifier>{9082315e-8f28-42a4-a2df-554bb7a1d2be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Player">
+      <UniqueIdentifier>{2af066da-122d-43b3-9a3b-0356b21c006c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Enemy">
+      <UniqueIdentifier>{e9908776-5210-4be3-bd33-e86f1bfa9503}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Enemy">
+      <UniqueIdentifier>{74a020c3-dbdb-4b72-84ab-5a7421754e41}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -98,12 +122,6 @@
     </ClCompile>
     <ClCompile Include="Engine\2D\Sprite.cpp">
       <Filter>ソース ファイル\2D</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\3D\Camera.cpp">
-      <Filter>ソース ファイル\3D</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\3D\Light.cpp">
-      <Filter>ソース ファイル\3D</Filter>
     </ClCompile>
     <ClCompile Include="Engine\3D\Material.cpp">
       <Filter>ソース ファイル\3D</Filter>
@@ -171,6 +189,21 @@
     <ClCompile Include="Engine\Math\Vector4.cpp">
       <Filter>ソース ファイル\math</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Camera\Camera.cpp">
+      <Filter>ソース ファイル\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Light\Light.cpp">
+      <Filter>ソース ファイル\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Camera\GameCamera.cpp">
+      <Filter>ソース ファイル\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Player\Player.cpp">
+      <Filter>ソース ファイル\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Enemy\Enemy.cpp">
+      <Filter>ソース ファイル\Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene\gameScene.h">
@@ -196,12 +229,6 @@
     </ClInclude>
     <ClInclude Include="Engine\2D\Sprite.h">
       <Filter>ヘッダー ファイル\2D</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\3D\Camera.h">
-      <Filter>ヘッダー ファイル\3D</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\3D\Light.h">
-      <Filter>ヘッダー ファイル\3D</Filter>
     </ClInclude>
     <ClInclude Include="Engine\3D\Material.h">
       <Filter>ヘッダー ファイル\3D</Filter>
@@ -271,6 +298,21 @@
     </ClInclude>
     <ClInclude Include="Engine\Math\Vector4.h">
       <Filter>ヘッダー ファイル\math</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Camera\Camera.h">
+      <Filter>ヘッダー ファイル\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Light\Light.h">
+      <Filter>ヘッダー ファイル\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Camera\GameCamera.h">
+      <Filter>ヘッダー ファイル\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Player\Player.h">
+      <Filter>ヘッダー ファイル\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Enemy\Enemy.h">
+      <Filter>ヘッダー ファイル\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
