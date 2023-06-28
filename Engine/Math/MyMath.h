@@ -91,5 +91,5 @@ namespace MyMath {
 
 	Matrix4 MakeInverse(const Matrix4* mat);
 
-
+	
 } // namespace MathUtility

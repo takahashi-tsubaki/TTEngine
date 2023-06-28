@@ -114,6 +114,8 @@ private:
 
 	FbxImporter* fbxImpoter = nullptr;
 
+	Vector4 mat;
+
 	//テクスチャファイルがない場合の標準テクスチャファイル名
 	static const string defaultTexureFileName;
 	

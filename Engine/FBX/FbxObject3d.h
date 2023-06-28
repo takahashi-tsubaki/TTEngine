@@ -1,4 +1,5 @@
 #pragma once
+#include "ErrorException.h"
 #include "FbxLoader.h"
 #include "FbxModel.h"
 #include "Camera.h"
@@ -29,7 +30,7 @@ public://サブクラス
 	struct ConstBufferDataTransfrom
 	{
 		Matrix4 viewproj;
-		XMMATRIX world;
+		Matrix4 world;
 		Vector3 cameraPos;
 	};
 	struct ConstBufferDataSkin
@@ -38,16 +39,16 @@ public://サブクラス
 	};
 public://情的メンバ関数
 	//setter
-	static void SetDevice(ID3D12Device* device) { FbxObject3d::device = device; }
-	static void SetCamera(Camera* camera) { FbxObject3d::camera = camera; }
+	static void SetDevice(ID3D12Device* device) { device_ = device; }
+	static void SetCamera(Camera* camera) { camera_ = camera; }
 
 	static void CreateGraphicsPipeline();
 
 private://情的メンバ変数
 	//デバイス
-	static ID3D12Device* device;
+	static ID3D12Device* device_;
 	//カメラ
-	static Camera* camera;
+	static Camera* camera_;
 
 	static ComPtr<ID3D12RootSignature>rootsignature;
 	//パイプラインステート
@@ -72,11 +73,11 @@ public://メンバ関数
 	/// モデルのセット
 	/// </summary>
 	/// <param name="fbxModel"></param>
-	void SetModel(FbxModel* fbxModel) { this->fbxModel = fbxModel; }
+	void SetModel(FbxModel* fbxModel) { fbxModel_ = fbxModel; }
 
-	void SetScale(XMFLOAT3 scale) {this->scale = scale;}
+	void SetScale(Vector3 scale) {scale_ = scale;}
 
-	void SetPosition(XMFLOAT3 position) { this->position = position; }
+	void SetPosition(Vector3 position) { position_ = position; }
 
 	/// <summary>
 	/// アニメーション開始
@@ -84,7 +85,7 @@ public://メンバ関数
 	void PlayAnimetion(int AnimNum);
 
 
-	XMFLOAT3 GetPosition() { return this->position; }
+	Vector3 GetPosition() { return position_; }
 
 public:
 	//定数バッファ
@@ -94,15 +95,15 @@ public:
 	ComPtr<ID3D12Resource> constBuffSkin;
 
 	// ローカルスケール
-	XMFLOAT3 scale = { 1,1,1 };
+	Vector3 scale_ = { 1,1,1 };
 	// X,Y,Z軸回りのローカル回転角
-	XMFLOAT3 rotation = { 0,0,0 };
+	Vector3 rotation = { 0,0,0 };
 	// ローカル座標
-	XMFLOAT3 position = { 0,0,0 };
+	Vector3 position_ = { 0,0,0 };
 	// ローカルワールド変換行列
-	XMMATRIX matWorld;
+	Matrix4 matWorld;
 
-	FbxModel* fbxModel = nullptr;
+	FbxModel* fbxModel_ = nullptr;
 
 	//1フレームの時間
 	FbxTime frameTime;

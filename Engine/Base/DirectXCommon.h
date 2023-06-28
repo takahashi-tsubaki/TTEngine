@@ -41,7 +41,7 @@ private:
 	//深度バッファの生成
 	ComPtr<ID3D12Resource> depthBuff = nullptr;
 
-	WinApp* winApp = nullptr;
+	WinApp* winApp_ = nullptr;
 	
 
 	

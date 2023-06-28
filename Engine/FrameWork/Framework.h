@@ -1,6 +1,14 @@
 #pragma once
 #include "WinApp.h"
+#include "DirectXCommon.h"
+#include "Input.h"
+#include "FPS.h"
 
+#include "ImguiManager.h"
+#include "Sprite.h"
+#include"Light.h"
+#include "ParticleManager.h"
+#include "FbxLoader.h"
 class Framework
 {
 public:
@@ -28,7 +36,12 @@ public:
 	//é¿çs
 	void Run();
 
-private:
-
+protected:
+	//FPS
+	FPS* fps = new FPS;
+	WinApp* winApp = nullptr;
+	Input* input = nullptr;
+	DirectXCommon* dxCommon_ = nullptr;
+	ImguiManager* imgui = nullptr;
 	bool endRequest_ = false;
 };

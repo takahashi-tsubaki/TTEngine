@@ -157,14 +157,14 @@ Matrix4 Matrix4::translate(const Vector3& t)
 	return *this;
 }
 
-Vector3 Matrix4::transform(const Vector3& v, const Matrix4& m)
+Vector3 Matrix4::transform(const Vector3& v, const Matrix4& mat)
 {
-	float W = v.x * m.m[0][3] + v.y * m.m[1][3] + v.z * m.m[2][3] + m.m[3][3];
+	float W = v.x * mat.m[0][3] + v.y * mat.m[1][3] + v.z * mat.m[2][3] + mat.m[3][3];
 	Vector3 result
 	{
-		(v.x * m.m[0][0] + v.y * m.m[1][0] + v.z * m.m[2][0] + m.m[3][0]) / W,
-		(v.x * m.m[0][1] + v.y * m.m[1][1] + v.z * m.m[2][1] + m.m[3][1]) / W,
-		(v.x * m.m[0][2] + v.y * m.m[1][2] + v.z * m.m[2][2] + m.m[3][2]) / W
+		(v.x * mat.m[0][0] + v.y * mat.m[1][0] + v.z * mat.m[2][0] + mat.m[3][0]) / W,
+		(v.x * mat.m[0][1] + v.y * mat.m[1][1] + v.z * mat.m[2][1] + mat.m[3][1]) / W,
+		(v.x * mat.m[0][2] + v.y * mat.m[1][2] + v.z * mat.m[2][2] + mat.m[3][2]) / W
 	};
 
 	return result;
@@ -181,16 +181,16 @@ Vector3 Matrix4::GetWorldPos()
 	return pos;
 }
 
-Vector3* Matrix4::GetWorldPosPtr()
-{
-	Vector3 pos = {
-		m[3][0],
-		m[3][1],
-		m[3][2]
-	};
-
-	return &pos;
-}
+//Vector3* Matrix4::GetWorldPosPtr()
+//{
+//	Vector3 pos = {
+//		m[3][0],
+//		m[3][1],
+//		m[3][2]
+//	};
+//
+//	return &pos;
+//}
 
 Matrix4& Matrix4::operator*=(const Matrix4& m2)
 {
@@ -212,7 +212,14 @@ Matrix4 Matrix4::operator*(const Matrix4& m1)
 	return *this *= m1;
 }
 
-Vector3 operator*(const Vector3& v, const Matrix4& m)
+const Matrix4 operator*(const Matrix4& m1, const Matrix4& m2)
+{
+	Matrix4 result = m1;
+
+	return result *= m2;
+}
+
+const Vector3 operator*(const Vector3& v, const Matrix4& m)
 {
 	float W = v.x * m.m[0][3] + v.y * m.m[1][3] + v.z * m.m[2][3] + m.m[3][3];
 	Vector3 result

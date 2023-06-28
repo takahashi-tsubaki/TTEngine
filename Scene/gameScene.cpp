@@ -102,7 +102,7 @@ void GameScene::Update()
 	ImGui::Begin("cameraPos");
 	ImGui::SetWindowPos({ 200 , 200 });
 	ImGui::SetWindowSize({ 500,100 });
-	ImGui::InputFloat3("isPause", &camera_->eye.x);
+	ImGui::InputFloat3("isPause", &camera_->eye_.x);
 	ImGui::End();
 
 	object->Update();
@@ -133,7 +133,7 @@ void GameScene::Draw()
 
 	//// 3Dオブジェクトの描画
 
-	/*fbxObject->Draw(dxCommon_->GetCommandList());*/
+	fbxObject->Draw(dxCommon_->GetCommandList());
 	object->Draw();
 	///// <summary>
 	///// ここに3Dオブジェクトの描画処理を追加できる

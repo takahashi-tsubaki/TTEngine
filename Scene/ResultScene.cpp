@@ -1,9 +1,9 @@
 #include "ResultScene.h"
 
-ResultScene::ResultScene(SceneManager* controller)
-{
-}
-
-ResultScene::~ResultScene()
-{
-}
+//ResultScene::ResultScene(SceneManager* controller)
+//{
+//}
+//
+//ResultScene::~ResultScene()
+//{
+//}

@@ -12,23 +12,12 @@ void DebugOutputFormatString(const char* format, ...) {
 
 void MyGame::Initialize()
 {
-
 	Framework::Initialize();
 
+	fbxManager = FbxManager::Create();
+
+
 	OutputDebugStringA("Hello DirectX!!\n");
-
-	fps->SetFrameRate(60);
-
-	winApp = new WinApp();
-	winApp->Initialize();
-	input = Input::GetInstance();
-	input->Initialize(winApp);
-
-	dxCommon_ = DirectXCommon::GetInstance();
-	dxCommon_->Initialize(winApp);
-
-	imgui = ImguiManager::GetInstance();
-	imgui->Initialize(winApp,dxCommon_);
 
 
 	//情的初期化
@@ -54,15 +43,9 @@ void MyGame::Initialize()
 
 void MyGame::Finalize()
 {
-	winApp->Finalize();
-	////FBXメモリ開放
-	//FbxLoader::GetInstance()->Finalize();
 
-	//入力解放
-	delete winApp;
-	delete imgui;
 	delete gameScene;
-
+	delete postEffect;
 	//基底クラスの終了処理
 	Framework::Finalize();
 }
@@ -73,34 +56,9 @@ void MyGame::Update()
 	//基底クラスの更新処理
 	Framework::Update();
 
-
-	//ゲームループ
-	while (true)
-	{
-
-		fps->FpsControlBegin();
-		if (winApp->ProcessMessage())
-		{
-			Framework::SetRequest(true);
-			//ゲームループを抜ける
-		}
-		//ここからDirectX毎フレーム処理
-
-		input->Update();
-
-		
-		imgui->Begin();
-		gameScene->Update();
-	
-		Draw();
-
-		fps->FpsControlEnd();
-		//ここまでDirectX毎フレーム処理
-	}
-
+	gameScene->Update();
 	
 
-	
 }
 
 void MyGame::Draw()

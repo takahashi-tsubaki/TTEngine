@@ -41,7 +41,7 @@ void PostEffect::Initialize()
 	CD3DX12_RESOURCE_DESC vertResource = CD3DX12_RESOURCE_DESC::Buffer(sizeof(VertexPosUv) * vertNum);
 
 	//頂点バッファ生成
-	result = device->CreateCommittedResource(
+	result = device_->CreateCommittedResource(
 		&vertProps,
 		D3D12_HEAP_FLAG_NONE,
 		&vertResource,
@@ -80,7 +80,7 @@ void PostEffect::Initialize()
 
 
 	//定数バッファの生成
-	result = device->CreateCommittedResource(
+	result = device_->CreateCommittedResource(
 		&heapPropsConstantBuffer,
 		D3D12_HEAP_FLAG_NONE,
 		&resourceDescConstantBuffer,
@@ -93,7 +93,7 @@ void PostEffect::Initialize()
 	ConstBufferData* constMap = nullptr;
 	result = constBuff->Map(0, nullptr, (void**)&constMap);
 	if (SUCCEEDED(result)) {
-		constMap->color = this->color;
+		constMap->color = this->color_;
 		constMap->mat = XMMatrixIdentity();
 		constBuff->Unmap(0, nullptr);
 	}
@@ -115,7 +115,7 @@ void PostEffect::Initialize()
 	//テクスチャバッファの生成
 	for (int i = 0; i < 2; i++)
 	{
-		result = device->CreateCommittedResource(
+		result = device_->CreateCommittedResource(
 			&heapProps,
 			D3D12_HEAP_FLAG_NONE,
 			&textureDesc,
@@ -157,7 +157,7 @@ void PostEffect::Initialize()
 	srvDescHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
 	srvDescHeapDesc.NumDescriptors = 2;
 	//SRV用デスクリプタヒープを生成
-	result = device->CreateDescriptorHeap(&srvDescHeapDesc,IID_PPV_ARGS(&descHeapSRV));
+	result = device_->CreateDescriptorHeap(&srvDescHeapDesc,IID_PPV_ARGS(&descHeapSRV));
 	assert(SUCCEEDED(result));
 
 	//SRV設定
@@ -169,11 +169,11 @@ void PostEffect::Initialize()
 	for (int i = 0; i<2; i++)
 	{
 		//デスクリプタヒープにSRV作成
-		device->CreateShaderResourceView(texBuff[i].Get(),
+		device_->CreateShaderResourceView(texBuff[i].Get(),
 			&srvDesc,
 			CD3DX12_CPU_DESCRIPTOR_HANDLE(
 				descHeapSRV->GetCPUDescriptorHandleForHeapStart(),i,
-				device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV)));
+				device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV)));
 
 	}
 	
@@ -182,7 +182,7 @@ void PostEffect::Initialize()
 	rtvDescHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
 	rtvDescHeapDesc.NumDescriptors = 2;
 	//RTV用デスクリプタヒープを生成
-	result = device->CreateDescriptorHeap(&rtvDescHeapDesc, IID_PPV_ARGS(&descHeapRTV));
+	result = device_->CreateDescriptorHeap(&rtvDescHeapDesc, IID_PPV_ARGS(&descHeapRTV));
 	assert(SUCCEEDED(result));
 
 	//レンダーターゲットビューの設定
@@ -194,10 +194,10 @@ void PostEffect::Initialize()
 	for (int i = 0; i < 2; i++)
 	{
 		//デスクリプタヒープにRTVを作成
-		device->CreateRenderTargetView(texBuff[i].Get(),
+		device_->CreateRenderTargetView(texBuff[i].Get(),
 			nullptr,
 			CD3DX12_CPU_DESCRIPTOR_HANDLE(descHeapRTV->GetCPUDescriptorHandleForHeapStart(), i,
-				device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV))
+				device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV))
 			);
 	}
 	
@@ -221,7 +221,7 @@ void PostEffect::Initialize()
 
 
 	//深度バッファの生成
-	result = device->CreateCommittedResource(
+	result = device_->CreateCommittedResource(
 		&depthHeapProps,
 		D3D12_HEAP_FLAG_NONE,
 		&depthResDesc,
@@ -237,30 +237,30 @@ void PostEffect::Initialize()
 	DescHeapDesc.NumDescriptors = 1;
 
 	//DSV用デスクリプタヒープを作成
-	result = device->CreateDescriptorHeap(&DescHeapDesc,IID_PPV_ARGS(&descHeapDSV));
+	result = device_->CreateDescriptorHeap(&DescHeapDesc,IID_PPV_ARGS(&descHeapDSV));
 	assert(SUCCEEDED(result));
 
 	//デスクリプタヒープにDSVを作成
 	D3D12_DEPTH_STENCIL_VIEW_DESC dsvDesc = {};
 	dsvDesc.Format = DXGI_FORMAT_D32_FLOAT;//深度値フォーマット
 	dsvDesc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
-	device->CreateDepthStencilView(depthBuff.Get(),&dsvDesc,descHeapDSV->GetCPUDescriptorHandleForHeapStart());
+	device_->CreateDepthStencilView(depthBuff.Get(),&dsvDesc,descHeapDSV->GetCPUDescriptorHandleForHeapStart());
 
 }
 
 void PostEffect::Draw(ID3D12GraphicsCommandList* cmdList)
 {
 	// ワールド行列の更新
-	this->matWorld = XMMatrixIdentity();
-	this->matWorld *= XMMatrixRotationZ(XMConvertToRadians(rotation));
-	this->matWorld *= XMMatrixTranslation(position.x, position.y, 0.0f);
+	matWorld_ = XMMatrixIdentity();
+	matWorld_ *= XMMatrixRotationZ(XMConvertToRadians(rotation_));
+	matWorld_ *= XMMatrixTranslation(position_.x, position_.y, 0.0f);
 
 	// 定数バッファにデータ転送
 	ConstBufferData* constMap = nullptr;
 	HRESULT result = this->constBuff->Map(0, nullptr, (void**)&constMap);
 	if (SUCCEEDED(result)) {
-		constMap->color = this->color;
-		constMap->mat = this->matWorld * matProjection;	// 行列の合成	
+		constMap->color = this->color_;
+		constMap->mat = this->matWorld_ * matProjection;	// 行列の合成	
 		this->constBuff->Unmap(0, nullptr);
 	}
 
@@ -285,12 +285,12 @@ void PostEffect::Draw(ID3D12GraphicsCommandList* cmdList)
 	cmdList->SetGraphicsRootDescriptorTable(1,
 		CD3DX12_GPU_DESCRIPTOR_HANDLE(
 			descHeapSRV->GetGPUDescriptorHandleForHeapStart(),0,
-			device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV)));
+			device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV)));
 
 	cmdList->SetGraphicsRootDescriptorTable(2,
 		CD3DX12_GPU_DESCRIPTOR_HANDLE(
 			descHeapSRV->GetGPUDescriptorHandleForHeapStart(), 1,
-			device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV)));
+			device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV)));
 
 	// 描画コマンド
 	cmdList->DrawInstanced(4, 1, 0, 0);
@@ -333,7 +333,7 @@ void PostEffect::PreDrawScene(ID3D12GraphicsCommandList* cmdList)
 	for (int i = 0; i < 2; i++)
 	{
 		rtvH[i] = CD3DX12_CPU_DESCRIPTOR_HANDLE( descHeapRTV->GetCPUDescriptorHandleForHeapStart(),i,
-			device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV));
+			device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV));
 	} 
 	//深度ステンシルビュー用デスクリプタヒープのハンドルを取得
 	D3D12_CPU_DESCRIPTOR_HANDLE dsvH = descHeapDSV->GetCPUDescriptorHandleForHeapStart();
@@ -520,13 +520,13 @@ void PostEffect::CreateGraphicsPipelineState()
 	assert(SUCCEEDED(result));
 
 	// ルートシグネチャの生成
-	result = device->CreateRootSignature(0, rootSigBlob->GetBufferPointer(), rootSigBlob->GetBufferSize(), IID_PPV_ARGS(&rootSignature));
+	result = device_->CreateRootSignature(0, rootSigBlob->GetBufferPointer(), rootSigBlob->GetBufferSize(), IID_PPV_ARGS(&rootSignature));
 	assert(SUCCEEDED(result));
 
 	gpipeline.pRootSignature = rootSignature.Get();
 
 	// グラフィックスパイプラインの生成
-	result = device->CreateGraphicsPipelineState(&gpipeline, IID_PPV_ARGS(&pipelineState));
+	result = device_->CreateGraphicsPipelineState(&gpipeline, IID_PPV_ARGS(&pipelineState));
 	assert(SUCCEEDED(result));
 
 

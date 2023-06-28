@@ -404,7 +404,7 @@ namespace MyMath
 		int rotationX = 1;
 		int rotationY = 2;
 		int rotationZ = 3;
-		int rotationXYZ = 6;
+		/*int rotationXYZ = 6;*/
 
 		if (X_1_Y_2_Z_3_XYZ_6 == rotationX) {
 			Matrix4 matRotX = {
@@ -413,10 +413,10 @@ namespace MyMath
 			  0.0f,-sin(rotation.x),cos(rotation.x),0.0f,
 			  0.0f,0.0f,0.0f,1.0f
 			};
-			Matrix4 rotationX = Initialize();
-			rotationX *= matRotX;
+			Matrix4 rotationX_ = Initialize();
+			rotationX_ *= matRotX;
 
-			return rotationX;
+			return rotationX_;
 		}
 		else if (X_1_Y_2_Z_3_XYZ_6 == rotationY) {
 			Matrix4 matRotY = {
@@ -425,10 +425,10 @@ namespace MyMath
 				sin(rotation.y), 0.0f, cos(rotation.y),  0.0f,
 				0.0f, 0.0f, 0.0f, 1.0f
 			};
-			Matrix4 rotationY = Initialize();
-			rotationY *= matRotY;
+			Matrix4 rotationY_ = Initialize();
+			rotationY_ *= matRotY;
 
-			return rotationY;
+			return rotationY_;
 		}
 		else if (X_1_Y_2_Z_3_XYZ_6 == rotationZ) {
 			Matrix4 matRotZ = {
@@ -437,10 +437,10 @@ namespace MyMath
 			  0.0f,0.0f,1.0f,0.0f,
 			  0.0f,0.0f,0.0f,1.0f
 			};
-			Matrix4 rotationZ = Initialize();
-			rotationZ *= matRotZ;
+			Matrix4 rotationZ_ = Initialize();
+			rotationZ_ *= matRotZ;
 
-			return rotationZ;
+			return rotationZ_;
 		}
 		else {
 			Matrix4 matRotXYZ;

@@ -55,12 +55,13 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Engine\Base;$(SolutionDir)Engine\2D;$(SolutionDir)Engine\3D;$(SolutionDir)Scene;$(SolutionDir)Engine\Math;$(SolutionDir)Engine\Particle;$(SolutionDir)Engine\FBX;$(SolutionDir)External\DirectXTex;$(SolutionDir)External\lib\fbx_sdk\include;$(SolutionDir)Engine\FrameWork;$(SolutionDir)External\imgui</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Engine\Base;$(SolutionDir)Engine\2D;$(SolutionDir)Engine\3D;$(SolutionDir)Scene;$(SolutionDir)Engine\Math;$(SolutionDir)Engine\Particle;$(SolutionDir)Engine\FBX;$(SolutionDir)External\DirectXTex;$(SolutionDir)External\lib\fbx_sdk\include;$(SolutionDir)Engine\FrameWork;$(SolutionDir)External\imgui;$(SolutionDir)Engine\Camera;$(SolutionDir)Engine\Light</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -80,10 +81,11 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Engine\Base;$(SolutionDir)Engine\2D;$(SolutionDir)Engine\3D;$(SolutionDir)Scene;$(SolutionDir)Engine\Math;$(SolutionDir)Engine\Particle;$(SolutionDir)Engine\FBX;$(SolutionDir)External\DirectXTex;$(SolutionDir)External\lib\fbx_sdk\include;$(SolutionDir)Engine\FrameWork;$(SolutionDir)External\imgui</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Engine\Base;$(SolutionDir)Engine\2D;$(SolutionDir)Engine\3D;$(SolutionDir)Scene;$(SolutionDir)Engine\Math;$(SolutionDir)Engine\Particle;$(SolutionDir)Engine\FBX;$(SolutionDir)External\DirectXTex;$(SolutionDir)External\lib\fbx_sdk\include;$(SolutionDir)Engine\FrameWork;$(SolutionDir)External\imgui;$(SolutionDir)Engine\Camera;$(SolutionDir)Engine\Light</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -98,8 +100,6 @@
     <ClCompile Include="Engine\2D\ImguiManager.cpp" />
     <ClCompile Include="Engine\2D\PostEffect.cpp" />
     <ClCompile Include="Engine\2D\Sprite.cpp" />
-    <ClCompile Include="Engine\3D\Camera.cpp" />
-    <ClCompile Include="Engine\3D\Light.cpp" />
     <ClCompile Include="Engine\3D\Material.cpp" />
     <ClCompile Include="Engine\3D\Mesh.cpp" />
     <ClCompile Include="Engine\3D\Model.cpp" />
@@ -109,17 +109,22 @@
     <ClCompile Include="Engine\Base\FPS.cpp" />
     <ClCompile Include="Engine\Base\Input.cpp" />
     <ClCompile Include="Engine\Base\WinApp.cpp" />
+    <ClCompile Include="Engine\Camera\Camera.cpp" />
+    <ClCompile Include="Engine\Camera\GameCamera.cpp" />
+    <ClCompile Include="Engine\Enemy\Enemy.cpp" />
     <ClCompile Include="Engine\FBX\FbxLoader.cpp" />
     <ClCompile Include="Engine\FBX\FbxModel.cpp" />
     <ClCompile Include="Engine\FBX\FbxObject3d.cpp" />
     <ClCompile Include="Engine\FrameWork\Framework.cpp" />
     <ClCompile Include="Engine\FrameWork\MyGame.cpp" />
+    <ClCompile Include="Engine\Light\Light.cpp" />
     <ClCompile Include="Engine\Math\Matrix4.cpp" />
     <ClCompile Include="Engine\Math\MyMath.cpp" />
     <ClCompile Include="Engine\Math\Vector2.cpp" />
     <ClCompile Include="Engine\Math\Vector3.cpp" />
     <ClCompile Include="Engine\Math\Vector4.cpp" />
     <ClCompile Include="Engine\Particle\ParticleManager.cpp" />
+    <ClCompile Include="Engine\Player\Player.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Scene\gameScene.cpp" />
     <ClCompile Include="Scene\IScene.cpp" />
@@ -132,8 +137,6 @@
     <ClInclude Include="Engine\2D\ImguiManager.h" />
     <ClInclude Include="Engine\2D\PostEffect.h" />
     <ClInclude Include="Engine\2D\Sprite.h" />
-    <ClInclude Include="Engine\3D\Camera.h" />
-    <ClInclude Include="Engine\3D\Light.h" />
     <ClInclude Include="Engine\3D\Material.h" />
     <ClInclude Include="Engine\3D\Mesh.h" />
     <ClInclude Include="Engine\3D\Model.h" />
@@ -144,17 +147,22 @@
     <ClInclude Include="Engine\Base\FPS.h" />
     <ClInclude Include="Engine\Base\Input.h" />
     <ClInclude Include="Engine\Base\WinApp.h" />
+    <ClInclude Include="Engine\Camera\Camera.h" />
+    <ClInclude Include="Engine\Camera\GameCamera.h" />
+    <ClInclude Include="Engine\Enemy\Enemy.h" />
     <ClInclude Include="Engine\FBX\FbxLoader.h" />
     <ClInclude Include="Engine\FBX\FbxModel.h" />
     <ClInclude Include="Engine\FBX\FbxObject3d.h" />
     <ClInclude Include="Engine\FrameWork\Framework.h" />
     <ClInclude Include="Engine\FrameWork\MyGame.h" />
+    <ClInclude Include="Engine\Light\Light.h" />
     <ClInclude Include="Engine\Math\Matrix4.h" />
     <ClInclude Include="Engine\Math\MyMath.h" />
     <ClInclude Include="Engine\Math\Vector2.h" />
     <ClInclude Include="Engine\Math\Vector3.h" />
     <ClInclude Include="Engine\Math\Vector4.h" />
     <ClInclude Include="Engine\Particle\ParticleManager.h" />
+    <ClInclude Include="Engine\Player\Player.h" />
     <ClInclude Include="Scene\gameScene.h" />
     <ClInclude Include="Scene\IScene.h" />
     <ClInclude Include="Scene\PlayScene.h" />

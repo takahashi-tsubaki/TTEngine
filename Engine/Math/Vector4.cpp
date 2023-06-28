@@ -40,6 +40,28 @@ Vector4 Vector4::cross(const Vector4& v) const
 	);
 }
 
+Vector4 Vector4::XMVECToVec4(DirectX::XMVECTOR XMVEC)
+{
+	Vector4 result;
+	result.x = XMVEC.m128_f32[0];
+	result.y = XMVEC.m128_f32[1];
+	result.z = XMVEC.m128_f32[2];
+	result.w = XMVEC.m128_f32[3];
+
+	return result;
+}
+
+DirectX::XMVECTOR Vector4::Vec4ToXMVEC(Vector4 Vec4)
+{
+	DirectX::XMVECTOR result;
+	result.m128_f32[0] = Vec4.x;
+	result.m128_f32[1] = Vec4.y;
+	result.m128_f32[2] = Vec4.z;
+	result.m128_f32[3] = Vec4.w;
+
+	return result;
+}
+
 Vector4 Vector4::operator+() const
 {
 	return Vector4(x, y, z, w);
@@ -52,28 +74,28 @@ Vector4 Vector4::operator-() const
 
 Vector4& Vector4::operator+=(const Vector4& v)
 {
-	this->x += v.x;
-	this->y += v.y;
-	this->z += v.z;
-	this->w += v.w;
+	x += v.x;
+	y += v.y;
+	z += v.z;
+	w += v.w;
 	return *this;
 }
 
 Vector4& Vector4::operator-=(const Vector4& v)
 {
-	this->x -= v.x;
-	this->y -= v.y;
-	this->z -= v.z;
-	this->w -= v.w;
+	x -= v.x;
+	y -= v.y;
+	z -= v.z;
+	w -= v.w;
 	return *this;
 }
 
 Vector4& Vector4::operator*=(float s)
 {
-	this->x *= s;
-	this->y *= s;
-	this->z *= s;
-	this->w *= s;
+	x *= s;
+	y *= s;
+	z *= s;
+	w *= s;
 	return *this;
 }
 
@@ -90,29 +112,50 @@ Vector4& Vector4::operator/=(float s)
 
 const Vector4 operator+(const Vector4& v1, const Vector4& v2)
 {
-	Vector4 temp(v1);
-	return temp + v2;
+	Vector4 temp = v1;
+	temp.x += v2.x;
+	temp.y += v2.y;
+	temp.z += v2.z;
+	temp.w += v2.w;
+	return temp;
 }
 
 const Vector4 operator-(const Vector4& v1, const Vector4& v2)
 {
 	Vector4 temp(v1);
-	return temp - v2;
+	temp.x -= v2.x;
+	temp.y -= v2.y;
+	temp.z -= v2.z;
+	temp.w -= v2.w;
+	return temp;
 }
 
 const Vector4 operator*(const Vector4& v, float s)
 {
 	Vector4 temp(v);
-	return temp * s;
+	temp.x *= s;
+	temp.y *= s;
+	temp.z *= s;
+	temp.w *= s;
+	return temp;
 }
 
 const Vector4 operator*(float s, const Vector4& v)
 {
-	return v * s;
+	Vector4 temp;
+	temp.x = v.x * s;
+	temp.y = v.y * s;
+	temp.z = v.z * s;
+	temp.w = v.w * s;
+	return temp;
 }
 
 const Vector4 operator/(const Vector4& v, float s)
 {
 	Vector4 temp(v);
-	return temp / s;
+	temp.x /= s;
+	temp.y /= s;
+	temp.z /= s;
+	temp.w /= s;
+	return temp;
 }

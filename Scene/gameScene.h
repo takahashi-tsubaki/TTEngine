@@ -1,4 +1,5 @@
 #pragma once
+#include "ErrorException.h"
 #include "DirectXCommon.h"
 #include "Input.h"
 

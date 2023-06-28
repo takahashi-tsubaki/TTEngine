@@ -86,7 +86,7 @@ public: // 静的メンバ関数
 
 private: // 静的メンバ変数
 	// デバイス
-	static ID3D12Device* device;
+	static ID3D12Device* device_;
 	// コマンドリスト
 	static ID3D12GraphicsCommandList* sCommandList;
 	// テクスチャあり用パイプライン
@@ -110,56 +110,56 @@ public: // メンバ関数
 	/// 座標の取得
 	/// </summary>
 	/// <returns>座標</returns>
-	const XMFLOAT3& GetPosition() { return position; }
+	const XMFLOAT3& GetPosition() { return position_; }
 
 	/// <summary>
 	/// 回転角の取得
 	/// </summary>
 	/// <returns></returns>
-	const XMFLOAT3& GetRotation() { return rotation; }
+	const XMFLOAT3& GetRotation() { return rotation_; }
 
 	/// <summary>
 	/// 座標の設定
 	/// </summary>
 	/// <param name="position">座標</param>
-	void SetPosition(XMFLOAT3 position) { this->position = position; }
+	void SetPosition(XMFLOAT3 position) { position_ = position; }
 
-	void SetRotation(XMFLOAT3 rotation) { this->rotation = rotation; }
+	void SetRotation(XMFLOAT3 rotation) { rotation_ = rotation; }
 
 	/// <summary>
 	/// スケールの設定
 	/// </summary>
 	/// <param name="position">スケール</param>
-	void SetScale(XMFLOAT3 scale) { this->scale = scale; }
+	void SetScale(XMFLOAT3 scale) {scale_ = scale; }
 
 	/// <summary>
 	/// モデルのセット
 	/// </summary>
 	/// <param name="model">モデル</param>
-	void SetModel(Model* model) { this->model = model; }
+	void SetModel(Model* model) { model_ = model; }
 
-	void SetBillboard(bool isBillboard) { this->isBillboard = isBillboard; }
+	void SetBillboard(bool isBillboard) { isBillboard_ = isBillboard; }
 
-	void SetColor(XMFLOAT4 color) { this->color = color; }
+	void SetColor(XMFLOAT4 color) { color_ = color; }
 
 private: // メンバ変数
 	ComPtr<ID3D12Resource> constBuffB0; // 定数バッファ
 	// 色
-	XMFLOAT4 color = { 1,1,1,1 };
+	XMFLOAT4 color_ = { 1,1,1,1 };
 	// ローカルスケール
-	XMFLOAT3 scale = { 1,1,1 };
+	XMFLOAT3 scale_ = { 1,1,1 };
 	// X,Y,Z軸回りのローカル回転角
-	XMFLOAT3 rotation = { 0,0,0 };
+	XMFLOAT3 rotation_ = { 0,0,0 };
 	// ローカル座標
-	XMFLOAT3 position = { 0,0,0 };
+	XMFLOAT3 position_ = { 0,0,0 };
 	// ローカルワールド変換行列
 	XMMATRIX matWorld;
 	// 親オブジェクト
 	Particle* parent = nullptr;
 	// モデル
-	Model* model = nullptr;
+	Model* model_ = nullptr;
 	// ビルボード
-	bool isBillboard = false;
+	bool isBillboard_ = false;
 	// 定数バッファのマップ
 	ConstBufferDataB0* constMap = nullptr;
 

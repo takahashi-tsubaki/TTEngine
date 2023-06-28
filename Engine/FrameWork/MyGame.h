@@ -1,9 +1,6 @@
 #pragma once
-#include "DirectXCommon.h"
-#include "WinApp.h"
-#include "FPS.h"
-#include "Input.h"
 #include "gameScene.h"
+#include "DirectXCommon.h"
 #include "Object3d.h"
 #include "Light.h"
 #include "ParticleManager.h"
@@ -11,7 +8,6 @@
 #include "FbxLoader.h"
 
 #include "Framework.h"
-#include "ImguiManager.h"
 
 class MyGame : public Framework
 {
@@ -31,15 +27,10 @@ public:
 
 private:
 	ID3D12DebugDevice* debugInterface;
-	//FPS
-	FPS* fps = new FPS;
-	WinApp* winApp = nullptr;
-	Input* input = nullptr;
-	DirectXCommon* dxCommon_ = nullptr;
 
+	FbxManager* fbxManager = nullptr;
 	PostEffect* postEffect = nullptr;
 
 	Framework* framework = nullptr;
 	GameScene* gameScene = nullptr;
-	ImguiManager* imgui = nullptr;
 };

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <DirectXMath.h>
+
 class Vector4
 {
 public:
@@ -18,7 +20,8 @@ public:
 	float dot(const Vector4& v) const;		//内積を求める
 	Vector4 cross(const Vector4& v) const;	//外積を求める
 
-
+	Vector4 XMVECToVec4(DirectX::XMVECTOR XMVEC);
+	DirectX::XMVECTOR Vec4ToXMVEC(Vector4 Vec4);
 	//単項演算子オーバーロード
 	Vector4 operator+() const;
 	Vector4 operator-() const;

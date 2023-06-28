@@ -1,10 +1,12 @@
 #pragma once
 #pragma warning(push)
 #pragma warning(disable: 4265)
+#pragma warning(disable: 4324)
 #pragma warning(disable: 4365)
 #pragma warning(disable: 4625)
 #pragma warning(disable: 4626)
 #pragma warning(disable: 4668)
+#pragma warning(disable: 4717)
 #pragma warning(disable: 4820)
 #pragma warning(disable: 5039)
 #pragma warning(disable: 5204)

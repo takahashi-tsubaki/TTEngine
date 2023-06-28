@@ -14,17 +14,17 @@ using namespace std;
 /// <summary>
 /// 静的メンバ変数の実体
 /// </summary>
-ID3D12Device* Object3d::device = nullptr;
+ID3D12Device* Object3d::device_ = nullptr;
 ID3D12GraphicsCommandList* Object3d::sCommandList = nullptr;
 Object3d::PipelineSet Object3d::pipelineSet;
 Camera* Object3d::sCamera_ = nullptr;
-Light* Object3d::light = nullptr;
+Light* Object3d::light_ = nullptr;
 
 void Object3d::StaticInitialize(ID3D12Device* device, Camera* camera) {
 	// nullptrチェック
 	assert(device);
 
-	Object3d::device = device;
+	device_ = device;
 	sCamera_ = camera;
 
 	// グラフィックパイプラインの生成
@@ -163,7 +163,7 @@ void Object3d::CreateGraphicsPipeline() {
 	result = D3DX12SerializeVersionedRootSignature(
 	  &rootSignatureDesc, D3D_ROOT_SIGNATURE_VERSION_1_0, &rootSigBlob, &errorBlob);
 	// ルートシグネチャの生成
-	result = device->CreateRootSignature(
+	result = device_->CreateRootSignature(
 	  0, rootSigBlob->GetBufferPointer(), rootSigBlob->GetBufferSize(),
 	  IID_PPV_ARGS(&pipelineSet.rootsignature));
 	assert(SUCCEEDED(result));
@@ -172,7 +172,7 @@ void Object3d::CreateGraphicsPipeline() {
 
 	// グラフィックスパイプラインの生成
 	result =
-	  device->CreateGraphicsPipelineState(&gpipeline, IID_PPV_ARGS(&pipelineSet.pipelinestate));
+	  device_->CreateGraphicsPipelineState(&gpipeline, IID_PPV_ARGS(&pipelineSet.pipelinestate));
 	assert(SUCCEEDED(result));
 }
 
@@ -211,7 +211,7 @@ Object3d* Object3d::Create() {
 
 bool Object3d::Initialize() {
 	// nullptrチェック
-	assert(device);
+	assert(device_);
 
 	// ヒーププロパティ
 	CD3DX12_HEAP_PROPERTIES heapProps = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
@@ -221,7 +221,7 @@ bool Object3d::Initialize() {
 
 	HRESULT result;
 	// 定数バッファの生成
-	result = device->CreateCommittedResource(
+	result = device_->CreateCommittedResource(
 	  &heapProps, D3D12_HEAP_FLAG_NONE, &resourceDesc, D3D12_RESOURCE_STATE_GENERIC_READ, nullptr,
 	  IID_PPV_ARGS(&constBuffB0));
 	assert(SUCCEEDED(result));
@@ -278,8 +278,7 @@ void Object3d::Update() {
 		matWorld *= parent->matWorld;
 	}
 
-	// 定数バッファへデータ転送
-	ConstBufferDataB0* constMap = nullptr;
+	
 	result = constBuffB0->Map(0, nullptr, (void**)&constMap);
 	//constMap->color = color;
 	Matrix4 myMat = worldTransform.matWorld_;
@@ -296,11 +295,11 @@ void Object3d::Update() {
 
 void Object3d::Draw() {
 	// nullptrチェック
-	assert(device);
+	assert(device_);
 	assert(sCommandList);
 
 	// モデルの割り当てがなければ描画しない
-	if (model == nullptr) {
+	if (model_ == nullptr) {
 		return;
 	}
 
@@ -311,8 +310,8 @@ void Object3d::Draw() {
 	// 定数バッファビューをセット
 	sCommandList->SetGraphicsRootConstantBufferView(0, constBuffB0->GetGPUVirtualAddress());
 
-	light->Draw(sCommandList,3);
+	light_->Draw(sCommandList,3);
 	// モデル描画
-	model->Draw(sCommandList);
+	model_->Draw(sCommandList);
 	
 }

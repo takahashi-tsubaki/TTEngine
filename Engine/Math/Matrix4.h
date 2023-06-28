@@ -43,8 +43,8 @@ public:
 	// Vector3でゲット
 	Vector3 GetWorldPos();
 
-	// posをptr
-	Vector3* GetWorldPosPtr();
+	//// posをptr
+	//Vector3* GetWorldPosPtr();
 
 	// 代入演算子オーバーロード
 	Matrix4& operator*=(const Matrix4& m2);
@@ -52,4 +52,7 @@ public:
 };
 
 // 2項演算子オーバーロード
-Vector3 operator*(const Vector3& v, const Matrix4& m);
+const Vector3 operator*(const Vector3& v, const Matrix4& m);
+
+// 2項演算子オーバーロード
+const Matrix4 operator*(const Matrix4& m1, const Matrix4& m2);

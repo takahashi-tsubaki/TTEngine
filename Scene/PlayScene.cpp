@@ -1,9 +1,9 @@
 #include "PlayScene.h"
 
-PlayScene::PlayScene(SceneManager* controller)
-{
-}
-
-PlayScene::~PlayScene()
-{
-}
+//PlayScene::PlayScene(SceneManager* controller)
+//{
+//}
+//
+//PlayScene::~PlayScene()
+//{
+//}

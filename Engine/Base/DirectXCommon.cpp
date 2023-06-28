@@ -3,7 +3,7 @@
 void DirectXCommon::Initialize(WinApp* winApp)
 {
 	assert(winApp);
-	this->winApp = winApp;
+	winApp_ = winApp;
 
 	//デバイスの生成
 	InitializeDevice();
@@ -133,7 +133,7 @@ void DirectXCommon::InitializeSwapChain()
 	swapChainDesc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;//
 	//スワップチェーンの生成
 	result = dxgiFactory->CreateSwapChainForHwnd(commandQueue.Get(),
-		winApp->Gethwnd(),
+		winApp_->Gethwnd(),
 		&swapChainDesc,
 		nullptr,
 		nullptr,
