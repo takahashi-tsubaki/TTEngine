@@ -1,7 +1,8 @@
 
-cbuffer cbuff0 : register(b0)
+cbuffer GPUData : register(b0)
 {
-
+    float KernelSize;
+	
 };
 
 //頂点シェーダーの出力構造体

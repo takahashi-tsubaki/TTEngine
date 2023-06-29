@@ -20,7 +20,7 @@ void GameScene::Initalize()
 
 	//input_ = Input::GetInstance();
 	camera_ = new Camera(WinApp::window_width, WinApp::window_height);
-	camera_->SetEye({0,0,-100});
+	camera_->SetEye({0,0,-50});
 	// カメラ注視点をセット
 	camera_->SetTarget({ 0, 0, 0 });
 	// 3Dオブジェクトにカメラをセット
