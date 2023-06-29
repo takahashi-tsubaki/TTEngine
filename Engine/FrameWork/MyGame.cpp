@@ -38,7 +38,7 @@ void MyGame::Initialize()
 
 	//ƒQ[ƒ€ƒV[ƒ“‚Ì‰Šú‰»
 	gameScene = new GameScene();
-	gameScene->Initalize();
+	gameScene->Initalize(dxCommon_,input);
 }
 
 void MyGame::Finalize()

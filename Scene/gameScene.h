@@ -17,6 +17,9 @@
 
 #include "FbxObject3d.h"
 
+#include "Player.h"
+#include "Enemy.h"
+
 class GameScene
 {
 
@@ -25,7 +28,7 @@ public:
 	GameScene();
 	~GameScene();
 
-	void Initalize();
+	void Initalize(DirectXCommon* dxCommon,Input* input);
 
 	void Update();
 
@@ -52,4 +55,8 @@ private:
 
 	FbxModel* fbxModel = nullptr;
 	FbxObject3d* fbxObject = nullptr;
+
+	Player* player_ = nullptr;
+	Enemy* enemy_ = nullptr;
+
 };

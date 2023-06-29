@@ -11,11 +11,16 @@
 #include<DirectXMath.h>
 #include <string>
 
+#include "worldTransform.h"
+
 class FbxObject3d
 {
 public:
 	//ボーンの最大数
 	static const int MAX_BONES = 1000;//HLSL側を合わせる
+
+
+	WorldTransform worldTransform;
 
 protected://エイリアス
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
@@ -75,9 +80,9 @@ public://メンバ関数
 	/// <param name="fbxModel"></param>
 	void SetModel(FbxModel* fbxModel) { fbxModel_ = fbxModel; }
 
-	void SetScale(Vector3 scale) {scale_ = scale;}
+	void SetScale(Vector3 scale) { worldTransform.scale_ = scale;}
 
-	void SetPosition(Vector3 position) { position_ = position; }
+	void SetPosition(Vector3 position) { worldTransform.translation_ = position; }
 
 	/// <summary>
 	/// アニメーション開始
@@ -85,7 +90,7 @@ public://メンバ関数
 	void PlayAnimetion(int AnimNum);
 
 
-	Vector3 GetPosition() { return position_; }
+	Vector3 GetPosition() { return worldTransform.translation_; }
 
 public:
 	//定数バッファ
@@ -93,6 +98,8 @@ public:
 
 	//定数バッファ(スキン)
 	ComPtr<ID3D12Resource> constBuffSkin;
+
+	
 
 	// ローカルスケール
 	Vector3 scale_ = { 1,1,1 };
