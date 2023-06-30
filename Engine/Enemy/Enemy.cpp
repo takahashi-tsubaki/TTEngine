@@ -15,6 +15,7 @@ void Enemy::Initialize(DirectXCommon* dxCommon)
 	enemyFbxO_ = std::make_unique<FbxObject3d>();
 	enemyFbxO_->Initialize();
 	enemyFbxO_->SetModel(enemyFbxM_.get());
+	enemyFbxO_->PlayAnimetion(5);
 }
 
 void Enemy::Update()

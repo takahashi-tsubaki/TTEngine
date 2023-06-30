@@ -69,7 +69,7 @@ void GameScene::Initalize(DirectXCommon* dxCommon, Input* input)
 	//fbxObject->SetPosition({ 0,-50,0 });
 
 	fbxObject->SetPosition({0,-10,10});
-	fbxObject->PlayAnimetion(5);
+	
 }
 
 void GameScene::Update()
@@ -94,10 +94,7 @@ void GameScene::Update()
 		move.z -= 0.5f;
 	}
 
-	if (input_->TriggerKey(DIK_SPACE))
-	{
-		fbxObject->PlayAnimetion(2);
-	}
+	
 
 
 	light_->Update();
@@ -144,7 +141,7 @@ void GameScene::Draw()
 	/*fbxObject->Draw(dxCommon_->GetCommandList());
 	object->Draw();*/
 
-	player_->Draw();
+	enemy_->Draw();
 	///// <summary>
 	///// ここに3Dオブジェクトの描画処理を追加できる
 	///// </summary>
