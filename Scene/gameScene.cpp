@@ -104,11 +104,11 @@ void GameScene::Update()
 
 	fbxObject->Update();
 
-	ImGui::Begin("cameraPos");
+	/*ImGui::Begin("cameraPos");
 	ImGui::SetWindowPos({ 200 , 200 });
 	ImGui::SetWindowSize({ 500,100 });
 	ImGui::InputFloat3("isPause", &camera_->eye_.x);
-	ImGui::End();
+	ImGui::End();*/
 
 	object->Update();
 

@@ -63,16 +63,16 @@ void MyGame::Update()
 
 void MyGame::Draw()
 {
-	/*postEffect->PreDrawScene(dxCommon_->GetCommandList());*/
+	postEffect->PreDrawScene(dxCommon_->GetCommandList());
 	//ƒQ[ƒ€ƒV[ƒ“‚Ì•`‰æ
-
-	/*postEffect->PostDrawScene(dxCommon_->GetCommandList());*/
+	gameScene->Draw();
+	postEffect->PostDrawScene(dxCommon_->GetCommandList());
 
 	//•`‰æ‘Oˆ—
 	dxCommon_->preDraw();
 
-	gameScene->Draw();
-	/*postEffect->Draw(dxCommon_->GetCommandList());*/
+
+	postEffect->Draw(dxCommon_->GetCommandList());
 
 	imgui->End();
 
