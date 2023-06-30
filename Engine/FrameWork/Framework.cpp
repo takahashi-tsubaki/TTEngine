@@ -8,13 +8,13 @@ void Framework::Initialize()
 	winApp = new WinApp();
 	winApp->Initialize();
 
-	input = Input::GetInstance();
+	input = new Input();
 	input->Initialize(winApp);
 
-	dxCommon_ = DirectXCommon::GetInstance();
+	dxCommon_ = new DirectXCommon();
 	dxCommon_->Initialize(winApp);
 
-	imgui = ImguiManager::GetInstance();
+	imgui = new ImguiManager();
 	imgui->Initialize(winApp, dxCommon_);
 	endRequest_ = false;
 
@@ -30,11 +30,10 @@ void Framework::Finalize()
 	winApp->Finalize();
 	////FBXƒƒ‚ƒŠŠJ•ú
 	//FbxLoader::GetInstance()->Finalize();
-
-	//“ü—Í‰ð•ú
 	delete imgui;
-	delete winApp;
+	//“ü—Í‰ð•ú
 	delete input;
+	delete winApp;
 	delete dxCommon_;
 	delete fps;
 }

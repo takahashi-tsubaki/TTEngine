@@ -1,10 +1,14 @@
 #include "WinApp.h"
 #include <imgui_impl_win32.h>
 
-//extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProHandler(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam);
+extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProHandler(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam);
 
 LRESULT WinApp::WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
+	if (ImGui_ImplWin32_WndProHandler(hwnd, msg, wparam, lparam))
+	{
+		return true;
+	}
 	//メッセージ分岐
 	switch (msg)
 	{
@@ -89,3 +93,8 @@ bool WinApp::ProcessMessage()
 //		return IMGUI_IMPL_API LRESULT();
 //	}
 //}
+
+IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProHandler(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
+{
+	return IMGUI_IMPL_API LRESULT();
+}

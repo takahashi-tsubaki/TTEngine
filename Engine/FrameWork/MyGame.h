@@ -26,7 +26,7 @@ public:
 	void Draw() override;
 
 private:
-	ID3D12DebugDevice* debugInterface;
+	/*ID3D12DebugDevice* debugInterface;*/
 
 	FbxManager* fbxManager = nullptr;
 	PostEffect* postEffect = nullptr;

@@ -224,9 +224,9 @@ void FbxObject3d::Update()
 {
 	Matrix4 matScale, matRot, matTrans;
 
-	matScale = MyMath::Scale(scale_);
-	matRot = MyMath::Rotate(rotation,6);
-	matTrans = MyMath::Move(position_);
+	matScale = MyMath::Scale(worldTransform.scale_);
+	matRot = MyMath::Rotate(worldTransform.rotation_,6);
+	matTrans = MyMath::Move(worldTransform.translation_);
 
 	//ÉèÅ[ÉãÉhçsóÒÇÃçáê¨
 	matWorld = MyMath::Matrix4Identity();
