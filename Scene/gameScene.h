@@ -60,6 +60,7 @@ private:
 	Player* player_ = nullptr;
 	Enemy* enemy_ = nullptr;
 
+	CollisionManager* colMan = nullptr;
 
 
 };

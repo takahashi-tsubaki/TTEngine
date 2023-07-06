@@ -71,6 +71,8 @@ void GameScene::Initalize(DirectXCommon* dxCommon, Input* input, GamePad* gamePa
 	//fbxObject->SetPosition({ 0,-50,0 });
 
 	fbxObject->SetPosition({0,-10,10});
+
+	colMan = CollisionManager::GetInstance();
 	
 }
 
@@ -122,6 +124,7 @@ void GameScene::Update()
 	camera_->MoveTarget(input_);
 	camera_->Update();
 	
+	colMan->CheckAllCollisions();
 }
 void GameScene::Draw()
 {

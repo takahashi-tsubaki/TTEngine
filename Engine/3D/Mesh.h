@@ -110,6 +110,24 @@ class Mesh {
 	inline size_t GetVertexCount() { return vertices.size(); }
 
 	/// <summary>
+	/// 頂点配列を取得
+	/// </summary>
+	/// <returns>頂点配列</returns>
+	inline const std::vector<VertexPosNormalUv>& GetVertices()
+	{
+		return vertices;
+	}
+
+	/// <summary>
+	/// インデックス配列を取得
+	/// </summary>
+	/// <returns>インデックス配列</returns>
+	inline const std::vector<unsigned short>& GetInidices()
+	{
+		return indices;
+	}
+
+	/// <summary>
 	/// エッジ平滑化データの追加
 	/// </summary>
 	/// <param name="indexPos"></param>

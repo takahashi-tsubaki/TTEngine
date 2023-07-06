@@ -136,6 +136,12 @@ public: // メンバ関数
 	void SetScale(Vector3 scale) { worldTransform.scale_ = scale; }
 
 	/// <summary>
+	/// ワールド行列の取得
+	/// </summary>
+	/// <returns>ワールド行列</returns>
+	const Matrix4& GetMatWorld() { return worldTransform.matWorld_; }
+
+	/// <summary>
 	/// モデルのセット
 	/// </summary>
 	/// <param name="model">モデル</param>
