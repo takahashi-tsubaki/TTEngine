@@ -59,7 +59,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Engine\Base;$(SolutionDir)Engine\2D;$(SolutionDir)Engine\3D;$(SolutionDir)Scene;$(SolutionDir)Engine\Math;$(SolutionDir)Engine\Particle;$(SolutionDir)Engine\FBX;$(SolutionDir)External\DirectXTex;$(SolutionDir)External\lib\fbx_sdk\include;$(SolutionDir)Engine\FrameWork;$(SolutionDir)External\imgui;$(SolutionDir)Engine\Camera;$(SolutionDir)Engine\Light;$(SolutionDir)Engine\Enemy;$(SolutionDir)Engine\Player;$(SolutionDir)Engine\Bullet</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Engine\Base;$(SolutionDir)Engine\2D;$(SolutionDir)Engine\3D;$(SolutionDir)Scene;$(SolutionDir)Engine\Math;$(SolutionDir)Engine\Particle;$(SolutionDir)Engine\FBX;$(SolutionDir)External\DirectXTex;$(SolutionDir)External\lib\fbx_sdk\include;$(SolutionDir)Engine\FrameWork;$(SolutionDir)External\imgui;$(SolutionDir)Engine\Camera;$(SolutionDir)Engine\Light;$(SolutionDir)Engine\Enemy;$(SolutionDir)Engine\Player;$(SolutionDir)Engine\Bullet;$(SolutionDir)Engine\Collider</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <TreatWarningAsError>false</TreatWarningAsError>
     </ClCompile>
@@ -81,7 +81,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Engine\Base;$(SolutionDir)Engine\2D;$(SolutionDir)Engine\3D;$(SolutionDir)Scene;$(SolutionDir)Engine\Math;$(SolutionDir)Engine\Particle;$(SolutionDir)Engine\FBX;$(SolutionDir)External\DirectXTex;$(SolutionDir)External\lib\fbx_sdk\include;$(SolutionDir)Engine\FrameWork;$(SolutionDir)External\imgui;$(SolutionDir)Engine\Camera;$(SolutionDir)Engine\Light;$(SolutionDir)Engine\Enemy;$(SolutionDir)Engine\Player;$(SolutionDir)Engine\Bullet</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Engine\Base;$(SolutionDir)Engine\2D;$(SolutionDir)Engine\3D;$(SolutionDir)Scene;$(SolutionDir)Engine\Math;$(SolutionDir)Engine\Particle;$(SolutionDir)Engine\FBX;$(SolutionDir)External\DirectXTex;$(SolutionDir)External\lib\fbx_sdk\include;$(SolutionDir)Engine\FrameWork;$(SolutionDir)External\imgui;$(SolutionDir)Engine\Camera;$(SolutionDir)Engine\Light;$(SolutionDir)Engine\Enemy;$(SolutionDir)Engine\Player;$(SolutionDir)Engine\Bullet;$(SolutionDir)Engine\Collider</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <LanguageStandard>stdcpp20</LanguageStandard>
@@ -114,6 +114,11 @@
     <ClCompile Include="Engine\Bullet\PlayerBullet.cpp" />
     <ClCompile Include="Engine\Camera\Camera.cpp" />
     <ClCompile Include="Engine\Camera\GameCamera.cpp" />
+    <ClCompile Include="Engine\Collider\Collision.cpp" />
+    <ClCompile Include="Engine\Collider\CollisionManager.cpp" />
+    <ClCompile Include="Engine\Collider\CollisionPrimitive.cpp" />
+    <ClCompile Include="Engine\Collider\MeshCollider.cpp" />
+    <ClCompile Include="Engine\Collider\SphereCollider.cpp" />
     <ClCompile Include="Engine\Enemy\Enemy.cpp" />
     <ClCompile Include="Engine\FBX\FbxLoader.cpp" />
     <ClCompile Include="Engine\FBX\FbxModel.cpp" />
@@ -156,6 +161,16 @@
     <ClInclude Include="Engine\Bullet\PlayerBullet.h" />
     <ClInclude Include="Engine\Camera\Camera.h" />
     <ClInclude Include="Engine\Camera\GameCamera.h" />
+    <ClInclude Include="Engine\Collider\BaseCollider.h" />
+    <ClInclude Include="Engine\Collider\Collision.h" />
+    <ClInclude Include="Engine\Collider\CollisionAttribute.h" />
+    <ClInclude Include="Engine\Collider\CollisionInfo.h" />
+    <ClInclude Include="Engine\Collider\CollisionManager.h" />
+    <ClInclude Include="Engine\Collider\CollisionPrimitive.h" />
+    <ClInclude Include="Engine\Collider\CollisionTypes.h" />
+    <ClInclude Include="Engine\Collider\MeshCollider.h" />
+    <ClInclude Include="Engine\Collider\RaycastHit.h" />
+    <ClInclude Include="Engine\Collider\SphereCollider.h" />
     <ClInclude Include="Engine\Enemy\Enemy.h" />
     <ClInclude Include="Engine\FBX\FbxLoader.h" />
     <ClInclude Include="Engine\FBX\FbxModel.h" />

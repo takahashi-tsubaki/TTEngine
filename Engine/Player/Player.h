@@ -4,7 +4,6 @@
 #include "GamePad.h"
 
 #include "worldTransform.h"
-
 #include "Object3d.h"
 #include "Model.h"
 
@@ -13,7 +12,11 @@
 
 #include "PlayerBullet.h"
 
-#include "Enemy.h"
+#include"SphereCollider.h"
+#include"CollisionManager.h"
+#include"CollisionAttribute.h"
+
+class Enemy;
 
 class Player
 {
@@ -61,5 +64,9 @@ private:
 
 	Enemy* enemy_ = nullptr;
 
+	int SPHERE_COLISSION_NUM = 1;	//コライダー（スフィア）の数
+	std::vector<Matrix4>* collisionBonesMat;	//当たり判定用のボーンのワールド行列
+	std::vector<SphereCollider*> sphere;
+	std::vector<Vector3> spherePos = {};
 };
 

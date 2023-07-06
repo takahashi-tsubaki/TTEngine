@@ -1,5 +1,5 @@
 #include "Player.h"
-
+#include "Enemy.h"
 
 void Player::Initialize(DirectXCommon* dxCommon, Input* input,GamePad* gamePad, Enemy* enemy)
 {
@@ -31,6 +31,47 @@ void Player::Initialize(DirectXCommon* dxCommon, Input* input,GamePad* gamePad, 
 	//playerFbxO_->SetPosition(player_.translation_);
 
 	enemy_ = enemy;
+
+	////FBX“–‚½‚è”»’è‰Šú‰»
+	//for (int i = 0; i < SPHERE_COLISSION_NUM; i++)
+	//{
+	//	sphere[i] = new SphereCollider;
+	//	CollisionManager::GetInstance()->AddCollider(sphere[i]);
+	//	spherePos[i] = playerFbxO_.get()->bonesMat[i].GetWorldPos();
+	//	sphere[i]->SetBasisPos(&spherePos[i]);
+	//	sphere[i]->SetRadius(1.0f);
+	//	sphere[i]->SetAttribute(COLLISION_ATTR_ALLIES);
+	//	sphere[i]->Update();
+	//	//test
+	//	coliderPosTest_[i] = Object3d::Create();
+	//	coliderPosTest_[i]->SetModel(hpModel_.get());
+	//	coliderPosTest_[i]->SetPosition(sphere[i]->center);
+	//	coliderPosTest_[i]->SetScale({ sphere[i]->GetRadius(),sphere[i]->GetRadius() ,sphere[i]->GetRadius() });
+	//	coliderPosTest_[i]->SetRotate({ 0,0,0 });
+	//	coliderPosTest_[i]->Update();
+
+	//}
+	sphere.resize(SPHERE_COLISSION_NUM);
+	spherePos.resize(SPHERE_COLISSION_NUM);
+
+	for (int i = 0; i < SPHERE_COLISSION_NUM; i++)
+	{
+		sphere[i] = new SphereCollider;
+		CollisionManager::GetInstance()->AddCollider(sphere[i]);
+		spherePos[i] = playerO_->GetPosition();
+		sphere[i]->SetBasisPos(&spherePos[i]);
+		sphere[i]->SetRadius(1.0f);
+		sphere[i]->SetAttribute(COLLISION_ATTR_PLAYERS);
+		sphere[i]->Update();
+		////test
+		//coliderPosTest_[i] = Object3d::Create();
+		//coliderPosTest_[i]->SetModel(hpModel_.get());
+		//coliderPosTest_[i]->SetPosition(sphere[i]->center);
+		//coliderPosTest_[i]->SetScale({ sphere[i]->GetRadius(),sphere[i]->GetRadius() ,sphere[i]->GetRadius() });
+		//coliderPosTest_[i]->SetRotate({ 0,0,0 });
+		//coliderPosTest_[i]->Update();
+
+	}
 
 }
 

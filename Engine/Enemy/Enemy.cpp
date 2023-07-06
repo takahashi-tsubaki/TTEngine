@@ -28,14 +28,64 @@ void Enemy::Initialize(DirectXCommon* dxCommon)
 	enemy_.translation_ = { 0,0,0 };
 	enemyO_->SetPosition(enemy_.translation_);
 
+
+	sphere.resize(SPHERE_COLISSION_NUM);
+	spherePos.resize(SPHERE_COLISSION_NUM);
+
+	for (int i = 0; i < SPHERE_COLISSION_NUM; i++)
+	{
+		sphere[i] = new SphereCollider;
+		CollisionManager::GetInstance()->AddCollider(sphere[i]);
+		spherePos[i] = enemyO_->GetPosition();
+		sphere[i]->SetBasisPos(&spherePos[i]);
+		sphere[i]->SetRadius(1.0f);
+		sphere[i]->SetAttribute(COLLISION_ATTR_ENEMYS);
+		sphere[i]->Update();
+		////test
+		//coliderPosTest_[i] = Object3d::Create();
+		//coliderPosTest_[i]->SetModel(hpModel_.get());
+		//coliderPosTest_[i]->SetPosition(sphere[i]->center);
+		//coliderPosTest_[i]->SetScale({ sphere[i]->GetRadius(),sphere[i]->GetRadius() ,sphere[i]->GetRadius() });
+		//coliderPosTest_[i]->SetRotate({ 0,0,0 });
+		//coliderPosTest_[i]->Update();
+
+	}
+
 }
 
 void Enemy::Update()
 {
+	Action();
 	enemyO_->Update();
 }
 
 void Enemy::Draw()
 {
-	enemyO_->Draw();
+	if (isDead_ == false)
+	{
+		enemyO_->Draw();
+	}
+	
+}
+
+void Enemy::Action()
+{
+	GetIsDead();
+	for (int i = 0; i < SPHERE_COLISSION_NUM; i++)
+	{
+		if (sphere[i]->GetIsHit() == true)
+		{
+			if (sphere[i]->GetCollisionInfo().collider->GetAttribute() == COLLISION_ATTR_PLAYERBULLETS)
+			{
+				SetIsDead(true);
+			}
+		}
+		
+	}
+	for (int i = 0; i < SPHERE_COLISSION_NUM; i++) {
+		spherePos[i] = enemyO_->GetPosition();
+		sphere[i]->Update();
+	}
+
+
 }
