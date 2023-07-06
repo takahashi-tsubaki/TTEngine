@@ -37,7 +37,7 @@ void WinApp::Initialize()
 
 	//ウィンドウオブジェクトの生成
 	hwnd = CreateWindow(w.lpszClassName,//クラス名指定
-	_T("DX12Test"),//タイトルバーの文字
+	_T("トフェキア"),//タイトルバーの文字
 	WS_OVERLAPPEDWINDOW,//タイトルバーと境界線があるウィンドウ
 	CW_USEDEFAULT,//表示x座標はOSにお任せ
 	CW_USEDEFAULT,//表示y座標はOSにお任せ

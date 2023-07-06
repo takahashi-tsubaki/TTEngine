@@ -97,6 +97,12 @@
     <Filter Include="ヘッダー ファイル\Enemy">
       <UniqueIdentifier>{74a020c3-dbdb-4b72-84ab-5a7421754e41}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Bullet">
+      <UniqueIdentifier>{75c79add-73c3-4151-b112-0857ba553ee5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Bullet">
+      <UniqueIdentifier>{1a9e4f52-173f-4693-99ea-eb99d5970303}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -203,6 +209,18 @@
     </ClCompile>
     <ClCompile Include="Engine\Enemy\Enemy.cpp">
       <Filter>ソース ファイル\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Bullet\EnemyBullet.cpp">
+      <Filter>ソース ファイル\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Bullet\PlayerBullet.cpp">
+      <Filter>ソース ファイル\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Math\Affin.cpp">
+      <Filter>ソース ファイル\math</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Base\GamePad.cpp">
+      <Filter>Base\.cpp</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -313,6 +331,18 @@
     </ClInclude>
     <ClInclude Include="Engine\Enemy\Enemy.h">
       <Filter>ヘッダー ファイル\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Bullet\PlayerBullet.h">
+      <Filter>ヘッダー ファイル\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Bullet\EnemyBullet.h">
+      <Filter>ヘッダー ファイル\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Math\Affin.h">
+      <Filter>ヘッダー ファイル\math</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Base\GamePad.h">
+      <Filter>Base\.h</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

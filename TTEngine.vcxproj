@@ -59,7 +59,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Engine\Base;$(SolutionDir)Engine\2D;$(SolutionDir)Engine\3D;$(SolutionDir)Scene;$(SolutionDir)Engine\Math;$(SolutionDir)Engine\Particle;$(SolutionDir)Engine\FBX;$(SolutionDir)External\DirectXTex;$(SolutionDir)External\lib\fbx_sdk\include;$(SolutionDir)Engine\FrameWork;$(SolutionDir)External\imgui;$(SolutionDir)Engine\Camera;$(SolutionDir)Engine\Light;$(SolutionDir)Engine\Enemy;$(SolutionDir)Engine\Player</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Engine\Base;$(SolutionDir)Engine\2D;$(SolutionDir)Engine\3D;$(SolutionDir)Scene;$(SolutionDir)Engine\Math;$(SolutionDir)Engine\Particle;$(SolutionDir)Engine\FBX;$(SolutionDir)External\DirectXTex;$(SolutionDir)External\lib\fbx_sdk\include;$(SolutionDir)Engine\FrameWork;$(SolutionDir)External\imgui;$(SolutionDir)Engine\Camera;$(SolutionDir)Engine\Light;$(SolutionDir)Engine\Enemy;$(SolutionDir)Engine\Player;$(SolutionDir)Engine\Bullet</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <TreatWarningAsError>false</TreatWarningAsError>
     </ClCompile>
@@ -81,7 +81,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Engine\Base;$(SolutionDir)Engine\2D;$(SolutionDir)Engine\3D;$(SolutionDir)Scene;$(SolutionDir)Engine\Math;$(SolutionDir)Engine\Particle;$(SolutionDir)Engine\FBX;$(SolutionDir)External\DirectXTex;$(SolutionDir)External\lib\fbx_sdk\include;$(SolutionDir)Engine\FrameWork;$(SolutionDir)External\imgui;$(SolutionDir)Engine\Camera;$(SolutionDir)Engine\Light;$(SolutionDir)Engine\Enemy;$(SolutionDir)Engine\Player</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Engine\Base;$(SolutionDir)Engine\2D;$(SolutionDir)Engine\3D;$(SolutionDir)Scene;$(SolutionDir)Engine\Math;$(SolutionDir)Engine\Particle;$(SolutionDir)Engine\FBX;$(SolutionDir)External\DirectXTex;$(SolutionDir)External\lib\fbx_sdk\include;$(SolutionDir)Engine\FrameWork;$(SolutionDir)External\imgui;$(SolutionDir)Engine\Camera;$(SolutionDir)Engine\Light;$(SolutionDir)Engine\Enemy;$(SolutionDir)Engine\Player;$(SolutionDir)Engine\Bullet</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <LanguageStandard>stdcpp20</LanguageStandard>
@@ -107,8 +107,11 @@
     <ClCompile Include="Engine\3D\worldTransform.cpp" />
     <ClCompile Include="Engine\Base\DirectXCommon.cpp" />
     <ClCompile Include="Engine\Base\FPS.cpp" />
+    <ClCompile Include="Engine\Base\GamePad.cpp" />
     <ClCompile Include="Engine\Base\Input.cpp" />
     <ClCompile Include="Engine\Base\WinApp.cpp" />
+    <ClCompile Include="Engine\Bullet\EnemyBullet.cpp" />
+    <ClCompile Include="Engine\Bullet\PlayerBullet.cpp" />
     <ClCompile Include="Engine\Camera\Camera.cpp" />
     <ClCompile Include="Engine\Camera\GameCamera.cpp" />
     <ClCompile Include="Engine\Enemy\Enemy.cpp" />
@@ -118,6 +121,7 @@
     <ClCompile Include="Engine\FrameWork\Framework.cpp" />
     <ClCompile Include="Engine\FrameWork\MyGame.cpp" />
     <ClCompile Include="Engine\Light\Light.cpp" />
+    <ClCompile Include="Engine\Math\Affin.cpp" />
     <ClCompile Include="Engine\Math\Matrix4.cpp" />
     <ClCompile Include="Engine\Math\MyMath.cpp" />
     <ClCompile Include="Engine\Math\Vector2.cpp" />
@@ -145,8 +149,11 @@
     <ClInclude Include="Engine\Base\DirectXCommon.h" />
     <ClInclude Include="Engine\Base\ErrorException.h" />
     <ClInclude Include="Engine\Base\FPS.h" />
+    <ClInclude Include="Engine\Base\GamePad.h" />
     <ClInclude Include="Engine\Base\Input.h" />
     <ClInclude Include="Engine\Base\WinApp.h" />
+    <ClInclude Include="Engine\Bullet\EnemyBullet.h" />
+    <ClInclude Include="Engine\Bullet\PlayerBullet.h" />
     <ClInclude Include="Engine\Camera\Camera.h" />
     <ClInclude Include="Engine\Camera\GameCamera.h" />
     <ClInclude Include="Engine\Enemy\Enemy.h" />
@@ -156,6 +163,7 @@
     <ClInclude Include="Engine\FrameWork\Framework.h" />
     <ClInclude Include="Engine\FrameWork\MyGame.h" />
     <ClInclude Include="Engine\Light\Light.h" />
+    <ClInclude Include="Engine\Math\Affin.h" />
     <ClInclude Include="Engine\Math\Matrix4.h" />
     <ClInclude Include="Engine\Math\MyMath.h" />
     <ClInclude Include="Engine\Math\Vector2.h" />

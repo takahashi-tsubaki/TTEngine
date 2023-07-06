@@ -2,6 +2,7 @@
 #include "WinApp.h"
 #include "DirectXCommon.h"
 #include "Input.h"
+#include "GamePad.h"
 #include "FPS.h"
 
 #include "ImguiManager.h"
@@ -41,6 +42,7 @@ protected:
 	FPS* fps = new FPS;
 	WinApp* winApp = nullptr;
 	Input* input = nullptr;
+	GamePad* gamePad_ = nullptr;
 	DirectXCommon* dxCommon_ = nullptr;
 	ImguiManager* imgui = nullptr;
 	bool endRequest_ = false;

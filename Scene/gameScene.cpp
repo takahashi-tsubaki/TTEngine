@@ -16,11 +16,12 @@ GameScene::~GameScene() {
 	safe_delete(fbxModel);*/
 }
 
-void GameScene::Initalize(DirectXCommon* dxCommon, Input* input)
+void GameScene::Initalize(DirectXCommon* dxCommon, Input* input, GamePad* gamePad)
 {
 	dxCommon_ = dxCommon;
-	//インスタンスの取得
 	input_ = input;
+	//インスタンスの取得
+	gamePad_ = gamePad;
 
 	//input_ = Input::GetInstance();
 	camera_ = new Camera(WinApp::window_width, WinApp::window_height);
@@ -55,12 +56,13 @@ void GameScene::Initalize(DirectXCommon* dxCommon, Input* input)
 
 	fbxModel = FbxLoader::GetInstance()->LoadModelFromFile("boss_prot4");
 
-	player_ = new Player();
-	player_->Initialize(dxCommon_,input_);
+	
 
 	enemy_ = new Enemy();
 	enemy_->Initialize(dxCommon_);
 	
+	player_ = new Player();
+	player_->Initialize(dxCommon_, input_ , gamePad_, enemy_);
 
 	fbxObject =  new FbxObject3d();
 	fbxObject->Initialize();
@@ -74,6 +76,8 @@ void GameScene::Initalize(DirectXCommon* dxCommon, Input* input)
 
 void GameScene::Update()
 {
+
+	camera_->eye_.y = 20.0f;
 
 	Vector3 move;
 	if (input_->PushKey(DIK_LEFT))
@@ -98,21 +102,24 @@ void GameScene::Update()
 
 
 	light_->Update();
+	gamePad_->Update();
 
 	fbxObject->Update();
 
-	/*ImGui::Begin("cameraPos");
+	ImGui::Begin("cameraPos");
 	ImGui::SetWindowPos({ 200 , 200 });
 	ImGui::SetWindowSize({ 500,100 });
 	ImGui::InputFloat3("isPause", &camera_->eye_.x);
-	ImGui::End();*/
+	ImGui::InputFloat3("isPause", &camera_->target_.x);
+	ImGui::End();
 
 	object->Update();
 
 	player_->Update();
 	enemy_->Update();
 
-	camera_->MoveVector(move);
+	/*camera_->disEyeTarget(player_->GetPosition(),enemy_->GetPosition());*/
+	camera_->MoveTarget(input_);
 	camera_->Update();
 	
 }
@@ -140,7 +147,7 @@ void GameScene::Draw()
 
 	/*fbxObject->Draw(dxCommon_->GetCommandList());
 	object->Draw();*/
-
+	player_->Draw();
 	enemy_->Draw();
 	///// <summary>
 	///// ここに3Dオブジェクトの描画処理を追加できる

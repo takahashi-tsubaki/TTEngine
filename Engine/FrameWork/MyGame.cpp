@@ -38,7 +38,7 @@ void MyGame::Initialize()
 
 	//ƒQ[ƒ€ƒV[ƒ“‚Ì‰Šú‰»
 	gameScene = new GameScene();
-	gameScene->Initalize(dxCommon_,input);
+	gameScene->Initalize(dxCommon_,input,gamePad_);
 }
 
 void MyGame::Finalize()
@@ -63,16 +63,16 @@ void MyGame::Update()
 
 void MyGame::Draw()
 {
-	postEffect->PreDrawScene(dxCommon_->GetCommandList());
-	//ƒQ[ƒ€ƒV[ƒ“‚Ì•`‰æ
-	gameScene->Draw();
-	postEffect->PostDrawScene(dxCommon_->GetCommandList());
+	/*postEffect->PreDrawScene(dxCommon_->GetCommandList());*/
+	
+	/*postEffect->PostDrawScene(dxCommon_->GetCommandList());*/
 
 	//•`‰æ‘Oˆ—
 	dxCommon_->preDraw();
+	//ƒQ[ƒ€ƒV[ƒ“‚Ì•`‰æ
+	gameScene->Draw();
 
-
-	postEffect->Draw(dxCommon_->GetCommandList());
+	/*postEffect->Draw(dxCommon_->GetCommandList());*/
 
 	imgui->End();
 
