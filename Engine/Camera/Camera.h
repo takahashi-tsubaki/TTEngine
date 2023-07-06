@@ -4,7 +4,10 @@
 #include <Vector3.h>
 #include<Vector2.h>
 #include<Matrix4.h>
+#include "worldTransform.h"
 #include "MyMath.h"
+
+#include "Input.h"
 
 /// <summary>
 /// カメラ基本機能
@@ -148,6 +151,11 @@ class Camera {
 	static void MakeLookL(const Vector3& eye, const Vector3& target, const Vector3& up, Matrix4& mat);
 	static Camera* GetInstance();
 
+	//カメラの視点と注視点を差分ベクトルでとる関数
+	void disEyeTarget(Vector3 pos1, Vector3 pos2);
+
+	void MoveTarget(Input* input);
+
   protected: // メンバ変数
 	// ビュー行列
 	Matrix4 matView = MyMath::ConvertXMMATtoMat4(DirectX::XMMatrixIdentity());
@@ -170,6 +178,15 @@ class Camera {
 	float aspectRatio = 1.0f;
 
 public:
+
+	Vector3 pos1_;
+	Vector3 pos2_;
+
+	Vector3 rotation1_;
+	Vector3 rotation2_;
+
+	Vector3 target = {0,1,0};
+
 	// 視点座標
 	Vector3 eye_ = { 0, 0, -1 };
 	// 注視点座標

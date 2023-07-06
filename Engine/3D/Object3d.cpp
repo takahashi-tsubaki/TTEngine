@@ -284,6 +284,7 @@ void Object3d::Update() {
 	Matrix4 myMat = worldTransform.matWorld_;
 	myMat *= sCamera_->GetViewProjectionMatrix();	// 行列の合成 
 	constMap->mat = myMat;
+	constMap->color = color_;
 	constBuffB0->Unmap(0, nullptr);
 
 	//// 定数バッファへデータ転送

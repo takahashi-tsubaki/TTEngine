@@ -9,6 +9,8 @@
 cbuffer cbuff0 : register(b0)
 {
 	matrix mat;//3D変換行列
+	
+    float4 color;
 };
 
 cbuffer cbuff1 : register(b1)

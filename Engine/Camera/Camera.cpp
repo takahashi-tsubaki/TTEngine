@@ -250,5 +250,48 @@ void Camera::MakeLookL(const Vector3& eye, const Vector3& target, const Vector3&
 	mat.m[3][2] = eye.z;
 }
 
+void Camera::disEyeTarget(Vector3 pos1, Vector3 pos2)
+{
+
+	 pos1_ = pos1;
+	 pos2_ = pos2;
+
+	Vector3 distance = (pos2_ - pos1_)/2;
+	//distance.nomalize();
+	Vector3 disXtoZ;
+	disXtoZ.x = distance.x * 2;
+	disXtoZ.y = 20.0f;
+	disXtoZ.z = distance.z * 2 - 100.0f;
+
+	Vector3 target = { 0,45.0f,0 };
+
+	SetEye(disXtoZ);
+	SetTarget(target);
+
+
+}
+
+void Camera::MoveTarget(Input* input)
+{
+	if (input->PushKey(DIK_LEFT))
+	{
+		target.x -= 0.5f;
+	}
+	if (input->PushKey(DIK_RIGHT))
+	{
+		target.x += 0.5f;
+	}
+	if (input->PushKey(DIK_UP))
+	{
+		target.z += 0.5f;
+	}
+	if (input->PushKey(DIK_DOWN))
+	{
+		target.z -= 0.5f;
+	}
+
+	SetTarget(target);
+}
+
 
 

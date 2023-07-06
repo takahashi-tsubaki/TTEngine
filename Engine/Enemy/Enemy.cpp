@@ -10,20 +10,32 @@ void Enemy::Initialize(DirectXCommon* dxCommon)
 	//グラフィックスパイプライン生成
 	FbxObject3d::CreateGraphicsPipeline();
 
-	//敵のFbx読み込み
-	enemyFbxM_.reset(FbxLoader::GetInstance()->LoadModelFromFile("boss_prot4"));
-	enemyFbxO_ = std::make_unique<FbxObject3d>();
-	enemyFbxO_->Initialize();
-	enemyFbxO_->SetModel(enemyFbxM_.get());
-	enemyFbxO_->PlayAnimetion(5);
+	////敵のFbx読み込み
+	//enemyFbxM_.reset(FbxLoader::GetInstance()->LoadModelFromFile("boss_prot4"));
+	//enemyFbxO_ = std::make_unique<FbxObject3d>();
+	//enemyFbxO_->Initialize();
+	//enemyFbxO_->SetModel(enemyFbxM_.get());
+	//enemyFbxO_->PlayAnimetion(5);
+
+	//enemyFbxO_->SetPosition(enemy_.translation_);
+
+	enemyO_ = Object3d::Create();
+
+	enemyM_ = Model::CreateFromOBJ("cube");
+
+	enemyO_->SetModel(enemyM_);
+
+	enemy_.translation_ = { 0,0,0 };
+	enemyO_->SetPosition(enemy_.translation_);
+
 }
 
 void Enemy::Update()
 {
-	enemyFbxO_->Update();
+	enemyO_->Update();
 }
 
 void Enemy::Draw()
 {
-	enemyFbxO_->Draw(dxCommon_->GetCommandList());
+	enemyO_->Draw();
 }

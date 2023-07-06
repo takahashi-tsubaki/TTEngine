@@ -11,6 +11,8 @@ void Framework::Initialize()
 	input = new Input();
 	input->Initialize(winApp);
 
+	gamePad_ = new GamePad();
+
 	dxCommon_ = new DirectXCommon();
 	dxCommon_->Initialize(winApp);
 
@@ -40,6 +42,7 @@ void Framework::Finalize()
 
 void Framework::Update()
 {
+	
 	if (winApp->ProcessMessage())
 	{
 		SetRequest(true);

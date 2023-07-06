@@ -43,6 +43,7 @@ public: // サブクラス
 	struct ConstBufferDataB0
 	{
 		Matrix4 mat; // 3D変換行列
+		Vector4 color;
 	};
 
 private: // 定数
@@ -106,14 +107,13 @@ public: // メンバ関数
 	/// </summary>
 	void Draw();
 
-	const Vector3& GetPosition() const {};
 
 
 	/// <summary>
 	/// 座標の取得
 	/// </summary>
 	/// <returns>座標</returns>
-	const Vector3& GetPosition() { return position_; }
+	const Vector3& GetPosition() { return worldTransform.translation_; }
 
 	/// <summary>
 	/// 回転角の取得
@@ -125,15 +125,15 @@ public: // メンバ関数
 	/// 座標の設定
 	/// </summary>
 	/// <param name="position">座標</param>
-	void SetPosition(Vector3 position) { position_ = position; }
+	void SetPosition(Vector3 position) { worldTransform.translation_ = position; }
 
-	void SetRotation(Vector3 rotation) { rotation_ = rotation; }
+	void SetRotation(Vector3 rotation) { worldTransform.rotation_ = rotation; }
 
 	/// <summary>
 	/// スケールの設定
 	/// </summary>
 	/// <param name="position">スケール</param>
-	void SetScale(Vector3 scale) { scale_ = scale; }
+	void SetScale(Vector3 scale) { worldTransform.scale_ = scale; }
 
 	/// <summary>
 	/// モデルのセット
@@ -148,7 +148,7 @@ public: // メンバ関数
 		light_ = light;
 	}
 
-	void SetColor(XMFLOAT4 color) { color_ = color; }
+	void SetColor(Vector4 color) { color_ = color; }
 
 private: // メンバ変数
 	
@@ -173,7 +173,7 @@ public:
 	WorldTransform worldTransform;
 
 	// 色
-	XMFLOAT4 color_ = { 1,1,1,1 };
+	Vector4 color_ = { 1,1,1,1 };
 	// ローカルスケール
 	Vector3 scale_ = { 1,1,1 };
 	// X,Y,Z軸回りのローカル回転角

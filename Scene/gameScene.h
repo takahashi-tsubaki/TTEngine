@@ -2,6 +2,7 @@
 #include "ErrorException.h"
 #include "DirectXCommon.h"
 #include "Input.h"
+#include "GamePad.h"
 
 #include "Sprite.h"
 #include "PostEffect.h"
@@ -28,7 +29,7 @@ public:
 	GameScene();
 	~GameScene();
 
-	void Initalize(DirectXCommon* dxCommon,Input* input);
+	void Initalize(DirectXCommon* dxCommon, Input* input, GamePad* gamePad);
 
 	void Update();
 
@@ -40,7 +41,7 @@ private:
 	DirectXCommon* dxCommon_ = nullptr;
 
 	Input* input_ = nullptr;
-
+	GamePad* gamePad_ = nullptr;
 
 	Sprite* sprite_ = nullptr;
 	Sprite* sprite2_ = nullptr;
@@ -58,5 +59,7 @@ private:
 
 	Player* player_ = nullptr;
 	Enemy* enemy_ = nullptr;
+
+
 
 };
