@@ -31,13 +31,13 @@ public:
 
 	Vector3 GetPosition() { return enemy_.translation_; }
 
-	void SetIsDead(bool isDead) { isDead_ = isDead; }
+	void SetIsHit(bool isHit) { isHit_ = isHit; }
 
-	bool GetIsDead() { return isDead_; }
+	bool GetIsHit() { return isHit_; }
 
 private:
 
-	bool isDead_ = false;
+	bool isHit_ = false;
 
 
 	DirectXCommon* dxCommon_ = nullptr;
@@ -57,6 +57,6 @@ private:
 	std::vector<SphereCollider*> sphere;
 	std::vector<Vector3> spherePos = {};
 
-
+	int hitDeley = 0;	//‰½ƒtƒŒ[ƒ€˜A‘±‚Å“–‚½‚é‚©
 };
 
