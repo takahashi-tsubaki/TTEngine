@@ -29,6 +29,8 @@ public:
 
 	void SetEnemy(Enemy* enemy) { enemy_ = enemy; }
 
+	void CheckCollision();
+
 private:
 
 	float livingTimer = 540.0f;
@@ -45,5 +47,7 @@ private:
 	std::vector<SphereCollider*> sphere;
 	std::vector<Vector3> spherePos = {};
 	//std::vector<Matrix4>* collisionBonesMat;	//当たり判定用のボーンのワールド行列
+
+	int hitDeley = 0;	//何フレーム連続で当たるか
 };
 

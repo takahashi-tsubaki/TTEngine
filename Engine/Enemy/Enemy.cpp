@@ -1,5 +1,5 @@
 #include "Enemy.h"
-
+#include "ImguiManager.h"
 void Enemy::Initialize(DirectXCommon* dxCommon)
 {
 
@@ -55,29 +55,37 @@ void Enemy::Initialize(DirectXCommon* dxCommon)
 
 void Enemy::Update()
 {
+	GetIsHit();
 	Action();
 	enemyO_->Update();
 }
 
 void Enemy::Draw()
 {
-	if (isDead_ == false)
-	{
-		enemyO_->Draw();
-	}
-	
+	enemyO_->Draw();
 }
 
 void Enemy::Action()
 {
-	GetIsDead();
+	if (hitDeley > 0) {	//–ˆƒtƒŒ[ƒ€ƒqƒbƒg‚ð–hŽ~
+		enemyO_->SetColor({ 0,0,1,1 });
+		hitDeley--;
+	}
+	else
+	{
+		enemyO_->SetColor({ 1,1,1,1 });
+	}
+	
 	for (int i = 0; i < SPHERE_COLISSION_NUM; i++)
 	{
-		if (sphere[i]->GetIsHit() == true)
+		if (hitDeley <= 0 && sphere[i]->GetIsHit() == true)
 		{
 			if (sphere[i]->GetCollisionInfo().collider->GetAttribute() == COLLISION_ATTR_PLAYERBULLETS)
 			{
-				SetIsDead(true);
+				hitDeley = 30;
+				SetIsHit(true);
+
+				break;
 			}
 		}
 		
@@ -87,5 +95,10 @@ void Enemy::Action()
 		sphere[i]->Update();
 	}
 
-
+	/*ImGui::Begin("enemyDelay");
+	ImGui::SetWindowPos({ 400 , 200 });
+	ImGui::SetWindowSize({ 500,100 });
+	ImGui::InputInt("isPause", &hitDeley);
+	ImGui::DragFloat3("enemyPos",&enemyO_->worldTransform.translation_.x);
+	ImGui::End();*/
 }

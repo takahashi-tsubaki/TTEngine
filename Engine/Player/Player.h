@@ -18,6 +18,13 @@
 
 class Enemy;
 
+enum BulletType
+{
+	None,
+	OneShot,
+	RapidShot,
+};
+
 class Player
 {
 public:
@@ -50,9 +57,26 @@ private:
 	Model* playerM_ = nullptr;
 
 	bool isShot = false;
+	//単発
+	bool oneShot = false;
+	//連射
+	bool rapidShot = false;
+	//弾の最大個数
+	int MAX_BULLET = 0;
+	//現在の弾の個数
 	int bulletSize = 0;
+	//弾のタイプ
+	int bulletType = BulletType::None;
+	//弾と弾の間隔時間
+	float bulletTimer = 0.0f;
+	//連射制限のためのクールタイム
+	float coolTimer = 60.0f;
+	//ボタンを押してる時間
+	float pushTimer = 15.0f;
+	//長押ししている時間
+	float pressTimer = 0.0f;
 
-	float bulletTimer = 60.0f;
+
 
 	//プレイヤーの弾モデル関連
 	std::list <std::unique_ptr<PlayerBullet>> bullets_;

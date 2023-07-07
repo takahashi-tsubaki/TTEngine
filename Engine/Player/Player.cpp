@@ -1,6 +1,6 @@
 #include "Player.h"
 #include "Enemy.h"
-
+#include "ImguiManager.h"
 void Player::Initialize(DirectXCommon* dxCommon, Input* input,GamePad* gamePad, Enemy* enemy)
 {
 	dxCommon_ = dxCommon;
@@ -85,17 +85,25 @@ void Player::Update()
 		bullet->Update();
 	}
 
-	Move();
 
-	if (gamePad_->ButtonInput(A) || input_->PushKey(DIK_SPACE))
+	if (bulletType != BulletType::RapidShot)
 	{
-		if (isShot == false)
-		{
-			isShot = true;
-		}
-		Shot();
+		Move();
 	}
 
+
+
+	Shot();
+	
+
+	ImGui::Begin("BulletSize");
+	ImGui::SetWindowPos({ 600 , 400 });
+	ImGui::SetWindowSize({ 500,300 });
+	ImGui::InputInt("BulletSize", &bulletSize);
+	ImGui::InputFloat("pushTimer",&pushTimer);
+	ImGui::InputFloat("pressTimer", &pressTimer);
+	ImGui::InputInt("MAX", &MAX_BULLET);
+	ImGui::End();
 	
 
 	playerO_->Update();
@@ -158,76 +166,162 @@ void Player::Move()
 
 	if (gamePad_->StickInput(L_UP) || input_->PushKey(DIK_W))
 	{
-		player_.translation_.z += 0.1f;
+		player_.translation_.z += 0.5f;
 		playerO_->SetPosition(player_.translation_);
 	}
 	if (gamePad_->StickInput(L_DOWN)|| input_->PushKey(DIK_S))
 	{
-		player_.translation_.z -= 0.1f;
+		player_.translation_.z -= 0.5f;
 		playerO_->SetPosition(player_.translation_);
 	}
 	if (gamePad_->StickInput(L_LEFT) || input_->PushKey(DIK_A))
 	{
-		player_.translation_.x -= 0.1f;
+		player_.translation_.x -= 0.5f;
 		playerO_->SetPosition(player_.translation_);
 	}
 	if (gamePad_->StickInput(L_RIGHT) || input_->PushKey(DIK_D))
 	{
-		player_.translation_.x += 0.1f;
+		player_.translation_.x += 0.5f;
 		playerO_->SetPosition(player_.translation_);
 	}
 }
 
 void Player::Shot()
 {
-
-	const float speed = 0.5f;
-
+#pragma region ’e‚ÌˆÚ“®ˆ—
+	float speed = 0.5f;
+	if (bulletType == BulletType::OneShot)
+	{
+		speed = 1.0f;
+	}
+	else if (bulletType == BulletType::RapidShot)
+	{
+		speed = 2.0f;
+	}
 	
-
-	bulletSize = bullets_.size();
 
 	Vector3 playerPos;
 	Vector3 enemyPos;
 	Vector3 distance;
-	bulletTimer--;
+
 
 
 	playerPos = playerO_->worldTransform.translation_;
 
 	enemyPos = enemy_->GetPosition();
 
-	distance = enemyPos - playerPos  ;
+	distance = enemyPos - playerPos;
 
 	distance.nomalize();
 
 	distance *= speed;
+#pragma endregion
 
-	
-	if (bulletSize < 10)
+	//‰Ÿ‚µ‚½‚Æ‚«
+	if (gamePad_->ButtonInput(A) || input_->PushKey(DIK_SPACE))
 	{
-		if (bulletTimer <= 0)
-		{
-			if (isShot == true)
-			{
-				
-
-				// ’e‚ð¶¬‚µ‰Šú‰»
-				std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
-				newBullet->Initialize(bulletM_, playerO_->worldTransform.translation_,distance);
-
-				bulletTimer = 30.0f;
-
-				//
-				newBullet->SetEnemy(enemy_);
-
-  				bullets_.push_back(std::move(newBullet));
-			}
-
-		}
+		pushTimer--;
+		pressTimer--;
 		
+		//˜AŽË‚ÌŽž
+		if (pushTimer < 0)
+		{
+			rapidShot = true;
+		}
 	}
 	
-	
-	
+
+	if (oneShot == true)
+	{
+		rapidShot = false;
+		//’e‚ÌÅ‘åŒÂ”
+		MAX_BULLET = 1;
+		pushTimer = 15.0f;//‰Ÿ‚µ‚Ä‚éŽžŠÔ
+		pressTimer = 0.0f;//˜AŽË—p‚ÌŽžŠÔ
+		oneShot = false;
+	}
+	else if (rapidShot == true)
+	{
+		oneShot = false;
+		if (pressTimer < 0)
+		{
+			if (MAX_BULLET < 20)
+			{
+				MAX_BULLET++;
+			}
+			pressTimer = 6.0f;
+		}
+	}
+	if (isShot == true)
+	{
+		bulletTimer--;
+
+		//’e‚ªÅ‘åŒÂ”ˆÈ‰º‚¾‚Á‚½Žž
+		if (bulletSize < MAX_BULLET)
+		{
+			if (bulletTimer <= 0)
+			{
+				if (isShot == true)
+				{
+					bulletSize++;
+					// ’e‚ð¶¬‚µ‰Šú‰»
+					std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
+					newBullet->Initialize(bulletM_, playerO_->worldTransform.translation_, distance);
+
+					if (bulletType == BulletType::OneShot)
+					{
+						bulletTimer = 15.0f;
+					}
+					else if (bulletType == BulletType::RapidShot)
+					{
+						bulletTimer = 5.0f;
+					}
+					
+					//
+					newBullet->SetEnemy(enemy_);
+
+					bullets_.push_back(std::move(newBullet));
+				}
+
+			}
+		}
+		if (bulletSize >= MAX_BULLET)
+		{
+			MAX_BULLET = 0;
+			bulletSize = 0;
+			bulletType = BulletType::None;
+			coolTimer = 60.0f;
+			pushTimer = 15.0f;
+			pressTimer = 0.0f;
+			isShot = false;
+
+			/*coolTimer--;*/
+			/*if (coolTimer < 0)
+			{
+				bulletSize = 0;
+				coolTimer = 60.0f;
+				pushTimer = 24.0f;
+				pressTimer = 0.0f;
+			}*/
+		}
+	}
+	//—£‚µ‚½‚Æ‚«
+	if (gamePad_->ButtonOffTrigger(A) || input_->ReleaseKey(DIK_SPACE))
+	{
+		//’P”­‚ÌŽž
+		if (pushTimer >= 0)
+		{
+			bulletType = BulletType::OneShot;
+			oneShot = true;
+		}
+		else
+		{
+			bulletType = BulletType::RapidShot;
+		}
+		if (isShot == false)
+		{
+			isShot = true;
+		}
+	}
+
 }

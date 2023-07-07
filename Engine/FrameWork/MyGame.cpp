@@ -80,4 +80,6 @@ void MyGame::Draw()
 
 	//•`‰æŒãˆ—
 	dxCommon_->postDraw();
+
+	fps->FpsControlEnd();
 }

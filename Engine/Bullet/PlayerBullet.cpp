@@ -1,6 +1,6 @@
 #include "PlayerBullet.h"
-//#include "Enemy.h"
-
+#include "Enemy.h"
+#include "ImguiManager.h"
 void PlayerBullet::Initialize(Model* model, const Vector3& position, const Vector3& velocity)
 {
 
@@ -40,17 +40,23 @@ void PlayerBullet::Initialize(Model* model, const Vector3& position, const Vecto
 void PlayerBullet::Update()
 {
 	Shot();
+	CheckCollision();
 	bulletO_->Update();
+	
 
-	for (int i = 0; i < SPHERE_COLISSION_NUM; i++) {
-		spherePos[i] = bulletO_->GetPosition();
-		sphere[i]->Update();
-		/*if (sphere[i]->GetIsHit() == true && player_->GetIsAtkCollide() == true){
+	//for (int i = 0; i < SPHERE_COLISSION_NUM; i++) {
+	//	spherePos[i] = bulletO_->GetPosition();
+	//	sphere[i]->Update();
+	//	/*if (sphere[i]->GetIsHit() == true && player_->GetIsAtkCollide() == true){
 
 
-		 }*/
+	//	 }*/
 
-	}
+	//}
+	/*if (enemy_->GetIsHit() == true)
+	{
+		
+	}*/
 
 	bulletO_->worldTransform.UpdateMatWorld();
 }
@@ -97,4 +103,55 @@ void PlayerBullet::Shot()
 	//
 
 	bulletO_->worldTransform.translation_ += velocity_;
+}
+
+void PlayerBullet::CheckCollision()
+{
+
+	if (hitDeley > 0) {	//ñàÉtÉåÅ[ÉÄÉqÉbÉgÇñhé~
+		hitDeley--;
+		
+	}
+
+
+
+	for (int i = 0; i < SPHERE_COLISSION_NUM; i++)
+	{
+		if (hitDeley <= 0 && sphere[i]->GetIsHit() == true)
+		{
+			if (sphere[i]->GetCollisionInfo().collider->GetAttribute() == COLLISION_ATTR_ENEMYS)
+			{
+				SetisDead(true);
+				livingTimer = 540.0f;
+				hitDeley = 4;
+				break;
+			}
+		}
+
+
+
+	}
+	for (int i = 0; i < SPHERE_COLISSION_NUM; i++) {
+		spherePos[i] = bulletO_->GetPosition();
+		sphere[i]->Update();
+	}
+
+	for (int i = 0; i < SPHERE_COLISSION_NUM; i++)
+	{
+		if (isDead_ == true)
+		{
+			CollisionManager::GetInstance()->RemoveCollider(sphere[i]);
+			//Ç±Ç¢Ç¬ÇÕÇ¢ÇÁÇ»Ç¢
+			/*sphere[i]->GetCollisionInfo().collider->RemoveAttribute(COLLISION_ATTR_PLAYERBULLETS);*/
+		}
+	}
+	
+
+	/*ImGui::Begin("livingbullet");
+	ImGui::SetWindowPos({ 800 , 400 });
+	ImGui::SetWindowSize({ 500,100 });
+	ImGui::InputFloat("livindBullet",&livingTimer);
+
+	ImGui::End();*/
+
 }
