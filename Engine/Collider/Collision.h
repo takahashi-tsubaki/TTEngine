@@ -5,7 +5,7 @@ class Collision
 {
 public:
 	//‹…‚Æ‹…‚Ì“–‚½‚è”»’è
-	static bool CheckSphere2Sphere(const Sphere& sphereA , const Sphere& sphereB , Vector3* inter = nullptr);
+	static bool CheckSphere2Sphere(const Sphere& sphereA, const Sphere& sphereB, Vector3* inter = nullptr, Vector3* reject = nullptr);
 
 	//’e‚Æ•½–Ê‚Ì“–‚½‚è”»’è
 	static bool CheckSphere2Plane(const Sphere& sphere , const Plane& plane , Vector3* inter = nullptr);

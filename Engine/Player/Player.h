@@ -25,8 +25,14 @@ enum BulletType
 	RapidShot,
 };
 
+
+
 class Player
 {
+public:
+
+	WorldTransform wtf;
+
 public:
 
 	void Initialize(DirectXCommon* dxCommon, Input* input, GamePad* gamePad, Enemy* enemy);
@@ -38,10 +44,12 @@ public:
 
 	void Shot();
 
-	Vector3 GetPosition() { return player_.translation_; }
+	Vector3 GetPosition() { return wtf.translation_; }
+
+	void CheckHitCollision();
 
 private:
-
+	Vector3 oldPos;
 	Vector3 playerPos;
 	Vector3 enemyPos;
 	Vector3 distance;
@@ -50,7 +58,7 @@ private:
 	Input* input_ = nullptr;
 	GamePad* gamePad_ = nullptr;
 
-	WorldTransform player_;
+	
 
 	//仮置きプレイヤーのモデル
 	Object3d* playerO_ = nullptr;
@@ -75,6 +83,13 @@ private:
 	float pushTimer = 15.0f;
 	//長押ししている時間
 	float pressTimer = 0.0f;
+
+	//ベジエにしようとしたやつ
+	long long startCount = 0;
+	long long nowCount = 0;
+	long long elapsedCount = 0;
+	float maxTime = 5.0f;				//全体時間[s]
+	float timeRate;						//何％時間が進んだか
 
 
 

@@ -1,5 +1,5 @@
 #include "GameCamera.h"
-
+#include "Vector3.h"
 GameCamera::GameCamera(int width, int height, Input* input) : Camera(width, height)
 {
 	input_ = input;
@@ -29,20 +29,48 @@ void GameCamera::Initialize()
 
 void GameCamera::Update()
 {
-	FollowPtoE();
+	MoveCamera();
 }
 
-void GameCamera::FollowPtoE()
+void GameCamera::MoveCamera()
 {
-	/*dir = */
+	Vector3 eyeVec = followerPos_->translation_ - targetPos_->translation_;
 
-	Vector3 distanceEye;
-	distanceEye = playerPos - enemyPos;
+	Vector3 eyePos = eyeVec;
 
-	Vector3 distanceTarget;
-	distanceTarget = distanceEye * Camera_Distance;
+	float mag = 1.0f;
+	float eyeLen = eyePos.length();//ベクトルの長さ
 
-	SetEye(distanceEye);
-	SetTarget(distanceTarget);
+	if (eyeLen > 1.0f) {	//もし差分のベクトルが単位ベクトルより大きかったら
+		mag = 1.0f / eyeLen; //ベクトルの長さを1にする
+	};
+
+	eyePos.x *= mag;	//magをかけると正規化される
+	eyePos.y *= mag;
+	eyePos.z *= mag;
+
+	Vector3 primalyCamera =
+	{ followerPos_->translation_.x + eyePos.x * cameraDistance_ ,//自機から引いた位置にカメラをセット
+		cameraHeight_ ,
+		followerPos_->translation_.z + eyePos.z * cameraDistance_ };
+
+	float eyeVecAngle = atan2f(primalyCamera.x - targetPos_->translation_.x, primalyCamera.z - targetPos_->translation_.z);//カメラをずらす際に使われる
+
+	float shiftLen = -5.0f;	//ずらす量
+	Vector3 shiftVec = { primalyCamera.x + sinf(eyeVecAngle +MyMath::PI / 2) * shiftLen , primalyCamera.y , primalyCamera.z + cosf(eyeVecAngle + MyMath::PI / 2) * shiftLen };
+
+	SetEye(shiftVec + loolAtPos);
+
+	Vector3 zOffsetTarget = targetPos_->translation_ - eye_;	//敵と自機が近すぎてもバグらないようにしたい
+	float targetToEyeLen = zOffsetTarget.length();
+	zOffsetTarget.nomalize();
+	zOffsetTarget *= targetToEyeLen * 2.0f;
+	zOffsetTarget.y += 3.0f;
+
+	SetTarget(targetPos_->translation_);
+
 
 }
+
+
+

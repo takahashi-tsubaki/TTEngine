@@ -8,6 +8,7 @@
 #include <string>
 #include "Model.h"
 #include "Camera.h"
+#include "GameCamera.h"
 #include "Light.h"
 
 #include "worldTransform.h"
@@ -101,6 +102,8 @@ public: // ƒƒ“ƒoŠÖ”
 	/// –ˆƒtƒŒ[ƒ€ˆ—
 	/// </summary>
 	void Update();
+
+	void UpdateMatrix();
 
 	/// <summary>
 	/// •`‰æ

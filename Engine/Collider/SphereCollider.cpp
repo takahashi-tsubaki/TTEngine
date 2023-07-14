@@ -25,7 +25,7 @@ void SphereCollider::Update()
 	}
 
 
-	Sphere::radius = radius;
+	Sphere::radius = radius_;
 
 	isHit = false;
 }

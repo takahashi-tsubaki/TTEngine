@@ -1,7 +1,7 @@
 #include "Collision.h"
 using namespace DirectX;
 
-bool Collision::CheckSphere2Sphere(const Sphere& sphereA , const Sphere& sphereB , Vector3* inter)
+bool Collision::CheckSphere2Sphere(const Sphere& sphereA , const Sphere& sphereB , Vector3* inter, Vector3* reject)
 {
 	float dist = sqrtf(
 		pow(sphereB.center.x - sphereA.center.x , 2) +
@@ -14,6 +14,16 @@ bool Collision::CheckSphere2Sphere(const Sphere& sphereA , const Sphere& sphereB
 		return false;
 	}
 	*inter = sphereA.center + (sphereB.center - sphereA.center) / 2;
+
+	//押し出すベクトルを参照
+	if (reject)
+	{
+		float rejectLen = sphereA.radius + sphereB.radius - sqrtf(dist);
+		Vector3 NormDis = sphereA.center - sphereB.center;
+		*reject = NormDis.nomalize();
+		*reject *= rejectLen;
+	}
+
 	return true;
 }
 

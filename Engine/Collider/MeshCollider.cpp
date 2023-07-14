@@ -48,7 +48,7 @@ void MeshCollider::Update()
 }
 
 //‹…‚Æ‚Ì“–‚½‚è”»’è
-bool MeshCollider::CheckCollisionSphere(const Sphere& sphere , Vector3* inter)
+bool MeshCollider::CheckCollisionSphere(const Sphere& sphere , Vector3* inter, Vector3* reject)
 {
 	Sphere localSphere;
 
@@ -88,7 +88,11 @@ bool MeshCollider::CheckCollisionSphere(const Sphere& sphere , Vector3* inter)
 				inter->z = interMat.m[3][2];
 
 			}
+			if (reject) {
+				const Matrix4& matWorld = GetObject3d()->GetMatWorld();
 
+				*reject = MyMath::MatVector(*reject, matWorld);
+			}
 			return true;
 		}
 	}

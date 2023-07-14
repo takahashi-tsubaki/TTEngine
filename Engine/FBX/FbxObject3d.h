@@ -37,6 +37,7 @@ public://サブクラス
 		Matrix4 viewproj;
 		Matrix4 world;
 		Vector3 cameraPos;
+		Vector4 color;
 	};
 	struct ConstBufferDataSkin
 	{
@@ -83,7 +84,14 @@ public://メンバ関数
 	void SetScale(Vector3 scale) { worldTransform.scale_ = scale;}
 
 	void SetPosition(Vector3 position) { worldTransform.translation_ = position; }
-
+	/// <summary>
+	/// ボーン用
+	/// </summary>
+	std::vector<Matrix4> bonesMat;
+	void ResizeBonesMat(std::vector<FbxModel::Bone> bones);	//ボーンのサイズをクラスターボーンに合わせる
+	bool isBonesWorldMatCalc = false;	//ボーンのワールド座標上での計算をするかどうか
+	std::vector<Matrix4>* GetBonesMatPtr();	//ボーンのワールド行列ポインタを渡す
+	void SetIsBonesWorldMatCalc(bool isCalc);	//ボーン計算フラグのセッター
 	/// <summary>
 	/// アニメーション開始
 	/// </summary>
@@ -92,6 +100,8 @@ public://メンバ関数
 
 	Vector3 GetPosition() { return worldTransform.translation_; }
 
+	void SetColor(Vector4 color) { color_ = color; }
+
 public:
 	//定数バッファ
 	ComPtr<ID3D12Resource> constBuffTransform;
@@ -99,7 +109,7 @@ public:
 	//定数バッファ(スキン)
 	ComPtr<ID3D12Resource> constBuffSkin;
 
-	
+	Vector4 color_ = { 1,1,1,1 };
 
 	// ローカルスケール
 	Vector3 scale_ = { 1,1,1 };

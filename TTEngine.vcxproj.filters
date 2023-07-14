@@ -109,6 +109,12 @@
     <Filter Include="ヘッダー ファイル\Collider">
       <UniqueIdentifier>{0c644cf9-364c-4270-a2de-d69a04e25efa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\BehaviorTree">
+      <UniqueIdentifier>{fc8bc099-0834-4d38-8f3f-c09b7808a1f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\BehaviorTree">
+      <UniqueIdentifier>{187fefe5-12df-487f-af5f-5db8313f2542}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -241,6 +247,18 @@
       <Filter>ソース ファイル\Collider</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Collider\SphereCollider.cpp">
+      <Filter>ソース ファイル\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\BehaviorTree\EnemyState.cpp">
+      <Filter>ソース ファイル\BehaviorTree</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\BehaviorTree\EnemyStandby.cpp">
+      <Filter>ソース ファイル\BehaviorTree</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\BehaviorTree\EnemyAttack.cpp">
+      <Filter>ソース ファイル\BehaviorTree</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Collider\QueryCallback.cpp">
       <Filter>ソース ファイル\Collider</Filter>
     </ClCompile>
   </ItemGroup>
@@ -393,6 +411,18 @@
       <Filter>ヘッダー ファイル\Collider</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Collider\SphereCollider.h">
+      <Filter>ヘッダー ファイル\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\BehaviorTree\EnemyState.h">
+      <Filter>ヘッダー ファイル\BehaviorTree</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\BehaviorTree\EnemyStandby.h">
+      <Filter>ヘッダー ファイル\BehaviorTree</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\BehaviorTree\EnemyAttack.h">
+      <Filter>ヘッダー ファイル\BehaviorTree</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Collider\QueryCallback.h">
       <Filter>ヘッダー ファイル\Collider</Filter>
     </ClInclude>
   </ItemGroup>

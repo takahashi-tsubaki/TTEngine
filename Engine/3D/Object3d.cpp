@@ -237,7 +237,7 @@ void Object3d::Update() {
 	assert(sCamera_);
 
 	HRESULT result;
-
+	UpdateMatrix();
 	//XMMATRIX matScale, matRot, matTrans;
 
 	//// スケール、回転、平行移動行列の計算
@@ -254,7 +254,7 @@ void Object3d::Update() {
 	//matWorld *= matRot;            // ワールド行列に回転を反映
 	//matWorld *= matTrans;          // ワールド行列に平行移動を反映
 
-	worldTransform.UpdateMatWorld();
+
 
 	//if (isBillboard) {
 	//	const XMMATRIX& matBillboard = sCamera_->GetBillboardMatrix();
@@ -272,11 +272,7 @@ void Object3d::Update() {
 	XMVECTOR CameraVec = { 10000.0f,10000.0f,10000.0f/*camera_->GetEye().x - worldTransform.translation_.x + 2.0f,camera_->GetEye().x - worldTransform.translation_.y + 2.0f,camera_->GetEye().x - worldTransform.translation_.z*/ };
 
 	CameraVec = XMVector3Normalize(CameraVec);
-	// 親オブジェクトがあれば
-	if (parent != nullptr) {
-		// 親オブジェクトのワールド行列を掛ける
-		matWorld *= parent->matWorld;
-	}
+
 
 	
 	result = constBuffB0->Map(0, nullptr, (void**)&constMap);
@@ -292,6 +288,16 @@ void Object3d::Update() {
 	//constMap->world = matWorld;
 	//constMap->cameraPos = cameraPos;
 	//constMap->color = this->color;
+}
+
+void Object3d::UpdateMatrix()
+{
+	worldTransform.UpdateMatWorld();
+	// 親オブジェクトがあれば
+	if (parent != nullptr) {
+		// 親オブジェクトのワールド行列を掛ける
+		matWorld *= parent->matWorld;
+	}
 }
 
 void Object3d::Draw() {
