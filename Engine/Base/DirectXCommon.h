@@ -11,8 +11,8 @@ class DirectXCommon
 private:
 	HRESULT result;
 
-	ComPtr<ID3D12Device>dev;
 	ComPtr<IDXGIFactory7>dxgiFactory;
+	ComPtr<ID3D12Device>dev;
 	ComPtr<IDXGISwapChain1>swapChain1;
 	ComPtr<IDXGISwapChain4>swapChain;
 	ComPtr<ID3D12CommandAllocator>cmdAllocator;

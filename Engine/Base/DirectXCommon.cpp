@@ -17,6 +17,9 @@ void DirectXCommon::Initialize(WinApp* winApp)
 	InitializeDeaphBuffer();
 	//ƒtƒFƒ“ƒX‚Ì‰Šú‰»
 	InitializeFence();
+
+
+
 }
 
 void DirectXCommon::InitializeDevice()

@@ -25,9 +25,16 @@ void GameScene::Initalize(DirectXCommon* dxCommon, Input* input, GamePad* gamePa
 
 	//input_ = Input::GetInstance();
 	camera_ = new Camera(WinApp::window_width, WinApp::window_height);
-	camera_->SetEye({0,0,-100});
-	// カメラ注視点をセット
-	camera_->SetTarget({ 0, 0, 0 });
+	camera_->SetEye({ 0,20.0f,-100 });
+
+	/*gameCamera = new GameCamera(WinApp::window_width, WinApp::window_height,input);
+	assert(gameCamera);
+	gameCamera->SetEye({ 0,0,-100 });
+	gameCamera->SetTarget({ 0 , 0 , 0 });*/
+	
+	
+	//// カメラ注視点をセット
+	//camera_->SetTarget({ 0, 0, 0 });
 	// 3Dオブジェクトにカメラをセット
 	Object3d::SetCamera(camera_);
 	//ライト生成
@@ -57,11 +64,11 @@ void GameScene::Initalize(DirectXCommon* dxCommon, Input* input, GamePad* gamePa
 	fbxModel = FbxLoader::GetInstance()->LoadModelFromFile("boss_prot4");
 
 	
-
-	enemy_ = new Enemy();
-	enemy_->Initialize(dxCommon_);
-	
 	player_ = new Player();
+	enemy_ = new Enemy();
+	enemy_->Initialize(dxCommon_,player_);
+	
+	
 	player_->Initialize(dxCommon_, input_ , gamePad_, enemy_);
 
 	fbxObject =  new FbxObject3d();
@@ -74,31 +81,33 @@ void GameScene::Initalize(DirectXCommon* dxCommon, Input* input, GamePad* gamePa
 
 	colMan = CollisionManager::GetInstance();
 	
+
+	/*gameCamera->SetFollowerPos(&enemy_->wtf);
+	gameCamera->SetTargetPos(&player_->wtf);*/
 }
 
 void GameScene::Update()
 {
 
-	camera_->eye_.y = 20.0f;
 
-	Vector3 move;
-	if (input_->PushKey(DIK_LEFT))
-	{
-		move.x -= 0.5f;
-	}
-	if (input_->PushKey(DIK_RIGHT))
-	{
-		move.x += 0.5f;
-	}
-	if (input_->PushKey(DIK_UP))
-	{
-		move.z += 0.5f;
-	}
+	//Vector3 move;
+	//if (input_->PushKey(DIK_LEFT))
+	//{
+	//	move.x -= 0.5f;
+	//}
+	//if (input_->PushKey(DIK_RIGHT))
+	//{
+	//	move.x += 0.5f;
+	//}
+	//if (input_->PushKey(DIK_UP))
+	//{
+	//	move.z += 0.5f;
+	//}
 
-	if (input_->PushKey(DIK_DOWN))
-	{
-		move.z -= 0.5f;
-	}
+	//if (input_->PushKey(DIK_DOWN))
+	//{
+	//	move.z -= 0.5f;
+	//}
 
 	
 
@@ -108,22 +117,29 @@ void GameScene::Update()
 
 	fbxObject->Update();
 
-	ImGui::Begin("cameraPos");
+	/*ImGui::Begin("cameraPos");
 	ImGui::SetWindowPos({ 200 , 200 });
 	ImGui::SetWindowSize({ 500,100 });
-	ImGui::InputFloat3("isPause", &camera_->eye_.x);
-	ImGui::InputFloat3("isPause", &camera_->target_.x);
-	ImGui::End();
+	ImGui::InputFloat3("eye", &camera_->eye_.x);
+	ImGui::InputFloat3("target", &camera_->target_.x);
+	ImGui::End();*/
 
 	object->Update();
 
 	player_->Update();
 	enemy_->Update();
 
+	//gameCamera->Update();
+
 	/*camera_->disEyeTarget(player_->GetPosition(),enemy_->GetPosition());*/
-	camera_->MoveTarget(input_);
+
+	/*camera_->SetEye({ player_->wtf.translation_.x, player_->wtf.translation_.y+20, player_->wtf.translation_.z-50});*/
+	/*camera_->SetTarget((enemy_->wtf.translation_ - player_->wtf.translation_)/2);*/
+
+	//camera_->MoveTarget(input_);
 	camera_->Update();
 	
+	//当たり判定
 	colMan->CheckAllCollisions();
 }
 void GameScene::Draw()

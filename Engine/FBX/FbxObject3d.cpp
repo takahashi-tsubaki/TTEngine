@@ -251,6 +251,7 @@ void FbxObject3d::Update()
 		constMap->viewproj = matViewProjection;
 		constMap->world = modelTransform * matWorld;
 		constMap->cameraPos = cameraPos;
+		constMap->color = color_;
 		constBuffTransform->Unmap(0, nullptr);
 	}
 
@@ -311,6 +312,21 @@ void FbxObject3d::Draw(ID3D12GraphicsCommandList* cmdList)
 
 	//ƒ‚ƒfƒ‹•`‰æ
 	fbxModel_->Draw(cmdList);
+}
+
+void FbxObject3d::ResizeBonesMat(std::vector<FbxModel::Bone> bones_)
+{
+	bonesMat.resize(bones_.size());
+}
+
+std::vector<Matrix4>* FbxObject3d::GetBonesMatPtr()
+{
+	return &bonesMat;
+}
+
+void FbxObject3d::SetIsBonesWorldMatCalc(bool isCalc)
+{
+	isBonesWorldMatCalc = isCalc;
 }
 
 void FbxObject3d::PlayAnimetion(int AnimNum)

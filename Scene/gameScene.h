@@ -52,6 +52,9 @@ private:
 	PostEffect* postEffect = nullptr;
 
 	Camera* camera_ = nullptr;
+
+	GameCamera* gameCamera = nullptr;
+
 	Light* light_ = nullptr;
 
 	FbxModel* fbxModel = nullptr;

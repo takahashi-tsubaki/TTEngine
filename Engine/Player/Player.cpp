@@ -24,8 +24,8 @@ void Player::Initialize(DirectXCommon* dxCommon, Input* input,GamePad* gamePad, 
 
 	playerO_->SetModel(playerM_);
 
-	player_.translation_ = { 0,0,-50 };
-	playerO_->SetPosition(player_.translation_);
+	wtf.translation_ = { 0,0,-50 };
+	playerO_->SetPosition(wtf.translation_);
 
 	bulletM_ = Model::CreateFromOBJ("cube");
 	//playerFbxO_->SetPosition(player_.translation_);
@@ -72,11 +72,15 @@ void Player::Initialize(DirectXCommon* dxCommon, Input* input,GamePad* gamePad, 
 		//coliderPosTest_[i]->Update();
 
 	}
-
+	startCount = clock() / 1000;
 }
 
 void Player::Update()
 {
+
+	oldPos = wtf.translation_;
+	CheckHitCollision();
+
 	//デスフラグが立った球を削除
 	bullets_.remove_if([](std::unique_ptr<PlayerBullet>& bullet) { return bullet->GetIsDead(); });
 
@@ -85,19 +89,74 @@ void Player::Update()
 		bullet->Update();
 	}
 
-
 	if (bulletType != BulletType::RapidShot)
 	{
 		Move();
 	}
 
-
-
 	Shot();
-	
+	//行列の更新など
+	playerO_->UpdateMatrix();
 
+	class PlayerQueryCallBack : public QueryCallback
+	{
+	public:
+		PlayerQueryCallBack(Sphere* sphere) : sphere(sphere) {};
+
+		bool OnQueryHit(const QueryHit& info)
+		{
+			rejectDir = info.reject;
+			rejectDir.nomalize();
+
+			//上方向と排斥方向の角度差のコサイン値
+			float cos = rejectDir.dot(up);
+
+			//地面判定しきい値角度
+			const float threshold = cosf(XMConvertToRadians(30.0f));
+			//角度差によって天井または地面と判定される場合を除いて
+			if (-threshold < cos && cos < threshold)
+			{
+				//押し出す
+				sphere->center += info.reject;
+				move += info.reject;
+			}
+			return true;
+		}
+		void SphereQuery();
+
+		//ワールドの上方向
+		const Vector3 up = { 0,1,0 };
+		//排斥方向
+		Vector3 rejectDir;
+		//クエリーに使用する球
+		Sphere* sphere = nullptr;
+		//排斥による移動量
+		Vector3 move = {};
+
+	};
+
+
+	for (int i = 0; i < SPHERE_COLISSION_NUM; i++)
+	{
+		PlayerQueryCallBack callback(sphere[i]);
+
+		//球と地形の交差を全探索する
+		CollisionManager::GetInstance()->QuerySphere(*sphere[i], &callback);
+
+		wtf.translation_.x += callback.move.x;
+		wtf.translation_.y += callback.move.y;
+		wtf.translation_.z += callback.move.z;
+
+		playerO_->SetPosition(wtf.translation_);
+		playerO_->UpdateMatrix();
+		sphere[i]->Update();
+	}
+
+
+	
+	
 	ImGui::Begin("BulletSize");
-	ImGui::SetWindowPos({ 600 , 400 });
+	ImGui::SetWindowPos({ 800 , 100 });
 	ImGui::SetWindowSize({ 500,300 });
 	ImGui::InputInt("BulletSize", &bulletSize);
 	ImGui::InputFloat("pushTimer",&pushTimer);
@@ -166,28 +225,39 @@ void Player::Move()
 
 	if (gamePad_->StickInput(L_UP) || input_->PushKey(DIK_W))
 	{
-		player_.translation_.z += 0.5f;
-		playerO_->SetPosition(player_.translation_);
+		//enemyPos = enemy_->GetPosition();
+		//distance = enemy_->GetPosition() - playerO_->GetPosition();
+		//distance.nomalize();
+		//distance *= 0.5f;
+		//wtf.translation_ += distance;
+		wtf.translation_.z += 0.5f;
+		playerO_->SetPosition(wtf.translation_);
 	}
 	if (gamePad_->StickInput(L_DOWN)|| input_->PushKey(DIK_S))
 	{
-		player_.translation_.z -= 0.5f;
-		playerO_->SetPosition(player_.translation_);
+		wtf.translation_.z -= 0.5f;
+		playerO_->SetPosition(wtf.translation_);
 	}
 	if (gamePad_->StickInput(L_LEFT) || input_->PushKey(DIK_A))
 	{
-		player_.translation_.x -= 0.5f;
-		playerO_->SetPosition(player_.translation_);
+		wtf.translation_.x -= 0.5f;
+		playerO_->SetPosition(wtf.translation_);
 	}
 	if (gamePad_->StickInput(L_RIGHT) || input_->PushKey(DIK_D))
 	{
-		player_.translation_.x += 0.5f;
-		playerO_->SetPosition(player_.translation_);
+		wtf.translation_.x += 0.5f;
+		playerO_->SetPosition(wtf.translation_);
 	}
 }
 
 void Player::Shot()
 {
+	nowCount++;
+
+	elapsedCount = nowCount - startCount;
+	float elapsedTime = static_cast<float> (elapsedCount) / 1000000.0f;
+
+	timeRate = min(elapsedTime / maxTime, 1.0f);
 #pragma region 弾の移動処理
 	float speed = 0.5f;
 	if (bulletType == BulletType::OneShot)
@@ -205,7 +275,6 @@ void Player::Shot()
 	Vector3 distance;
 
 
-
 	playerPos = playerO_->worldTransform.translation_;
 
 	enemyPos = enemy_->GetPosition();
@@ -215,6 +284,24 @@ void Player::Shot()
 	distance.nomalize();
 
 	distance *= speed;
+
+	/*Vector3 begieP1 = {0,10,-30};
+	Vector3 begieP2 = { 0,-30,-10 };
+
+	Vector3 a = a.lerp(playerPos,begieP1, timeRate);
+	Vector3 b = b.lerp(begieP1, begieP2, timeRate);
+	Vector3 c = c.lerp(begieP2, enemyPos, timeRate);
+
+	Vector3 d = d.lerp(a, b, timeRate);
+	Vector3 e = e.lerp(b, c, timeRate);
+
+
+
+	
+
+	distance = distance.lerp(d,e, timeRate);*/
+
+
 #pragma endregion
 
 	//押したとき
@@ -325,3 +412,25 @@ void Player::Shot()
 	}
 
 }
+
+void Player::CheckHitCollision()
+{
+	for (int i = 0; i < SPHERE_COLISSION_NUM; i++)
+	{
+		if (sphere[i]->GetIsHit() == true)
+		{
+			if (sphere[i]->GetCollisionInfo().collider->GetAttribute() == COLLISION_ATTR_ENEMYS)
+			{
+				wtf.translation_ = oldPos;
+				playerO_->SetPosition(wtf.translation_);
+				break;
+			}
+		}
+
+	}
+	for (int i = 0; i < SPHERE_COLISSION_NUM; i++) {
+		spherePos[i] = playerO_->GetPosition();
+		sphere[i]->Update();
+	}
+}
+

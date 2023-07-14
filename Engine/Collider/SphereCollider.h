@@ -9,7 +9,7 @@ class SphereCollider : public BaseCollider , public Sphere
 public:
 	SphereCollider(Vector3 offset = {0 , 0 , 0} , float radius = 1.0f) :
 		offset(offset) ,
-		radius(radius)
+		radius_(radius)
 	{
 		//球形状をセット
 		shapeType = COLLISIONSHAPE_SPHERE;
@@ -20,12 +20,12 @@ public:
 
 	inline void SetRadius(float radius)
 	{
-		this->radius = radius; 
+		radius_ = radius; 
 	}
 	
 	float GetRadius()
 	{
-		return radius; 
+		return radius_; 
 	}
 	
 	inline void SetBasisPos(Vector3* pos)
@@ -46,7 +46,7 @@ private:
 	Vector3* basisPos = nullptr;
 
 	//半径
-	float radius;
+	float radius_;
 
 };
 
