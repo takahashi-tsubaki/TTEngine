@@ -34,7 +34,7 @@ public:
 		return shapeType;
 	}
 
-	inline void OnCllision(const CollisionInfo& info)
+	inline void OnCollision(const CollisionInfo& info)
 	{
 		isHit = true;
 		this->info = info;

@@ -60,6 +60,21 @@ private:
 	FbxModel* fbxModel = nullptr;
 	FbxObject3d* fbxObject = nullptr;
 
+	//“V‹…
+	Object3d* skydomeO_ = nullptr;
+	Model* skydomeM_ = nullptr;
+
+
+
+
+
+
+
+
+
+
+
+
 	Player* player_ = nullptr;
 	Enemy* enemy_ = nullptr;
 

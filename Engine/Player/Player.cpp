@@ -25,6 +25,7 @@ void Player::Initialize(DirectXCommon* dxCommon, Input* input,GamePad* gamePad, 
 	playerO_->SetModel(playerM_);
 
 	wtf.translation_ = { 0,0,-50 };
+	playerO_->SetScale({ 2,2,2 });
 	playerO_->SetPosition(wtf.translation_);
 
 	bulletM_ = Model::CreateFromOBJ("cube");
@@ -77,6 +78,18 @@ void Player::Initialize(DirectXCommon* dxCommon, Input* input,GamePad* gamePad, 
 
 void Player::Update()
 {
+	if (Hp_ <= 0)
+	{
+		SetisDead(true);
+	}
+
+	if (input_->TriggerKey(DIK_R))
+	{
+		SetHp(10);
+		SetisDead(false);
+		enemy_->SetHp(30);
+		enemy_->SetisDead(false);
+	}
 
 	oldPos = wtf.translation_;
 	CheckHitCollision();
@@ -89,7 +102,15 @@ void Player::Update()
 		bullet->Update();
 	}
 
-	if (bulletType != BulletType::RapidShot)
+	if (GetisDead() == true)
+	{
+		for (std::unique_ptr<PlayerBullet>& bullet : bullets_)
+		{
+			bullet->SetisDead(true);
+		}
+	}
+
+	if (bulletType != PlayerBulletType::RapidShot)
 	{
 		Move();
 	}
@@ -98,71 +119,77 @@ void Player::Update()
 	//行列の更新など
 	playerO_->UpdateMatrix();
 
-	class PlayerQueryCallBack : public QueryCallback
-	{
-	public:
-		PlayerQueryCallBack(Sphere* sphere) : sphere(sphere) {};
-
-		bool OnQueryHit(const QueryHit& info)
-		{
-			rejectDir = info.reject;
-			rejectDir.nomalize();
-
-			//上方向と排斥方向の角度差のコサイン値
-			float cos = rejectDir.dot(up);
-
-			//地面判定しきい値角度
-			const float threshold = cosf(XMConvertToRadians(30.0f));
-			//角度差によって天井または地面と判定される場合を除いて
-			if (-threshold < cos && cos < threshold)
-			{
-				//押し出す
-				sphere->center += info.reject;
-				move += info.reject;
-			}
-			return true;
-		}
-		void SphereQuery();
-
-		//ワールドの上方向
-		const Vector3 up = { 0,1,0 };
-		//排斥方向
-		Vector3 rejectDir;
-		//クエリーに使用する球
-		Sphere* sphere = nullptr;
-		//排斥による移動量
-		Vector3 move = {};
-
-	};
-
-
-	for (int i = 0; i < SPHERE_COLISSION_NUM; i++)
-	{
-		PlayerQueryCallBack callback(sphere[i]);
-
-		//球と地形の交差を全探索する
-		CollisionManager::GetInstance()->QuerySphere(*sphere[i], &callback);
-
-		wtf.translation_.x += callback.move.x;
-		wtf.translation_.y += callback.move.y;
-		wtf.translation_.z += callback.move.z;
-
-		playerO_->SetPosition(wtf.translation_);
-		playerO_->UpdateMatrix();
-		sphere[i]->Update();
-	}
-
+#pragma region オブジェクト同士の押し出し処理
+//	class PlayerQueryCallBack : public QueryCallback
+//	{
+//	public:
+//		PlayerQueryCallBack(Sphere* sphere) : sphere(sphere) {};
+//
+//		bool OnQueryHit(const QueryHit& info)
+//		{
+//			rejectDir = info.reject;
+//			rejectDir.nomalize();
+//
+//			上方向と排斥方向の角度差のコサイン値
+//			float cos = rejectDir.dot(up);
+//
+//			地面判定しきい値角度
+//			const float threshold = cosf(XMConvertToRadians(30.0f));
+//			角度差によって天井または地面と判定される場合を除いて
+//			if (-threshold < cos && cos < threshold)
+//			{
+//				押し出す
+//				sphere->center += info.reject;
+//				move += info.reject;
+//			}
+//			return true;
+//		}
+//		void SphereQuery();
+//
+//		ワールドの上方向
+//		const Vector3 up = { 0,1,0 };
+//		排斥方向
+//		Vector3 rejectDir;
+//		クエリーに使用する球
+//		Sphere* sphere = nullptr;
+//		排斥による移動量
+//		Vector3 move = {};
+//
+//	};
+//
+//
+//	for (int i = 0; i < SPHERE_COLISSION_NUM; i++)
+//	{
+//		PlayerQueryCallBack callback(sphere[i]);
+//
+//		球と地形の交差を全探索する
+//		CollisionManager::GetInstance()->QuerySphere(*sphere[i], &callback);
+//
+//		wtf.translation_.x += callback.move.x;
+//		wtf.translation_.y += callback.move.y;
+//		wtf.translation_.z += callback.move.z;
+//
+//		playerO_->SetPosition(wtf.translation_);
+//		playerO_->UpdateMatrix();
+//		sphere[i]->Update();
+//	}
+#pragma endregion 
 
 	
 	
-	ImGui::Begin("BulletSize");
-	ImGui::SetWindowPos({ 800 , 100 });
-	ImGui::SetWindowSize({ 500,300 });
-	ImGui::InputInt("BulletSize", &bulletSize);
-	ImGui::InputFloat("pushTimer",&pushTimer);
-	ImGui::InputFloat("pressTimer", &pressTimer);
-	ImGui::InputInt("MAX", &MAX_BULLET);
-	ImGui::End();
+	//ImGui::Begin("BulletSize");
+	//ImGui::SetWindowPos({ 800 , 100 });
+	//ImGui::SetWindowSize({ 500,300 });
+	//ImGui::InputInt("plyaerHp ", &Hp_);
+	//ImGui::InputInt("enemyHp", &enemy_->Hp_);
+	///*ImGui::SetWindowPos({ 800 , 100 });
+	//ImGui::SetWindowSize({ 500,300 });
+	//ImGui::InputInt("BulletSize", &bulletSize);
+	//ImGui::InputFloat("pushTimer",&pushTimer);
+	//ImGui::InputFloat("pressTimer", &pressTimer);
+	//ImGui::InputInt("MAX", &MAX_BULLET);*/
+
+	//ImGui::End();
 	
 
 	playerO_->Update();
@@ -171,12 +198,16 @@ void Player::Update()
 
 void Player::Draw()
 {
-	for (std::unique_ptr<PlayerBullet>& bullet : bullets_)
+	if (GetisDead() == false)
 	{
-		bullet->Draw();
+		for (std::unique_ptr<PlayerBullet>& bullet : bullets_)
+		{
+			bullet->Draw();
+		}
+		playerO_->Draw();
+		/*playerFbxO_->Draw(dxCommon_->GetCommandList());*/
 	}
-	playerO_->Draw();
-	/*playerFbxO_->Draw(dxCommon_->GetCommandList());*/
+
 }
 
 void Player::Move()
@@ -260,11 +291,11 @@ void Player::Shot()
 	timeRate = min(elapsedTime / maxTime, 1.0f);
 #pragma region 弾の移動処理
 	float speed = 0.5f;
-	if (bulletType == BulletType::OneShot)
+	if (bulletType == PlayerBulletType::OneShot)
 	{
 		speed = 1.0f;
 	}
-	else if (bulletType == BulletType::RapidShot)
+	else if (bulletType == PlayerBulletType::RapidShot)
 	{
 		speed = 2.0f;
 	}
@@ -355,11 +386,11 @@ void Player::Shot()
 					std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
 					newBullet->Initialize(bulletM_, playerO_->worldTransform.translation_, distance);
 
-					if (bulletType == BulletType::OneShot)
+					if (bulletType == PlayerBulletType::OneShot)
 					{
 						bulletTimer = 15.0f;
 					}
-					else if (bulletType == BulletType::RapidShot)
+					else if (bulletType == PlayerBulletType::RapidShot)
 					{
 						bulletTimer = 5.0f;
 					}
@@ -376,7 +407,7 @@ void Player::Shot()
 		{
 			MAX_BULLET = 0;
 			bulletSize = 0;
-			bulletType = BulletType::None;
+			bulletType = PlayerBulletType::None;
 			coolTimer = 60.0f;
 			pushTimer = 15.0f;
 			pressTimer = 0.0f;
@@ -398,12 +429,12 @@ void Player::Shot()
 		//単発の時
 		if (pushTimer >= 0)
 		{
-			bulletType = BulletType::OneShot;
+			bulletType = PlayerBulletType::OneShot;
 			oneShot = true;
 		}
 		else
 		{
-			bulletType = BulletType::RapidShot;
+			bulletType = PlayerBulletType::RapidShot;
 		}
 		if (isShot == false)
 		{
@@ -423,6 +454,36 @@ void Player::CheckHitCollision()
 			{
 				wtf.translation_ = oldPos;
 				playerO_->SetPosition(wtf.translation_);
+				break;
+			}
+		}
+
+	}
+
+	oldPos = wtf.translation_;
+
+	Vector3 distance;
+
+	if (hitDeley > 0) {	//毎フレームヒットを防止
+		playerO_->SetColor({ 0,0,1,1 });
+		hitDeley--;
+	}
+	else
+	{
+
+		playerO_->SetColor({ 1,1,1,1 });
+	}
+
+	for (int i = 0; i < SPHERE_COLISSION_NUM; i++)
+	{
+		if (hitDeley <= 0 && sphere[i]->GetIsHit() == true)
+		{
+			if (sphere[i]->GetCollisionInfo().collider->GetAttribute() == COLLISION_ATTR_ENEMYBULLETS)
+			{
+				Hp_ -= 1;
+				hitDeley = 5;
+				//SetIsHit(true);
+
 				break;
 			}
 		}

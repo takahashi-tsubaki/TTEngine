@@ -43,8 +43,8 @@ void CollisionManager::CheckAllCollisions()
 
 				if (Collision::CheckSphere2Sphere(*sphereA , *sphereB , &inter))
 				{
-					colA->OnCllision(CollisionInfo(colB->GetObject3d() , colB , inter));
-					colB->OnCllision(CollisionInfo(colA->GetObject3d() , colA , inter));
+					colA->OnCollision(CollisionInfo(colB->GetObject3d() , colB , inter));
+					colB->OnCollision(CollisionInfo(colA->GetObject3d() , colA , inter));
 				}
 
 			}
@@ -57,8 +57,8 @@ void CollisionManager::CheckAllCollisions()
 
 				if (meshCollider->CheckCollisionSphere(*sphere , &inter))
 				{
-					colA->OnCllision(CollisionInfo(colB->GetObject3d() , colB , inter));
-					colB->OnCllision(CollisionInfo(colA->GetObject3d() , colA , inter));
+					colA->OnCollision(CollisionInfo(colB->GetObject3d() , colB , inter));
+					colB->OnCollision(CollisionInfo(colA->GetObject3d() , colA , inter));
 				}
 
 			}
@@ -72,8 +72,8 @@ void CollisionManager::CheckAllCollisions()
 
 				if (meshCollider->CheckCollisionSphere(*sphere , &inter))
 				{
-					colA->OnCllision(CollisionInfo(colB->GetObject3d() , colB , inter));
-					colB->OnCllision(CollisionInfo(colA->GetObject3d() , colA , inter));
+					colA->OnCollision(CollisionInfo(colB->GetObject3d() , colB , inter));
+					colB->OnCollision(CollisionInfo(colA->GetObject3d() , colA , inter));
 				}
 
 			}

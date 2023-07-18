@@ -23,13 +23,14 @@ public:
 
 	void Shot();
 
+	void CheckCollision();
+
 	void SetisDead(bool isDead) { isDead_ = isDead; }
 
 	bool GetIsDead() { return isDead_; }
 
 	void SetEnemy(Enemy* enemy) { enemy_ = enemy; }
 
-	void CheckCollision();
 
 private:
 

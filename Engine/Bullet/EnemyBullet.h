@@ -3,12 +3,11 @@
 #include "Object3d.h"
 #include "Model.h"
 
-#include "Enemy.h"
-
 #include"SphereCollider.h"
 #include"CollisionManager.h"
 #include"CollisionAttribute.h"
 
+class Player;
 
 class EnemyBullet
 {
@@ -22,11 +21,15 @@ public:
 
 	void Shot();
 
+	void CheckCollision();
+
 	void SetisDead(bool isDead) { isDead_ = isDead; }
 
 	bool GetIsDead() { return isDead_; }
 
 	void SetPlayer(Player* player) { player_ = player; }
+
+
 private:
 
 
@@ -44,5 +47,7 @@ private:
 	std::vector<Matrix4>* collisionBonesMat;	//当たり判定用のボーンのワールド行列
 	std::vector<SphereCollider*> sphere;
 	std::vector<Vector3> spherePos = {};
+
+	int hitDeley = 0;	//何フレーム連続で当たるか
 };
 
