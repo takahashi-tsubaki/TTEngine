@@ -25,7 +25,7 @@ void GameScene::Initalize(DirectXCommon* dxCommon, Input* input, GamePad* gamePa
 
 	//input_ = Input::GetInstance();
 	camera_ = new Camera(WinApp::window_width, WinApp::window_height);
-	camera_->SetEye({ 0,20.0f,-100 });
+	camera_->SetEye({ 0,40.0f,-200 });
 
 	/*gameCamera = new GameCamera(WinApp::window_width, WinApp::window_height,input);
 	assert(gameCamera);
@@ -51,9 +51,12 @@ void GameScene::Initalize(DirectXCommon* dxCommon, Input* input, GamePad* gamePa
 	//グラフィックスパイプライン生成
 	FbxObject3d::CreateGraphicsPipeline();
 
-	object = Object3d::Create();
-	model = Model::CreateFromOBJ("cube");
-	object->SetModel(model);
+	skydomeO_ = Object3d::Create();
+	skydomeM_ = Model::CreateFromOBJ("skydome");
+	skydomeO_->SetModel(skydomeM_);
+
+	skydomeO_->SetScale({2,2,2});
+
 
 	Sprite::LoadTexture(1, L"Resources/kuribo-.jpg");
 	Sprite::LoadTexture(2, L"Resources/mario.jpg");
@@ -124,7 +127,7 @@ void GameScene::Update()
 	ImGui::InputFloat3("target", &camera_->target_.x);
 	ImGui::End();*/
 
-	object->Update();
+	skydomeO_->Update();
 
 	player_->Update();
 	enemy_->Update();
@@ -141,6 +144,7 @@ void GameScene::Update()
 	
 	//当たり判定
 	colMan->CheckAllCollisions();
+
 }
 void GameScene::Draw()
 {
@@ -164,10 +168,13 @@ void GameScene::Draw()
 
 	//// 3Dオブジェクトの描画
 
-	/*fbxObject->Draw(dxCommon_->GetCommandList());
-	object->Draw();*/
+	/*fbxObject->Draw(dxCommon_->GetCommandList());*/
+
+	skydomeO_->Draw();
+
 	player_->Draw();
 	enemy_->Draw();
+
 	///// <summary>
 	///// ここに3Dオブジェクトの描画処理を追加できる
 	///// </summary>

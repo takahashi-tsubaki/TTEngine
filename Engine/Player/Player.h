@@ -18,7 +18,7 @@
 
 class Enemy;
 
-enum BulletType
+enum PlayerBulletType
 {
 	None,
 	OneShot,
@@ -48,6 +48,13 @@ public:
 
 	void CheckHitCollision();
 
+	//Hpのsetterとgetter
+	void SetHp(int Hp) { Hp_ = Hp; }
+	int GetHp() { return Hp_; }
+	//生きているかのsetterとgetter
+	void SetisDead(bool isDead) { isDead_ = isDead; }
+	bool GetisDead() { return isDead_; }
+
 private:
 	Vector3 oldPos;
 	Vector3 playerPos;
@@ -58,12 +65,12 @@ private:
 	Input* input_ = nullptr;
 	GamePad* gamePad_ = nullptr;
 
-	
+	int Hp_ = 10;
+	bool isDead_ = false;
 
-	//仮置きプレイヤーのモデル
-	Object3d* playerO_ = nullptr;
-	Model* playerM_ = nullptr;
 
+
+#pragma region 射撃関連
 	bool isShot = false;
 	//単発
 	bool oneShot = false;
@@ -74,7 +81,7 @@ private:
 	//現在の弾の個数
 	int bulletSize = 0;
 	//弾のタイプ
-	int bulletType = BulletType::None;
+	int bulletType = PlayerBulletType::None;
 	//弾と弾の間隔時間
 	float bulletTimer = 0.0f;
 	//連射制限のためのクールタイム
@@ -90,8 +97,13 @@ private:
 	long long elapsedCount = 0;
 	float maxTime = 5.0f;				//全体時間[s]
 	float timeRate;						//何％時間が進んだか
+#pragma endregion
 
 
+
+	//仮置きプレイヤーのモデル
+	Object3d* playerO_ = nullptr;
+	Model* playerM_ = nullptr;
 
 	//プレイヤーの弾モデル関連
 	std::list <std::unique_ptr<PlayerBullet>> bullets_;
@@ -107,5 +119,8 @@ private:
 	std::vector<Matrix4>* collisionBonesMat;	//当たり判定用のボーンのワールド行列
 	std::vector<SphereCollider*> sphere;
 	std::vector<Vector3> spherePos = {};
+
+	int hitDeley = 0;	//何フレーム連続で当たるか
+
 };
 

@@ -22,6 +22,9 @@ void Enemy::Initialize(DirectXCommon* dxCommon, Player* player)
 
 	//enemyFbxO_->SetPosition(enemy_.translation_);
 
+
+
+
 	enemyO_ = Object3d::Create();
 
 	enemyM_ = Model::CreateFromOBJ("cube");
@@ -29,8 +32,11 @@ void Enemy::Initialize(DirectXCommon* dxCommon, Player* player)
 	enemyO_->SetModel(enemyM_);
 
 	wtf.translation_ = { 0,0,0 };
+	enemyO_->SetScale({2,2,2});
 	enemyO_->SetPosition(wtf.translation_);
 
+	//弾のモデルをセット
+	bulletM_ = Model::CreateFromOBJ("cube");
 
 	sphere.resize(SPHERE_COLISSION_NUM);
 	spherePos.resize(SPHERE_COLISSION_NUM);
@@ -58,84 +64,123 @@ void Enemy::Initialize(DirectXCommon* dxCommon, Player* player)
 
 void Enemy::Update()
 {
-	
 
-
-
-	GetIsHit();
-	CheckHitCollision();
-	Move();
-
-	enemyO_->UpdateMatrix();
-
-	class EnemyQueryCallBack : public QueryCallback
+	if (Hp_ <= 0)
 	{
-	public:
-		EnemyQueryCallBack(Sphere* sphere) : sphere(sphere) {};
+		SetisDead(true);
 
-		bool OnQueryHit(const QueryHit& info)
-		{
-			rejectDir = info.reject;
-			rejectDir.nomalize();
-
-			//上方向と排斥方向の角度差のコサイン値
-			float cos = rejectDir.dot(up);
-
-			//地面判定しきい値角度
-			const float threshold = cosf(XMConvertToRadians(30.0f));
-			//角度差によって天井または地面と判定される場合を除いて
-			if (-threshold < cos && cos < threshold)
-			{
-				//押し出す
-				sphere->center += info.reject;
-				move += info.reject;
-			}
-			return true;
-		}
-		void SphereQuery();
-
-		//ワールドの上方向
-		const Vector3 up = { 0,1,0 };
-		//排斥方向
-		Vector3 rejectDir;
-		//クエリーに使用する球
-		Sphere* sphere = nullptr;
-		//排斥による移動量
-		Vector3 move = {};
-
-	};
-
-
-	for (int i = 0; i < SPHERE_COLISSION_NUM; i++)
+	}
+	else
 	{
-		EnemyQueryCallBack callback(sphere[i]);
+		Attack();
 
-		//球と地形の交差を全探索する
-		CollisionManager::GetInstance()->QuerySphere(*sphere[i], &callback);
+		Move();
+	}
 
-		wtf.translation_.x += callback.move.x;
-		wtf.translation_.y += callback.move.y;
-		wtf.translation_.z += callback.move.z;
+	bullets_.remove_if([](std::unique_ptr<EnemyBullet>& bullet) { return bullet->GetIsDead(); });
 
-		enemyO_->SetPosition(wtf.translation_);
-		enemyO_->UpdateMatrix();
-		sphere[i]->Update();
+	for (std::unique_ptr<EnemyBullet>& bullet : bullets_)
+	{
+		bullet->Update();
 	}
 
 
+	if (GetisDead() == true)
+	{
+		for (std::unique_ptr<EnemyBullet>& bullet : bullets_)
+		{
+			bullet->SetisDead(true);
+		}
+	}
+
+	GetIsHit();
+	CheckHitCollision();
+
+	
+
+	enemyO_->UpdateMatrix();
+
+#pragma region オブジェクト同士の押し出し処理
+//	class EnemyQueryCallBack : public QueryCallback
+//	{
+//	public:
+//		EnemyQueryCallBack(Sphere* sphere) : sphere(sphere) {};
+//
+//		bool OnQueryHit(const QueryHit& info)
+//		{
+//			rejectDir = info.reject;
+//			rejectDir.nomalize();
+//
+//			//上方向と排斥方向の角度差のコサイン値
+//			float cos = rejectDir.dot(up);
+//
+//			//地面判定しきい値角度
+//			const float threshold = cosf(XMConvertToRadians(30.0f));
+//			//角度差によって天井または地面と判定される場合を除いて
+//			if (-threshold < cos && cos < threshold)
+//			{
+//				//押し出す
+//				sphere->center += info.reject;
+//				move += info.reject;
+//			}
+//			return true;
+//		}
+//		void SphereQuery();
+//
+//		//ワールドの上方向
+//		const Vector3 up = { 0,1,0 };
+//		//排斥方向
+//		Vector3 rejectDir;
+//		//クエリーに使用する球
+//		Sphere* sphere = nullptr;
+//		//排斥による移動量
+//		Vector3 move = {};
+//
+//	};
+//
+//
+//	for (int i = 0; i < SPHERE_COLISSION_NUM; i++)
+//	{
+//		EnemyQueryCallBack callback(sphere[i]);
+//
+//		//球と地形の交差を全探索する
+//		CollisionManager::GetInstance()->QuerySphere(*sphere[i], &callback);
+//
+//		wtf.translation_.x += callback.move.x;
+//		wtf.translation_.y += callback.move.y;
+//		wtf.translation_.z += callback.move.z;
+//
+//		enemyO_->SetPosition(wtf.translation_);
+//		enemyO_->UpdateMatrix();
+//		sphere[i]->Update();
+//	}
+#pragma endregion 
+
 	enemyO_->Update();
 
-	/*ImGui::Begin("enemyDelay");
-	ImGui::SetWindowPos({ 400 , 200 });
-	ImGui::SetWindowSize({ 500,100 });
-	ImGui::InputInt("isPause", &hitDeley);
-	ImGui::DragFloat3("enemyPos",&enemyO_->worldTransform.translation_.x);
-	ImGui::End();*/
+	//ImGui::Begin("enemypos");
+	//ImGui::SetWindowPos({ 400 , 200 });
+	//ImGui::SetWindowSize({ 500,100 });
+	//ImGui::DragFloat3("enemyPos",&enemyO_->worldTransform.translation_.x);
+	//ImGui::End();
 }
 
 void Enemy::Draw()
 {
-	enemyO_->Draw();
+	if (GetisDead() == false)
+	{
+		for (std::unique_ptr<EnemyBullet>& bullet : bullets_)
+		{
+			bullet->Draw();
+		}
+		if (GetisDead() == false)
+		{
+			enemyO_->Draw();
+		}
+	}
+	
+
+
 }
 
 void Enemy::Action()
@@ -157,6 +202,7 @@ void Enemy::CheckHitCollision()
 	}
 	else
 	{
+		
 		enemyO_->SetColor({ 1,1,1,1 });
 	}
 
@@ -166,7 +212,8 @@ void Enemy::CheckHitCollision()
 		{
 			if (sphere[i]->GetCollisionInfo().collider->GetAttribute() == COLLISION_ATTR_PLAYERBULLETS)
 			{
-				hitDeley = 30;
+				Hp_ -= 1;
+				hitDeley = 5;
 				SetIsHit(true);
 
 				break;
@@ -195,6 +242,155 @@ void Enemy::CheckHitCollision()
 
 void Enemy::Attack()
 {
+	Vector3 playerPos;
+	Vector3 enemyPos;
+	Vector3 distance;
+	float speed = 0.5f;
+
+	playerPos = player_->GetPosition();
+
+	enemyPos = enemyO_->worldTransform.translation_;
+
+	distance = playerPos - enemyPos;
+
+	distance.nomalize();
+
+	distance *= speed;
+
+	/*Vector3 begieP1 = {0,10,-30};
+	Vector3 begieP2 = { 0,-30,-10 };
+
+	Vector3 a = a.lerp(playerPos,begieP1, timeRate);
+	Vector3 b = b.lerp(begieP1, begieP2, timeRate);
+	Vector3 c = c.lerp(begieP2, enemyPos, timeRate);
+
+	Vector3 d = d.lerp(a, b, timeRate);
+	Vector3 e = e.lerp(b, c, timeRate);
+
+
+
+
+
+	distance = distance.lerp(d,e, timeRate);*/
+
+
+#pragma endregion
+
+#pragma region 
+	srand(time(nullptr));
+
+
+	//１秒に１回の間隔で抽選を行う
+	ShotflameCount++;
+	if (ShotflameCount > 60)
+	{
+		//射撃していないなら
+		if (isShot == false)
+		{
+			bulletType = rand() % 2 + 1;
+			
+			isShot = true;
+		}
+		if (bulletType == EnemyBulletType::RAPIDSHOT)
+		{
+			ShotflameCount = 0.0f;
+		}
+		else if (bulletType == EnemyBulletType::ONESHOT)
+		{
+			ShotflameCount = 30.0f;
+		}
+	}
+
+	if (bulletType == EnemyBulletType::RAPIDSHOT)
+	{
+		//弾の最大値を決定
+		MAX_BULLET = rand() % 20 + 1;
+		rapidShot = true;
+
+	}
+	else if(bulletType == EnemyBulletType::ONESHOT)
+	{
+		MAX_BULLET = 1;
+		oneShot = true;
+	}
+
+
+	if (oneShot == true)
+	{
+		rapidShot = false;
+		//弾の最大個数
+		MAX_BULLET = 1;
+		pushTimer = 15.0f;//押してる時間
+		pressTimer = 0.0f;//連射用の時間
+		oneShot = false;
+	}
+	else if (rapidShot == true)
+	{
+		oneShot = false;
+		if (pressTimer < 0)
+		{
+			//チャージしている弾の個数がMAX以下だった場合
+			if (rapidCount < MAX_BULLET )
+			{
+				rapidCount++;
+			}
+			pressTimer = 6.0f;
+		}
+	}
+	if (isShot == true)
+	{
+		bulletTimer--;
+
+		//弾が最大個数以下だった時
+		if (bulletSize < MAX_BULLET)
+		{
+			if (bulletTimer <= 0)
+			{
+				if (isShot == true)
+				{
+					bulletSize++;
+					// 弾を生成し初期化
+					std::unique_ptr<EnemyBullet> newBullet = std::make_unique<EnemyBullet>();
+					newBullet->Initialize(bulletM_, enemyO_->worldTransform.translation_, distance);
+
+					if (bulletType == EnemyBulletType::ONESHOT)
+					{
+						bulletTimer = 15.0f;
+					}
+					else if (bulletType == EnemyBulletType::RAPIDSHOT)
+					{
+						bulletTimer = 5.0f;
+					}
+
+					//
+					newBullet->SetPlayer(player_);
+
+					bullets_.push_back(std::move(newBullet));
+				}
+
+			}
+		}
+		if (bulletSize >= MAX_BULLET)
+		{
+			MAX_BULLET = 0;
+			bulletSize = 0;
+			rapidCount = 0;
+			bulletType = EnemyBulletType::NONE;
+			coolTimer = 60.0f;
+			pressTimer = 0.0f;
+			isShot = false;
+
+			/*coolTimer--;*/
+			/*if (coolTimer < 0)
+			{
+				bulletSize = 0;
+				coolTimer = 60.0f;
+				pushTimer = 24.0f;
+				pressTimer = 0.0f;
+			}*/
+		}
+	}
+	
 }
 
 void Enemy::Vanish()
@@ -204,12 +400,12 @@ void Enemy::Vanish()
 void Enemy::Move()
 {
 	//１秒に一回実行する1
-	flameCount++;
-	if (flameCount < 30)
+	MoveflameCount++;
+	if (MoveflameCount < 30)
 	{
 		srand(time(nullptr));
-		moveActionNum = rand() % 3+1;
-		flameCount = 0;
+		moveActionNum = rand() % 4+1;
+		MoveflameCount = 0;
 	}
 	
 	if (moveActionNum == 1)
@@ -224,11 +420,17 @@ void Enemy::Move()
 		isRight = true;
 		isApproach = false;
 	}
-	else
+	else if(moveActionNum == 3)
 	{
 		isLeft = false;
 		isRight = false;
 		isApproach = true;
+	}
+	else
+	{
+		isLeft = false;
+		isRight = false;
+		isApproach = false;
 	}
 
 	if (isLeft == true)

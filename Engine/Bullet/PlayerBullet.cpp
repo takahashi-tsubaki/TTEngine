@@ -126,6 +126,13 @@ void PlayerBullet::CheckCollision()
 				hitDeley = 4;
 				break;
 			}
+			if (sphere[i]->GetCollisionInfo().collider->GetAttribute() == COLLISION_ATTR_ENEMYBULLETS)
+			{
+				SetisDead(true);
+				livingTimer = 540.0f;
+				hitDeley = 4;
+				break;
+			}
 		}
 
 

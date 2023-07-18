@@ -11,4 +11,4 @@ const unsigned short COLLISION_ATTR_PLAYERBULLETS = 0b1 << 3;
 //“G
 const unsigned short COLLISION_ATTR_ENEMYS = 0b1 << 4;
 //“G‚Ì’e
-const unsigned short COLLISION_ATTR_ENEMIEBULLETS = 0b1 << 5;
+const unsigned short COLLISION_ATTR_ENEMYBULLETS = 0b1 << 5;
