@@ -54,6 +54,7 @@ public:
 	void SetisDead(bool isAlive) { isAlive_ = isAlive; }
 	bool GetisDead() { return isAlive_; }
 
+	Object3d* GetObject3d() {return enemyO_;}
 
 #pragma region 敵のStateパターン行動の仮のもの
 
@@ -81,6 +82,8 @@ private:
 	Vector3 playerPos;
 	Vector3 enemyPos;
 	Vector3 distance;
+
+	float angle;
 	
 	bool isAlive_ = false;
 	

@@ -1,5 +1,6 @@
 #include "GameCamera.h"
 #include "Vector3.h"
+#include "Ease.h"
 GameCamera::GameCamera(int width, int height, Input* input) : Camera(width, height)
 {
 	input_ = input;
@@ -12,8 +13,6 @@ GameCamera::GameCamera(int width, int height, Input* input) : Camera(width, heig
 	this->SetEye(eye);
 	this->SetTarget(target);
 	this->SetUp(up);
-
-
 
 }
 
@@ -34,6 +33,7 @@ void GameCamera::Update()
 
 void GameCamera::MoveCamera()
 {
+	//カメラの位置
 	Vector3 eyeVec = followerPos_->translation_ - targetPos_->translation_;
 
 	Vector3 eyePos = eyeVec;
@@ -48,6 +48,9 @@ void GameCamera::MoveCamera()
 	eyePos.x *= mag;	//magをかけると正規化される
 	eyePos.y *= mag;
 	eyePos.z *= mag;
+
+	cameraDistance_ = Ease::InOutQuad(MIN_CAMERA_DISTANCE, MAX_CAMERA_DISTANCE, cameraModeChangeCountTimer, MAX_CHANGE_TIMER);
+	cameraHeight_ = Ease::InOutQuad(3, 6, cameraModeChangeCountTimer, MAX_CHANGE_TIMER);
 
 	Vector3 primalyCamera =
 	{ followerPos_->translation_.x + eyePos.x * cameraDistance_ ,//自機から引いた位置にカメラをセット
@@ -69,7 +72,7 @@ void GameCamera::MoveCamera()
 
 	SetTarget(targetPos_->translation_);
 
-
+	Camera::Update();
 }
 
 

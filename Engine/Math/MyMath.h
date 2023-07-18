@@ -10,6 +10,10 @@
 namespace MyMath {
 
 	const float PI = 3.141592654f;
+	// 度数法->ラジアン変換
+	float Dig2Rad(float value);
+	// ラジアン->度数法変換 
+	float Rad2Dig(float value);
 
 	// ノルム(長さ)を求める
 	float Vector2Length(const Vector2& v);

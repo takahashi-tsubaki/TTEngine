@@ -261,6 +261,9 @@
     <ClCompile Include="Engine\Collider\QueryCallback.cpp">
       <Filter>ソース ファイル\Collider</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Math\Ease.cpp">
+      <Filter>ソース ファイル\math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene\gameScene.h">
@@ -424,6 +427,9 @@
     </ClInclude>
     <ClInclude Include="Engine\Collider\QueryCallback.h">
       <Filter>ヘッダー ファイル\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Math\Ease.h">
+      <Filter>ヘッダー ファイル\math</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
