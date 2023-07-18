@@ -55,6 +55,12 @@ public:
 	void SetisDead(bool isDead) { isDead_ = isDead; }
 	bool GetisDead() { return isDead_; }
 
+	Object3d* GetObject3d() { return playerO_; }
+
+	void moveAngle();
+
+	Vector3 GetAngle() {return cameraAngle;}
+
 private:
 	Vector3 oldPos;
 	Vector3 playerPos;
@@ -67,6 +73,16 @@ private:
 
 	int Hp_ = 10;
 	bool isDead_ = false;
+
+	//自機の向き
+	Vector3 faceAngle_ = { 0 , 0 , 0 };
+	//カメラの角度
+	Vector3 cameraAngle;
+	Vector3 velocity_ = { 0,0,0 };
+
+	const float moveSpeed = 0.5;
+	//旋回速度
+	const float kTurnSpeed_ = MyMath::Dig2Rad(10);
 
 
 

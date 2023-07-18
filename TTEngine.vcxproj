@@ -131,6 +131,7 @@
     <ClCompile Include="Engine\FrameWork\MyGame.cpp" />
     <ClCompile Include="Engine\Light\Light.cpp" />
     <ClCompile Include="Engine\Math\Affin.cpp" />
+    <ClCompile Include="Engine\Math\Ease.cpp" />
     <ClCompile Include="Engine\Math\Matrix4.cpp" />
     <ClCompile Include="Engine\Math\MyMath.cpp" />
     <ClCompile Include="Engine\Math\Vector2.cpp" />
@@ -187,6 +188,7 @@
     <ClInclude Include="Engine\FrameWork\MyGame.h" />
     <ClInclude Include="Engine\Light\Light.h" />
     <ClInclude Include="Engine\Math\Affin.h" />
+    <ClInclude Include="Engine\Math\Ease.h" />
     <ClInclude Include="Engine\Math\Matrix4.h" />
     <ClInclude Include="Engine\Math\MyMath.h" />
     <ClInclude Include="Engine\Math\Vector2.h" />

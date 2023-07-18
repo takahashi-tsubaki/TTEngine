@@ -159,6 +159,11 @@ public: // メンバ関数
 
 	void SetColor(Vector4 color) { color_ = color; }
 
+	WorldTransform GetWorldTransform() { return worldTransform; }
+	WorldTransform* GetWorldTransformPtr() { return &worldTransform; }
+
+	Camera* GetCamera() { return sCamera_; }
+
 private: // メンバ変数
 	
 	// 定数バッファへデータ転送

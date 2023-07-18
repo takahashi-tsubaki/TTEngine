@@ -4,6 +4,24 @@
 
 namespace MyMath
 {
+
+	float Dig2Rad(float dig)
+	{
+		float rad;
+
+		rad = dig * (PI / 180);
+
+		return rad;
+	}
+
+	float Rad2Dig(float rad)
+	{
+		float deg;
+
+		deg = rad * (180 / PI);
+
+		return deg;
+	}
 	float Vector2Length(const Vector2& v) {
 		return (float)std::sqrt(v.x * v.x + v.y * v.y);
 	}

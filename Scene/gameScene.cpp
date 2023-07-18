@@ -27,16 +27,16 @@ void GameScene::Initalize(DirectXCommon* dxCommon, Input* input, GamePad* gamePa
 	camera_ = new Camera(WinApp::window_width, WinApp::window_height);
 	camera_->SetEye({ 0,40.0f,-200 });
 
-	/*gameCamera = new GameCamera(WinApp::window_width, WinApp::window_height,input);
+	gameCamera = new GameCamera(WinApp::window_width, WinApp::window_height,input);
 	assert(gameCamera);
-	gameCamera->SetEye({ 0,0,-100 });
-	gameCamera->SetTarget({ 0 , 0 , 0 });*/
+	gameCamera->SetEye({ 0,40.0f,-2000 });
+	/*gameCamera->SetTarget({ 0 , 0 , 0 });*/
 	
 	
 	//// カメラ注視点をセット
 	//camera_->SetTarget({ 0, 0, 0 });
 	// 3Dオブジェクトにカメラをセット
-	Object3d::SetCamera(camera_);
+	Object3d::SetCamera(gameCamera);
 	//ライト生成
 	light_ = Light::Create();
 	//ライト色を設定
@@ -47,7 +47,7 @@ void GameScene::Initalize(DirectXCommon* dxCommon, Input* input, GamePad* gamePa
 	//デバイスをセット
 	FbxObject3d::SetDevice(dxCommon_->GetDevice());
 	//カメラをセット
-	FbxObject3d::SetCamera(camera_);
+	FbxObject3d::SetCamera(gameCamera);
 	//グラフィックスパイプライン生成
 	FbxObject3d::CreateGraphicsPipeline();
 
@@ -84,15 +84,17 @@ void GameScene::Initalize(DirectXCommon* dxCommon, Input* input, GamePad* gamePa
 
 	colMan = CollisionManager::GetInstance();
 	
+	
 
-	/*gameCamera->SetFollowerPos(&enemy_->wtf);
-	gameCamera->SetTargetPos(&player_->wtf);*/
+	gameCamera->SetFollowerPos(player_->GetObject3d()->GetWorldTransformPtr());
+
+	gameCamera->SetTargetPos(enemy_->GetObject3d()->GetWorldTransformPtr());
 }
 
 void GameScene::Update()
 {
-
-
+	Vector3 nowEye = gameCamera->GetEye();
+	gameCamera->SetTarget(player_->wtf.translation_);
 	//Vector3 move;
 	//if (input_->PushKey(DIK_LEFT))
 	//{
@@ -112,13 +114,23 @@ void GameScene::Update()
 	//	move.z -= 0.5f;
 	//}
 
+	/*gameCamera->SetTarget(player_->GetObject3d()->GetPosition());*/
 	
-
 
 	light_->Update();
 	gamePad_->Update();
 
 	fbxObject->Update();
+
+
+	ImGui::Begin("Camera");
+
+	ImGui::SliderFloat("eye:x", &nowEye.x, -400.0f, 400.0f);
+	ImGui::SliderFloat("eye:xz", &nowEye.z, -400.0f, 400.0f);
+
+	ImGui::End();
+
+	gameCamera->Update();
 
 	/*ImGui::Begin("cameraPos");
 	ImGui::SetWindowPos({ 200 , 200 });
@@ -132,7 +144,7 @@ void GameScene::Update()
 	player_->Update();
 	enemy_->Update();
 
-	//gameCamera->Update();
+	gameCamera->Update();
 
 	/*camera_->disEyeTarget(player_->GetPosition(),enemy_->GetPosition());*/
 
@@ -140,7 +152,7 @@ void GameScene::Update()
 	/*camera_->SetTarget((enemy_->wtf.translation_ - player_->wtf.translation_)/2);*/
 
 	//camera_->MoveTarget(input_);
-	camera_->Update();
+	/*camera_->Update();*/
 	
 	//当たり判定
 	colMan->CheckAllCollisions();

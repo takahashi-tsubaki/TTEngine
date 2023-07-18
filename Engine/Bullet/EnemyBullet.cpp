@@ -75,8 +75,6 @@ void EnemyBullet::CheckCollision()
 
 	}
 
-
-
 	for (int i = 0; i < SPHERE_COLISSION_NUM; i++)
 	{
 		if (hitDeley <= 0 && sphere[i]->GetIsHit() == true)
@@ -96,8 +94,6 @@ void EnemyBullet::CheckCollision()
 				break;
 			}
 		}
-
-
 
 	}
 	for (int i = 0; i < SPHERE_COLISSION_NUM; i++) {

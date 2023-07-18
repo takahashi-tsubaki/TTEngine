@@ -65,6 +65,16 @@ void Enemy::Initialize(DirectXCommon* dxCommon, Player* player)
 void Enemy::Update()
 {
 
+	playerPos = player_->GetObject3d()->GetWorldTransform().translation_;
+	enemyPos = enemyO_->worldTransform.translation_;
+	distance = { playerPos.x - enemyPos.x,
+				enemyPos.y,
+				playerPos.z - enemyPos.z };
+
+	angle = -(atan2(distance.x, distance.z) + MyMath::PI / 2);
+	enemyO_->worldTransform.rotation_.y = (angle + MyMath::PI / 2) * -1;
+
+
 	if (Hp_ <= 0)
 	{
 		SetisDead(true);
@@ -158,11 +168,13 @@ void Enemy::Update()
 
 	enemyO_->Update();
 
-	//ImGui::Begin("enemypos");
-	//ImGui::SetWindowPos({ 400 , 200 });
-	//ImGui::SetWindowSize({ 500,100 });
-	//ImGui::DragFloat3("enemyPos",&enemyO_->worldTransform.translation_.x);
-	//ImGui::End();
+	ImGui::Begin("enemyRotate");
+
+	ImGui::SetWindowPos({ 600 , 200 });
+	ImGui::SetWindowSize({ 200,100 });
+	ImGui::InputFloat3("x,y,z", &enemyO_->worldTransform.rotation_.x);
+
+	ImGui::End();
 }
 
 void Enemy::Draw()
@@ -247,7 +259,7 @@ void Enemy::Attack()
 	Vector3 distance;
 	float speed = 0.5f;
 
-	playerPos = player_->GetPosition();
+	playerPos = player_->GetObject3d()->GetWorldTransform().translation_;
 
 	enemyPos = enemyO_->worldTransform.translation_;
 
