@@ -29,8 +29,7 @@ void GameScene::Initalize(DirectXCommon* dxCommon, Input* input, GamePad* gamePa
 
 	gameCamera = new GameCamera(WinApp::window_width, WinApp::window_height,input);
 	assert(gameCamera);
-	gameCamera->SetEye({ 0,40.0f,-2000 });
-	/*gameCamera->SetTarget({ 0 , 0 , 0 });*/
+
 	
 	
 	//// カメラ注視点をセット
@@ -89,12 +88,14 @@ void GameScene::Initalize(DirectXCommon* dxCommon, Input* input, GamePad* gamePa
 	gameCamera->SetFollowerPos(player_->GetObject3d()->GetWorldTransformPtr());
 
 	gameCamera->SetTargetPos(enemy_->GetObject3d()->GetWorldTransformPtr());
+
+
 }
 
 void GameScene::Update()
 {
 	Vector3 nowEye = gameCamera->GetEye();
-	gameCamera->SetTarget(player_->wtf.translation_);
+
 	//Vector3 move;
 	//if (input_->PushKey(DIK_LEFT))
 	//{
@@ -143,8 +144,6 @@ void GameScene::Update()
 
 	player_->Update();
 	enemy_->Update();
-
-	gameCamera->Update();
 
 	/*camera_->disEyeTarget(player_->GetPosition(),enemy_->GetPosition());*/
 

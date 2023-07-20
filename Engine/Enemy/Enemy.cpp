@@ -32,7 +32,7 @@ void Enemy::Initialize(DirectXCommon* dxCommon, Player* player)
 	enemyO_->SetModel(enemyM_);
 
 	wtf.translation_ = { 0,0,0 };
-	enemyO_->SetScale({2,2,2});
+	//enemyO_->SetScale({2,2,2});
 	enemyO_->SetPosition(wtf.translation_);
 
 	//弾のモデルをセット
@@ -65,14 +65,16 @@ void Enemy::Initialize(DirectXCommon* dxCommon, Player* player)
 void Enemy::Update()
 {
 
+	wtf = enemyO_->GetWorldTransform();
+
 	playerPos = player_->GetObject3d()->GetWorldTransform().translation_;
 	enemyPos = enemyO_->worldTransform.translation_;
 	distance = { playerPos.x - enemyPos.x,
 				enemyPos.y,
 				playerPos.z - enemyPos.z };
 
-	angle = -(atan2(distance.x, distance.z) + MyMath::PI / 2);
-	enemyO_->worldTransform.rotation_.y = (angle + MyMath::PI / 2) * -1;
+	angle = (atan2(distance.x, distance.z) + MyMath::PI / 2);
+	enemyO_->worldTransform.rotation_.y = (angle + MyMath::PI / 2);
 
 
 	if (Hp_ <= 0)
@@ -82,9 +84,9 @@ void Enemy::Update()
 	}
 	else
 	{
-		Attack();
+		//Attack();
 
-		Move();
+		//Move();
 	}
 
 	bullets_.remove_if([](std::unique_ptr<EnemyBullet>& bullet) { return bullet->GetIsDead(); });
@@ -104,66 +106,73 @@ void Enemy::Update()
 	}
 
 	GetIsHit();
-	CheckHitCollision();
+
 
 	
 
 	enemyO_->UpdateMatrix();
 
+	
 #pragma region オブジェクト同士の押し出し処理
-//	class EnemyQueryCallBack : public QueryCallback
-//	{
-//	public:
-//		EnemyQueryCallBack(Sphere* sphere) : sphere(sphere) {};
-//
-//		bool OnQueryHit(const QueryHit& info)
-//		{
-//			rejectDir = info.reject;
-//			rejectDir.nomalize();
-//
-//			//上方向と排斥方向の角度差のコサイン値
-//			float cos = rejectDir.dot(up);
-//
-//			//地面判定しきい値角度
-//			const float threshold = cosf(XMConvertToRadians(30.0f));
-//			//角度差によって天井または地面と判定される場合を除いて
-//			if (-threshold < cos && cos < threshold)
-//			{
-//				//押し出す
-//				sphere->center += info.reject;
-//				move += info.reject;
-//			}
-//			return true;
-//		}
-//		void SphereQuery();
-//
-//		//ワールドの上方向
-//		const Vector3 up = { 0,1,0 };
-//		//排斥方向
-//		Vector3 rejectDir;
-//		//クエリーに使用する球
-//		Sphere* sphere = nullptr;
-//		//排斥による移動量
-//		Vector3 move = {};
-//
-//	};
-//
-//
-//	for (int i = 0; i < SPHERE_COLISSION_NUM; i++)
-//	{
-//		EnemyQueryCallBack callback(sphere[i]);
-//
-//		//球と地形の交差を全探索する
-//		CollisionManager::GetInstance()->QuerySphere(*sphere[i], &callback);
-//
-//		wtf.translation_.x += callback.move.x;
-//		wtf.translation_.y += callback.move.y;
-//		wtf.translation_.z += callback.move.z;
-//
-//		enemyO_->SetPosition(wtf.translation_);
-//		enemyO_->UpdateMatrix();
-//		sphere[i]->Update();
-//	}
+	class EnemyQueryCallBack : public QueryCallback
+	{
+	public:
+		EnemyQueryCallBack(Sphere* sphere) : sphere(sphere) {};
+
+		bool OnQueryHit(const QueryHit& info)
+		{
+			rejectDir = info.reject;
+			rejectDir.nomalize();
+
+			//上方向と排斥方向の角度差のコサイン値
+			float cos = rejectDir.dot(up);
+
+			//地面判定しきい値角度
+			const float threshold = cosf(XMConvertToRadians(30.0f));
+			//角度差によって天井または地面と判定される場合を除いて
+			if (-threshold < cos && cos < threshold)
+			{
+				//押し出す
+				sphere->center += info.reject;
+				move += info.reject;
+			}
+			return true;
+		}
+		void SphereQuery();
+
+		//ワールドの上方向
+		const Vector3 up = { 0,1,0 };
+		//排斥方向
+		Vector3 rejectDir;
+		//クエリーに使用する球
+		Sphere* sphere = nullptr;
+		//排斥による移動量
+		Vector3 move = {};
+
+	};
+
+
+	for (int i = 0; i < SPHERE_COLISSION_NUM; i++)
+	{
+		EnemyQueryCallBack callback(sphere[i]);
+
+		//球と地形の交差を全探索する
+		CollisionManager::GetInstance()->QuerySphere(*sphere[i], &callback);
+		if (sphere[i]->GetIsHit() == true)
+		{
+			if (sphere[i]->GetCollisionInfo().collider->GetAttribute() == COLLISION_ATTR_PLAYERS)
+			{
+				enemyO_->worldTransform.translation_.x += callback.move.x;
+				enemyO_->worldTransform.translation_.y += callback.move.y;
+				enemyO_->worldTransform.translation_.z += callback.move.z;
+			}
+		}
+		
+		//sphere[i]->Update();
+	}
+
+	CheckHitCollision();
+
 #pragma endregion 
 
 	enemyO_->Update();

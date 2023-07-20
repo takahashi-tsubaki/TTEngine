@@ -49,8 +49,8 @@ void GameCamera::MoveCamera()
 	eyePos.y *= mag;
 	eyePos.z *= mag;
 
-	cameraDistance_ = Ease::InOutQuad(MIN_CAMERA_DISTANCE, MAX_CAMERA_DISTANCE, cameraModeChangeCountTimer, MAX_CHANGE_TIMER);
-	cameraHeight_ = Ease::InOutQuad(3, 6, cameraModeChangeCountTimer, MAX_CHANGE_TIMER);
+	cameraDistance_ = Ease::InQuad(MIN_CAMERA_DISTANCE, MAX_CAMERA_DISTANCE, cameraModeChangeCountTimer, MAX_CHANGE_TIMER);
+	cameraHeight_ = Ease::InQuad(3, 6, cameraModeChangeCountTimer, MAX_CHANGE_TIMER);
 
 	Vector3 primalyCamera =
 	{ followerPos_->translation_.x + eyePos.x * cameraDistance_ ,//自機から引いた位置にカメラをセット
@@ -70,7 +70,7 @@ void GameCamera::MoveCamera()
 	zOffsetTarget *= targetToEyeLen * 2.0f;
 	zOffsetTarget.y += 3.0f;
 
-	SetTarget(targetPos_->translation_);
+	SetTarget(targetPos_->translation_ + (followerPos_->translation_ - followerPos_->translation_ / 3));
 
 	Camera::Update();
 }
