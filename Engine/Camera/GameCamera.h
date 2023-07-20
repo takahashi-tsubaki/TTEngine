@@ -52,5 +52,7 @@ private:
 
     bool isFollow_ = false;
 
+    bool isstanby = false;
+
 };
 
