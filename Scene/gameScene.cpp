@@ -96,28 +96,6 @@ void GameScene::Update()
 {
 	Vector3 nowEye = gameCamera->GetEye();
 
-	//Vector3 move;
-	//if (input_->PushKey(DIK_LEFT))
-	//{
-	//	move.x -= 0.5f;
-	//}
-	//if (input_->PushKey(DIK_RIGHT))
-	//{
-	//	move.x += 0.5f;
-	//}
-	//if (input_->PushKey(DIK_UP))
-	//{
-	//	move.z += 0.5f;
-	//}
-
-	//if (input_->PushKey(DIK_DOWN))
-	//{
-	//	move.z -= 0.5f;
-	//}
-
-	/*gameCamera->SetTarget(player_->GetObject3d()->GetPosition());*/
-	
-
 	light_->Update();
 	gamePad_->Update();
 

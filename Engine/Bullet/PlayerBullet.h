@@ -50,5 +50,7 @@ private:
 	//std::vector<Matrix4>* collisionBonesMat;	//当たり判定用のボーンのワールド行列
 
 	int hitDeley = 0;	//何フレーム連続で当たるか
+
+	float angle_ = 0;
 };
 

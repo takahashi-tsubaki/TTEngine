@@ -13,6 +13,8 @@ void PlayerBullet::Initialize(Model* model, const Vector3& position, const Vecto
 
 	velocity_ = velocity;
 
+	angle_ = (atan2(position.x, position.z) + MyMath::PI / 2);
+	bulletO_->worldTransform.rotation_.y = (angle_ + MyMath::PI / 2);
 
 	sphere.resize(SPHERE_COLISSION_NUM);
 	spherePos.resize(SPHERE_COLISSION_NUM);
@@ -39,6 +41,7 @@ void PlayerBullet::Initialize(Model* model, const Vector3& position, const Vecto
 
 void PlayerBullet::Update()
 {
+
 	Shot();
 	CheckCollision();
 	bulletO_->Update();
