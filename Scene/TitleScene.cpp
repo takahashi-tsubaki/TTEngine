@@ -1,9 +1,115 @@
 #include "TitleScene.h"
 
-//TitleScene::TitleScene(SceneManager* controller)
-//{
-//}
-//
-//TitleScene::~TitleScene()
-//{
-//}
+TitleScene::TitleScene(SceneManager* controller)
+{
+	controller_ = controller;
+}
+
+TitleScene::~TitleScene()
+{
+}
+
+void TitleScene::Initialize()
+{
+	skydomeO_ = Object3d::Create();
+	skydomeM_ = Model::CreateFromOBJ("skydome");
+	skydomeO_->SetModel(skydomeM_);
+
+	skydomeO_->SetScale({ 2,2,2 });
+
+	controller_->camera_->SetFollowerPos(&followPos);
+
+	controller_->camera_->SetTargetPos(&targetPos);
+}
+
+void TitleScene::Update(Input* input)
+{
+	skydomeO_->Update();
+	controller_->camera_->Update();
+	if (input->TriggerKey(DIK_RETURN))
+	{
+		controller_->ChangeSceneNum(S_PLAY);
+	}
+}
+
+void TitleScene::Draw()
+{
+#pragma region 背景スプライト描画
+	// 背景スプライト描画前処理
+	Sprite::PreDraw(controller_->dxCommon_->GetCommandList());
+	// 背景スプライト描画
+
+
+	/// <summary>
+	/// ここに背景スプライトの描画処理を追加できる
+	/// </summary>
+
+	// スプライト描画後処理
+	Sprite::PostDraw();
+#pragma endregion
+
+#pragma region 3Dオブジェクト描画
+	//// 3Dオブジェクト描画前処理
+	Object3d::PreDraw(controller_->dxCommon_->GetCommandList());
+
+	//// 3Dオブジェクトの描画
+
+	/*fbxObject->Draw(dxCommon_->GetCommandList());*/
+
+	skydomeO_->Draw();
+
+	///// <summary>
+	///// ここに3Dオブジェクトの描画処理を追加できる
+	///// </summary>
+
+	//// 3Dオブジェクト描画後処理
+	Object3d::PostDraw();
+#pragma endregion
+
+#pragma region パーティクル描画
+
+	//// パーティクル描画前処理
+	Particle::PreDraw(controller_->dxCommon_->GetCommandList());
+
+	//// 3Dオブジェクトの描画
+
+	///// <summary>
+	///// ここに3Dオブジェクトの描画処理を追加できる
+	///// </summary>
+
+	//// パーティクル描画後処理
+	Particle::PostDraw();
+
+#pragma endregion
+
+	//#pragma region ぺらポリゴン描画
+	//	postEffect->PreDrawScene(dxCommon_->GetCommandList());
+	//
+	//	//// ぺらポリゴンの描画
+	//	postEffect->Draw(dxCommon_->GetCommandList());
+	//	///// <summary>
+	//	///// ここにぺらポリゴンの描画処理を追加できる
+	//	///// </summary>
+	//
+	//	
+	//
+	//	postEffect->PostDrawScene(dxCommon_->GetCommandList());
+	//
+	//
+	//
+	//#pragma endregion
+#pragma region 前景スプライト描画
+	// 前景スプライト描画前処理
+	Sprite::PreDraw(controller_->dxCommon_->GetCommandList());
+
+	//sprite_->Draw();
+	/// <summary>
+	/// ここに前景スプライトの描画処理を追加できる
+	/// </summary>
+
+	//
+	// スプライト描画後処理
+	Sprite::PostDraw();
+
+#pragma endregion
+}

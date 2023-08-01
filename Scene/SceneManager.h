@@ -2,21 +2,32 @@
 #include <memory>
 #include <stack>
 
-
 #include "DirectXCommon.h"
+#include "GameCamera.h"
+#include "Input.h"
+#include "GamePad.h"
 
 class IScene;
 class Input;
 
 class SceneManager
 {
+public:
+	DirectXCommon* dxCommon_;
+	GameCamera* camera_;
+
+	Input* input_ = nullptr;
+	GamePad* gamePad_ = nullptr;
 protected:
 	std::stack<std::shared_ptr<IScene>> _scene;
-	DirectXCommon* dxCommon_;
+
+
+	bool isChange = false;
+	int sceneNum = 0;
 
 public:
 
-	SceneManager(DirectXCommon* dxCommon);
+	SceneManager(DirectXCommon* dxCommon,GameCamera* camera, Input* input, GamePad* gamePad);
 	~SceneManager();
 
 	//オブジェクトのInitializeを呼び出す
@@ -28,12 +39,15 @@ public:
 	// 各シーンのDrawを呼び出す
 	void SceneDraw();
 
+	void ChangeSceneNum(int number);
 	// シーンを変更する
-	void ChangeScene(IScene*);
+	void ChangeScene();
 
 	void PushScene(IScene*);
 
 	void PopScene();
+
+	int GetSceneNum() { return sceneNum; }
 
 };
 

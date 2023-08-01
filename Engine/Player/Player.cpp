@@ -119,6 +119,7 @@ void Player::Update()
 	}
 
 	Shot();
+	Vanish();
 	////çsóÒÇÃçXêVÇ»Ç«
 	playerO_->UpdateMatrix();
 
@@ -141,6 +142,11 @@ void Player::Update()
 
 	//ImGui::End();
 	
+	//ImGui::Begin("Vanish");
+
+	//ImGui::SliderFloat("Gauge",&VanishGauge, -400.0f, 400.0f);
+
+	//ImGui::End();
 
 	playerO_->Update();
 	/*playerFbxO_->Update();*/
@@ -201,22 +207,21 @@ void Player::Move()
 	}
 	playerO_->worldTransform.rotation_ = cameraAngle;
 
-	/*playerO_->worldTransform.UpdateMatWorld();*/
+	playerO_->worldTransform.UpdateMatWorld();
 
 	velocity_ = MyMath::MatVector(velocity_, playerO_->worldTransform.matWorld_);
 
 	playerO_->worldTransform.translation_ += velocity_;
 
 
-	ImGui::Begin("playerPos");
+	//ImGui::Begin("playerPos");
 
-	ImGui::SetWindowPos({ 200 , 200 });
-	ImGui::SetWindowSize({ 200,100 });
-	ImGui::InputFloat3("x", &playerO_->worldTransform.translation_.x);
-	ImGui::InputFloat3("x", &playerO_->worldTransform.rotation_.x);
-	/*ImGui::InputFloat3("z", &playerO_->worldTransform.translation_.z);*/
+	//ImGui::SetWindowPos({ 200 , 200 });
+	//ImGui::SetWindowSize({ 200,100 });
+	//ImGui::InputFloat3("x", &playerO_->worldTransform.translation_.x);
+	//ImGui::InputFloat3("x", &playerO_->worldTransform.rotation_.x);
 
-	ImGui::End();
+	//ImGui::End();
 
 }
 
@@ -264,11 +269,6 @@ void Player::Shot()
 
 	Vector3 d = d.lerp(a, b, timeRate);
 	Vector3 e = e.lerp(b, c, timeRate);
-
-
-
-	
-
 	distance = distance.lerp(d,e, timeRate);*/
 
 
@@ -351,15 +351,6 @@ void Player::Shot()
 			pushTimer = 15.0f;
 			pressTimer = 0.0f;
 			isShot = false;
-
-			/*coolTimer--;*/
-			/*if (coolTimer < 0)
-			{
-				bulletSize = 0;
-				coolTimer = 60.0f;
-				pushTimer = 24.0f;
-				pressTimer = 0.0f;
-			}*/
 		}
 	}
 	//ó£ÇµÇΩÇ∆Ç´
@@ -381,6 +372,52 @@ void Player::Shot()
 		}
 	}
 
+}
+
+void Player::Vanish()
+{
+	playerPos = playerO_->GetPosition();
+	//ìGÇ™çUåÇÇÇµÇƒÇ´ÇΩÇ∆Ç´
+	if (enemy_->GetisRapidShot() == true || enemy_->GetisRapidShot() == true)
+	{
+		//ì¡íËÇÃëÄçÏÇÇµÇΩÇÁ
+		if (input_->TriggerKey(DIK_0))
+		{
+			//âÒîÉQÅ[ÉWÇ™ñûÉ^ÉìÇÃéû
+			if (VanishGauge == 3.0f)
+			{
+				//âÒîÇµÇƒÇ¢Ç»Ç©Ç¡ÇΩÇ∆Ç´
+				if (isVanising == false)
+				{
+					VanishGauge = 0.0f;
+					VanishPos = { enemyPos.x , enemyPos.y, enemyPos.z+5 };
+					playerO_->SetPosition(VanishPos);
+					isVanising = true;
+				}
+			}
+		}
+		
+		
+	}
+
+	//âÒîÇµÇΩÇÁ
+	if (isVanising == true)
+	{
+		VanishGauge += 0.1f;
+		if (VanishGauge >= 3.0f)
+		{
+			VanishGauge = 3.0f;
+		}
+	}
+	//âÒîÉQÅ[ÉWÇ™ñûÉ^ÉìÇ»ÇÁ
+	if (VanishGauge == 3.0f)
+	{
+		//âÒîÇ™â¬î\Ç…Ç»ÇÈ
+		if (isVanising == true)
+		{
+			isVanising = false;
+		}
+	}
 }
 
 void Player::CheckHitCollision()
@@ -434,6 +471,7 @@ void Player::CheckHitCollision()
 
 		if (sphere[i]->GetIsHit() == true)
 		{
+			//ìñÇΩÇ¡ÇΩÇ‡ÇÃÇÃëÆê´Ç™ìGÇæÇ¡ÇΩéû
 			if (sphere[i]->GetCollisionInfo().collider->GetAttribute() == COLLISION_ATTR_ENEMYS)
 			{
 				playerO_->worldTransform.translation_.x += callback.move.x;
@@ -459,10 +497,12 @@ void Player::CheckHitCollision()
 		playerO_->SetColor({ 1,1,1,1 });
 	}
 
+	//ìñÇΩÇËîªíËÇÃèàóù
 	for (int i = 0; i < SPHERE_COLISSION_NUM; i++)
 	{
 		if (hitDeley <= 0 && sphere[i]->GetIsHit() == true)
 		{
+			//ìñÇΩÇ¡ÇΩÇ‡ÇÃÇÃëÆê´Ç™ìGÇÃíeÇæÇ¡ÇΩéû
 			if (sphere[i]->GetCollisionInfo().collider->GetAttribute() == COLLISION_ATTR_ENEMYBULLETS)
 			{
 				Hp_ -= 1;

@@ -44,6 +44,8 @@ public:
 
 	void Shot();
 
+	void Vanish();
+
 	Vector3 GetPosition() { return wtf.translation_; }
 
 	void CheckHitCollision();
@@ -113,6 +115,14 @@ private:
 	long long elapsedCount = 0;
 	float maxTime = 5.0f;				//‘S‘ÌŠÔ[s]
 	float timeRate;						//‰½“ŠÔ‚ªi‚ñ‚¾‚©
+#pragma endregion
+
+#pragma region ‰ñ”ğŠÖ˜A
+
+	float VanishGauge = 3.0f;
+	bool isVanising = false;
+	Vector3 VanishPos;
+
 #pragma endregion
 
 

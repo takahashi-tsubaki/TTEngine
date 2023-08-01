@@ -20,7 +20,7 @@
 
 #include "Player.h"
 #include "Enemy.h"
-
+#include "SceneManager.h"
 class GameScene
 {
 
@@ -66,19 +66,11 @@ private:
 
 
 
-
-
-
-
-
-
-
-
-
 	Player* player_ = nullptr;
 	Enemy* enemy_ = nullptr;
 
 	CollisionManager* colMan = nullptr;
 
-
+	IScene* scene_ = nullptr;
+	SceneManager* sceneManager = nullptr;
 };
