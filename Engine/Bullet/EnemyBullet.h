@@ -13,7 +13,7 @@ class EnemyBullet
 {
 public:
 
-	void Initialize(Model* model, const Vector3& position, const Vector3& velocity);
+	void Initialize(Model* model, const Vector3& position, const Vector3& velocity, const Vector3& Rotate);
 
 	void Update();
 

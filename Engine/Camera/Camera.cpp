@@ -22,27 +22,27 @@ Camera::Camera(int window_width, int window_height)
 
 void Camera::Update()
 {
-	//if (viewDirty || projectionDirty) {
-	//	// 再計算必要なら
-	//	if (viewDirty) {
-	//		// ビュー行列更新
-	//		UpdateViewMatrix();
-	//		viewDirty = false;
-	//	}
+	if (viewDirty || projectionDirty) {
+		// 再計算必要なら
+		if (viewDirty) {
+			// ビュー行列更新
+			UpdateViewMatrix();
+			viewDirty = false;
+		}
 
-	//	// 再計算必要なら
-	//	if (projectionDirty) {
-	//		// ビュー行列更新
-	//		UpdateProjectionMatrix();
-	//		projectionDirty = false;
-	//	}
-	//	// ビュープロジェクションの合成
-	//	matViewProjection = matView * matProjection;
-	//}
+		// 再計算必要なら
+		if (projectionDirty) {
+			// ビュー行列更新
+			UpdateProjectionMatrix();
+			projectionDirty = false;
+		}
+		// ビュープロジェクションの合成
+		matViewProjection = matView * matProjection;
+	}
 
-	UpdateViewMatrix();
-	UpdateProjectionMatrix();
-	matViewProjection = matView * matProjection;
+	//UpdateViewMatrix();
+	//UpdateProjectionMatrix();
+	//matViewProjection = matView * matProjection;
 }
 
 void Camera::UpdateViewMatrix()

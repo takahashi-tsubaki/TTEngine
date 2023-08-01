@@ -2,7 +2,7 @@
 #include "Player.h"
 #include "ImguiManager.h"
 
-void EnemyBullet::Initialize(Model* model, const Vector3& position, const Vector3& velocity)
+void EnemyBullet::Initialize(Model* model, const Vector3& position, const Vector3& velocity, const Vector3& Rotate)
 {
 	bulletO_ = Object3d::Create();
 	bulletO_->SetModel(model);
@@ -12,6 +12,8 @@ void EnemyBullet::Initialize(Model* model, const Vector3& position, const Vector
 	bulletO_->SetColor({ 1.0f,0.0f,0.0f,1.0f });
 
 	velocity_ = velocity;
+
+	bulletO_->worldTransform.rotation_ = Rotate;
 
 	sphere.resize(SPHERE_COLISSION_NUM);
 	spherePos.resize(SPHERE_COLISSION_NUM);
@@ -25,13 +27,6 @@ void EnemyBullet::Initialize(Model* model, const Vector3& position, const Vector
 		sphere[i]->SetRadius(1.0f);
 		sphere[i]->SetAttribute(COLLISION_ATTR_ENEMYBULLETS);
 		sphere[i]->Update();
-		////test
-		//coliderPosTest_[i] = Object3d::Create();
-		//coliderPosTest_[i]->SetModel(hpModel_.get());
-		//coliderPosTest_[i]->SetPosition(sphere[i]->center);
-		//coliderPosTest_[i]->SetScale({ sphere[i]->GetRadius(),sphere[i]->GetRadius() ,sphere[i]->GetRadius() });
-		//coliderPosTest_[i]->SetRotate({ 0,0,0 });
-		//coliderPosTest_[i]->Update();
 
 	}
 }

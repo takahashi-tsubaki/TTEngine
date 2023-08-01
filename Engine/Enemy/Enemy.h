@@ -56,6 +56,8 @@ public:
 
 	Object3d* GetObject3d() {return enemyO_;}
 
+	bool GetisShot() { return isShot; }
+	bool GetisRapidShot() { return rapidShot;}
 #pragma region “G‚ÌStateƒpƒ^[ƒ“s“®‚Ì‰¼‚Ì‚à‚Ì
 
 	//“G‚ÌUŒ‚ŠÖ”

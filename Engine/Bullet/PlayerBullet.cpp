@@ -45,21 +45,7 @@ void PlayerBullet::Update()
 	Shot();
 	CheckCollision();
 	bulletO_->Update();
-	
 
-	//for (int i = 0; i < SPHERE_COLISSION_NUM; i++) {
-	//	spherePos[i] = bulletO_->GetPosition();
-	//	sphere[i]->Update();
-	//	/*if (sphere[i]->GetIsHit() == true && player_->GetIsAtkCollide() == true){
-
-
-	//	 }*/
-
-	//}
-	/*if (enemy_->GetIsHit() == true)
-	{
-		
-	}*/
 
 	bulletO_->worldTransform.UpdateMatWorld();
 }
@@ -71,11 +57,7 @@ void PlayerBullet::Draw()
 
 void PlayerBullet::Shot()
 {
-	//Vector3 bulletpos;
-	//Vector3 enemypos;
-	//Vector3 distance;
 
-	//const float speed = 0.5f;
 
 	livingTimer--;
 	if (livingTimer <= 0)
@@ -84,26 +66,6 @@ void PlayerBullet::Shot()
 		livingTimer = 540.0f;
 		
 	}
-	//else
-	//{
-	//	//Šeposition‚ðŽæ“¾
-	//	bulletpos = bulletO_->worldTransform.translation_;
-	//	enemypos = enemy_->GetPosition();
-
-	//	//“G‚Æ’e‚Ì·•ªƒxƒNƒgƒ‹
-	//	distance = enemypos - bulletpos;
-	//	distance.length();
-	//	//³‹K‰»
-	//	distance.nomalize();
-	//	
-	//	//‘¬‚³‚ÌŒˆ’è
-	//	distance*= speed;
-
-	//	bulletO_->worldTransform.translation_.x += distance.x;
-	//	bulletO_->worldTransform.translation_.z += distance.z;
-
-	//}
-	//
 
 	bulletO_->worldTransform.translation_ += velocity_;
 }

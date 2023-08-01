@@ -22,9 +22,6 @@ void Enemy::Initialize(DirectXCommon* dxCommon, Player* player)
 
 	//enemyFbxO_->SetPosition(enemy_.translation_);
 
-
-
-
 	enemyO_ = Object3d::Create();
 
 	enemyM_ = Model::CreateFromOBJ("cube");
@@ -84,9 +81,13 @@ void Enemy::Update()
 	}
 	else
 	{
-		//Attack();
+		if (player_->GetisDead() == false)
+		{
+			Attack();
 
-		//Move();
+			//Move();
+		}
+
 	}
 
 	bullets_.remove_if([](std::unique_ptr<EnemyBullet>& bullet) { return bullet->GetIsDead(); });
@@ -106,9 +107,6 @@ void Enemy::Update()
 	}
 
 	GetIsHit();
-
-
-	
 
 	enemyO_->UpdateMatrix();
 
@@ -177,13 +175,13 @@ void Enemy::Update()
 
 	enemyO_->Update();
 
-	ImGui::Begin("enemyRotate");
+	/*ImGui::Begin("enemyRotate");
 
 	ImGui::SetWindowPos({ 600 , 200 });
 	ImGui::SetWindowSize({ 200,100 });
 	ImGui::InputFloat3("x,y,z", &enemyO_->worldTransform.rotation_.x);
 
-	ImGui::End();
+	ImGui::End();*/
 }
 
 void Enemy::Draw()
@@ -206,8 +204,6 @@ void Enemy::Draw()
 
 void Enemy::Action()
 {
-	
-
 
 }
 
@@ -253,7 +249,12 @@ void Enemy::CheckHitCollision()
 				break;
 			}
 		}
-
+		//if (GetisDead() == true)
+		//{
+		//	CollisionManager::GetInstance()->RemoveCollider(sphere[i]);
+		//	//Ç±Ç¢Ç¬ÇÕÇ¢ÇÁÇ»Ç¢
+		//	/*sphere[i]->GetCollisionInfo().collider->RemoveAttribute(COLLISION_ATTR_PLAYERBULLETS);*/
+		//}
 	}
 	for (int i = 0; i < SPHERE_COLISSION_NUM; i++) {
 		spherePos[i] = enemyO_->GetPosition();
@@ -287,10 +288,6 @@ void Enemy::Attack()
 
 	Vector3 d = d.lerp(a, b, timeRate);
 	Vector3 e = e.lerp(b, c, timeRate);
-
-
-
-
 
 	distance = distance.lerp(d,e, timeRate);*/
 
@@ -372,7 +369,7 @@ void Enemy::Attack()
 					bulletSize++;
 					// íeÇê∂ê¨Çµèâä˙âª
 					std::unique_ptr<EnemyBullet> newBullet = std::make_unique<EnemyBullet>();
-					newBullet->Initialize(bulletM_, enemyO_->worldTransform.translation_, distance);
+					newBullet->Initialize(bulletM_, enemyO_->worldTransform.translation_, distance,enemyO_->worldTransform.rotation_);
 
 					if (bulletType == EnemyBulletType::ONESHOT)
 					{
@@ -400,15 +397,6 @@ void Enemy::Attack()
 			coolTimer = 60.0f;
 			pressTimer = 0.0f;
 			isShot = false;
-
-			/*coolTimer--;*/
-			/*if (coolTimer < 0)
-			{
-				bulletSize = 0;
-				coolTimer = 60.0f;
-				pushTimer = 24.0f;
-				pressTimer = 0.0f;
-			}*/
 		}
 	}
 	

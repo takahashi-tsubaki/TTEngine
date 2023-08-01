@@ -29,6 +29,8 @@ void GameCamera::Initialize()
 void GameCamera::Update()
 {
 	MoveCamera();
+
+	Camera::Update();
 }
 
 void GameCamera::MoveCamera()
@@ -70,7 +72,7 @@ void GameCamera::MoveCamera()
 	zOffsetTarget *= targetToEyeLen * 2.0f;
 	zOffsetTarget.y += 3.0f;
 
-	SetTarget(targetPos_->translation_ + (followerPos_->translation_ - followerPos_->translation_ / 3));
+	SetTarget(targetPos_->translation_ /*+ (followerPos_->translation_ - followerPos_->translation_ / 2)*/);
 
 	Camera::Update();
 }
