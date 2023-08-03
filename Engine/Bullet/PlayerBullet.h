@@ -31,6 +31,7 @@ public:
 
 	void SetEnemy(Enemy* enemy) { enemy_ = enemy; }
 
+	void Reset();
 
 private:
 

@@ -12,6 +12,7 @@ GameScene::~GameScene() {
 	delete camera_ ;
 	delete fbxObject;
 	delete fbxModel;
+
 	/*safe_delete(fbxObject);
 	safe_delete(fbxModel);*/
 }
@@ -53,17 +54,18 @@ void GameScene::Initalize(DirectXCommon* dxCommon, Input* input, GamePad* gamePa
 
 	colMan = CollisionManager::GetInstance();
 
-	
-	sceneManager = new SceneManager(dxCommon_,gameCamera,input_,gamePad_);
-	sceneManager->SceneInitialize();
+	sceneObjects = new SceneObjects();
 
+	sceneManager = new SceneManager(dxCommon_,gameCamera, sceneObjects);
+	sceneManager->SceneInitialize();
+	sceneObjects->Initialize(sceneManager);
 
 }
 
 void GameScene::Update()
 {
 	sceneManager->ChangeScene();
-	sceneManager->SceneUpdate(input_);
+	sceneManager->SceneUpdate(input_,gamePad_);
 	gameCamera->Update();
 	/*Vector3 nowEye = gameCamera->GetEye();
 

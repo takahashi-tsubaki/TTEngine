@@ -14,6 +14,9 @@ GameCamera::GameCamera(int width, int height, Input* input) : Camera(width, heig
 	this->SetTarget(target);
 	this->SetUp(up);
 
+	//followerPos_->initialize();
+	//targetPos_->initialize();
+
 }
 
 GameCamera::~GameCamera()

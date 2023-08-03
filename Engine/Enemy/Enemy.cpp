@@ -249,14 +249,16 @@ void Enemy::CheckHitCollision()
 				break;
 			}
 		}
-		//if (GetisDead() == true)
-		//{
-		//	CollisionManager::GetInstance()->RemoveCollider(sphere[i]);
-		//	//こいつはいらない
-		//	/*sphere[i]->GetCollisionInfo().collider->RemoveAttribute(COLLISION_ATTR_PLAYERBULLETS);*/
-		//}
+		
 	}
-	for (int i = 0; i < SPHERE_COLISSION_NUM; i++) {
+	for (int i = 0; i < SPHERE_COLISSION_NUM; i++) 
+	{
+		if (GetisDead() == true)
+		{
+			CollisionManager::GetInstance()->RemoveCollider(sphere[i]);
+			//こいつはいらない
+			/*sphere[i]->GetCollisionInfo().collider->RemoveAttribute(COLLISION_ATTR_PLAYERBULLETS);*/
+		}
 		spherePos[i] = enemyO_->GetPosition();
 		sphere[i]->Update();
 	}
@@ -465,4 +467,63 @@ void Enemy::Move()
 
 void Enemy::Step()
 {
+}
+
+void Enemy::Reset()
+{
+	playerPos = { 0,0,0 };
+	enemyPos = { 0,0,0 };
+	distance = { 0,0,0 };
+
+	angle;
+	isAlive_ = false;
+	isAttack = false;
+	isVanish = false;
+	isMove = false;
+
+	isLeft = false;
+	isRight = false;
+	isApproach = false;
+
+	actionNum = 0;
+	moveActionNum = 0;
+
+	MoveflameCount = 0;
+
+	isShot = false;
+	oneShot = false;
+	rapidShot = false;
+
+	MAX_BULLET = 0;
+	bulletSize = 0;
+	bulletType = EnemyBulletType::NONE;
+
+	bulletTimer = 0.0f;
+	//連射制限のためのクールタイム
+	coolTimer = 60.0f;
+	//ボタンを押してる時間
+	pushTimer = 15.0f;
+	//長押ししている時間
+	pressTimer = 0.0f;
+
+	ShotflameCount = 0;
+
+
+	rapidCount = 0;
+
+	//長押しフラグ
+	isCharge = false;
+
+	isHit_ = false;
+
+	for (std::unique_ptr<EnemyBullet>& bullet : bullets_)
+	{
+		for (int i = 0; i < SPHERE_COLISSION_NUM; i++)
+		{
+			CollisionManager::GetInstance()->RemoveCollider(sphere[i]);
+		}
+		bullet->Reset();
+	}
+
+	
 }

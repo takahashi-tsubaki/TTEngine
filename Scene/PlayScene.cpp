@@ -1,21 +1,23 @@
 #include "PlayScene.h"
 #include "ImguiManager.h"
-PlayScene::PlayScene(SceneManager* controller)
+PlayScene::PlayScene(SceneManager* controller, SceneObjects* sceneObj)
 {
 	controller_ = controller;
+	sceneObj_ = sceneObj;
+	//sceneObj_->Initialize(controller_);
 }
 
 PlayScene::~PlayScene()
 {
+	sceneObj_->Reset();
+	//sceneObj_->Delete();
+	//delete player_;
+	//delete enemy_;
 }
 
 void PlayScene::Initialize()
 {
-	skydomeO_ = Object3d::Create();
-	skydomeM_ = Model::CreateFromOBJ("skydome");
-	skydomeO_->SetModel(skydomeM_);
 
-	skydomeO_->SetScale({ 2,2,2 });
 
 
 	Sprite::LoadTexture(1, L"Resources/kuribo-.jpg");
@@ -23,38 +25,21 @@ void PlayScene::Initialize()
 
 	sprite_ = Sprite::Create(1, { WinApp::window_width,WinApp::window_height });
 
-
-	fbxModel = FbxLoader::GetInstance()->LoadModelFromFile("boss_prot4");
-
-
-	player_ = new Player();
-	enemy_ = new Enemy();
-	enemy_->Initialize(controller_->dxCommon_, player_);
-
-
-	player_->Initialize(controller_->dxCommon_, controller_->input_, controller_->gamePad_, enemy_);
-
-	fbxObject = new FbxObject3d();
-	fbxObject->Initialize();
-	fbxObject->SetModel(fbxModel);
-	//fbxObject->SetScale({0.1f,0.1f,0.1f});
-	//fbxObject->SetPosition({ 0,-50,0 });
-
-	fbxObject->SetPosition({ 0,-10,10 });
+	player_ = sceneObj_->player_;
+	enemy_ = sceneObj_->enemy_;
 
 	controller_->camera_->SetFollowerPos(player_->GetObject3d()->GetWorldTransformPtr());
 
 	controller_->camera_->SetTargetPos(enemy_->GetObject3d()->GetWorldTransformPtr());
 }
 
-void PlayScene::Update(Input* input)
+void PlayScene::Update(Input* input, GamePad* gamePad)
 {
 	Vector3 nowEye = controller_->camera_->GetEye();
 
-	controller_->gamePad_->Update();
-
-	fbxObject->Update();
-
+	gamePad->Update();
+	//fbxObject->Update();
+	assert(input);
 
 	ImGui::Begin("Camera");
 
@@ -72,9 +57,9 @@ void PlayScene::Update(Input* input)
 	ImGui::InputFloat3("target", &camera_->target_.x);
 	ImGui::End();*/
 
-	skydomeO_->Update();
+	sceneObj_->skydomeO_->Update();
 
-	player_->Update();
+	player_->Update(input,gamePad);
 	enemy_->Update();
 	if (input->TriggerKey(DIK_RETURN))
 	{
@@ -106,7 +91,7 @@ void PlayScene::Draw()
 
 	/*fbxObject->Draw(dxCommon_->GetCommandList());*/
 
-	skydomeO_->Draw();
+	sceneObj_->skydomeO_->Draw();
 
 	player_->Draw();
 	enemy_->Draw();

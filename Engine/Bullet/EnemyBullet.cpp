@@ -4,6 +4,7 @@
 
 void EnemyBullet::Initialize(Model* model, const Vector3& position, const Vector3& velocity, const Vector3& Rotate)
 {
+	isDead_ = false;
 	bulletO_ = Object3d::Create();
 	bulletO_->SetModel(model);
 
@@ -113,4 +114,10 @@ void EnemyBullet::CheckCollision()
 	ImGui::InputFloat("livindBullet",&livingTimer);
 
 	ImGui::End();*/
+}
+
+void EnemyBullet::Reset()
+{
+	isDead_ = true;
+	livingTimer = 540.0f;
 }

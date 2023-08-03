@@ -6,7 +6,7 @@
 #include "GameCamera.h"
 #include "Input.h"
 #include "GamePad.h"
-
+#include "SceneObjects.h"
 class IScene;
 class Input;
 
@@ -20,14 +20,14 @@ public:
 	GamePad* gamePad_ = nullptr;
 protected:
 	std::stack<std::shared_ptr<IScene>> _scene;
-
+	SceneObjects* sceneObjects_;
 
 	bool isChange = false;
 	int sceneNum = 0;
 
 public:
 
-	SceneManager(DirectXCommon* dxCommon,GameCamera* camera, Input* input, GamePad* gamePad);
+	SceneManager(DirectXCommon* dxCommon,GameCamera* camera, SceneObjects* sceneObjects);
 	~SceneManager();
 
 	//オブジェクトのInitializeを呼び出す
@@ -35,7 +35,7 @@ public:
 	// 各シーンのInitializeを呼び出す
 	void SceneInitialize();
 	// 各シーンのUpdateを呼び出す
-	void SceneUpdate(Input* input);
+	void SceneUpdate(Input* input,GamePad* gamePad);
 	// 各シーンのDrawを呼び出す
 	void SceneDraw();
 

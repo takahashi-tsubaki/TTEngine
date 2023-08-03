@@ -1,30 +1,36 @@
 #include "TitleScene.h"
 
-TitleScene::TitleScene(SceneManager* controller)
+TitleScene::TitleScene(SceneManager* controller, SceneObjects* sceneObj)
 {
 	controller_ = controller;
+	sceneObj_ = sceneObj;
+
+	targetPos.translation_ = { 0,0,50 };
 }
 
 TitleScene::~TitleScene()
 {
+	//delete sceneObj_->skydomeO_;
+	/*sceneObj_->Delete();*/
 }
 
 void TitleScene::Initialize()
 {
-	skydomeO_ = Object3d::Create();
-	skydomeM_ = Model::CreateFromOBJ("skydome");
-	skydomeO_->SetModel(skydomeM_);
+	//sceneObj_->Initialize(controller_);
+	//skydomeO_ = Object3d::Create();
+	//skydomeM_ = Model::CreateFromOBJ("skydome");
+	//skydomeO_->SetModel(skydomeM_);
 
-	skydomeO_->SetScale({ 2,2,2 });
+	//skydomeO_->SetScale({ 2,2,2 });
 
 	controller_->camera_->SetFollowerPos(&followPos);
 
 	controller_->camera_->SetTargetPos(&targetPos);
 }
 
-void TitleScene::Update(Input* input)
+void TitleScene::Update(Input* input, GamePad* gamePad)
 {
-	skydomeO_->Update();
+	sceneObj_->skydomeO_->Update();
 	controller_->camera_->Update();
 	if (input->TriggerKey(DIK_RETURN))
 	{
@@ -56,7 +62,8 @@ void TitleScene::Draw()
 
 	/*fbxObject->Draw(dxCommon_->GetCommandList());*/
 
-	skydomeO_->Draw();
+	sceneObj_->skydomeO_->Draw();
+	//skydomeO_->Draw();
 
 	///// <summary>
 	///// ここに3Dオブジェクトの描画処理を追加できる

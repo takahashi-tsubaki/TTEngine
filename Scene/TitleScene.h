@@ -1,6 +1,7 @@
 #pragma once
 #include "IScene.h"
 #include "SceneInc.h"
+#include "SceneObjects.h"
 class TitleScene :
     public IScene
 {
@@ -29,14 +30,16 @@ protected:
 	WorldTransform followPos;
 	WorldTransform targetPos;
 
+	SceneObjects* sceneObj_;
+
 public:
 
-    TitleScene(SceneManager* controller);
+    TitleScene(SceneManager* controller, SceneObjects* sceneObj);
     ~TitleScene() override;
 
     void Initialize()override;
 
-    void Update(Input* input) override;
+    void Update(Input* input, GamePad* gamePad) override;
 
     void Draw() override;
 
