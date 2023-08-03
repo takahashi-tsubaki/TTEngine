@@ -1,8 +1,9 @@
 #include "ResultScene.h"
 
-ResultScene::ResultScene(SceneManager* controller)
+ResultScene::ResultScene(SceneManager* controller,SceneObjects* sceneObj)
 {
 	controller_ = controller;
+	sceneObj_ = sceneObj;
 }
 
 ResultScene::~ResultScene()
@@ -13,7 +14,7 @@ void ResultScene::Initialize()
 {
 }
 
-void ResultScene::Update(Input* input)
+void ResultScene::Update(Input* input, GamePad* gamePad)
 {
 }
 

@@ -35,16 +35,16 @@ public:
 
 public:
 
-	void Initialize(DirectXCommon* dxCommon, Input* input, GamePad* gamePad, Enemy* enemy);
+	void Initialize(DirectXCommon* dxCommon, Enemy* enemy);
 
-	void Update();
+	void Update(Input* input, GamePad* gamePad);
 
 	void Draw();
-	void Move();
+	void Move(Input* input, GamePad* gamePad);
 
-	void Shot();
+	void Shot(Input* input, GamePad* gamePad);
 
-	void Vanish();
+	void Vanish(Input* input, GamePad* gamePad);
 
 	Vector3 GetPosition() { return wtf.translation_; }
 
@@ -62,6 +62,8 @@ public:
 	void moveAngle();
 
 	Vector3 GetAngle() {return cameraAngle;}
+
+	void Reset();
 
 private:
 	Vector3 oldPos;

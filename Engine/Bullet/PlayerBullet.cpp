@@ -3,7 +3,7 @@
 #include "ImguiManager.h"
 void PlayerBullet::Initialize(Model* model, const Vector3& position, const Vector3& velocity)
 {
-
+	isDead_ = false;
 	bulletO_ = Object3d::Create();
 	bulletO_->SetModel(model);
 
@@ -126,4 +126,11 @@ void PlayerBullet::CheckCollision()
 
 	ImGui::End();*/
 
+}
+
+void PlayerBullet::Reset()
+{
+	livingTimer = 540.0f;
+
+	isDead_ = true;
 }

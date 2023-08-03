@@ -21,6 +21,7 @@
 #include "Player.h"
 #include "Enemy.h"
 #include "SceneManager.h"
+#include "SceneObjects.h"
 class GameScene
 {
 
@@ -73,4 +74,5 @@ private:
 
 	IScene* scene_ = nullptr;
 	SceneManager* sceneManager = nullptr;
+	SceneObjects* sceneObjects = nullptr;
 };

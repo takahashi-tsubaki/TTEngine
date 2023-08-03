@@ -34,14 +34,16 @@ protected:
 	Enemy* enemy_ = nullptr;
 
 	CollisionManager* colMan = nullptr;
+
+	SceneObjects* sceneObj_;
 public:
 
-    PlayScene(SceneManager* controller);
+    PlayScene(SceneManager* controller, SceneObjects* sceneObj);
     ~PlayScene() override;
 
     void Initialize()override;
 
-    void Update(Input*input) override;
+    void Update(Input*input, GamePad* gamePad) override;
 
     void Draw() override;
 

@@ -1,11 +1,9 @@
 #include "Player.h"
 #include "Enemy.h"
 #include "ImguiManager.h"
-void Player::Initialize(DirectXCommon* dxCommon, Input* input,GamePad* gamePad, Enemy* enemy)
+void Player::Initialize(DirectXCommon* dxCommon, Enemy* enemy)
 {
 	dxCommon_ = dxCommon;
-	input_ = input;
-	gamePad_ = gamePad;
 
 	//デバイスのセット
 	FbxObject3d::SetDevice(dxCommon_->GetDevice());
@@ -76,7 +74,7 @@ void Player::Initialize(DirectXCommon* dxCommon, Input* input,GamePad* gamePad, 
 	startCount = clock() / 1000;
 }
 
-void Player::Update()
+void Player::Update(Input* input, GamePad* gamePad)
 {
 	//カメラの角度の更新
 	moveAngle();
@@ -86,12 +84,30 @@ void Player::Update()
 		SetisDead(true);
 	}
 
-	if (input_->TriggerKey(DIK_R))
+	if (input->TriggerKey(DIK_R))
 	{
 		SetHp(10);
 		SetisDead(false);
 		enemy_->SetHp(30);
 		enemy_->SetisDead(false);
+		for (int i = 0; i < SPHERE_COLISSION_NUM; i++)
+		{
+			sphere[i] = new SphereCollider;
+			CollisionManager::GetInstance()->AddCollider(sphere[i]);
+			spherePos[i] = playerO_->GetPosition();
+			sphere[i]->SetBasisPos(&spherePos[i]);
+			sphere[i]->SetRadius(1.0f);
+			sphere[i]->SetAttribute(COLLISION_ATTR_PLAYERS);
+			sphere[i]->Update();
+			////test
+			//coliderPosTest_[i] = Object3d::Create();
+			//coliderPosTest_[i]->SetModel(hpModel_.get());
+			//coliderPosTest_[i]->SetPosition(sphere[i]->center);
+			//coliderPosTest_[i]->SetScale({ sphere[i]->GetRadius(),sphere[i]->GetRadius() ,sphere[i]->GetRadius() });
+			//coliderPosTest_[i]->SetRotate({ 0,0,0 });
+			//coliderPosTest_[i]->Update();
+
+		}
 	}
 
 	oldPos = wtf.translation_;
@@ -115,11 +131,11 @@ void Player::Update()
 
 	if (bulletType != PlayerBulletType::RapidShot)
 	{
-		Move();
+		Move(input, gamePad);
 	}
 
-	Shot();
-	Vanish();
+	Shot(input, gamePad);
+	Vanish(input, gamePad);
 	////行列の更新など
 	playerO_->UpdateMatrix();
 
@@ -166,12 +182,12 @@ void Player::Draw()
 
 }
 
-void Player::Move()
+void Player::Move(Input* input, GamePad* gamePad)
 {
 
 	velocity_ = { 0 , 0 , 0 };
 
-	if (gamePad_->StickInput(L_UP) || input_->PushKey(DIK_W))
+	if (gamePad->StickInput(L_UP) || input->PushKey(DIK_W))
 	{
 		//enemyPos = enemy_->GetPosition();
 		//distance = enemy_->GetPosition() - playerO_->GetPosition();
@@ -184,21 +200,21 @@ void Player::Move()
 		velocity_ += { 0 , 0 , moveSpeed };
 	}
 
-	if (gamePad_->StickInput(L_DOWN)|| input_->PushKey(DIK_S))
+	if (gamePad->StickInput(L_DOWN)|| input->PushKey(DIK_S))
 	{
 		//wtf.translation_.z -= 0.5f;
 		//playerO_->SetPosition(wtf.translation_);
 		velocity_ += { 0 , 0 , moveSpeed * -1 };
 
 	}
-	if (gamePad_->StickInput(L_LEFT) || input_->PushKey(DIK_A))
+	if (gamePad->StickInput(L_LEFT) || input->PushKey(DIK_A))
 	{
 		//wtf.translation_.x -= 0.5f;
 		//playerO_->SetPosition(wtf.translation_);
 		velocity_ += { moveSpeed * -1 , 0 , 0 };
 	}
 
-	if (gamePad_->StickInput(L_RIGHT) || input_->PushKey(DIK_D))
+	if (gamePad->StickInput(L_RIGHT) || input->PushKey(DIK_D))
 	{
 		//wtf.translation_.x += 0.5f;
 		//playerO_->SetPosition(wtf.translation_);
@@ -225,7 +241,7 @@ void Player::Move()
 
 }
 
-void Player::Shot()
+void Player::Shot(Input* input, GamePad* gamePad)
 {
 	nowCount++;
 
@@ -275,7 +291,7 @@ void Player::Shot()
 #pragma endregion
 
 	//押したとき
-	if (gamePad_->ButtonInput(A) || input_->PushKey(DIK_SPACE))
+	if (gamePad->ButtonInput(A) || input->PushKey(DIK_SPACE))
 	{
 		pushTimer--;
 		pressTimer--;
@@ -354,7 +370,7 @@ void Player::Shot()
 		}
 	}
 	//離したとき
-	if (gamePad_->ButtonOffTrigger(A) || input_->ReleaseKey(DIK_SPACE))
+	if (gamePad->ButtonOffTrigger(A) || input->ReleaseKey(DIK_SPACE))
 	{
 		//単発の時
 		if (pushTimer >= 0)
@@ -374,14 +390,14 @@ void Player::Shot()
 
 }
 
-void Player::Vanish()
+void Player::Vanish(Input* input, GamePad* gamePad)
 {
 	playerPos = playerO_->GetPosition();
 	//敵が攻撃をしてきたとき
 	if (enemy_->GetisRapidShot() == true || enemy_->GetisRapidShot() == true)
 	{
 		//特定の操作をしたら
-		if (input_->TriggerKey(DIK_0))
+		if (input->TriggerKey(DIK_0))
 		{
 			//回避ゲージが満タンの時
 			if (VanishGauge == 3.0f)
@@ -515,6 +531,12 @@ void Player::CheckHitCollision()
 
 	}
 	for (int i = 0; i < SPHERE_COLISSION_NUM; i++) {
+		if (GetisDead() == true)
+		{
+			CollisionManager::GetInstance()->RemoveCollider(sphere[i]);
+			//こいつはいらない
+			/*sphere[i]->GetCollisionInfo().collider->RemoveAttribute(COLLISION_ATTR_PLAYERBULLETS);*/
+		}
 		spherePos[i] = playerO_->GetPosition();
 		sphere[i]->Update();
 	}
@@ -525,5 +547,60 @@ void Player::moveAngle()
 	cameraAngle.y = 
 		atan2(playerO_->GetCamera()->GetTarget().x - playerO_->GetCamera()->GetEye().x,
 			  playerO_->GetCamera()->GetTarget().z - playerO_->GetCamera()->GetEye().z);
+}
+
+void Player::Reset()
+{
+	oldPos = { 0,0,0 };
+	playerPos = { 0,0,0 };
+	enemyPos = { 0,0,0 };
+	distance = { 0,0,0 };
+
+	Hp_ = 10;
+	isDead_ = false;
+	faceAngle_ = { 0 , 0 , 0 };
+	cameraAngle = { 0,0,0 };
+	velocity_ = { 0,0,0 };
+
+
+	VanishGauge = 3.0f;
+	isVanising = false;
+	VanishPos;
+
+	isShot = false;
+	//単発
+	oneShot = false;
+	//連射
+	rapidShot = false;
+	//弾の最大個数
+	MAX_BULLET = 0;
+	//現在の弾の個数
+	bulletSize = 0;
+	//弾のタイプ
+	bulletType = PlayerBulletType::None;
+	//弾と弾の間隔時間
+	bulletTimer = 0.0f;
+	//連射制限のためのクールタイム
+	coolTimer = 60.0f;
+	//ボタンを押してる時間
+	pushTimer = 15.0f;
+	//長押ししている時間
+	pressTimer = 0.0f;
+
+	//ベジエにしようとしたやつ
+	startCount = 0;
+	nowCount = 0;
+	elapsedCount = 0;
+	maxTime = 5.0f;				//全体時間[s]
+	timeRate;						//何％時間が進んだか
+
+	for (std::unique_ptr<PlayerBullet>& bullet : bullets_)
+	{
+		for (int i = 0; i < SPHERE_COLISSION_NUM; i++)
+		{
+			CollisionManager::GetInstance()->RemoveCollider(sphere[i]);
+		}
+		bullet->Reset();
+	}
 }
 

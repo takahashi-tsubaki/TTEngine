@@ -4,12 +4,11 @@
 
 #include <cassert>
 
-SceneManager::SceneManager(DirectXCommon* dxCommon,GameCamera* camera, Input* input, GamePad* gamePad)
+SceneManager::SceneManager(DirectXCommon* dxCommon,GameCamera* camera, SceneObjects* sceneObjects)
 {
 	dxCommon_ = dxCommon;
-	input_ = input;
-	gamePad_ = gamePad;
-	_scene.emplace(new TitleScene(&*this));
+	sceneObjects_ = sceneObjects;
+	_scene.emplace(new TitleScene(&*this, sceneObjects_));
 	camera_ = camera;
 
 }
@@ -23,9 +22,9 @@ void SceneManager::SceneInitialize()
 	_scene.top().get()->Initialize();
 }
 
-void SceneManager::SceneUpdate(Input* input)
+void SceneManager::SceneUpdate(Input* input, GamePad* gamePad)
 {
-	_scene.top().get()->Update(input);
+	_scene.top().get()->Update(input,gamePad);
 }
 
 void SceneManager::SceneDraw()
@@ -51,26 +50,26 @@ void SceneManager::ChangeScene()
 		{
 		case S_TITLE:
 			_scene.pop();
-			_scene.emplace(new TitleScene(&*this));
+			_scene.emplace(new TitleScene(&*this, sceneObjects_));
 			SceneInitialize();
 			break;
 		case S_PLAY:
 			_scene.pop();
-			_scene.emplace(new PlayScene(&*this));
+			_scene.emplace(new PlayScene(&*this, sceneObjects_));
 			SceneInitialize();
 			break;
 		case S_RESULT:
 			_scene.pop();
-			_scene.emplace(new ResultScene(&*this));
+			_scene.emplace(new ResultScene(&*this, sceneObjects_));
 			SceneInitialize();
 			break;
 		case 4:
 			_scene.pop();
-			_scene.emplace(new TitleScene(&*this));
+			_scene.emplace(new TitleScene(&*this, sceneObjects_));
 			SceneInitialize();
 			break;
 		default:
-			_scene.emplace(new TitleScene(&*this));
+			_scene.emplace(new TitleScene(&*this, sceneObjects_));
 			SceneInitialize();
 			break;
 		}

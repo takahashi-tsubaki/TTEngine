@@ -70,7 +70,7 @@ public:
 
 	void Step();
 
-
+	void Reset();
 
 
 #pragma endregion
