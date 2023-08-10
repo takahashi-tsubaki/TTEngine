@@ -235,21 +235,22 @@ bool Particle::Initialize() {
 void Particle::Update() {
 	assert(sCamera_);
 
-	XMMATRIX matScale, matRot, matTrans;
+	HRESULT result;
+	UpdateMatrix();
 
-	// スケール、回転、平行移動行列の計算
-	matScale = XMMatrixScaling(scale_.x, scale_.y, scale_.z);
-	matRot = XMMatrixIdentity();
-	matRot *= XMMatrixRotationZ(XMConvertToRadians(rotation_.z));
-	matRot *= XMMatrixRotationX(XMConvertToRadians(rotation_.x));
-	matRot *= XMMatrixRotationY(XMConvertToRadians(rotation_.y));
-	matTrans = XMMatrixTranslation(position_.x, position_.y, position_.z);
+	//// スケール、回転、平行移動行列の計算
+	//matScale = XMMatrixScaling(scale_.x, scale_.y, scale_.z);
+	//matRot = XMMatrixIdentity();
+	//matRot *= XMMatrixRotationZ(XMConvertToRadians(rotation_.z));
+	//matRot *= XMMatrixRotationX(XMConvertToRadians(rotation_.x));
+	//matRot *= XMMatrixRotationY(XMConvertToRadians(rotation_.y));
+	//matTrans = XMMatrixTranslation(position_.x, position_.y, position_.z);
 
-	// ワールド行列の合成
-	matWorld = XMMatrixIdentity(); // 変形をリセット
-	matWorld *= matScale;          // ワールド行列にスケーリングを反映
-	matWorld *= matRot;            // ワールド行列に回転を反映
-	matWorld *= matTrans;          // ワールド行列に平行移動を反映
+	//// ワールド行列の合成
+	//matWorld = XMMatrixIdentity(); // 変形をリセット
+	//matWorld *= matScale;          // ワールド行列にスケーリングを反映
+	//matWorld *= matRot;            // ワールド行列に回転を反映
+	//matWorld *= matTrans;          // ワールド行列に平行移動を反映
 
 	//if (isBillboard) {
 	//	const XMMATRIX& matBillboard = sCamera_->GetBillboardMatrix();
@@ -269,11 +270,27 @@ void Particle::Update() {
 	//	matWorld *= parent->matWorld;
 	//}
 
-	//// 定数バッファへデータ転送
-	//constMap->viewproj = matViewProjection;
-	//constMap->world = matWorld;
-	//constMap->cameraPos = cameraPos;
-	//constMap->color = this->color;
+	XMVECTOR CameraVec = { 10000.0f,10000.0f,10000.0f/*camera_->GetEye().x - worldTransform.translation_.x + 2.0f,camera_->GetEye().x - worldTransform.translation_.y + 2.0f,camera_->GetEye().x - worldTransform.translation_.z*/ };
+
+	CameraVec = XMVector3Normalize(CameraVec);
+
+	result = constBuffB0->Map(0, nullptr, (void**)&constMap);
+	//constMap->color = color;
+	Matrix4 myMat = worldTransform.matWorld_;
+	myMat *= sCamera_->GetViewProjectionMatrix();	// 行列の合成 
+	constMap->mat = myMat;
+	constMap->color = color_;
+	constBuffB0->Unmap(0, nullptr);
+}
+
+void Particle::UpdateMatrix()
+{
+	worldTransform.UpdateMatWorld();
+	// 親オブジェクトがあれば
+	if (parent != nullptr) {
+		// 親オブジェクトのワールド行列を掛ける
+		matWorld *= parent->matWorld;
+	}
 }
 
 void Particle::Draw() {

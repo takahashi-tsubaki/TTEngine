@@ -22,8 +22,15 @@ void PlayScene::Initialize()
 
 	Sprite::LoadTexture(1, L"Resources/kuribo-.jpg");
 	Sprite::LoadTexture(2, L"Resources/mario.jpg");
+	//HpSprite
+	Sprite::LoadTexture(3, L"Resources/sprite/hp.png");
 
 	sprite_ = Sprite::Create(1, { WinApp::window_width,WinApp::window_height });
+	enemyHpSprite_ = Sprite::Create(3, { 200,10 });
+	enemyHpSprite_->Initialize();
+
+	playerHpSprite_ = Sprite::Create(3,{100,600});
+	playerHpSprite_->Initialize();
 
 	player_ = sceneObj_->player_;
 	enemy_ = sceneObj_->enemy_;
@@ -35,6 +42,11 @@ void PlayScene::Initialize()
 
 void PlayScene::Update(Input* input, GamePad* gamePad)
 {
+
+	enemyHpSprite_->SetSize({ enemy_->GetHp() * 32.0f, 32.0f });
+	playerHpSprite_->SetSize({ player_->GetHp() * 32.0f, 32.0f});
+
+
 	Vector3 nowEye = controller_->camera_->GetEye();
 
 	gamePad->Update();
@@ -144,7 +156,8 @@ void PlayScene::Draw()
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
-
+	playerHpSprite_->Draw();
+	enemyHpSprite_->Draw();
 	//
 	// スプライト描画後処理
 	Sprite::PostDraw();

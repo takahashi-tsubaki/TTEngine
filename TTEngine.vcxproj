@@ -59,7 +59,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Engine\Base;$(SolutionDir)Engine\2D;$(SolutionDir)Engine\3D;$(SolutionDir)Scene;$(SolutionDir)Engine\Math;$(SolutionDir)Engine\Particle;$(SolutionDir)Engine\FBX;$(SolutionDir)External\DirectXTex;$(SolutionDir)External\lib\fbx_sdk\include;$(SolutionDir)Engine\FrameWork;$(SolutionDir)External\imgui;$(SolutionDir)Engine\Camera;$(SolutionDir)Engine\Light;$(SolutionDir)Engine\Enemy;$(SolutionDir)Engine\Player;$(SolutionDir)Engine\Bullet;$(SolutionDir)Engine\Collider;$(SolutionDir)Engine\BehaviorTree</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Engine\Base;$(SolutionDir)Engine\2D;$(SolutionDir)Engine\3D;$(SolutionDir)Scene;$(SolutionDir)Engine\Math;$(SolutionDir)Engine\Particle;$(SolutionDir)Engine\FBX;$(SolutionDir)External\DirectXTex;$(SolutionDir)External\lib\fbx_sdk\include;$(SolutionDir)Engine\FrameWork;$(SolutionDir)External\imgui;$(SolutionDir)Engine\Camera;$(SolutionDir)Engine\Light;$(SolutionDir)Engine\Enemy;$(SolutionDir)Engine\Player;$(SolutionDir)Engine\Bullet;$(SolutionDir)Engine\Collider</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <TreatWarningAsError>false</TreatWarningAsError>
     </ClCompile>
@@ -81,7 +81,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Engine\Base;$(SolutionDir)Engine\2D;$(SolutionDir)Engine\3D;$(SolutionDir)Scene;$(SolutionDir)Engine\Math;$(SolutionDir)Engine\Particle;$(SolutionDir)Engine\FBX;$(SolutionDir)External\DirectXTex;$(SolutionDir)External\lib\fbx_sdk\include;$(SolutionDir)Engine\FrameWork;$(SolutionDir)External\imgui;$(SolutionDir)Engine\Camera;$(SolutionDir)Engine\Light;$(SolutionDir)Engine\Enemy;$(SolutionDir)Engine\Player;$(SolutionDir)Engine\Bullet;$(SolutionDir)Engine\Collider;$(SolutionDir)Engine\BehaviorTree</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Engine\Base;$(SolutionDir)Engine\2D;$(SolutionDir)Engine\3D;$(SolutionDir)Scene;$(SolutionDir)Engine\Math;$(SolutionDir)Engine\Particle;$(SolutionDir)Engine\FBX;$(SolutionDir)External\DirectXTex;$(SolutionDir)External\lib\fbx_sdk\include;$(SolutionDir)Engine\FrameWork;$(SolutionDir)External\imgui;$(SolutionDir)Engine\Camera;$(SolutionDir)Engine\Light;$(SolutionDir)Engine\Enemy;$(SolutionDir)Engine\Player;$(SolutionDir)Engine\Bullet;$(SolutionDir)Engine\Collider</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <LanguageStandard>stdcpp20</LanguageStandard>
@@ -110,9 +110,6 @@
     <ClCompile Include="Engine\Base\GamePad.cpp" />
     <ClCompile Include="Engine\Base\Input.cpp" />
     <ClCompile Include="Engine\Base\WinApp.cpp" />
-    <ClCompile Include="Engine\BehaviorTree\EnemyAttack.cpp" />
-    <ClCompile Include="Engine\BehaviorTree\EnemyStandby.cpp" />
-    <ClCompile Include="Engine\BehaviorTree\EnemyState.cpp" />
     <ClCompile Include="Engine\Bullet\EnemyBullet.cpp" />
     <ClCompile Include="Engine\Bullet\PlayerBullet.cpp" />
     <ClCompile Include="Engine\Camera\Camera.cpp" />
@@ -163,9 +160,6 @@
     <ClInclude Include="Engine\Base\GamePad.h" />
     <ClInclude Include="Engine\Base\Input.h" />
     <ClInclude Include="Engine\Base\WinApp.h" />
-    <ClInclude Include="Engine\BehaviorTree\EnemyAttack.h" />
-    <ClInclude Include="Engine\BehaviorTree\EnemyStandby.h" />
-    <ClInclude Include="Engine\BehaviorTree\EnemyState.h" />
     <ClInclude Include="Engine\Bullet\EnemyBullet.h" />
     <ClInclude Include="Engine\Bullet\PlayerBullet.h" />
     <ClInclude Include="Engine\Camera\Camera.h" />

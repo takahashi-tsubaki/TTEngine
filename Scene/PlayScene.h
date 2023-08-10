@@ -36,6 +36,9 @@ protected:
 	CollisionManager* colMan = nullptr;
 
 	SceneObjects* sceneObj_;
+
+	Sprite* playerHpSprite_ = nullptr;
+	Sprite* enemyHpSprite_ = nullptr;
 public:
 
     PlayScene(SceneManager* controller, SceneObjects* sceneObj);

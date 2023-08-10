@@ -57,6 +57,7 @@ void Enemy::Initialize(DirectXCommon* dxCommon, Player* player)
 
 	}
 
+
 }
 
 void Enemy::Update()
@@ -182,6 +183,7 @@ void Enemy::Update()
 	ImGui::InputFloat3("x,y,z", &enemyO_->worldTransform.rotation_.x);
 
 	ImGui::End();*/
+
 }
 
 void Enemy::Draw()
@@ -197,7 +199,7 @@ void Enemy::Draw()
 			enemyO_->Draw();
 		}
 	}
-	
+
 
 
 }

@@ -4,6 +4,8 @@
 
 #include "worldTransform.h"
 
+#include "Sprite.h"
+
 #include "Object3d.h"
 #include "Model.h"
 
@@ -163,5 +165,7 @@ private:
 	int hitDeley = 0;	//‰½ƒtƒŒ[ƒ€˜A‘±‚Å“–‚½‚é‚©
 
 	Player* player_ = nullptr;
+
+
 };
 

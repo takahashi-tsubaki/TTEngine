@@ -2,13 +2,19 @@
 #include "SceneManager.h"
 void SceneObjects::Initialize(SceneManager* controller)
 {
+	Sprite::LoadTexture(1, L"Resources/kuribo-.jpg");
+	Sprite::LoadTexture(2, L"Resources/mario.jpg");
+
+
+	sprite_ = Sprite::Create(1, { 100,100 });
+
 	controller_ = controller;
 
 	skydomeO_ = Object3d::Create();
 	skydomeM_ = Model::CreateFromOBJ("skydome");
 	skydomeO_->SetModel(skydomeM_);
 
-	skydomeO_->SetScale({ 2,2,2 });
+	skydomeO_->SetScale({ 1,1,1 });
 
 
 	fbxModel = FbxLoader::GetInstance()->LoadModelFromFile("boss_prot4");

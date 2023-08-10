@@ -10,6 +10,10 @@
 #include "Model.h"
 #include "Camera.h"
 
+#include "worldTransform.h"
+
+#include "Vector3.h"
+
 /// <summary>
 /// 3Dオブジェクト
 /// </summary>
@@ -38,11 +42,8 @@ public: // サブクラス
 	// 定数バッファ用データ構造体B0
 	struct ConstBufferDataB0
 	{
-		XMMATRIX viewproj; //ビュープロジェクション行列
-		XMMATRIX world;//ワールド行列
-		XMFLOAT3 cameraPos;//カメラ座標
-		float pad1;
-		XMFLOAT4 color;
+		Matrix4 mat; // 3D変換行列
+		Vector4 color;
 	};
 
 private: // 定数
@@ -101,6 +102,8 @@ public: // メンバ関数
 	/// </summary>
 	void Update();
 
+	void UpdateMatrix();
+
 	/// <summary>
 	/// 描画
 	/// </summary>
@@ -110,27 +113,27 @@ public: // メンバ関数
 	/// 座標の取得
 	/// </summary>
 	/// <returns>座標</returns>
-	const XMFLOAT3& GetPosition() { return position_; }
+	const Vector3& GetPosition() { return worldTransform.translation_; }
 
 	/// <summary>
 	/// 回転角の取得
 	/// </summary>
 	/// <returns></returns>
-	const XMFLOAT3& GetRotation() { return rotation_; }
+	const Vector3& GetRotation() { return worldTransform.rotation_; }
 
 	/// <summary>
 	/// 座標の設定
 	/// </summary>
 	/// <param name="position">座標</param>
-	void SetPosition(XMFLOAT3 position) { position_ = position; }
+	void SetPosition(Vector3 position) { worldTransform.translation_ = position; }
 
-	void SetRotation(XMFLOAT3 rotation) { rotation_ = rotation; }
+	void SetRotation(Vector3 rotation) { worldTransform.rotation_ = rotation; }
 
 	/// <summary>
 	/// スケールの設定
 	/// </summary>
 	/// <param name="position">スケール</param>
-	void SetScale(XMFLOAT3 scale) {scale_ = scale; }
+	void SetScale(Vector3 scale) { worldTransform.scale_ = scale; }
 
 	/// <summary>
 	/// モデルのセット
@@ -140,20 +143,29 @@ public: // メンバ関数
 
 	void SetBillboard(bool isBillboard) { isBillboard_ = isBillboard; }
 
-	void SetColor(XMFLOAT4 color) { color_ = color; }
+	void SetColor(Vector4 color) { color_ = color; }
+
+	WorldTransform GetWorldTransform() { return worldTransform; }
+	WorldTransform* GetWorldTransformPtr() { return &worldTransform; }
+
+	Camera* GetCamera() { return sCamera_; }
 
 private: // メンバ変数
 	ComPtr<ID3D12Resource> constBuffB0; // 定数バッファ
+
+	//ワールド行列
+	WorldTransform worldTransform;
+
 	// 色
-	XMFLOAT4 color_ = { 1,1,1,1 };
+	Vector4 color_ = { 1,1,1,1 };
 	// ローカルスケール
-	XMFLOAT3 scale_ = { 1,1,1 };
+	Vector3 scale_ = { 1,1,1 };
 	// X,Y,Z軸回りのローカル回転角
-	XMFLOAT3 rotation_ = { 0,0,0 };
+	Vector3 rotation_ = { 0,0,0 };
 	// ローカル座標
-	XMFLOAT3 position_ = { 0,0,0 };
+	Vector3 position_ = { 0,0,0 };
 	// ローカルワールド変換行列
-	XMMATRIX matWorld;
+	Matrix4 matWorld;
 	// 親オブジェクト
 	Particle* parent = nullptr;
 	// モデル
