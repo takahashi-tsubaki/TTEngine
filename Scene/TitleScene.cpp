@@ -26,8 +26,8 @@ void TitleScene::Update(Input* input, GamePad* gamePad)
 {
 	sceneObj_->skydomeO_->Update();
 	controller_->camera_->Update();
-
-	if (input->TriggerKey(DIK_RETURN))
+	gamePad->Update();
+	if (input->TriggerKey(DIK_RETURN) || gamePad->ButtonTrigger(X))
 	{
 		controller_->ChangeSceneNum(S_PLAY);
 	}

@@ -77,14 +77,14 @@ void EnemyBullet::CheckCollision()
 		{
 			if (sphere[i]->GetCollisionInfo().collider->GetAttribute() == COLLISION_ATTR_PLAYERS)
 			{
-				SetisDead(true);
+				isDead_ = true;
 				livingTimer = 540.0f;
 				hitDeley = 4;
 				break;
 			}
 			if (sphere[i]->GetCollisionInfo().collider->GetAttribute() == COLLISION_ATTR_PLAYERBULLETS)
 			{
-				SetisDead(true);
+				isDead_ = true;
 				livingTimer = 540.0f;
 				hitDeley = 4;
 				break;
@@ -92,21 +92,23 @@ void EnemyBullet::CheckCollision()
 		}
 
 	}
+	if (isDead_ == true)
+	{
+		for (int i = 0; i < SPHERE_COLISSION_NUM; i++)
+		{
+			CollisionManager::GetInstance()->RemoveCollider(sphere[i]);
+			////‚±‚¢‚Â‚Í‚¢‚ç‚È‚¢
+			//sphere[i]->GetCollisionInfo().collider->RemoveAttribute(COLLISION_ATTR_ENEMYBULLETS);
+
+		}
+	}
 	for (int i = 0; i < SPHERE_COLISSION_NUM; i++) {
 		spherePos[i] = bulletO_->GetPosition();
 		sphere[i]->Update();
 	}
 
-	for (int i = 0; i < SPHERE_COLISSION_NUM; i++)
-	{
-		if (isDead_ == true)
-		{
-			CollisionManager::GetInstance()->RemoveCollider(sphere[i]);
-			//‚±‚¢‚Â‚Í‚¢‚ç‚È‚¢
-			/*sphere[i]->GetCollisionInfo().collider->RemoveAttribute(COLLISION_ATTR_PLAYERBULLETS);*/
-		}
-	}
-
+	
+	
 
 	/*ImGui::Begin("livingbullet");
 	ImGui::SetWindowPos({ 800 , 400 });
@@ -120,4 +122,16 @@ void EnemyBullet::Reset()
 {
 	isDead_ = true;
 	livingTimer = 540.0f;
+	if (isDead_ == true)
+	{
+		for (int i = 0; i < SPHERE_COLISSION_NUM; i++)
+		{
+
+				CollisionManager::GetInstance()->RemoveCollider(sphere[i]);
+				//‚±‚¢‚Â‚Í‚¢‚ç‚È‚¢
+				/*sphere[i]->GetCollisionInfo().collider->RemoveAttribute(COLLISION_ATTR_PLAYERBULLETS);*/
+
+		}
+	}
+	
 }

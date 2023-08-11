@@ -7,6 +7,7 @@ void ImguiManager::Initialize(WinApp* winApp, DirectXCommon* dxCommon)
 
 	////ImGuiのコンテキストを生成
 	ImGui::CreateContext();
+	ImGui::StyleColorsDark();
 
 	//Win32用初期関数
 	ImGui_ImplWin32_Init(winApp->Gethwnd());

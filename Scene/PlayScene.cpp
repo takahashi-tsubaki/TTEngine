@@ -17,8 +17,8 @@ PlayScene::~PlayScene()
 
 void PlayScene::Initialize()
 {
-
-
+	sceneObj_->player_->Initialize(controller_->dxCommon_,sceneObj_->enemy_);
+	sceneObj_->enemy_->Initialize(controller_->dxCommon_, sceneObj_->player_);
 
 	Sprite::LoadTexture(1, L"Resources/kuribo-.jpg");
 	Sprite::LoadTexture(2, L"Resources/mario.jpg");
@@ -42,23 +42,27 @@ void PlayScene::Initialize()
 
 void PlayScene::Update(Input* input, GamePad* gamePad)
 {
+	gamePad->Update();
+	//シーンチェンジ
+	if (input->TriggerKey(DIK_RETURN) || gamePad->ButtonTrigger(X))
+	{
+		player_->Reset();
+		enemy_->Reset();
+		controller_->ChangeSceneNum(S_TITLE);
+	}
 
+	//スプライトの大きさを体力に設定
 	enemyHpSprite_->SetSize({ enemy_->GetHp() * 32.0f, 32.0f });
 	playerHpSprite_->SetSize({ player_->GetHp() * 32.0f, 32.0f});
 
 
 	Vector3 nowEye = controller_->camera_->GetEye();
 
-	gamePad->Update();
+
 	//fbxObject->Update();
 	assert(input);
 
-	ImGui::Begin("Camera");
 
-	ImGui::SliderFloat("eye:x", &nowEye.x, -400.0f, 400.0f);
-	ImGui::SliderFloat("eye:xz", &nowEye.z, -400.0f, 400.0f);
-
-	ImGui::End();
 
 	controller_->camera_->Update();
 
@@ -73,10 +77,23 @@ void PlayScene::Update(Input* input, GamePad* gamePad)
 
 	player_->Update(input,gamePad);
 	enemy_->Update();
-	if (input->TriggerKey(DIK_RETURN))
+
+	//リセット処理
+	if (input->TriggerKey(DIK_R))
 	{
-		controller_->ChangeSceneNum(S_TITLE);
+		player_->Reset();
+		enemy_->Reset();
+		//player_->Initialize(controller_->dxCommon_,enemy_);
+		//enemy_->Initialize(controller_->dxCommon_,player_);
 	}
+
+
+	ImGui::Begin("Camera");
+
+	ImGui::SliderFloat("eye:x", &nowEye.x, -400.0f, 400.0f);
+	ImGui::SliderFloat("eye:xz", &nowEye.z, -400.0f, 400.0f);
+
+	ImGui::End();
 }
 
 void PlayScene::Draw()

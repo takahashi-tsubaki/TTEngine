@@ -42,10 +42,25 @@ void PlayerBullet::Initialize(Model* model, const Vector3& position, const Vecto
 void PlayerBullet::Update()
 {
 
+
+
 	Shot();
 	CheckCollision();
 	bulletO_->Update();
 
+	if (isDead_ == true)
+	{
+		for (int i = 0; i < SPHERE_COLISSION_NUM; i++)
+		{
+
+			CollisionManager::GetInstance()->RemoveCollider(sphere[i]);
+			//‚±‚¢‚Â‚Í‚¢‚ç‚È‚¢
+			/*sphere[i]->GetCollisionInfo().collider->RemoveAttribute(COLLISION_ATTR_PLAYERBULLETS);*/
+
+		}
+	}
+	
+	
 
 	bulletO_->worldTransform.UpdateMatWorld();
 }
@@ -62,7 +77,7 @@ void PlayerBullet::Shot()
 	livingTimer--;
 	if (livingTimer <= 0)
 	{
-		SetisDead(true);
+		isDead_ = true;
 		livingTimer = 540.0f;
 		
 	}
@@ -108,15 +123,7 @@ void PlayerBullet::CheckCollision()
 		sphere[i]->Update();
 	}
 
-	for (int i = 0; i < SPHERE_COLISSION_NUM; i++)
-	{
-		if (isDead_ == true)
-		{
-			CollisionManager::GetInstance()->RemoveCollider(sphere[i]);
-			//‚±‚¢‚Â‚Í‚¢‚ç‚È‚¢
-			/*sphere[i]->GetCollisionInfo().collider->RemoveAttribute(COLLISION_ATTR_PLAYERBULLETS);*/
-		}
-	}
+	
 	
 
 	/*ImGui::Begin("livingbullet");
@@ -133,4 +140,17 @@ void PlayerBullet::Reset()
 	livingTimer = 540.0f;
 
 	isDead_ = true;
+	if (isDead_ == true)
+	{
+		for (int i = 0; i < SPHERE_COLISSION_NUM; i++)
+		{
+
+			
+			CollisionManager::GetInstance()->RemoveCollider(sphere[i]);
+			//‚±‚¢‚Â‚Í‚¢‚ç‚È‚¢
+			/*sphere[i]->GetCollisionInfo().collider->RemoveAttribute(COLLISION_ATTR_PLAYERBULLETS);*/
+
+		}
+	}
+	
 }
