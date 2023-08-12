@@ -34,6 +34,8 @@ void EnemyBullet::Initialize(Model* model, const Vector3& position, const Vector
 
 void EnemyBullet::Update()
 {
+	
+
 	Shot();
 	CheckCollision();
 	bulletO_->Update();

@@ -139,6 +139,17 @@ void Player::Update(Input* input, GamePad* gamePad)
 
 	//ImGui::End();
 
+
+	/*ImGui::Begin("Camera");
+
+	ImGui::SetWindowPos({ 200 , 200 });
+	ImGui::SetWindowSize({ 500,100 });
+
+	ImGui::SliderFloat("eye:x", &playerO_->worldTransform.translation_.x, -400.0f, 400.0f);
+	ImGui::SliderFloat("eye:z", &playerO_->worldTransform.translation_.z, -400.0f, 400.0f);
+
+	ImGui::End();*/
+
 	playerO_->Update();
 	/*playerFbxO_->Update();*/
 }

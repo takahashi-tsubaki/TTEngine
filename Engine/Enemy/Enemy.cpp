@@ -190,6 +190,15 @@ void Enemy::Update()
 
 	ImGui::End();*/
 
+	ImGui::Begin("Camera");
+
+	ImGui::SetWindowPos({ 200 , 200 });
+	ImGui::SetWindowSize({ 500,100 });
+
+	ImGui::SliderInt("BulletCount", &MAX_BULLET,0,20);
+	ImGui::SliderInt("BulletType", &bulletType, 0, 2);
+	ImGui::End();
+
 }
 
 void Enemy::Draw()
@@ -297,12 +306,12 @@ void Enemy::Attack()
 
 	//‚P•b‚É‚P‰ñ‚ÌŠÔŠu‚Å’Š‘I‚ðs‚¤
 	ShotflameCount++;
-	if (ShotflameCount > 60)
+	if (ShotflameCount > 180)
 	{
 		//ŽËŒ‚‚µ‚Ä‚¢‚È‚¢‚È‚ç
 		if (isShot == false)
 		{
-			bulletType = rand() % 2 + 1;
+			/*bulletType = rand() % 2 + 1;*/
 			
 			isShot = true;
 		}
@@ -314,18 +323,22 @@ void Enemy::Attack()
 		{
 			ShotflameCount = 30.0f;
 		}
+		else
+		{
+			isShot = false;
+		}
 	}
 
 	if (bulletType == EnemyBulletType::RAPIDSHOT)
 	{
 		//’e‚ÌÅ‘å’l‚ðŒˆ’è
-		MAX_BULLET = rand() % 20 + 1;
+		/*MAX_BULLET = rand() % 20 + 1;*/
 		rapidShot = true;
 
 	}
 	else if(bulletType == EnemyBulletType::ONESHOT)
 	{
-		MAX_BULLET = 1;
+		/*MAX_BULLET = 1;*/
 		oneShot = true;
 	}
 
@@ -334,7 +347,7 @@ void Enemy::Attack()
 	{
 		rapidShot = false;
 		//’e‚ÌÅ‘åŒÂ”
-		MAX_BULLET = 1;
+		/*MAX_BULLET = 1;*/
 		pushTimer = 15.0f;//‰Ÿ‚µ‚Ä‚éŽžŠÔ
 		pressTimer = 0.0f;//˜AŽË—p‚ÌŽžŠÔ
 		oneShot = false;
@@ -387,11 +400,11 @@ void Enemy::Attack()
 		}
 		if (bulletSize >= MAX_BULLET)
 		{
-			MAX_BULLET = 0;
+			/*MAX_BULLET = 0;*/
 			bulletSize = 0;
 			rapidCount = 0;
-			bulletType = EnemyBulletType::NONE;
-			coolTimer = 60.0f;
+			/*bulletType = EnemyBulletType::NONE;*/
+			coolTimer = 300.0f;
 			pressTimer = 0.0f;
 			isShot = false;
 		}

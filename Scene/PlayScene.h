@@ -39,6 +39,8 @@ protected:
 
 	Sprite* playerHpSprite_ = nullptr;
 	Sprite* enemyHpSprite_ = nullptr;
+
+	Vector3 nowEye;
 public:
 
     PlayScene(SceneManager* controller, SceneObjects* sceneObj);

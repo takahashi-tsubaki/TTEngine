@@ -38,6 +38,8 @@ void PlayScene::Initialize()
 	controller_->camera_->SetFollowerPos(player_->GetObject3d()->GetWorldTransformPtr());
 
 	controller_->camera_->SetTargetPos(enemy_->GetObject3d()->GetWorldTransformPtr());
+
+
 }
 
 void PlayScene::Update(Input* input, GamePad* gamePad)
@@ -56,18 +58,17 @@ void PlayScene::Update(Input* input, GamePad* gamePad)
 	playerHpSprite_->SetSize({ player_->GetHp() * 32.0f, 32.0f});
 
 
-	Vector3 nowEye = controller_->camera_->GetEye();
-
-
 	//fbxObject->Update();
 	assert(input);
 
+	nowEye = controller_->camera_->GetEye();
 
+	controller_->camera_->SetEye(nowEye);
 
 	controller_->camera_->Update();
 
 	/*ImGui::Begin("cameraPos");
-	ImGui::SetWindowPos({ 200 , 200 });
+	//ImGui::SetWindowPos({ 200 , 200 });
 	ImGui::SetWindowSize({ 500,100 });
 	ImGui::InputFloat3("eye", &camera_->eye_.x);
 	ImGui::InputFloat3("target", &camera_->target_.x);
@@ -88,12 +89,6 @@ void PlayScene::Update(Input* input, GamePad* gamePad)
 	}
 
 
-	ImGui::Begin("Camera");
-
-	ImGui::SliderFloat("eye:x", &nowEye.x, -400.0f, 400.0f);
-	ImGui::SliderFloat("eye:xz", &nowEye.z, -400.0f, 400.0f);
-
-	ImGui::End();
 }
 
 void PlayScene::Draw()
