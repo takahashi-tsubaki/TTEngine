@@ -17,13 +17,20 @@ PlayScene::~PlayScene()
 
 void PlayScene::Initialize()
 {
-
-
+	sceneObj_->player_->Initialize(controller_->dxCommon_,sceneObj_->enemy_);
+	sceneObj_->enemy_->Initialize(controller_->dxCommon_, sceneObj_->player_);
 
 	Sprite::LoadTexture(1, L"Resources/kuribo-.jpg");
 	Sprite::LoadTexture(2, L"Resources/mario.jpg");
+	//HpSprite
+	Sprite::LoadTexture(3, L"Resources/sprite/hp.png");
 
 	sprite_ = Sprite::Create(1, { WinApp::window_width,WinApp::window_height });
+	enemyHpSprite_ = Sprite::Create(3, { 200,10 });
+	enemyHpSprite_->Initialize();
+
+	playerHpSprite_ = Sprite::Create(3,{100,600});
+	playerHpSprite_->Initialize();
 
 	player_ = sceneObj_->player_;
 	enemy_ = sceneObj_->enemy_;
@@ -31,27 +38,37 @@ void PlayScene::Initialize()
 	controller_->camera_->SetFollowerPos(player_->GetObject3d()->GetWorldTransformPtr());
 
 	controller_->camera_->SetTargetPos(enemy_->GetObject3d()->GetWorldTransformPtr());
+
+
 }
 
 void PlayScene::Update(Input* input, GamePad* gamePad)
 {
-	Vector3 nowEye = controller_->camera_->GetEye();
-
 	gamePad->Update();
+	//シーンチェンジ
+	if (input->TriggerKey(DIK_RETURN) || gamePad->ButtonTrigger(X))
+	{
+		player_->Reset();
+		enemy_->Reset();
+		controller_->ChangeSceneNum(S_TITLE);
+	}
+
+	//スプライトの大きさを体力に設定
+	enemyHpSprite_->SetSize({ enemy_->GetHp() * 32.0f, 32.0f });
+	playerHpSprite_->SetSize({ player_->GetHp() * 32.0f, 32.0f});
+
+
 	//fbxObject->Update();
 	assert(input);
 
-	ImGui::Begin("Camera");
+	nowEye = controller_->camera_->GetEye();
 
-	ImGui::SliderFloat("eye:x", &nowEye.x, -400.0f, 400.0f);
-	ImGui::SliderFloat("eye:xz", &nowEye.z, -400.0f, 400.0f);
-
-	ImGui::End();
+	controller_->camera_->SetEye(nowEye);
 
 	controller_->camera_->Update();
 
 	/*ImGui::Begin("cameraPos");
-	ImGui::SetWindowPos({ 200 , 200 });
+	//ImGui::SetWindowPos({ 200 , 200 });
 	ImGui::SetWindowSize({ 500,100 });
 	ImGui::InputFloat3("eye", &camera_->eye_.x);
 	ImGui::InputFloat3("target", &camera_->target_.x);
@@ -61,9 +78,28 @@ void PlayScene::Update(Input* input, GamePad* gamePad)
 
 	player_->Update(input,gamePad);
 	enemy_->Update();
-	if (input->TriggerKey(DIK_RETURN))
+
+	//リセット処理
+	if (input->TriggerKey(DIK_R))
 	{
-		controller_->ChangeSceneNum(S_TITLE);
+		player_->Reset();
+		enemy_->Reset();
+		//player_->Initialize(controller_->dxCommon_,enemy_);
+		//enemy_->Initialize(controller_->dxCommon_,player_);
+	}
+
+	if (player_->GetHp() <= 0)
+	{
+		controller_->ChangeSceneNum(S_OVER);
+		player_->Reset();
+		enemy_->Reset();
+	}
+
+	else if (enemy_->GetHp() <= 0)
+	{
+		controller_->ChangeSceneNum(S_CLEAR);
+		player_->Reset();
+		enemy_->Reset();
 	}
 }
 
@@ -144,7 +180,8 @@ void PlayScene::Draw()
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
-
+	playerHpSprite_->Draw();
+	enemyHpSprite_->Draw();
 	//
 	// スプライト描画後処理
 	Sprite::PostDraw();

@@ -10,19 +10,13 @@ TitleScene::TitleScene(SceneManager* controller, SceneObjects* sceneObj)
 
 TitleScene::~TitleScene()
 {
+	sceneObj_->Reset();
 	//delete sceneObj_->skydomeO_;
 	/*sceneObj_->Delete();*/
 }
 
 void TitleScene::Initialize()
 {
-	//sceneObj_->Initialize(controller_);
-	//skydomeO_ = Object3d::Create();
-	//skydomeM_ = Model::CreateFromOBJ("skydome");
-	//skydomeO_->SetModel(skydomeM_);
-
-	//skydomeO_->SetScale({ 2,2,2 });
-
 	controller_->camera_->SetFollowerPos(&followPos);
 
 	controller_->camera_->SetTargetPos(&targetPos);
@@ -32,7 +26,8 @@ void TitleScene::Update(Input* input, GamePad* gamePad)
 {
 	sceneObj_->skydomeO_->Update();
 	controller_->camera_->Update();
-	if (input->TriggerKey(DIK_RETURN))
+	gamePad->Update();
+	if (input->TriggerKey(DIK_RETURN) || gamePad->ButtonTrigger(X))
 	{
 		controller_->ChangeSceneNum(S_PLAY);
 	}
@@ -113,7 +108,7 @@ void TitleScene::Draw()
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
-
+	sceneObj_->sprite_->Draw();
 	//
 	// スプライト描画後処理
 	Sprite::PostDraw();

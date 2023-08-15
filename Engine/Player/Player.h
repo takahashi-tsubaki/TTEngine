@@ -65,6 +65,8 @@ public:
 
 	void Reset();
 
+	void ResetAttribute();
+
 private:
 	Vector3 oldPos;
 	Vector3 playerPos;

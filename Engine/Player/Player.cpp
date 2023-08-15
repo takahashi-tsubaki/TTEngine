@@ -84,32 +84,7 @@ void Player::Update(Input* input, GamePad* gamePad)
 		SetisDead(true);
 	}
 
-	if (input->TriggerKey(DIK_R))
-	{
-		SetHp(10);
-		SetisDead(false);
-		enemy_->SetHp(30);
-		enemy_->SetisDead(false);
-		for (int i = 0; i < SPHERE_COLISSION_NUM; i++)
-		{
-			sphere[i] = new SphereCollider;
-			CollisionManager::GetInstance()->AddCollider(sphere[i]);
-			spherePos[i] = playerO_->GetPosition();
-			sphere[i]->SetBasisPos(&spherePos[i]);
-			sphere[i]->SetRadius(1.0f);
-			sphere[i]->SetAttribute(COLLISION_ATTR_PLAYERS);
-			sphere[i]->Update();
-			////test
-			//coliderPosTest_[i] = Object3d::Create();
-			//coliderPosTest_[i]->SetModel(hpModel_.get());
-			//coliderPosTest_[i]->SetPosition(sphere[i]->center);
-			//coliderPosTest_[i]->SetScale({ sphere[i]->GetRadius(),sphere[i]->GetRadius() ,sphere[i]->GetRadius() });
-			//coliderPosTest_[i]->SetRotate({ 0,0,0 });
-			//coliderPosTest_[i]->Update();
-
-		}
-	}
-
+	
 	oldPos = wtf.translation_;
 
 
@@ -163,6 +138,17 @@ void Player::Update(Input* input, GamePad* gamePad)
 	//ImGui::SliderFloat("Gauge",&VanishGauge, -400.0f, 400.0f);
 
 	//ImGui::End();
+
+
+	/*ImGui::Begin("Camera");
+
+	ImGui::SetWindowPos({ 200 , 200 });
+	ImGui::SetWindowSize({ 500,100 });
+
+	ImGui::SliderFloat("eye:x", &playerO_->worldTransform.translation_.x, -400.0f, 400.0f);
+	ImGui::SliderFloat("eye:z", &playerO_->worldTransform.translation_.z, -400.0f, 400.0f);
+
+	ImGui::End();*/
 
 	playerO_->Update();
 	/*playerFbxO_->Update();*/
@@ -530,13 +516,18 @@ void Player::CheckHitCollision()
 		}
 
 	}
-	for (int i = 0; i < SPHERE_COLISSION_NUM; i++) {
-		if (GetisDead() == true)
-		{
+	if (GetisDead() == true)
+	{
+		for (int i = 0; i < SPHERE_COLISSION_NUM; i++) {
+
+
 			CollisionManager::GetInstance()->RemoveCollider(sphere[i]);
 			//‚±‚¢‚Â‚Í‚¢‚ç‚È‚¢
 			/*sphere[i]->GetCollisionInfo().collider->RemoveAttribute(COLLISION_ATTR_PLAYERBULLETS);*/
 		}
+	}
+	for (int i = 0; i < SPHERE_COLISSION_NUM; i++) {
+
 		spherePos[i] = playerO_->GetPosition();
 		sphere[i]->Update();
 	}
@@ -551,6 +542,19 @@ void Player::moveAngle()
 
 void Player::Reset()
 {
+	for (std::unique_ptr<PlayerBullet>& bullet : bullets_)
+	{
+		bullet->Reset();
+
+	}
+
+	if (isDead_ == true)
+	{
+		ResetAttribute();
+		isDead_ = false;
+	}
+	
+
 	oldPos = { 0,0,0 };
 	playerPos = { 0,0,0 };
 	enemyPos = { 0,0,0 };
@@ -594,13 +598,28 @@ void Player::Reset()
 	maxTime = 5.0f;				//‘S‘ÌŠÔ[s]
 	timeRate;						//‰½“ŠÔ‚ªi‚ñ‚¾‚©
 
-	for (std::unique_ptr<PlayerBullet>& bullet : bullets_)
+	
+}
+
+void Player::ResetAttribute()
+{
+	for (int i = 0; i < SPHERE_COLISSION_NUM; i++)
 	{
-		for (int i = 0; i < SPHERE_COLISSION_NUM; i++)
-		{
-			CollisionManager::GetInstance()->RemoveCollider(sphere[i]);
-		}
-		bullet->Reset();
+		sphere[i] = new SphereCollider;
+		CollisionManager::GetInstance()->AddCollider(sphere[i]);
+		spherePos[i] = playerO_->GetPosition();
+		sphere[i]->SetBasisPos(&spherePos[i]);
+		sphere[i]->SetRadius(1.0f);
+		sphere[i]->SetAttribute(COLLISION_ATTR_PLAYERS);
+		sphere[i]->Update();
+		////test
+		//coliderPosTest_[i] = Object3d::Create();
+		//coliderPosTest_[i]->SetModel(hpModel_.get());
+		//coliderPosTest_[i]->SetPosition(sphere[i]->center);
+		//coliderPosTest_[i]->SetScale({ sphere[i]->GetRadius(),sphere[i]->GetRadius() ,sphere[i]->GetRadius() });
+		//coliderPosTest_[i]->SetRotate({ 0,0,0 });
+		//coliderPosTest_[i]->Update();
+
 	}
 }
 

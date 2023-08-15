@@ -4,6 +4,8 @@
 
 #include "worldTransform.h"
 
+#include "Sprite.h"
+
 #include "Object3d.h"
 #include "Model.h"
 
@@ -51,8 +53,8 @@ public:
 	void SetHp(int Hp) { Hp_ = Hp; }
 	int GetHp() { return Hp_; }
 
-	void SetisDead(bool isAlive) { isAlive_ = isAlive; }
-	bool GetisDead() { return isAlive_; }
+	void SetisDead(bool isDead) { isDead_ = isDead; }
+	bool GetisDead() { return isDead_; }
 
 	Object3d* GetObject3d() {return enemyO_;}
 
@@ -71,7 +73,7 @@ public:
 	void Step();
 
 	void Reset();
-
+	void ResetAttribute();
 
 #pragma endregion
 
@@ -87,7 +89,7 @@ private:
 
 	float angle;
 	
-	bool isAlive_ = false;
+	bool isDead_ = false;
 	
 	/// <summary>
 	/// 移動関連系
@@ -163,5 +165,7 @@ private:
 	int hitDeley = 0;	//何フレーム連続で当たるか
 
 	Player* player_ = nullptr;
+
+
 };
 

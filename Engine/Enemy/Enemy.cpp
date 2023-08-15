@@ -57,6 +57,7 @@ void Enemy::Initialize(DirectXCommon* dxCommon, Player* player)
 
 	}
 
+
 }
 
 void Enemy::Update()
@@ -76,7 +77,7 @@ void Enemy::Update()
 
 	if (Hp_ <= 0)
 	{
-		SetisDead(true);
+		isDead_ = true;
 
 	}
 	else
@@ -94,17 +95,23 @@ void Enemy::Update()
 
 	for (std::unique_ptr<EnemyBullet>& bullet : bullets_)
 	{
+		if (GetisDead() == true)
+		{
+
+			bullet->SetisDead(true);
+
+		}
 		bullet->Update();
 	}
 
 
-	if (GetisDead() == true)
+	/*if (GetisDead() == true)
 	{
 		for (std::unique_ptr<EnemyBullet>& bullet : bullets_)
 		{
 			bullet->SetisDead(true);
 		}
-	}
+	}*/
 
 	GetIsHit();
 
@@ -182,6 +189,16 @@ void Enemy::Update()
 	ImGui::InputFloat3("x,y,z", &enemyO_->worldTransform.rotation_.x);
 
 	ImGui::End();*/
+
+	ImGui::Begin("Camera");
+
+	ImGui::SetWindowPos({ 200 , 200 });
+	ImGui::SetWindowSize({ 500,100 });
+
+	ImGui::SliderInt("BulletCount", &MAX_BULLET,0,20);
+	ImGui::SliderInt("BulletType", &bulletType, 0, 2);
+	ImGui::End();
+
 }
 
 void Enemy::Draw()
@@ -192,13 +209,8 @@ void Enemy::Draw()
 		{
 			bullet->Draw();
 		}
-		if (GetisDead() == false)
-		{
-			enemyO_->Draw();
-		}
+		enemyO_->Draw();
 	}
-	
-
 
 }
 
@@ -238,27 +250,19 @@ void Enemy::CheckHitCollision()
 		}
 
 	}
-	for (int i = 0; i < SPHERE_COLISSION_NUM; i++)
+
+	if (GetisDead() == true)
 	{
-		if (sphere[i]->GetIsHit() == true)
-		{
-			if (sphere[i]->GetCollisionInfo().collider->GetAttribute() == COLLISION_ATTR_PLAYERS)
-			{
-				wtf.translation_ = oldPos;
-				enemyO_->SetPosition(wtf.translation_);
-				break;
-			}
-		}
-		
-	}
-	for (int i = 0; i < SPHERE_COLISSION_NUM; i++) 
-	{
-		if (GetisDead() == true)
+		for (int i = 0; i < SPHERE_COLISSION_NUM; i++)
 		{
 			CollisionManager::GetInstance()->RemoveCollider(sphere[i]);
 			//‚±‚¢‚Â‚Í‚¢‚ç‚È‚¢
 			/*sphere[i]->GetCollisionInfo().collider->RemoveAttribute(COLLISION_ATTR_PLAYERBULLETS);*/
 		}
+	}
+	for (int i = 0; i < SPHERE_COLISSION_NUM; i++)
+	{
+
 		spherePos[i] = enemyO_->GetPosition();
 		sphere[i]->Update();
 	}
@@ -302,12 +306,12 @@ void Enemy::Attack()
 
 	//‚P•b‚É‚P‰ñ‚ÌŠÔŠu‚Å’Š‘I‚ðs‚¤
 	ShotflameCount++;
-	if (ShotflameCount > 60)
+	if (ShotflameCount > 180)
 	{
 		//ŽËŒ‚‚µ‚Ä‚¢‚È‚¢‚È‚ç
 		if (isShot == false)
 		{
-			bulletType = rand() % 2 + 1;
+			/*bulletType = rand() % 2 + 1;*/
 			
 			isShot = true;
 		}
@@ -319,18 +323,22 @@ void Enemy::Attack()
 		{
 			ShotflameCount = 30.0f;
 		}
+		else
+		{
+			isShot = false;
+		}
 	}
 
 	if (bulletType == EnemyBulletType::RAPIDSHOT)
 	{
 		//’e‚ÌÅ‘å’l‚ðŒˆ’è
-		MAX_BULLET = rand() % 20 + 1;
+		/*MAX_BULLET = rand() % 20 + 1;*/
 		rapidShot = true;
 
 	}
 	else if(bulletType == EnemyBulletType::ONESHOT)
 	{
-		MAX_BULLET = 1;
+		/*MAX_BULLET = 1;*/
 		oneShot = true;
 	}
 
@@ -339,7 +347,7 @@ void Enemy::Attack()
 	{
 		rapidShot = false;
 		//’e‚ÌÅ‘åŒÂ”
-		MAX_BULLET = 1;
+		/*MAX_BULLET = 1;*/
 		pushTimer = 15.0f;//‰Ÿ‚µ‚Ä‚éŽžŠÔ
 		pressTimer = 0.0f;//˜AŽË—p‚ÌŽžŠÔ
 		oneShot = false;
@@ -392,11 +400,11 @@ void Enemy::Attack()
 		}
 		if (bulletSize >= MAX_BULLET)
 		{
-			MAX_BULLET = 0;
+			/*MAX_BULLET = 0;*/
 			bulletSize = 0;
 			rapidCount = 0;
-			bulletType = EnemyBulletType::NONE;
-			coolTimer = 60.0f;
+			/*bulletType = EnemyBulletType::NONE;*/
+			coolTimer = 300.0f;
 			pressTimer = 0.0f;
 			isShot = false;
 		}
@@ -471,12 +479,25 @@ void Enemy::Step()
 
 void Enemy::Reset()
 {
+	for (std::unique_ptr<EnemyBullet>& bullet : bullets_)
+	{
+
+		bullet->Reset();
+	}
+
+	if (isDead_ == true)
+	{
+		ResetAttribute();
+		isDead_ = false;
+	}
+	Hp_ = 30;
+
 	playerPos = { 0,0,0 };
 	enemyPos = { 0,0,0 };
 	distance = { 0,0,0 };
 
 	angle;
-	isAlive_ = false;
+	isDead_ = false;
 	isAttack = false;
 	isVanish = false;
 	isMove = false;
@@ -516,14 +537,27 @@ void Enemy::Reset()
 
 	isHit_ = false;
 
-	for (std::unique_ptr<EnemyBullet>& bullet : bullets_)
-	{
-		for (int i = 0; i < SPHERE_COLISSION_NUM; i++)
-		{
-			CollisionManager::GetInstance()->RemoveCollider(sphere[i]);
-		}
-		bullet->Reset();
-	}
 
-	
+}
+
+void Enemy::ResetAttribute()
+{
+	for (int i = 0; i < SPHERE_COLISSION_NUM; i++)
+	{
+		sphere[i] = new SphereCollider;
+		CollisionManager::GetInstance()->AddCollider(sphere[i]);
+		spherePos[i] = enemyO_->GetPosition();
+		sphere[i]->SetBasisPos(&spherePos[i]);
+		sphere[i]->SetRadius(1.0f);
+		sphere[i]->SetAttribute(COLLISION_ATTR_ENEMYS);
+		sphere[i]->Update();
+		////test
+		//coliderPosTest_[i] = Object3d::Create();
+		//coliderPosTest_[i]->SetModel(hpModel_.get());
+		//coliderPosTest_[i]->SetPosition(sphere[i]->center);
+		//coliderPosTest_[i]->SetScale({ sphere[i]->GetRadius(),sphere[i]->GetRadius() ,sphere[i]->GetRadius() });
+		//coliderPosTest_[i]->SetRotate({ 0,0,0 });
+		//coliderPosTest_[i]->Update();
+
+	}
 }
