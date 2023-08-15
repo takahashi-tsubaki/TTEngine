@@ -88,7 +88,19 @@ void PlayScene::Update(Input* input, GamePad* gamePad)
 		//enemy_->Initialize(controller_->dxCommon_,player_);
 	}
 
+	if (player_->GetHp() <= 0)
+	{
+		controller_->ChangeSceneNum(S_OVER);
+		player_->Reset();
+		enemy_->Reset();
+	}
 
+	else if (enemy_->GetHp() <= 0)
+	{
+		controller_->ChangeSceneNum(S_CLEAR);
+		player_->Reset();
+		enemy_->Reset();
+	}
 }
 
 void PlayScene::Draw()

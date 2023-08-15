@@ -58,14 +58,14 @@ void SceneManager::ChangeScene()
 			_scene.emplace(new PlayScene(&*this, sceneObjects_));
 			SceneInitialize();
 			break;
-		case S_RESULT:
+		case S_CLEAR:
 			_scene.pop();
-			_scene.emplace(new ResultScene(&*this, sceneObjects_));
+			_scene.emplace(new GameClearScene(&*this, sceneObjects_));
 			SceneInitialize();
 			break;
-		case 4:
+		case S_OVER:
 			_scene.pop();
-			_scene.emplace(new TitleScene(&*this, sceneObjects_));
+			_scene.emplace(new GameOverScene(&*this, sceneObjects_));
 			SceneInitialize();
 			break;
 		default:

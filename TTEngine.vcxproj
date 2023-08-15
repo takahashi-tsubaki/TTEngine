@@ -137,6 +137,8 @@
     <ClCompile Include="Engine\Particle\ParticleManager.cpp" />
     <ClCompile Include="Engine\Player\Player.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Scene\GameClearScene.cpp" />
+    <ClCompile Include="Scene\GameOverScene.cpp" />
     <ClCompile Include="Scene\gameScene.cpp" />
     <ClCompile Include="Scene\IScene.cpp" />
     <ClCompile Include="Scene\PlayScene.cpp" />
@@ -191,6 +193,8 @@
     <ClInclude Include="Engine\Math\Vector4.h" />
     <ClInclude Include="Engine\Particle\ParticleManager.h" />
     <ClInclude Include="Engine\Player\Player.h" />
+    <ClInclude Include="Scene\GameClearScene.h" />
+    <ClInclude Include="Scene\GameOverScene.h" />
     <ClInclude Include="Scene\gameScene.h" />
     <ClInclude Include="Scene\IScene.h" />
     <ClInclude Include="Scene\PlayScene.h" />
