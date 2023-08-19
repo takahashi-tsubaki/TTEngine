@@ -4,6 +4,8 @@ PlayScene::PlayScene(SceneManager* controller, SceneObjects* sceneObj)
 {
 	controller_ = controller;
 	sceneObj_ = sceneObj;
+	//sceneObj_->player_->Initialize(controller_->dxCommon_, sceneObj_->enemy_);
+	//sceneObj_->enemy_->Initialize(controller_->dxCommon_, sceneObj_->player_);
 	//sceneObj_->Initialize(controller_);
 }
 
@@ -17,8 +19,7 @@ PlayScene::~PlayScene()
 
 void PlayScene::Initialize()
 {
-	sceneObj_->player_->Initialize(controller_->dxCommon_,sceneObj_->enemy_);
-	sceneObj_->enemy_->Initialize(controller_->dxCommon_, sceneObj_->player_);
+
 
 	Sprite::LoadTexture(1, L"Resources/kuribo-.jpg");
 	Sprite::LoadTexture(2, L"Resources/mario.jpg");
@@ -51,6 +52,11 @@ void PlayScene::Update(Input* input, GamePad* gamePad)
 		player_->Reset();
 		enemy_->Reset();
 		controller_->ChangeSceneNum(S_TITLE);
+	}
+
+	if (input->TriggerKey(DIK_TAB) || gamePad->ButtonTrigger(START))
+	{
+		controller_->PushScene(S_PAUSE);
 	}
 
 	//スプライトの大きさを体力に設定

@@ -66,7 +66,7 @@ void GameScene::Update()
 {
 	sceneManager->ChangeScene();
 	sceneManager->SceneUpdate(input_,gamePad_);
-	gameCamera->Update();
+	//gameCamera->Update();
 	/*Vector3 nowEye = gameCamera->GetEye();
 
 	light_->Update();

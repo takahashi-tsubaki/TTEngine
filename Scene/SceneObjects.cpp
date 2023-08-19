@@ -29,8 +29,8 @@ void SceneObjects::Initialize(SceneManager* controller)
 
 	player_ = new Player();
 	enemy_ = new Enemy();
-	/*enemy_->Initialize(controller_->dxCommon_, player_);
-	player_->Initialize(controller_->dxCommon_, enemy_);*/
+	enemy_->Initialize(controller_->dxCommon_, player_);
+	player_->Initialize(controller_->dxCommon_, enemy_);
 }
 
 void SceneObjects::Delete()

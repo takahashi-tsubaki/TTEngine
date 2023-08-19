@@ -258,6 +258,9 @@
     <ClCompile Include="Scene\GameOverScene.cpp">
       <Filter>ソース ファイル\scene\SceneManager</Filter>
     </ClCompile>
+    <ClCompile Include="Scene\PauseScene.cpp">
+      <Filter>ソース ファイル\scene\SceneManager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene\gameScene.h">
@@ -423,6 +426,9 @@
       <Filter>ヘッダー ファイル\scene\SceneManager</Filter>
     </ClInclude>
     <ClInclude Include="Scene\GameOverScene.h">
+      <Filter>ヘッダー ファイル\scene\SceneManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\PauseScene.h">
       <Filter>ヘッダー ファイル\scene\SceneManager</Filter>
     </ClInclude>
   </ItemGroup>

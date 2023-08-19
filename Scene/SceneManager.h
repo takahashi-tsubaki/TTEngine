@@ -43,7 +43,7 @@ public:
 	// ƒV[ƒ“‚ğ•ÏX‚·‚é
 	void ChangeScene();
 
-	void PushScene(IScene*);
+	void PushScene(int number);
 
 	void PopScene();
 
