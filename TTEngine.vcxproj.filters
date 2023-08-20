@@ -439,9 +439,6 @@
     <FxCompile Include="Resources\shaders\OBJVertexShader.hlsl">
       <Filter>シェーダーファイル</Filter>
     </FxCompile>
-    <FxCompile Include="Resources\shaders\ParticlePS.hlsl">
-      <Filter>シェーダーファイル</Filter>
-    </FxCompile>
     <FxCompile Include="Resources\shaders\ParticleVS.hlsl">
       <Filter>シェーダーファイル</Filter>
     </FxCompile>
@@ -461,6 +458,12 @@
       <Filter>シェーダーファイル</Filter>
     </FxCompile>
     <FxCompile Include="Resources\shaders\PostEffectTestVS.hlsl">
+      <Filter>シェーダーファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\ParticleGS.hlsl">
+      <Filter>シェーダーファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\ParticlePS.hlsl">
       <Filter>シェーダーファイル</Filter>
     </FxCompile>
   </ItemGroup>

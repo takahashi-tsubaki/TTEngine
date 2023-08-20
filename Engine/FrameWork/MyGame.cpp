@@ -26,7 +26,7 @@ void MyGame::Initialize()
 	Object3d::StaticInitialize(dxCommon_->GetDevice());
 	//ƒ‰ƒCƒgî“I‰Šú‰»
 	Light::StaticInitalize(dxCommon_->GetDevice());
-	Particle::StaticInitialize(dxCommon_->GetDevice());
+	ParticleManager::StaticInitialize(dxCommon_->GetDevice(), dxCommon_->GetCommandList());
 
 	//FBX‚Ì‰Šú‰»
 	FbxLoader::GetInstance()->Initialize(dxCommon_->GetDevice());

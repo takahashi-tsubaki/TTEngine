@@ -63,6 +63,8 @@ void Enemy::Initialize(DirectXCommon* dxCommon, Player* player)
 void Enemy::Update()
 {
 
+	GetDebugMode();
+
 	wtf = enemyO_->GetWorldTransform();
 
 	playerPos = player_->GetObject3d()->GetWorldTransform().translation_;
@@ -86,7 +88,7 @@ void Enemy::Update()
 		{
 			Attack();
 
-			//Move();
+			Move();
 		}
 
 	}
@@ -190,14 +192,19 @@ void Enemy::Update()
 
 	ImGui::End();*/
 
-	ImGui::Begin("Camera");
+	if (isDebugMode == true)
+	{
+		ImGui::Begin("Enemy");
 
-	ImGui::SetWindowPos({ 200 , 200 });
-	ImGui::SetWindowSize({ 500,100 });
+		ImGui::SetWindowPos({ 200 , 200 });
+		ImGui::SetWindowSize({ 500,100 });
 
-	ImGui::SliderInt("BulletCount", &MAX_BULLET,0,20);
-	ImGui::SliderInt("BulletType", &bulletType, 0, 2);
-	ImGui::End();
+		ImGui::SliderInt("BulletCount", &MAX_BULLET, 0, 20);
+		ImGui::SliderInt("BulletType", &bulletType, 0, 2);
+		ImGui::InputFloat3("EnemyPos",&enemyO_->worldTransform.translation_.x);
+		ImGui::End();
+	}
+	
 
 }
 
@@ -311,7 +318,11 @@ void Enemy::Attack()
 		//ŽËŒ‚‚µ‚Ä‚¢‚È‚¢‚È‚ç
 		if (isShot == false)
 		{
-			/*bulletType = rand() % 2 + 1;*/
+			if (isDebugMode == false)
+			{
+				bulletType = rand() % 2 + 1;
+			}
+		
 			
 			isShot = true;
 		}
@@ -332,13 +343,20 @@ void Enemy::Attack()
 	if (bulletType == EnemyBulletType::RAPIDSHOT)
 	{
 		//’e‚ÌÅ‘å’l‚ðŒˆ’è
-		/*MAX_BULLET = rand() % 20 + 1;*/
+		if (isDebugMode == false)
+		{
+			MAX_BULLET = rand() % 20 + 1;
+		}
+		
 		rapidShot = true;
 
 	}
 	else if(bulletType == EnemyBulletType::ONESHOT)
 	{
-		/*MAX_BULLET = 1;*/
+		if (isDebugMode == false)
+		{
+			MAX_BULLET = 1;
+		}
 		oneShot = true;
 	}
 
@@ -400,10 +418,15 @@ void Enemy::Attack()
 		}
 		if (bulletSize >= MAX_BULLET)
 		{
-			/*MAX_BULLET = 0;*/
+			if (isDebugMode == false)
+			{
+				MAX_BULLET = 0;
+				bulletType = EnemyBulletType::NONE;
+			}
+			
 			bulletSize = 0;
 			rapidCount = 0;
-			/*bulletType = EnemyBulletType::NONE;*/
+			
 			coolTimer = 300.0f;
 			pressTimer = 0.0f;
 			isShot = false;

@@ -75,6 +75,9 @@ public:
 	void Reset();
 	void ResetAttribute();
 
+	void SetDebugMode(bool mode) { isDebugMode = mode; }
+	bool GetDebugMode() { return isDebugMode; }
+
 #pragma endregion
 
 
@@ -166,6 +169,6 @@ private:
 
 	Player* player_ = nullptr;
 
-
+	bool isDebugMode = true;
 };
 

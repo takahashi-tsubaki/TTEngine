@@ -50,7 +50,7 @@ void GameScene::Initalize(DirectXCommon* dxCommon, Input* input, GamePad* gamePa
 	FbxObject3d::SetCamera(gameCamera);
 	//グラフィックスパイプライン生成
 	FbxObject3d::CreateGraphicsPipeline();
-
+	ParticleManager::SetCamera(gameCamera);
 
 	colMan = CollisionManager::GetInstance();
 

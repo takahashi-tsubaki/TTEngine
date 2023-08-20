@@ -59,6 +59,18 @@ void PlayScene::Update(Input* input, GamePad* gamePad)
 		controller_->PushScene(S_PAUSE);
 	}
 
+	if (input->TriggerKey(DIK_LSHIFT) || gamePad->ButtonTrigger(BACK))
+	{
+		if (enemy_->GetDebugMode() == false)
+		{
+			enemy_->SetDebugMode(true);
+		}
+		else
+		{
+			enemy_->SetDebugMode(false);
+		}
+	}
+
 	//スプライトの大きさを体力に設定
 	enemyHpSprite_->SetSize({ enemy_->GetHp() * 32.0f, 32.0f });
 	playerHpSprite_->SetSize({ player_->GetHp() * 32.0f, 32.0f});
@@ -146,21 +158,6 @@ void PlayScene::Draw()
 	Object3d::PostDraw();
 #pragma endregion
 
-#pragma region パーティクル描画
-
-	//// パーティクル描画前処理
-	Particle::PreDraw(controller_->dxCommon_->GetCommandList());
-
-	//// 3Dオブジェクトの描画
-
-	///// <summary>
-	///// ここに3Dオブジェクトの描画処理を追加できる
-	///// </summary>
-
-	//// パーティクル描画後処理
-	Particle::PostDraw();
-
-#pragma endregion
 
 	//#pragma region ぺらポリゴン描画
 	//	postEffect->PreDrawScene(dxCommon_->GetCommandList());
