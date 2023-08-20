@@ -68,6 +68,11 @@ void SceneManager::ChangeScene()
 			_scene.emplace(new GameOverScene(&*this, sceneObjects_));
 			SceneInitialize();
 			break;
+		case S_PAUSE:
+			_scene.pop();
+			_scene.emplace(new PauseScene(&*this, sceneObjects_));
+			SceneInitialize();
+			break;
 		default:
 			_scene.emplace(new TitleScene(&*this, sceneObjects_));
 			SceneInitialize();
@@ -84,10 +89,37 @@ void SceneManager::ChangeScene()
 	
 }
 
-void SceneManager::PushScene(IScene*)
+void SceneManager::PushScene(int number)
 {
+	sceneNum = number;
+	switch (sceneNum)
+	{
+	case S_TITLE:
+		_scene.emplace(new TitleScene(&*this, sceneObjects_));
+
+		break;
+	case S_PLAY:
+		_scene.emplace(new PlayScene(&*this, sceneObjects_));
+		break;
+	case S_CLEAR:
+		_scene.emplace(new GameClearScene(&*this, sceneObjects_));
+
+		break;
+	case S_OVER:
+		_scene.emplace(new GameOverScene(&*this, sceneObjects_));
+
+		break;
+	case S_PAUSE:
+		_scene.emplace(new PauseScene(&*this, sceneObjects_));
+
+		break;
+	default:
+		_scene.emplace(new TitleScene(&*this, sceneObjects_));
+		break;
+	}
 }
 
 void SceneManager::PopScene()
 {
+	_scene.pop();
 }

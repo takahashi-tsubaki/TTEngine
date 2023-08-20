@@ -4,6 +4,8 @@ PlayScene::PlayScene(SceneManager* controller, SceneObjects* sceneObj)
 {
 	controller_ = controller;
 	sceneObj_ = sceneObj;
+	//sceneObj_->player_->Initialize(controller_->dxCommon_, sceneObj_->enemy_);
+	//sceneObj_->enemy_->Initialize(controller_->dxCommon_, sceneObj_->player_);
 	//sceneObj_->Initialize(controller_);
 }
 
@@ -17,8 +19,7 @@ PlayScene::~PlayScene()
 
 void PlayScene::Initialize()
 {
-	sceneObj_->player_->Initialize(controller_->dxCommon_,sceneObj_->enemy_);
-	sceneObj_->enemy_->Initialize(controller_->dxCommon_, sceneObj_->player_);
+
 
 	Sprite::LoadTexture(1, L"Resources/kuribo-.jpg");
 	Sprite::LoadTexture(2, L"Resources/mario.jpg");
@@ -51,6 +52,23 @@ void PlayScene::Update(Input* input, GamePad* gamePad)
 		player_->Reset();
 		enemy_->Reset();
 		controller_->ChangeSceneNum(S_TITLE);
+	}
+
+	if (input->TriggerKey(DIK_TAB) || gamePad->ButtonTrigger(START))
+	{
+		controller_->PushScene(S_PAUSE);
+	}
+
+	if (input->TriggerKey(DIK_LSHIFT) || gamePad->ButtonTrigger(BACK))
+	{
+		if (enemy_->GetDebugMode() == false)
+		{
+			enemy_->SetDebugMode(true);
+		}
+		else
+		{
+			enemy_->SetDebugMode(false);
+		}
 	}
 
 	//スプライトの大きさを体力に設定
@@ -140,21 +158,6 @@ void PlayScene::Draw()
 	Object3d::PostDraw();
 #pragma endregion
 
-#pragma region パーティクル描画
-
-	//// パーティクル描画前処理
-	Particle::PreDraw(controller_->dxCommon_->GetCommandList());
-
-	//// 3Dオブジェクトの描画
-
-	///// <summary>
-	///// ここに3Dオブジェクトの描画処理を追加できる
-	///// </summary>
-
-	//// パーティクル描画後処理
-	Particle::PostDraw();
-
-#pragma endregion
 
 	//#pragma region ぺらポリゴン描画
 	//	postEffect->PreDrawScene(dxCommon_->GetCommandList());
