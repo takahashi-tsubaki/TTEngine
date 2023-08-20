@@ -67,6 +67,7 @@ void Enemy::Update()
 
 	wtf = enemyO_->GetWorldTransform();
 
+
 	playerPos = player_->GetObject3d()->GetWorldTransform().translation_;
 	enemyPos = enemyO_->worldTransform.translation_;
 	distance = { playerPos.x - enemyPos.x,
@@ -202,6 +203,8 @@ void Enemy::Update()
 		ImGui::SliderInt("BulletCount", &MAX_BULLET, 0, 20);
 		ImGui::SliderInt("BulletType", &bulletType, 0, 2);
 		ImGui::InputFloat3("EnemyPos",&enemyO_->worldTransform.translation_.x);
+		ImGui::InputInt("ActionNum",&moveActionNum);
+		ImGui::InputFloat3("playerPos",&playerPos.x);
 		ImGui::End();
 	}
 	
@@ -443,7 +446,7 @@ void Enemy::Move()
 {
 	//ÇPïbÇ…àÍâÒé¿çsÇ∑ÇÈ1
 	MoveflameCount++;
-	if (MoveflameCount < 30)
+	if (MoveflameCount < 120)
 	{
 		srand(time(nullptr));
 		moveActionNum = rand() % 4+1;
@@ -452,27 +455,37 @@ void Enemy::Move()
 	
 	if (moveActionNum == 1)
 	{
-		isLeft = true;
+		wtf.translation_.x -= 0.5f;
+		enemyO_->SetPosition(wtf.translation_);
+		/*isLeft = true;
 		isRight = false;
-		isApproach = false;
+		isApproach = false;*/
 	}
 	else if(moveActionNum == 2)
 	{
-		isLeft = false;
+		wtf.translation_.x += 0.5f;
+		enemyO_->SetPosition(wtf.translation_);
+		/*isLeft = false;
 		isRight = true;
-		isApproach = false;
+		isApproach = false;*/
 	}
 	else if(moveActionNum == 3)
 	{
-		isLeft = false;
+		distance = playerPos - enemyPos;
+		distance.nomalize();
+
+		distance *= 0.5f;
+		wtf.translation_ += distance;
+		enemyO_->SetPosition(wtf.translation_);
+		/*isLeft = false;
 		isRight = false;
-		isApproach = true;
+		isApproach = true;*/
 	}
 	else
 	{
-		isLeft = false;
+		/*isLeft = false;
 		isRight = false;
-		isApproach = false;
+		isApproach = false;*/
 	}
 
 	if (isLeft == true)
