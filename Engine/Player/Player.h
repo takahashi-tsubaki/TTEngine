@@ -16,6 +16,8 @@
 #include"CollisionManager.h"
 #include"CollisionAttribute.h"
 
+#include "ParticleManager.h"
+
 class Enemy;
 
 enum PlayerBulletType
@@ -39,7 +41,7 @@ public:
 
 	void Update(Input* input, GamePad* gamePad);
 
-	void Draw();
+	void Draw(ID3D12GraphicsCommandList* cmdList);
 	void Move(Input* input, GamePad* gamePad);
 
 	void Shot(Input* input, GamePad* gamePad);
@@ -152,5 +154,6 @@ private:
 
 	int hitDeley = 0;	//‰½ƒtƒŒ[ƒ€˜A‘±‚Å“–‚½‚é‚©
 
+	std::unique_ptr<ParticleManager> particle_;
 };
 

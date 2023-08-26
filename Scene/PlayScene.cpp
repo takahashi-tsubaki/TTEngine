@@ -147,8 +147,9 @@ void PlayScene::Draw()
 
 	sceneObj_->skydomeO_->Draw();
 
-	player_->Draw();
-	enemy_->Draw();
+	enemy_->Draw(controller_->dxCommon_->GetCommandList());
+
+	player_->Draw(controller_->dxCommon_->GetCommandList());
 
 	///// <summary>
 	///// ここに3Dオブジェクトの描画処理を追加できる

@@ -26,6 +26,7 @@ void MyGame::Initialize()
 	Object3d::StaticInitialize(dxCommon_->GetDevice());
 	//ライト情的初期化
 	Light::StaticInitalize(dxCommon_->GetDevice());
+	//パーティクル情的初期化
 	ParticleManager::StaticInitialize(dxCommon_->GetDevice(), dxCommon_->GetCommandList());
 
 	//FBXの初期化

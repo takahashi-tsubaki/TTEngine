@@ -38,7 +38,7 @@ public:
 
 	void Update();
 
-	void Draw();
+	void Draw(ID3D12GraphicsCommandList* cmdList);
 
 	void Action();
 
