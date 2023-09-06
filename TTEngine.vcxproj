@@ -135,9 +135,6 @@
     <ClCompile Include="Engine\Math\Vector3.cpp" />
     <ClCompile Include="Engine\Math\Vector4.cpp" />
     <ClCompile Include="Engine\Particle\ParticleManager.cpp" />
-    <ClCompile Include="Engine\Particle\ParticleModel.cpp" />
-    <ClCompile Include="Engine\Particle\ParticleObj.cpp" />
-    <ClCompile Include="Engine\Particle\ParticleWtf.cpp" />
     <ClCompile Include="Engine\Player\Player.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Scene\GameClearScene.cpp" />
@@ -196,9 +193,6 @@
     <ClInclude Include="Engine\Math\Vector3.h" />
     <ClInclude Include="Engine\Math\Vector4.h" />
     <ClInclude Include="Engine\Particle\ParticleManager.h" />
-    <ClInclude Include="Engine\Particle\ParticleModel.h" />
-    <ClInclude Include="Engine\Particle\ParticleObj.h" />
-    <ClInclude Include="Engine\Particle\ParticleWtf.h" />
     <ClInclude Include="Engine\Player\Player.h" />
     <ClInclude Include="Scene\GameClearScene.h" />
     <ClInclude Include="Scene\GameOverScene.h" />

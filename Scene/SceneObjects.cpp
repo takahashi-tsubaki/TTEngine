@@ -5,8 +5,8 @@ void SceneObjects::Initialize(SceneManager* controller)
 	Sprite::LoadTexture(1, L"Resources/kuribo-.jpg");
 	Sprite::LoadTexture(2, L"Resources/mario.jpg");
 
-
-	sprite_ = Sprite::Create(1, { 100,100 });
+	Sprite::LoadTexture(4, L"Resources/sprite/clear.png");
+	Sprite::LoadTexture(5, L"Resources/sprite/over.png");
 
 	controller_ = controller;
 

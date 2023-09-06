@@ -261,15 +261,6 @@
     <ClCompile Include="Scene\PauseScene.cpp">
       <Filter>ソース ファイル\scene\SceneManager</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Particle\ParticleModel.cpp">
-      <Filter>ソース ファイル\Particle</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Particle\ParticleObj.cpp">
-      <Filter>ソース ファイル\Particle</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Particle\ParticleWtf.cpp">
-      <Filter>ソース ファイル\Particle</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene\gameScene.h">
@@ -439,15 +430,6 @@
     </ClInclude>
     <ClInclude Include="Scene\PauseScene.h">
       <Filter>ヘッダー ファイル\scene\SceneManager</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Particle\ParticleObj.h">
-      <Filter>ヘッダー ファイル\Particle</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Particle\ParticleModel.h">
-      <Filter>ヘッダー ファイル\Particle</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Particle\ParticleWtf.h">
-      <Filter>ヘッダー ファイル\Particle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

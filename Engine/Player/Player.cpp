@@ -390,7 +390,7 @@ void Player::Vanish(Input* input, GamePad* gamePad)
 	if (enemy_->GetisRapidShot() == true || enemy_->GetisRapidShot() == true)
 	{
 		//“Á’è‚Ì‘€ì‚ð‚µ‚½‚ç
-		if (input->TriggerKey(DIK_0))
+		if ( gamePad->ButtonOffTrigger(B) || input->TriggerKey(DIK_0))
 		{
 			//‰ñ”ðƒQ[ƒW‚ª–žƒ^ƒ“‚ÌŽž
 			if (VanishGauge == 3.0f)
@@ -514,7 +514,7 @@ void Player::CheckHitCollision()
 			//“–‚½‚Á‚½‚à‚Ì‚Ì‘®«‚ª“G‚Ì’e‚¾‚Á‚½Žž
 			if (sphere[i]->GetCollisionInfo().collider->GetAttribute() == COLLISION_ATTR_ENEMYBULLETS)
 			{
-				//Hp_ -= 1;
+				Hp_ -= 1;
 				hitDeley = 5;
 				particle_->RandParticle(sphere[i]->GetCollisionInfo().inter);
 				//SetIsHit(true);

@@ -148,7 +148,6 @@ void PlayScene::Draw()
 	sceneObj_->skydomeO_->Draw();
 
 	enemy_->Draw(controller_->dxCommon_->GetCommandList());
-
 	player_->Draw(controller_->dxCommon_->GetCommandList());
 
 	///// <summary>

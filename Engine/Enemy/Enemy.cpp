@@ -89,7 +89,7 @@ void Enemy::Update()
 		{
 			Attack();
 
-			Move();
+			//Move();
 		}
 
 	}

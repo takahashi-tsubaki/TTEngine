@@ -6,7 +6,6 @@
 #include <d3dx12.h>
 #include <forward_list>
 #include "MyMath.h"
-#include "ParticleWtf.h"
 #include "GameCamera.h"
 #include <array>
 
