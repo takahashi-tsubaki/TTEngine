@@ -31,6 +31,12 @@ void Player::Initialize(DirectXCommon* dxCommon, Enemy* enemy)
 
 	enemy_ = enemy;
 
+	//パーティクル
+	particle_ = std::make_unique<ParticleManager>();
+	particle_->Initialize();
+	particle_->LoadTexture("sprite/particle.png");
+	particle_->Update();
+
 	////FBX当たり判定初期化
 	//for (int i = 0; i < SPHERE_COLISSION_NUM; i++)
 	//{
@@ -114,7 +120,7 @@ void Player::Update(Input* input, GamePad* gamePad)
 	////行列の更新など
 	playerO_->UpdateMatrix();
 
-
+	particle_->Update();
 
 
 	CheckHitCollision();
@@ -154,7 +160,7 @@ void Player::Update(Input* input, GamePad* gamePad)
 	/*playerFbxO_->Update();*/
 }
 
-void Player::Draw()
+void Player::Draw(ID3D12GraphicsCommandList* cmdList)
 {
 	if (GetisDead() == false)
 	{
@@ -166,6 +172,7 @@ void Player::Draw()
 		/*playerFbxO_->Draw(dxCommon_->GetCommandList());*/
 	}
 
+	particle_->Draw(cmdList);
 }
 
 void Player::Move(Input* input, GamePad* gamePad)
@@ -383,7 +390,7 @@ void Player::Vanish(Input* input, GamePad* gamePad)
 	if (enemy_->GetisRapidShot() == true || enemy_->GetisRapidShot() == true)
 	{
 		//特定の操作をしたら
-		if (input->TriggerKey(DIK_0))
+		if ( gamePad->ButtonOffTrigger(B) || input->TriggerKey(DIK_0))
 		{
 			//回避ゲージが満タンの時
 			if (VanishGauge == 3.0f)
@@ -509,6 +516,7 @@ void Player::CheckHitCollision()
 			{
 				Hp_ -= 1;
 				hitDeley = 5;
+				particle_->RandParticle(sphere[i]->GetCollisionInfo().inter);
 				//SetIsHit(true);
 
 				break;

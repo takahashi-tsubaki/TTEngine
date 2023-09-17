@@ -89,7 +89,7 @@ void Enemy::Update()
 		{
 			Attack();
 
-			Move();
+			//Move();
 		}
 
 	}
@@ -211,7 +211,7 @@ void Enemy::Update()
 
 }
 
-void Enemy::Draw()
+void Enemy::Draw(ID3D12GraphicsCommandList* cmdList)
 {
 	if (GetisDead() == false)
 	{

@@ -21,10 +21,10 @@ void PlayScene::Initialize()
 {
 
 
-	Sprite::LoadTexture(1, L"Resources/kuribo-.jpg");
-	Sprite::LoadTexture(2, L"Resources/mario.jpg");
-	//HpSprite
-	Sprite::LoadTexture(3, L"Resources/sprite/hp.png");
+	//Sprite::LoadTexture(1, L"Resources/kuribo-.jpg");
+	//Sprite::LoadTexture(2, L"Resources/mario.jpg");
+	////HpSprite
+
 
 	sprite_ = Sprite::Create(1, { WinApp::window_width,WinApp::window_height });
 	enemyHpSprite_ = Sprite::Create(3, { 200,10 });
@@ -147,8 +147,8 @@ void PlayScene::Draw()
 
 	sceneObj_->skydomeO_->Draw();
 
-	player_->Draw();
-	enemy_->Draw();
+	enemy_->Draw(controller_->dxCommon_->GetCommandList());
+	player_->Draw(controller_->dxCommon_->GetCommandList());
 
 	///// <summary>
 	///// ここに3Dオブジェクトの描画処理を追加できる

@@ -6,10 +6,9 @@
 #include <d3dx12.h>
 #include <forward_list>
 #include "MyMath.h"
-#include "WorldTransform.h"
-
 #include "GameCamera.h"
 #include <array>
+
 
 /// <summary>
 /// 3Dオブジェクト

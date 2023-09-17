@@ -2,6 +2,9 @@
 #include "IScene.h"
 #include "SceneInc.h"
 #include "SceneObjects.h"
+#include <map>
+
+struct LevelEditer;
 class TitleScene :
     public IScene
 {
@@ -31,6 +34,12 @@ protected:
 	WorldTransform targetPos;
 
 	SceneObjects* sceneObj_;
+
+	Model* modelBume_ = nullptr;
+	//Object3d* objBume_ = nullptr;
+	LevelEditer* levelEditer = nullptr;
+	std::map<std::string, Model*> models;
+	std::vector<Object3d*> objects;
 
 public:
 

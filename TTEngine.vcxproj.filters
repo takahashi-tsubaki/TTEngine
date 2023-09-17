@@ -109,6 +109,12 @@
     <Filter Include="ヘッダー ファイル\Collider">
       <UniqueIdentifier>{0c644cf9-364c-4270-a2de-d69a04e25efa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Loader">
+      <UniqueIdentifier>{d4458bd8-7397-40eb-9dc3-7ff5a5aed85c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Loader">
+      <UniqueIdentifier>{1f4edc20-a9db-449e-b50e-d9e31b198a8b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -260,6 +266,12 @@
     </ClCompile>
     <ClCompile Include="Scene\PauseScene.cpp">
       <Filter>ソース ファイル\scene\SceneManager</Filter>
+    </ClCompile>
+    <ClCompile Include="External\json\LevelLoader.cpp">
+      <Filter>ソース ファイル\Loader</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Base\Audio.cpp">
+      <Filter>Base\.cpp</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -430,6 +442,12 @@
     </ClInclude>
     <ClInclude Include="Scene\PauseScene.h">
       <Filter>ヘッダー ファイル\scene\SceneManager</Filter>
+    </ClInclude>
+    <ClInclude Include="External\json\LevelLoader.h">
+      <Filter>ヘッダー ファイル\Loader</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Base\Audio.h">
+      <Filter>Base\.h</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -63,8 +63,8 @@ void PauseScene::Draw()
 	/*fbxObject->Draw(dxCommon_->GetCommandList());*/
 
 	//sceneObj_->skydomeO_->Draw();
-	player_->Draw();
-	enemy_->Draw();
+	enemy_->Draw(controller_->dxCommon_->GetCommandList());
+	player_->Draw(controller_->dxCommon_->GetCommandList());
 	//player_->Draw();
 	//enemy_->Draw();
 
