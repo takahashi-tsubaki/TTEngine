@@ -107,6 +107,7 @@ void Sprite::StaticInitialize(ID3D12Device* device, int window_width, int window
 	gpipeline.RasterizerState.CullMode = D3D12_CULL_MODE_NONE;
 	// デプスステンシルステート
 	gpipeline.DepthStencilState = CD3DX12_DEPTH_STENCIL_DESC(D3D12_DEFAULT);
+	gpipeline.DepthStencilState.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ZERO;
 	gpipeline.DepthStencilState.DepthFunc = D3D12_COMPARISON_FUNC_ALWAYS; // 常に上書きルール
 
 	// レンダーターゲットのブレンド設定
