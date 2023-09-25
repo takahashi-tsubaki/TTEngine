@@ -41,6 +41,10 @@ protected:
 	Sprite* enemyHpSprite_ = nullptr;
 
 	Vector3 nowEye;
+
+	bool isTransition = true;
+	Vector3 scale = { 1,1,1 };
+
 public:
 
     PlayScene(SceneManager* controller, SceneObjects* sceneObj);
@@ -51,6 +55,8 @@ public:
     void Update(Input*input, GamePad* gamePad) override;
 
     void Draw() override;
+
+	void SceneTransition();
 
     //void Pause(Input* input);
 };

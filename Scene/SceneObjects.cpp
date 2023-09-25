@@ -16,6 +16,10 @@ void SceneObjects::Initialize(SceneManager* controller)
 
 	skydomeO_->SetScale({ 1,1,1 });
 
+	transitionM_ = Model::CreateFromOBJ("cube");
+	transitionO_ = Object3d::Create();
+	transitionO_->SetModel(transitionM_);
+	transitionO_->SetScale({ 1,1,1 });
 
 	fbxModel = FbxLoader::GetInstance()->LoadModelFromFile("boss_prot4");
 

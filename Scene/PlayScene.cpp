@@ -45,6 +45,9 @@ void PlayScene::Initialize()
 
 void PlayScene::Update(Input* input, GamePad* gamePad)
 {
+
+
+
 	gamePad->Update();
 	//シーンチェンジ
 	if (input->TriggerKey(DIK_RETURN) || gamePad->ButtonTrigger(X))
@@ -71,6 +74,11 @@ void PlayScene::Update(Input* input, GamePad* gamePad)
 		}
 	}
 
+	if (isTransition == true)
+	{
+		SceneTransition();
+	}
+
 	//スプライトの大きさを体力に設定
 	enemyHpSprite_->SetSize({ enemy_->GetHp() * 32.0f, 32.0f });
 	playerHpSprite_->SetSize({ player_->GetHp() * 32.0f, 32.0f});
@@ -79,11 +87,10 @@ void PlayScene::Update(Input* input, GamePad* gamePad)
 	//fbxObject->Update();
 	assert(input);
 
-	nowEye = controller_->camera_->GetEye();
+	//nowEye = controller_->camera_->GetEye();
 
-	controller_->camera_->SetEye(nowEye);
+	//controller_->camera_->SetEye(nowEye);
 
-	controller_->camera_->Update();
 
 	/*ImGui::Begin("cameraPos");
 	//ImGui::SetWindowPos({ 200 , 200 });
@@ -96,6 +103,15 @@ void PlayScene::Update(Input* input, GamePad* gamePad)
 
 	player_->Update(input,gamePad);
 	enemy_->Update();
+
+	if (sceneObj_->transitionO_->worldTransform.scale_.x <= 0 || sceneObj_->transitionO_->worldTransform.scale_.z <= 0)
+	{
+		isTransition = false;
+	}
+	if (isTransition == false)
+	{
+		sceneObj_->transitionO_->worldTransform.scale_ = { 1,1,1 };
+	}
 
 	//リセット処理
 	if (input->TriggerKey(DIK_R))
@@ -119,6 +135,11 @@ void PlayScene::Update(Input* input, GamePad* gamePad)
 		player_->Reset();
 		enemy_->Reset();
 	}
+	//controller_->camera_->SetEye({ player_->GetObject3d()->GetPosition().x,player_->GetObject3d()->GetPosition().y,player_->GetObject3d()->GetPosition().z - 50.0f});
+	//
+	//controller_->camera_->SetTarget(enemy_->GetObject3d()->GetPosition() );
+
+	controller_->camera_->Update();
 }
 
 void PlayScene::Draw()
@@ -147,8 +168,17 @@ void PlayScene::Draw()
 
 	sceneObj_->skydomeO_->Draw();
 
+
 	enemy_->Draw(controller_->dxCommon_->GetCommandList());
 	player_->Draw(controller_->dxCommon_->GetCommandList());
+
+	if (isTransition == true)
+	{
+		sceneObj_->transitionO_->Draw();
+	}
+
+	player_->GetParticle()->Draw(controller_->dxCommon_->GetCommandList());
+	
 
 	///// <summary>
 	///// ここに3Dオブジェクトの描画処理を追加できる
@@ -191,3 +221,10 @@ void PlayScene::Draw()
 
 #pragma endregion
 }
+
+void PlayScene::SceneTransition()
+{
+	sceneObj_->transitionO_->worldTransform.scale_ -= scale;
+	sceneObj_->transitionO_->Update();
+}
+

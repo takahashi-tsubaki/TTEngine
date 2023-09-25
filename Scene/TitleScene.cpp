@@ -8,8 +8,8 @@ TitleScene::TitleScene(SceneManager* controller, SceneObjects* sceneObj)
 	controller_ = controller;
 	sceneObj_ = sceneObj;
 
-	targetPos.translation_ = { 0,0,50 };
-
+	targetPos.translation_ = { 0,0,0 };
+	followPos.translation_ = { 0,0,-50 };
 }
 
 TitleScene::~TitleScene()
@@ -23,6 +23,9 @@ TitleScene::~TitleScene()
 
 void TitleScene::Initialize()
 {
+
+	/*sceneObj_->transitionO_->worldTransform.scale_ = scale;*/
+
 	controller_->camera_->SetFollowerPos(&followPos);
 
 	controller_->camera_->SetTargetPos(&targetPos);
@@ -83,7 +86,18 @@ void TitleScene::Update(Input* input, GamePad* gamePad)
 	gamePad->Update();
 	if (input->TriggerKey(DIK_RETURN) || gamePad->ButtonTrigger(X))
 	{
+		
+		isTransition = true;
+	}
+
+	if (sceneObj_->transitionO_->worldTransform.scale_.x>=90 && sceneObj_->transitionO_->worldTransform.scale_.z>=90)
+	{
+		isTransition = false;
 		controller_->ChangeSceneNum(S_PLAY);
+	}
+	if (isTransition == true)
+	{
+		SceneTransition();
 	}
 }
 
@@ -114,6 +128,11 @@ void TitleScene::Draw()
 	sceneObj_->skydomeO_->Draw();
 	for (auto& object : objects) {
 		object->Draw();
+	}
+
+	if (isTransition == true)
+	{
+		sceneObj_->transitionO_->Draw();
 	}
 
 	//skydomeO_->Draw();
@@ -157,4 +176,10 @@ void TitleScene::Draw()
 	Sprite::PostDraw();
 
 #pragma endregion
+}
+
+void TitleScene::SceneTransition()
+{
+	sceneObj_->transitionO_->worldTransform.scale_ += scale;
+	sceneObj_->transitionO_->Update();
 }

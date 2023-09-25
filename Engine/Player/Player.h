@@ -65,6 +65,8 @@ public:
 
 	Vector3 GetAngle() {return cameraAngle;}
 
+	ParticleManager* GetParticle() { return particle_.get(); }
+
 	void Reset();
 
 	void ResetAttribute();
