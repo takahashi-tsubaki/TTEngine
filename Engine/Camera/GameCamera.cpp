@@ -64,18 +64,18 @@ void GameCamera::MoveCamera()
 
 	float eyeVecAngle = atan2f(primalyCamera.x - targetPos_->translation_.x, primalyCamera.z - targetPos_->translation_.z);//カメラをずらす際に使われる
 
-	float shiftLen = -5.0f;	//ずらす量
-	Vector3 shiftVec = { primalyCamera.x + sinf(eyeVecAngle +MyMath::PI / 2) * shiftLen , primalyCamera.y , primalyCamera.z + cosf(eyeVecAngle + MyMath::PI / 2) * shiftLen };
+	float shiftLen = -2.0f;	//ずらす量
+	Vector3 shiftVec = { primalyCamera.x + sinf(eyeVecAngle + MyMath::PI / 2) * shiftLen , primalyCamera.y , primalyCamera.z + cosf(eyeVecAngle + MyMath::PI / 2) * shiftLen };
 
-	SetEye(shiftVec + loolAtPos);
+	SetEye(shiftVec/* + loolAtPos*/);
 
-	Vector3 zOffsetTarget = targetPos_->translation_ - eye_;	//敵と自機が近すぎてもバグらないようにしたい
-	float targetToEyeLen = zOffsetTarget.length();
-	zOffsetTarget.nomalize();
-	zOffsetTarget *= targetToEyeLen * 2.0f;
-	zOffsetTarget.y += 3.0f;
+	//Vector3 zOffsetTarget = targetPos_->translation_ - eye_;	//敵と自機が近すぎてもバグらないようにしたい
+	//float targetToEyeLen = zOffsetTarget.length();
+	//zOffsetTarget.nomalize();
+	//zOffsetTarget *= targetToEyeLen * 2.0f;
+	//zOffsetTarget.y += 3.0f;
 
-	SetTarget(targetPos_->translation_ /*+ (followerPos_->translation_ - followerPos_->translation_ / 2)*/);
+	SetTarget(targetPos_->translation_/* + (followerPos_->translation_ - followerPos_->translation_ / 2)*/);
 
 	Camera::Update();
 }

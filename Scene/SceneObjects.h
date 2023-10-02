@@ -48,6 +48,9 @@ public:
 	Model* model = nullptr;
 	Object3d* object = nullptr;
 
+	Model* transitionM_ = nullptr;
+	Object3d* transitionO_ = nullptr;
+
 	Player* player_ = nullptr;
 	Enemy* enemy_ = nullptr;
 

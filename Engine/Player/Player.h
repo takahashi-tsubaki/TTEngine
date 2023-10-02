@@ -65,9 +65,13 @@ public:
 
 	Vector3 GetAngle() {return cameraAngle;}
 
+	ParticleManager* GetParticle() { return particle_.get(); }
+
 	void Reset();
 
 	void ResetAttribute();
+
+	int GetBulletType() { return bulletType; }
 
 private:
 	Vector3 oldPos;

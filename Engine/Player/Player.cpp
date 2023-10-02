@@ -172,7 +172,7 @@ void Player::Draw(ID3D12GraphicsCommandList* cmdList)
 		/*playerFbxO_->Draw(dxCommon_->GetCommandList());*/
 	}
 
-	particle_->Draw(cmdList);
+	
 }
 
 void Player::Move(Input* input, GamePad* gamePad)
