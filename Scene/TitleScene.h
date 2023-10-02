@@ -35,12 +35,6 @@ protected:
 
 	SceneObjects* sceneObj_;
 
-	Model* modelBume_ = nullptr;
-	//Object3d* objBume_ = nullptr;
-	LevelEditer* levelEditer = nullptr;
-	std::map<std::string, Model*> models;
-	std::vector<Object3d*> objects;
-
 	//シーン遷移用のフラグ
 	bool isTransition = false;
 	Vector3 scale = { 1,1,1 };

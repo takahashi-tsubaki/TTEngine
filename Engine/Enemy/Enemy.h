@@ -78,6 +78,9 @@ public:
 	void SetDebugMode(bool mode) { isDebugMode = mode; }
 	bool GetDebugMode() { return isDebugMode; }
 
+
+	void moveAngle();
+
 #pragma endregion
 
 
@@ -89,6 +92,10 @@ private:
 	Vector3 playerPos;
 	Vector3 enemyPos;
 	Vector3 distance;
+	Vector3 cameraAngle;
+
+	Vector3 velocity_;
+	float moveSpeed = 0.5f;
 
 	float angle;
 	
@@ -169,6 +176,6 @@ private:
 
 	Player* player_ = nullptr;
 
-	bool isDebugMode = true;
+	bool isDebugMode = false;
 };
 

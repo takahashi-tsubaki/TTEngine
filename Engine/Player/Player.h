@@ -71,6 +71,8 @@ public:
 
 	void ResetAttribute();
 
+	int GetBulletType() { return bulletType; }
+
 private:
 	Vector3 oldPos;
 	Vector3 playerPos;

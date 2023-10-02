@@ -62,12 +62,13 @@ void Enemy::Initialize(DirectXCommon* dxCommon, Player* player)
 
 void Enemy::Update()
 {
+	moveAngle();
 
 	GetDebugMode();
 
 	wtf = enemyO_->GetWorldTransform();
 
-
+	//“G‚ÌŒü‚«‚ğí‚É©‹@‚Ì‚Ù‚¤‚ÖŒü‚¯‚é
 	playerPos = player_->GetObject3d()->GetWorldTransform().translation_;
 	enemyPos = enemyO_->worldTransform.translation_;
 	distance = { playerPos.x - enemyPos.x,
@@ -89,7 +90,7 @@ void Enemy::Update()
 		{
 			Attack();
 
-			//Move();
+			Move();
 		}
 
 	}
@@ -121,6 +122,57 @@ void Enemy::Update()
 	enemyO_->UpdateMatrix();
 
 	
+	CheckHitCollision();
+
+	enemyO_->Update();
+
+	/*ImGui::Begin("enemyRotate");
+
+	ImGui::SetWindowPos({ 600 , 200 });
+	ImGui::SetWindowSize({ 200,100 });
+	ImGui::InputFloat3("x,y,z", &enemyO_->worldTransform.rotation_.x);
+
+	ImGui::End();*/
+
+	/*if (isDebugMode == true)
+	{
+		ImGui::Begin("Enemy");
+
+		ImGui::SetWindowPos({ 200 , 200 });
+		ImGui::SetWindowSize({ 500,100 });
+
+		ImGui::SliderInt("BulletCount", &MAX_BULLET, 0, 20);
+		ImGui::SliderInt("BulletType", &bulletType, 0, 2);
+		ImGui::InputFloat3("EnemyPos",&enemyO_->worldTransform.translation_.x);
+		ImGui::InputInt("ActionNum",&moveActionNum);
+		ImGui::InputFloat3("playerPos",&playerPos.x);
+		ImGui::End();
+	}*/
+	
+
+}
+
+void Enemy::Draw(ID3D12GraphicsCommandList* cmdList)
+{
+	if (GetisDead() == false)
+	{
+		for (std::unique_ptr<EnemyBullet>& bullet : bullets_)
+		{
+			bullet->Draw();
+		}
+		enemyO_->Draw();
+	}
+
+}
+
+void Enemy::Action()
+{
+
+}
+
+void Enemy::CheckHitCollision()
+{
+
 #pragma region ƒIƒuƒWƒFƒNƒg“¯m‚Ì‰Ÿ‚µo‚µˆ—
 	class EnemyQueryCallBack : public QueryCallback
 	{
@@ -175,63 +227,11 @@ void Enemy::Update()
 				enemyO_->worldTransform.translation_.z += callback.move.z;
 			}
 		}
-		
+
 		//sphere[i]->Update();
 	}
 
-	CheckHitCollision();
-
 #pragma endregion 
-
-	enemyO_->Update();
-
-	/*ImGui::Begin("enemyRotate");
-
-	ImGui::SetWindowPos({ 600 , 200 });
-	ImGui::SetWindowSize({ 200,100 });
-	ImGui::InputFloat3("x,y,z", &enemyO_->worldTransform.rotation_.x);
-
-	ImGui::End();*/
-
-	if (isDebugMode == true)
-	{
-		ImGui::Begin("Enemy");
-
-		ImGui::SetWindowPos({ 200 , 200 });
-		ImGui::SetWindowSize({ 500,100 });
-
-		ImGui::SliderInt("BulletCount", &MAX_BULLET, 0, 20);
-		ImGui::SliderInt("BulletType", &bulletType, 0, 2);
-		ImGui::InputFloat3("EnemyPos",&enemyO_->worldTransform.translation_.x);
-		ImGui::InputInt("ActionNum",&moveActionNum);
-		ImGui::InputFloat3("playerPos",&playerPos.x);
-		ImGui::End();
-	}
-	
-
-}
-
-void Enemy::Draw(ID3D12GraphicsCommandList* cmdList)
-{
-	if (GetisDead() == false)
-	{
-		for (std::unique_ptr<EnemyBullet>& bullet : bullets_)
-		{
-			bullet->Draw();
-		}
-		enemyO_->Draw();
-	}
-
-}
-
-void Enemy::Action()
-{
-
-}
-
-void Enemy::CheckHitCollision()
-{
-	oldPos = wtf.translation_;
 
 	Vector3 distance;
 
@@ -316,7 +316,7 @@ void Enemy::Attack()
 
 	//‚P•b‚É‚P‰ñ‚ÌŠÔŠu‚Å’Š‘I‚ğs‚¤
 	ShotflameCount++;
-	if (ShotflameCount > 180)
+	if (ShotflameCount > 120)
 	{
 		//ËŒ‚‚µ‚Ä‚¢‚È‚¢‚È‚ç
 		if (isShot == false)
@@ -444,42 +444,44 @@ void Enemy::Vanish()
 
 void Enemy::Move()
 {
+
+	velocity_ = { 0 , 0 , 0 };
+
 	//‚P•b‚Éˆê‰ñÀs‚·‚é1
 	MoveflameCount++;
 	if (MoveflameCount < 120)
 	{
 		srand(time(nullptr));
-		moveActionNum = rand() % 4+1;
+		moveActionNum = rand() % 2+1;
 		MoveflameCount = 0;
 	}
 	
 	if (moveActionNum == 1)
 	{
-		wtf.translation_.x -= 0.5f;
-		enemyO_->SetPosition(wtf.translation_);
+		velocity_ += { moveSpeed * -1, 0, 0  };
 		/*isLeft = true;
 		isRight = false;
 		isApproach = false;*/
 	}
 	else if(moveActionNum == 2)
 	{
-		wtf.translation_.x += 0.5f;
-		enemyO_->SetPosition(wtf.translation_);
+		velocity_ += {moveSpeed, 0, 0 };
+
 		/*isLeft = false;
 		isRight = true;
 		isApproach = false;*/
 	}
 	else if(moveActionNum == 3)
 	{
-		distance = playerPos - enemyPos;
-		distance.nomalize();
+		velocity_ += { 0, 0, moveSpeed*-1 };
 
-		distance *= 0.5f;
-		wtf.translation_ += distance;
-		enemyO_->SetPosition(wtf.translation_);
 		/*isLeft = false;
 		isRight = false;
 		isApproach = true;*/
+	}
+	else if (moveActionNum == 4)
+	{
+		velocity_ += { 0, 0, moveSpeed };
 	}
 	else
 	{
@@ -487,6 +489,14 @@ void Enemy::Move()
 		isRight = false;
 		isApproach = false;*/
 	}
+
+	/*enemyO_->worldTransform.rotation_ = cameraAngle;
+
+	enemyO_->worldTransform.UpdateMatWorld();
+
+	velocity_ = MyMath::MatVector(velocity_, enemyO_->worldTransform.matWorld_);*/
+
+	enemyO_->worldTransform.translation_ += velocity_;
 
 	if (isLeft == true)
 	{
@@ -596,4 +606,11 @@ void Enemy::ResetAttribute()
 		//coliderPosTest_[i]->Update();
 
 	}
+}
+
+void Enemy::moveAngle()
+{
+	cameraAngle.y =
+		atan2(enemyO_->GetCamera()->GetTarget().x - enemyO_->GetCamera()->GetEye().x,
+			enemyO_->GetCamera()->GetTarget().z - enemyO_->GetCamera()->GetEye().z);
 }

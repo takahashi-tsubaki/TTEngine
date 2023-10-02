@@ -65,7 +65,7 @@ void GameCamera::MoveCamera()
 	float eyeVecAngle = atan2f(primalyCamera.x - targetPos_->translation_.x, primalyCamera.z - targetPos_->translation_.z);//ÉJÉÅÉâÇÇ∏ÇÁÇ∑ç€Ç…égÇÌÇÍÇÈ
 
 	float shiftLen = -2.0f;	//Ç∏ÇÁÇ∑ó 
-	Vector3 shiftVec = { primalyCamera.x + sinf(eyeVecAngle +MyMath::PI / 2) * shiftLen , primalyCamera.y , primalyCamera.z + cosf(eyeVecAngle + MyMath::PI / 2) * shiftLen };
+	Vector3 shiftVec = { primalyCamera.x + sinf(eyeVecAngle + MyMath::PI / 2) * shiftLen , primalyCamera.y , primalyCamera.z + cosf(eyeVecAngle + MyMath::PI / 2) * shiftLen };
 
 	SetEye(shiftVec/* + loolAtPos*/);
 
