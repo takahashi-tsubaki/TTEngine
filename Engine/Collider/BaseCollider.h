@@ -37,26 +37,26 @@ public:
 	inline void OnCollision(const CollisionInfo& info)
 	{
 		isHit = true;
-		this->info = info;
+		info_ = info;
 	}
 
 	inline void SetAttribute(unsigned short attribute)
 	{
-		this->attribute = attribute;
+		attribute_ = attribute;
 	}
 
 	unsigned short GetAttribute() {
-		return this->attribute;
+		return attribute_;
 	}
 
 	inline void AddAttribute(unsigned short attribute)
 	{
-		this->attribute |= attribute;
+		attribute_ |= attribute;
 	}
 
 	inline void RemoveAttribute(unsigned short attribute)
 	{
-		this->attribute &= !attribute;
+		attribute_ &= !attribute;
 	}
 
 	inline bool GetIsHit()
@@ -66,7 +66,7 @@ public:
 
 	inline CollisionInfo GetCollisionInfo()
 	{
-		return info;
+		return info_;
 	}
 
 protected:
@@ -74,7 +74,7 @@ protected:
 	
 	bool isHit = false;
 
-	CollisionInfo info = {
+	CollisionInfo info_ = {
 		nullptr ,
 		nullptr ,
 		{0 , 0 , 0}
@@ -83,5 +83,5 @@ protected:
 	//形状タイプ
 	CollisionShapeType shapeType = SHAPE_UNKNOWN;
 	//当たり判定属性
-	unsigned short attribute = 0b1111111111111111;
+	unsigned short attribute_ = 0b1111111111111111;
 };

@@ -16,7 +16,7 @@ Microsoft::WRL::ComPtr<ID3D12Device> ParticleManager::device;
 //Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> ParticleManager::cmdList;
 ComPtr<ID3D12RootSignature> ParticleManager::rootsignature;
 ComPtr<ID3D12PipelineState> ParticleManager::pipelinestate;
-Camera* ParticleManager::camera = nullptr;
+Camera* ParticleManager::camera_ = nullptr;
 
 ParticleManager::ParticleManager() {
 
@@ -544,8 +544,8 @@ void ParticleManager::Update()
 	}
 
 
-	Matrix4 view = camera->GetViewMatrix();
-	Matrix4 projection = camera->GetProjectionMatrix();
+	Matrix4 view = camera_->GetViewMatrix();
+	Matrix4 projection = camera_->GetProjectionMatrix();
 	// 定数バッファへデータ転送
 	ConstBufferData* constMap = nullptr;
 	result = constBuff->Map(0, nullptr, (void**)&constMap);
@@ -553,9 +553,9 @@ void ParticleManager::Update()
 
 	wtf_.UpdateMatWorld();
 
-	constMap->mat = (camera->GetViewProjectionMatrix());
+	constMap->mat = (camera_->GetViewProjectionMatrix());
 
-	constMap->matBillboard = (camera->GetBillboardMatrix());	// 行列の合成
+	constMap->matBillboard = (camera_->GetBillboardMatrix());	// 行列の合成
 	constBuff->Unmap(0, nullptr);
 
 
@@ -639,6 +639,8 @@ void ParticleManager::Draw(ID3D12GraphicsCommandList* cmdList)
 
 void ParticleManager::Add(int life, Vector3 position, Vector3 velociy, Vector3 accel, float start_scale, float end_scale)
 {
+	float sScale = start_scale;
+	float eScale = end_scale;
 	//リストに要素を追加
 	particles.emplace_front();
 	//追加した要素の参照

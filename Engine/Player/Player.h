@@ -41,7 +41,7 @@ public:
 
 	void Update(Input* input, GamePad* gamePad);
 
-	void Draw(ID3D12GraphicsCommandList* cmdList);
+	void Draw();
 	void Move(Input* input, GamePad* gamePad);
 
 	void Shot(Input* input, GamePad* gamePad);
@@ -75,9 +75,9 @@ public:
 
 private:
 	Vector3 oldPos;
-	Vector3 playerPos;
-	Vector3 enemyPos;
-	Vector3 distance;
+	Vector3 playerPos_;
+	Vector3 enemyPos_;
+	Vector3 distance_;
 
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;

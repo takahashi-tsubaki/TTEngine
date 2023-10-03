@@ -45,6 +45,7 @@ void PlayScene::Initialize()
 
 void PlayScene::Update(Input* input, GamePad* gamePad)
 {
+
 	assert(input);
 	gamePad->Update();
 	if (isTransition == false)
@@ -59,6 +60,8 @@ void PlayScene::Update(Input* input, GamePad* gamePad)
 
 		if (input->TriggerKey(DIK_TAB) || gamePad->ButtonTrigger(START))
 		{
+			sceneObj_->player_ =player_;
+			sceneObj_->enemy_ = enemy_;
 			controller_->PushScene(S_PAUSE);
 		}
 
@@ -73,11 +76,12 @@ void PlayScene::Update(Input* input, GamePad* gamePad)
 				enemy_->SetDebugMode(false);
 			}
 		}
+		
 		player_->Update(input, gamePad);
 		enemy_->Update();
 	}
-
-
+	player_ = sceneObj_->player_;
+	
 
 	if (isTransition == true)
 	{
@@ -99,6 +103,8 @@ void PlayScene::Update(Input* input, GamePad* gamePad)
 	ImGui::InputFloat3("target", &camera_->target_.x);
 	ImGui::End();*/
 
+
+	sceneObj_->skydomeO_->SetPosition({ sceneObj_->skydomeO_->GetPosition().x + player_->GetPosition().x,sceneObj_->skydomeO_->GetPosition().y,sceneObj_->skydomeO_->GetPosition().z });
 	sceneObj_->skydomeO_->Update();
 
 	if (sceneObj_->transitionO_->worldTransform.scale_.x <= 0 || sceneObj_->transitionO_->worldTransform.scale_.z <= 0)
@@ -149,8 +155,8 @@ void PlayScene::Draw()
 	sceneObj_->skydomeO_->Draw();
 
 
-	enemy_->Draw(controller_->dxCommon_->GetCommandList());
-	player_->Draw(controller_->dxCommon_->GetCommandList());
+	enemy_->Draw();
+	player_->Draw();
 
 	///// <summary>
 	///// ここに3Dオブジェクトの描画処理を追加できる
@@ -187,7 +193,7 @@ void PlayScene::Draw()
 	}
 
 	player_->GetParticle()->Draw(controller_->dxCommon_->GetCommandList());
-	
+	enemy_->GetParticle()->Draw(controller_->dxCommon_->GetCommandList());
 
 	///// <summary>
 	///// ここに3Dオブジェクトの描画処理を追加できる

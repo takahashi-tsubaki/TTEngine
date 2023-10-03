@@ -35,6 +35,13 @@ void Enemy::Initialize(DirectXCommon* dxCommon, Player* player)
 	//弾のモデルをセット
 	bulletM_ = Model::CreateFromOBJ("cube");
 
+	//パーティクル
+	particle_ = std::make_unique<ParticleManager>();
+	particle_->Initialize();
+	particle_->LoadTexture("sprite/particle.png");
+	particle_->Update();
+
+
 	sphere.resize(SPHERE_COLISSION_NUM);
 	spherePos.resize(SPHERE_COLISSION_NUM);
 
@@ -69,13 +76,13 @@ void Enemy::Update()
 	wtf = enemyO_->GetWorldTransform();
 
 	//敵の向きを常に自機のほうへ向ける
-	playerPos = player_->GetObject3d()->GetWorldTransform().translation_;
-	enemyPos = enemyO_->worldTransform.translation_;
-	distance = { playerPos.x - enemyPos.x,
-				enemyPos.y,
-				playerPos.z - enemyPos.z };
+	playerPos_ = player_->GetObject3d()->GetWorldTransform().translation_;
+	enemyPos_ = enemyO_->worldTransform.translation_;
+	distance_ = { playerPos_.x - enemyPos_.x,
+				enemyPos_.y,
+				playerPos_.z - enemyPos_.z };
 
-	angle = (atan2(distance.x, distance.z) + MyMath::PI / 2);
+	angle = (atan2(distance_.x, distance_.z) + MyMath::PI / 2);
 	enemyO_->worldTransform.rotation_.y = (angle + MyMath::PI / 2);
 
 
@@ -90,7 +97,7 @@ void Enemy::Update()
 		{
 			Attack();
 
-			Move();
+			//Move();
 		}
 
 	}
@@ -108,15 +115,6 @@ void Enemy::Update()
 		bullet->Update();
 	}
 
-
-	/*if (GetisDead() == true)
-	{
-		for (std::unique_ptr<EnemyBullet>& bullet : bullets_)
-		{
-			bullet->SetisDead(true);
-		}
-	}*/
-
 	GetIsHit();
 
 	enemyO_->UpdateMatrix();
@@ -125,6 +123,8 @@ void Enemy::Update()
 	CheckHitCollision();
 
 	enemyO_->Update();
+
+	particle_->Update();
 
 	/*ImGui::Begin("enemyRotate");
 
@@ -152,7 +152,7 @@ void Enemy::Update()
 
 }
 
-void Enemy::Draw(ID3D12GraphicsCommandList* cmdList)
+void Enemy::Draw()
 {
 	if (GetisDead() == false)
 	{
@@ -233,7 +233,6 @@ void Enemy::CheckHitCollision()
 
 #pragma endregion 
 
-	Vector3 distance;
 
 	if (hitDeley > 0) {	//毎フレームヒットを防止
 		enemyO_->SetColor({ 0,0,1,1 });
@@ -253,6 +252,7 @@ void Enemy::CheckHitCollision()
 			{
 				Hp_ -= 1;
 				hitDeley = 5;
+				particle_->RandParticle(sphere[i]->GetCollisionInfo().inter);
 				SetIsHit(true);
 
 				break;
@@ -285,15 +285,15 @@ void Enemy::Attack()
 	Vector3 distance;
 	float speed = 0.5f;
 
-	playerPos = player_->GetObject3d()->GetWorldTransform().translation_;
+	playerPos_ = player_->GetObject3d()->GetWorldTransform().translation_;
 
-	enemyPos = enemyO_->worldTransform.translation_;
+	enemyPos_ = enemyO_->worldTransform.translation_;
 
-	distance = playerPos - enemyPos;
+	distance_ = playerPos_ - enemyPos_;
 
-	distance.nomalize();
+	distance_.nomalize();
 
-	distance *= speed;
+	distance_ *= speed;
 
 	/*Vector3 begieP1 = {0,10,-30};
 	Vector3 begieP2 = { 0,-30,-10 };
@@ -311,7 +311,7 @@ void Enemy::Attack()
 #pragma endregion
 
 #pragma region 
-	srand(time(nullptr));
+	srand((unsigned int)time(nullptr));
 
 
 	//１秒に１回の間隔で抽選を行う
@@ -400,7 +400,7 @@ void Enemy::Attack()
 					bulletSize++;
 					// 弾を生成し初期化
 					std::unique_ptr<EnemyBullet> newBullet = std::make_unique<EnemyBullet>();
-					newBullet->Initialize(bulletM_, enemyO_->worldTransform.translation_, distance,enemyO_->worldTransform.rotation_);
+					newBullet->Initialize(bulletM_, enemyO_->worldTransform.translation_, distance_,enemyO_->worldTransform.rotation_);
 
 					if (bulletType == EnemyBulletType::ONESHOT)
 					{
@@ -451,7 +451,7 @@ void Enemy::Move()
 	MoveflameCount++;
 	if (MoveflameCount < 120)
 	{
-		srand(time(nullptr));
+		srand((unsigned int)time(nullptr));
 		moveActionNum = rand() % 2+1;
 		MoveflameCount = 0;
 	}
@@ -490,11 +490,11 @@ void Enemy::Move()
 		isApproach = false;*/
 	}
 
-	/*enemyO_->worldTransform.rotation_ = cameraAngle;
+	enemyO_->worldTransform.rotation_ = cameraAngle;
 
 	enemyO_->worldTransform.UpdateMatWorld();
 
-	velocity_ = MyMath::MatVector(velocity_, enemyO_->worldTransform.matWorld_);*/
+	velocity_ = MyMath::MatVector(velocity_, enemyO_->worldTransform.matWorld_);
 
 	enemyO_->worldTransform.translation_ += velocity_;
 
@@ -510,11 +510,11 @@ void Enemy::Move()
 	}
 	if (isApproach == true)
 	{
-		enemyPos = enemyO_->GetPosition();
-		distance = player_->GetPosition()-enemyO_->GetPosition()  ;
-		distance.nomalize();
-		distance *= 0.5f;
-		wtf.translation_ += distance;
+		enemyPos_ = enemyO_->GetPosition();
+		distance_ = player_->GetPosition()-enemyO_->GetPosition()  ;
+		distance_.nomalize();
+		distance_ *= 0.5f;
+		wtf.translation_ += distance_;
 		enemyO_->SetPosition(wtf.translation_);
 	}
 }
@@ -538,9 +538,9 @@ void Enemy::Reset()
 	}
 	Hp_ = 30;
 
-	playerPos = { 0,0,0 };
-	enemyPos = { 0,0,0 };
-	distance = { 0,0,0 };
+	playerPos_ = { 0,0,0 };
+	enemyPos_ = { 0,0,0 };
+	distance_ = { 0,0,0 };
 
 	angle;
 	isDead_ = false;

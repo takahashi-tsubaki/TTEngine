@@ -10,7 +10,7 @@ PauseScene::PauseScene(SceneManager* controller, SceneObjects* sceneObj)
 
 PauseScene::~PauseScene()
 {
-	sceneObj_->Reset();
+	//sceneObj_->Reset();
 }
 
 void PauseScene::Initialize()
@@ -20,6 +20,7 @@ void PauseScene::Initialize()
 
 void PauseScene::Update(Input* input, GamePad* gamePad)
 {
+
 	gamePad->Update();
 	if (input->TriggerKey(DIK_RETURN) || gamePad->ButtonTrigger(X))
 	{
@@ -63,8 +64,8 @@ void PauseScene::Draw()
 	/*fbxObject->Draw(dxCommon_->GetCommandList());*/
 
 	//sceneObj_->skydomeO_->Draw();
-	enemy_->Draw(controller_->dxCommon_->GetCommandList());
-	player_->Draw(controller_->dxCommon_->GetCommandList());
+	enemy_->Draw();
+	player_->Draw();
 	//player_->Draw();
 	//enemy_->Draw();
 
@@ -75,7 +76,24 @@ void PauseScene::Draw()
 	//// 3Dオブジェクト描画後処理
 	Object3d::PostDraw();
 #pragma endregion
+#pragma region 3Dオブジェクト描画
+	//// 3Dオブジェクト描画前処理
+	Object3d::PreDraw(controller_->dxCommon_->GetCommandList());
 
+	//// 3Dオブジェクトの描画
+
+	/*fbxObject->Draw(dxCommon_->GetCommandList());*/
+
+	player_->GetParticle()->Draw(controller_->dxCommon_->GetCommandList());
+	enemy_->GetParticle()->Draw(controller_->dxCommon_->GetCommandList());
+
+	///// <summary>
+	///// ここに3Dオブジェクトの描画処理を追加できる
+	///// </summary>
+
+	//// 3Dオブジェクト描画後処理
+	Object3d::PostDraw();
+#pragma endregion
 
 	//#pragma region ぺらポリゴン描画
 	//	postEffect->PreDrawScene(dxCommon_->GetCommandList());
