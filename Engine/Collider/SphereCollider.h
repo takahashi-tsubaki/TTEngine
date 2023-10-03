@@ -18,9 +18,9 @@ public:
 	//XV
 	void Update() override;
 
-	inline void SetRadius(float radius)
+	inline void SetRadius(float rad)
 	{
-		radius_ = radius; 
+		radius_ = rad; 
 	}
 	
 	float GetRadius()

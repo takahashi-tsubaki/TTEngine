@@ -17,6 +17,7 @@
 #include"CollisionAttribute.h"
 
 #include "EnemyBullet.h"
+#include "ParticleManager.h"
 
 class Player;
 
@@ -38,7 +39,7 @@ public:
 
 	void Update();
 
-	void Draw(ID3D12GraphicsCommandList* cmdList);
+	void Draw();
 
 	void Action();
 
@@ -60,6 +61,8 @@ public:
 
 	bool GetisShot() { return isShot; }
 	bool GetisRapidShot() { return rapidShot;}
+
+	ParticleManager* GetParticle() { return particle_.get(); }
 #pragma region 敵のStateパターン行動の仮のもの
 
 	//敵の攻撃関数
@@ -89,9 +92,9 @@ private:
 #pragma region 敵のStateパターン行動の仮のもの
 
 	Vector3 oldPos;
-	Vector3 playerPos;
-	Vector3 enemyPos;
-	Vector3 distance;
+	Vector3 playerPos_;
+	Vector3 enemyPos_;
+	Vector3 distance_;
 	Vector3 cameraAngle;
 
 	Vector3 velocity_;
@@ -143,7 +146,7 @@ private:
 	//長押ししている時間
 	float pressTimer = 0.0f;
 
-	int ShotflameCount = 0;
+	float ShotflameCount = 0;
 
 
 	int rapidCount = 0;
@@ -177,5 +180,7 @@ private:
 	Player* player_ = nullptr;
 
 	bool isDebugMode = false;
+
+	std::unique_ptr<ParticleManager> particle_;
 };
 

@@ -175,7 +175,7 @@ public: // メンバ関数
 	///	<param name="accel">加速度</param>
 	void Add(int life, Vector3 position, Vector3 velociy, Vector3 accel, float start_scale, float end_scale);
 
-	static void SetCamera(Camera* camera) { ParticleManager::camera = camera; }
+	static void SetCamera(Camera* camera) { camera_ = camera; }
 
 	// ワールドトランスフォームの設定
 	void SetWorldTransform(WorldTransform wtf) { wtf_ = wtf; };
@@ -190,7 +190,7 @@ public: // メンバ関数
 	};
 
 private: // メンバ変数
-	static Camera* camera;
+	static Camera* camera_;
 	// ローカルスケール
 	WorldTransform wtf_;
 	Matrix4 bill;

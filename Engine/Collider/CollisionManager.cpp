@@ -28,7 +28,7 @@ void CollisionManager::CheckAllCollisions()
 			BaseCollider* colA = *itA;
 			BaseCollider* colB = *itB;
 
-			if (colA->attribute == colB->attribute)
+			if (colA->attribute_ == colB->attribute_)
 			{
 				continue;
 			}
@@ -115,7 +115,7 @@ bool CollisionManager::Raycast(const Ray& ray , unsigned short attribute , Rayca
 			{
 				continue;
 			}
-			if (!(colA->attribute & attribute))
+			if (!(colA->attribute_ & attribute))
 			{
 				continue;
 			}
@@ -139,7 +139,7 @@ bool CollisionManager::Raycast(const Ray& ray , unsigned short attribute , Rayca
 			{
 				continue;
 			}
-			if (!(colA->attribute & attribute))
+			if (!(colA->attribute_ & attribute))
 			{
 				continue;
 			}
@@ -176,7 +176,7 @@ void CollisionManager::QuerySphere(const Sphere& sphere, QueryCallback* callback
 	{
 		BaseCollider* col = *it;
 
-		if (!(col->attribute & attribute)) {
+		if (!(col->attribute_ & attribute)) {
 			continue;
 		}
 		//‹…

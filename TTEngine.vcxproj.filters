@@ -192,9 +192,6 @@
     <ClCompile Include="Scene\IScene.cpp">
       <Filter>ソース ファイル\scene\SceneManager</Filter>
     </ClCompile>
-    <ClCompile Include="Scene\ResultScene.cpp">
-      <Filter>ソース ファイル\scene\SceneManager</Filter>
-    </ClCompile>
     <ClCompile Include="Scene\PlayScene.cpp">
       <Filter>ソース ファイル\scene\SceneManager</Filter>
     </ClCompile>
@@ -357,9 +354,6 @@
       <Filter>ヘッダー ファイル\scene\SceneManager</Filter>
     </ClInclude>
     <ClInclude Include="Scene\TitleScene.h">
-      <Filter>ヘッダー ファイル\scene\SceneManager</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene\ResultScene.h">
       <Filter>ヘッダー ファイル\scene\SceneManager</Filter>
     </ClInclude>
     <ClInclude Include="Engine\3D\worldTransform.h">

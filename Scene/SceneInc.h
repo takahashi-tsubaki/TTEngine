@@ -2,7 +2,6 @@
 #include "IScene.h"
 #include "TitleScene.h"
 #include "PlayScene.h"
-#include "ResultScene.h"
 #include "GameClearScene.h"
 #include "GameOverScene.h"
 #include "PauseScene.h"

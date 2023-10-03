@@ -98,8 +98,8 @@ class Camera {
 	/// 注視点座標の設定
 	/// </summary>
 	/// <param name="target">座標</param>
-	inline void SetTarget(Vector3 target) {
-		target_ = target;
+	inline void SetTarget(Vector3 tar) {
+		target_ = tar;
 		viewDirty = true;
 	}
 

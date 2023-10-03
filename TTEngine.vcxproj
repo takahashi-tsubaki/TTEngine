@@ -82,7 +82,7 @@
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)Engine\Base;$(SolutionDir)Engine\2D;$(SolutionDir)Engine\3D;$(SolutionDir)Scene;$(SolutionDir)Engine\Math;$(SolutionDir)Engine\Particle;$(SolutionDir)Engine\FBX;$(SolutionDir)External\DirectXTex;$(SolutionDir)External\lib\fbx_sdk\include;$(SolutionDir)Engine\FrameWork;$(SolutionDir)External\imgui;$(SolutionDir)Engine\Camera;$(SolutionDir)Engine\Light;$(SolutionDir)Engine\Enemy;$(SolutionDir)Engine\Player;$(SolutionDir)Engine\Bullet;$(SolutionDir)Engine\Collider;$(SolutionDir)External\json</AdditionalIncludeDirectories>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <TreatWarningAsError>false</TreatWarningAsError>
@@ -145,7 +145,6 @@
     <ClCompile Include="Scene\IScene.cpp" />
     <ClCompile Include="Scene\PauseScene.cpp" />
     <ClCompile Include="Scene\PlayScene.cpp" />
-    <ClCompile Include="Scene\ResultScene.cpp" />
     <ClCompile Include="Scene\SceneManager.cpp" />
     <ClCompile Include="Scene\SceneObjects.cpp" />
     <ClCompile Include="Scene\TitleScene.cpp" />
@@ -204,7 +203,6 @@
     <ClInclude Include="Scene\IScene.h" />
     <ClInclude Include="Scene\PauseScene.h" />
     <ClInclude Include="Scene\PlayScene.h" />
-    <ClInclude Include="Scene\ResultScene.h" />
     <ClInclude Include="Scene\SceneInc.h" />
     <ClInclude Include="Scene\SceneManager.h" />
     <ClInclude Include="Scene\SceneObjects.h" />

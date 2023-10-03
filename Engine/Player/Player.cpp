@@ -160,7 +160,7 @@ void Player::Update(Input* input, GamePad* gamePad)
 	/*playerFbxO_->Update();*/
 }
 
-void Player::Draw(ID3D12GraphicsCommandList* cmdList)
+void Player::Draw()
 {
 	if (GetisDead() == false)
 	{
@@ -385,7 +385,7 @@ void Player::Shot(Input* input, GamePad* gamePad)
 
 void Player::Vanish(Input* input, GamePad* gamePad)
 {
-	playerPos = playerO_->GetPosition();
+	playerPos_ = playerO_->GetPosition();
 	//“G‚ªUŒ‚‚ð‚µ‚Ä‚«‚½‚Æ‚«
 	if (enemy_->GetisRapidShot() == true || enemy_->GetisRapidShot() == true)
 	{
@@ -399,7 +399,7 @@ void Player::Vanish(Input* input, GamePad* gamePad)
 				if (isVanising == false)
 				{
 					VanishGauge = 0.0f;
-					VanishPos = { enemyPos.x , enemyPos.y, enemyPos.z+5 };
+					VanishPos = { enemyPos_.x , enemyPos_.y, enemyPos_.z+5 };
 					playerO_->SetPosition(VanishPos);
 					isVanising = true;
 				}
@@ -564,9 +564,9 @@ void Player::Reset()
 	
 
 	oldPos = { 0,0,0 };
-	playerPos = { 0,0,0 };
-	enemyPos = { 0,0,0 };
-	distance = { 0,0,0 };
+	playerPos_ = { 0,0,0 };
+	enemyPos_ = { 0,0,0 };
+	distance_ = { 0,0,0 };
 
 	Hp_ = 10;
 	isDead_ = false;
