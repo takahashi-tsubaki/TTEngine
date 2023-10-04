@@ -40,17 +40,17 @@ void TitleScene::Update(Input* input, GamePad* gamePad)
 	controller_->camera_->Update();
 	
 	gamePad->Update();
-	if (input->TriggerKey(DIK_RETURN) || gamePad->ButtonTrigger(X))
+
+	//ボタンを押したらシーン遷移を行う
+	if (input->TriggerKey(DIK_SPACE) || gamePad->ButtonTrigger(X))
 	{
-		
 		isTransition = true;
 	}
 
+	//シーン遷移のオブジェクトのスケールが一定以上に到達したとき
 	if (sceneObj_->transitionO_->worldTransform.scale_.x>=60 && sceneObj_->transitionO_->worldTransform.scale_.z>=60)
 	{
-	
 		controller_->ChangeSceneNum(S_PLAY);
-
 	}
 	if (isTransition == true)
 	{

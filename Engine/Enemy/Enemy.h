@@ -126,6 +126,11 @@ private:
 	/// <summary>
 	/// çUåÇä÷òAån
 	/// </summary>
+	
+	Vector3 bulletPlayerPos;
+	Vector3 bulletEnemyPos;
+	Vector3 bulletDistance;
+	/// 
 	bool isShot = false;
 	//íPî≠
 	bool oneShot = false;
