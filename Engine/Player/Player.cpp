@@ -261,7 +261,7 @@ void Player::Shot(Input* input, GamePad* gamePad)
 
 	playerPos = playerO_->worldTransform.translation_;
 
-	enemyPos = enemy_->GetPosition();
+	enemyPos = enemy_->GetObject3d()->GetWorldTransform().translation_;
 
 	distance = enemyPos - playerPos;
 

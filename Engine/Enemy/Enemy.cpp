@@ -97,7 +97,7 @@ void Enemy::Update()
 		{
 			Attack();
 
-			//Move();
+			Move();
 		}
 
 	}
@@ -284,16 +284,14 @@ void Enemy::Attack()
 	Vector3 enemyPos;
 	Vector3 distance;
 	float speed = 0.5f;
+	
+	enemyPos = enemyO_->worldTransform.translation_;
 
-	playerPos_ = player_->GetObject3d()->GetWorldTransform().translation_;
+	distance = bulletPlayerPos - enemyPos;
 
-	enemyPos_ = enemyO_->worldTransform.translation_;
+	distance.nomalize();
 
-	distance_ = playerPos_ - enemyPos_;
-
-	distance_.nomalize();
-
-	distance_ *= speed;
+	distance *= speed;
 
 	/*Vector3 begieP1 = {0,10,-30};
 	Vector3 begieP2 = { 0,-30,-10 };
@@ -318,6 +316,7 @@ void Enemy::Attack()
 	ShotflameCount++;
 	if (ShotflameCount > 120)
 	{
+		
 		//ËŒ‚‚µ‚Ä‚¢‚È‚¢‚È‚ç
 		if (isShot == false)
 		{
@@ -325,7 +324,7 @@ void Enemy::Attack()
 			{
 				bulletType = rand() % 2 + 1;
 			}
-		
+			
 			
 			isShot = true;
 		}
@@ -400,7 +399,7 @@ void Enemy::Attack()
 					bulletSize++;
 					// ’e‚ğ¶¬‚µ‰Šú‰»
 					std::unique_ptr<EnemyBullet> newBullet = std::make_unique<EnemyBullet>();
-					newBullet->Initialize(bulletM_, enemyO_->worldTransform.translation_, distance_,enemyO_->worldTransform.rotation_);
+					newBullet->Initialize(bulletM_, enemyPos, distance,enemyO_->worldTransform.rotation_);
 
 					if (bulletType == EnemyBulletType::ONESHOT)
 					{
@@ -419,6 +418,7 @@ void Enemy::Attack()
 
 			}
 		}
+		
 		if (bulletSize >= MAX_BULLET)
 		{
 			if (isDebugMode == false)
@@ -435,7 +435,10 @@ void Enemy::Attack()
 			isShot = false;
 		}
 	}
-	
+	else
+	{
+		bulletPlayerPos = player_->GetObject3d()->GetWorldTransform().translation_;
+	}
 }
 
 void Enemy::Vanish()

@@ -73,6 +73,8 @@ public:
 
 	int GetBulletType() { return bulletType; }
 
+	bool GetVanish() { return isVanising; }
+
 private:
 	Vector3 oldPos;
 	Vector3 playerPos_;
