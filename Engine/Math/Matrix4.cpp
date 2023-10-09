@@ -58,7 +58,7 @@ Matrix4 Matrix4::scale(const Vector3& s)
 		0.0f,0.0f,0.0f,1.0f
 	};
 
-	// ‘ã“ü
+	// ä»£å…¥
 	for (int i = 0; i < 4; i++) {
 		for (int j = 0; j < 4; j++) {
 			m[i][j] = result[i][j];
@@ -81,7 +81,7 @@ Matrix4 Matrix4::rotateX(float angle)
 		0.0f,0.0f,0.0f,1.0f
 	};
 
-	// ‘ã“ü
+	// ä»£å…¥
 	for (int i = 0; i < 4; i++) {
 		for (int j = 0; j < 4; j++) {
 			m[i][j] = result[i][j];
@@ -104,7 +104,7 @@ Matrix4 Matrix4::rotateY(float angle)
 		0.0f,0.0f,0.0f,1.0f
 	};
 
-	// ‘ã“ü
+	// ä»£å…¥
 	for (int i = 0; i < 4; i++) {
 		for (int j = 0; j < 4; j++) {
 			m[i][j] = result[i][j];
@@ -127,7 +127,7 @@ Matrix4 Matrix4::rotateZ(float angle)
 		0.0f,0.0f,0.0f,1.0f
 	};
 
-	// ‘ã“ü
+	// ä»£å…¥
 	for (int i = 0; i < 4; i++) {
 		for (int j = 0; j < 4; j++) {
 			m[i][j] = result[i][j];
@@ -147,7 +147,7 @@ Matrix4 Matrix4::translate(const Vector3& t)
 		t.x ,t.y ,t.z ,1.0f
 	};
 
-	// ‘ã“ü
+	// ä»£å…¥
 	for (int i = 0; i < 4; i++) {
 		for (int j = 0; j < 4; j++) {
 			m[i][j] = result[i][j];

@@ -4,55 +4,71 @@
 #include "Object3d.h"
 
 class GameCamera :
-    public Camera
+	public Camera
 {
 public:
-    //ƒRƒ“ƒXƒgƒ‰ƒNƒ^
-    GameCamera(int width, int height, Input* input);
-    //ƒfƒXƒgƒ‰ƒNƒ^
-    ~GameCamera();
+	//ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+	GameCamera(int width,int height,Input* input);
+	//ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+	~GameCamera();
 
-    //‰Šú‰»
-    void Initialize();
-    //XV
-    void Update();
+	//åˆæœŸåŒ–
+	void Initialize();
+	//æ›´æ–°
+	void Update();
 
-    void SetTargetPos(WorldTransform* targetPos) { targetPos_ = targetPos; }
-    WorldTransform* GetTargetPos() { return targetPos_; }
-    void RemoveTargetPos() { targetPos_ = nullptr; }
-    void SetEyePos(WorldTransform* eyePos) {eyePos_ = eyePos;}
-    void SetFollowerPos(WorldTransform* wtf) { followerPos_ = wtf; }
-    WorldTransform* GetEyePos() { return eyePos_; }
-    void RemoveEyePos() { eyePos_ = nullptr; }
-    void ViewPointMovement();
+	void SetTargetPos(WorldTransform* targetPos) {
+		targetPos_ = targetPos;
+	}
+	WorldTransform* GetTargetPos() {
+		return targetPos_;
+	}
+	void RemoveTargetPos() {
+		targetPos_ = nullptr;
+	}
+	void SetEyePos(WorldTransform* eyePos) {
+		eyePos_ = eyePos;
+	}
+	void SetFollowerPos(WorldTransform* wtf) {
+		followerPos_ = wtf;
+	}
+	WorldTransform* GetEyePos() {
+		return eyePos_;
+	}
+	void RemoveEyePos() {
+		eyePos_ = nullptr;
+	}
+	void ViewPointMovement();
 
-    void MoveCamera();
+	void MoveCamera();
 
-    //©‹@‚Æ“G‚ğ’Ç]‚·‚é
+	//è‡ªæ©Ÿã¨æ•µã‚’è¿½å¾“ã™ã‚‹
 
-    void IsFollow(bool isFollow) { isFollow_ = isFollow; }
+	void IsFollow(bool isFollow) {
+		isFollow_ = isFollow;
+	}
 
 private:
 
-    Input* input_ = nullptr;
+	Input* input_ = nullptr;
 
-    WorldTransform* targetPos_ = nullptr;
-    WorldTransform* eyePos_ = nullptr;
-    WorldTransform* followerPos_ = nullptr;
+	WorldTransform* targetPos_ = nullptr;
+	WorldTransform* eyePos_ = nullptr;
+	WorldTransform* followerPos_ = nullptr;
 
-    float cameraHeight_ = 6;
-    //ƒJƒƒ‰‹——£ŠÖŒW
-    const float  MAX_CAMERA_DISTANCE = 50.0f;
-    const float  MIN_CAMERA_DISTANCE = 7.0f;
-    float cameraDistance_ = 20.0f;
-    const float MAX_CHANGE_TIMER = 30;
-    int cameraModeChangeCountTimer = 30;
+	float cameraHeight_ = 6;
+	//ã‚«ãƒ¡ãƒ©è·é›¢é–¢ä¿‚
+	const float  MAX_CAMERA_DISTANCE = 50.0f;
+	const float  MIN_CAMERA_DISTANCE = 7.0f;
+	float cameraDistance_ = 20.0f;
+	const float MAX_CHANGE_TIMER = 30;
+	int cameraModeChangeCountTimer = 30;
 
-    Vector3 loolAtPos = {};
+	Vector3 loolAtPos = {};
 
-    bool isFollow_ = false;
+	bool isFollow_ = false;
 
-    bool isstanby = false;
+	bool isstanby = false;
 
 };
 

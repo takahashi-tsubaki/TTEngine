@@ -1,15 +1,21 @@
 #pragma once
 
-#include <windows.h>
-
 #include "Vector2.h"
 #include "Vector3.h"
 #include "Vector4.h"
 
+#include "Defineder.h"
+#include "Pading.h"
+
+ALICE_SUPPRESS_WARNINGS_BEGIN
+
+#include <windows.h>
 #include <xinput.h>
+
+ALICE_SUPPRESS_WARNINGS_END
 #pragma comment (lib,"xinput.lib")
 
-//–¼‘O‚ÌŠÈ—ª‰»
+//åå‰ã®ç°¡ç•¥åŒ–
 enum Button
 {
 	A = XINPUT_GAMEPAD_A,
@@ -40,101 +46,101 @@ public:
 	~GamePad();
 
 	/// <summary>
-	/// ‰Šú‰»
+	/// åˆæœŸåŒ–
 	/// </summary>
 	
 
 	/// <summary>
-	/// XV
+	/// æ›´æ–°
 	/// </summary>
 	void Update();
 	/// <summary>
-	/// ƒ{ƒ^ƒ“‚ÌƒgƒŠƒK[“ü—Í
+	/// ãƒœã‚¿ãƒ³ã®ãƒˆãƒªã‚¬ãƒ¼å…¥åŠ›
 	/// </summary>
-	/// <param name="button">ƒ`ƒFƒbƒN‚µ‚½‚¢ƒ{ƒ^ƒ“</param>
-	/// <returns>‰Ÿ‚µ‚½‚©‚Ç‚¤‚©</returns>
+	/// <param name="button">ãƒã‚§ãƒƒã‚¯ã—ãŸã„ãƒœã‚¿ãƒ³</param>
+	/// <returns>æŠ¼ã—ãŸã‹ã©ã†ã‹</returns>
 	bool ButtonTrigger(Button button);
 
 	/// <summary>
-	/// ƒXƒeƒBƒbƒN‚ÌƒgƒŠƒK[“ü—Í
+	/// ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã®ãƒˆãƒªã‚¬ãƒ¼å…¥åŠ›
 	/// </summary>
-	/// <param name="stick">ƒXƒeƒBƒbƒN‚Ì•ûŒü</param>
-	/// <param name="deadRange">ƒfƒbƒhƒ][ƒ“‚Ì”ÍˆÍ</param>
-	/// <param name="deadRate">ƒfƒbƒhƒ][ƒ“”»’è‚Ì“x‡‚¢(‰Šú’l1.0f)</param>
-	/// <returns>“|‚µ‚½‚©‚Ç‚¤‚©</returns>
+	/// <param name="stick">ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã®æ–¹å‘</param>
+	/// <param name="deadRange">ãƒ‡ãƒƒãƒ‰ã‚¾ãƒ¼ãƒ³ã®ç¯„å›²</param>
+	/// <param name="deadRate">ãƒ‡ãƒƒãƒ‰ã‚¾ãƒ¼ãƒ³åˆ¤å®šã®åº¦åˆã„(åˆæœŸå€¤1.0f)</param>
+	/// <returns>å€’ã—ãŸã‹ã©ã†ã‹</returns>
 	bool StickTrigger(Stick stick,const float& deadRange = 0.3f,const Vector2& deadRate = {1.0f,1.0f});
 
 	/// <summary>
-	/// ƒ{ƒ^ƒ“‚Ì“ü—Í
+	/// ãƒœã‚¿ãƒ³ã®å…¥åŠ›
 	/// </summary>
-	/// <param name="button">ƒ`ƒFƒbƒN‚µ‚½‚¢ƒ{ƒ^ƒ“</param>
-	/// <returns>‰Ÿ‚µ‚½‚©‚Ç‚¤‚©</returns>
+	/// <param name="button">ãƒã‚§ãƒƒã‚¯ã—ãŸã„ãƒœã‚¿ãƒ³</param>
+	/// <returns>æŠ¼ã—ãŸã‹ã©ã†ã‹</returns>
 	bool ButtonInput(Button button);
 
 	/// <summary>
-	/// ƒXƒeƒBƒbƒN‚Ì“ü—Í
+	/// ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã®å…¥åŠ›
 	/// </summary>
-	/// <param name="stick">ƒXƒeƒBƒbƒN‚Ì•ûŒü</param>
-	/// <param name="deadRange">ƒfƒbƒhƒ][ƒ“‚Ì”ÍˆÍ</param>
-	/// <param name="deadRate">ƒfƒbƒhƒ][ƒ“”»’è‚Ì“x‡‚¢(‰Šú’l1.0f)</param>
-	/// <returns>“|‚µ‚½‚©‚Ç‚¤‚©</returns>
+	/// <param name="stick">ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã®æ–¹å‘</param>
+	/// <param name="deadRange">ãƒ‡ãƒƒãƒ‰ã‚¾ãƒ¼ãƒ³ã®ç¯„å›²</param>
+	/// <param name="deadRate">ãƒ‡ãƒƒãƒ‰ã‚¾ãƒ¼ãƒ³åˆ¤å®šã®åº¦åˆã„(åˆæœŸå€¤1.0f)</param>
+	/// <returns>å€’ã—ãŸã‹ã©ã†ã‹</returns>
 	bool StickInput(Stick stick, const float& deadRange = 0.3f, const Vector2& deadRate = { 1.0f,1.0f });
 
 	/// <summary>
-	/// ƒ{ƒ^ƒ“‚ð—£‚µ‚½uŠÔ
+	/// ãƒœã‚¿ãƒ³ã‚’é›¢ã—ãŸçž¬é–“
 	/// </summary>
-	/// <param name="button">ƒ`ƒFƒbƒN‚µ‚½‚¢ƒ{ƒ^ƒ“</param>
-	/// <returns>—£‚µ‚½‚©‚Ç‚¤‚©</returns>
+	/// <param name="button">ãƒã‚§ãƒƒã‚¯ã—ãŸã„ãƒœã‚¿ãƒ³</param>
+	/// <returns>é›¢ã—ãŸã‹ã©ã†ã‹</returns>
 	bool ButtonOffTrigger(Button button);
 
 	/// <summary>
-	///	ƒXƒeƒBƒbƒN‚ð—£‚µ‚½uŠÔ
+	///	ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã‚’é›¢ã—ãŸçž¬é–“
 	/// </summary>
-	/// <param name="stick">ƒXƒeƒBƒbƒN‚Ì•ûŒü</param>
-	/// <param name="deadRange">ƒfƒbƒhƒ][ƒ“‚Ì”ÍˆÍ</param>
-	/// <param name="deadRate">ƒfƒbƒhƒ][ƒ“”»’è‚Ì“x‡‚¢(‰Šú’l1.0f)</param>
-	/// <returns>—£‚µ‚½‚©‚Ç‚¤‚©</returns>
+	/// <param name="stick">ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã®æ–¹å‘</param>
+	/// <param name="deadRange">ãƒ‡ãƒƒãƒ‰ã‚¾ãƒ¼ãƒ³ã®ç¯„å›²</param>
+	/// <param name="deadRate">ãƒ‡ãƒƒãƒ‰ã‚¾ãƒ¼ãƒ³åˆ¤å®šã®åº¦åˆã„(åˆæœŸå€¤1.0f)</param>
+	/// <returns>é›¢ã—ãŸã‹ã©ã†ã‹</returns>
 	bool StickOffTrigger(Stick stick, const float& deadRange = 0.3f, const Vector2& deadRate = { 1.0f,1.0f });
 
 	/// <summary>
-	/// ƒRƒ“ƒgƒ[ƒ‰[‚Ì¶ƒXƒeƒBƒbƒN‚ÌƒxƒNƒgƒ‹
+	/// ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ãƒ¼ã®å·¦ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã®ãƒ™ã‚¯ãƒˆãƒ«
 	/// </summary>
-	/// <param name="deadRate">ƒfƒbƒhƒ][ƒ“”»’è‚Ì“x‡‚¢(‰Šú’l1.0f)</param>
-	/// <returns>ƒxƒNƒgƒ‹</returns>
+	/// <param name="deadRate">ãƒ‡ãƒƒãƒ‰ã‚¾ãƒ¼ãƒ³åˆ¤å®šã®åº¦åˆã„(åˆæœŸå€¤1.0f)</param>
+	/// <returns>ãƒ™ã‚¯ãƒˆãƒ«</returns>
 	Vector2 GetLeftStickVec(const Vector2& deadRate = { 1.0f,1.0f });
 
 	/// <summary>
-	/// ƒRƒ“ƒgƒ[ƒ‰[‚Ì‰EƒXƒeƒBƒbƒN‚ÌƒxƒNƒgƒ‹
+	/// ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ãƒ¼ã®å³ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã®ãƒ™ã‚¯ãƒˆãƒ«
 	/// </summary>
-	/// <param name="deadRate">ƒfƒbƒhƒ][ƒ“”»’è‚Ì“x‡‚¢(‰Šú’l1.0f)</param>
-	/// <returns>ƒxƒNƒgƒ‹</returns>
+	/// <param name="deadRate">ãƒ‡ãƒƒãƒ‰ã‚¾ãƒ¼ãƒ³åˆ¤å®šã®åº¦åˆã„(åˆæœŸå€¤1.0f)</param>
+	/// <returns>ãƒ™ã‚¯ãƒˆãƒ«</returns>
 	Vector2 GetRightStickVec(const Vector2& deadRate = { 1.0f,1.0f });
 
 	/// <summary>
-	/// ƒRƒ“ƒgƒ[ƒ‰[‚ðU“®‚³‚¹‚é
+	/// ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ãƒ¼ã‚’æŒ¯å‹•ã•ã›ã‚‹
 	/// </summary>
-	/// <param name="power">U“®‚Ì‹­‚³0.0f`1.0f</param>
-	/// <param name="span">U“®‚ÌŽžŠÔƒtƒŒ[ƒ€</param>
+	/// <param name="power">æŒ¯å‹•ã®å¼·ã•0.0fï½ž1.0f</param>
+	/// <param name="span">æŒ¯å‹•ã®æ™‚é–“ãƒ•ãƒ¬ãƒ¼ãƒ </param>
 	void ShakeController(const float& power, const int& span);
 
-	//ƒƒ“ƒo•Ï”
+	//ãƒ¡ãƒ³ãƒå¤‰æ•°
 private:
 
 	XINPUT_STATE xinputState{};
 	XINPUT_STATE oldXinputState{};
-	//ƒRƒ“ƒgƒ[ƒ‰[‚ÌU“®‚Ì‹­‚³
+	//ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ãƒ¼ã®æŒ¯å‹•ã®å¼·ã•
 	float shakePower = 0.0f;
-	//ƒRƒ“ƒgƒ[ƒ‰[‚ÌU“®‚Ì’·‚³
+	//ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ãƒ¼ã®æŒ¯å‹•ã®é•·ã•
 	int shakeTimer = 0;
-	//U“®‚³‚¹‚é‚©‚Ç‚¤‚©
+	//æŒ¯å‹•ã•ã›ã‚‹ã‹ã©ã†ã‹
 	bool whetherShake = false;
-	//ƒfƒbƒhƒ][ƒ“‚É“ü‚Á‚Ä‚¢‚é‚©(deadRate : ƒfƒbƒhƒ][ƒ“”»’è‚Ì“x‡‚¢A1.0f‚¾‚ÆƒfƒtƒHƒ‹ƒg)
+	//ãƒ‡ãƒƒãƒ‰ã‚¾ãƒ¼ãƒ³ã«å…¥ã£ã¦ã„ã‚‹ã‹(deadRate : ãƒ‡ãƒƒãƒ‰ã‚¾ãƒ¼ãƒ³åˆ¤å®šã®åº¦åˆã„ã€1.0fã ã¨ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆ)
 	bool StickInDeadZone(Vector2& thumb,const Vector2& deadRate);
 
 	GamePad& operator=(const GamePad&) = delete;
 	GamePad(const GamePad&) = delete;
 
-	//Å‚“ü—Í‹­“x
+	//æœ€é«˜å…¥åŠ›å¼·åº¦
 	const float STICK_INPUT_MAX = 32768.0f;
 
 

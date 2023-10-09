@@ -3,6 +3,10 @@
 #include "Vector4.h"
 #include "Matrix4.h"
 
+#include "Defineder.h"
+#include "Pading.h"
+
+ALICE_SUPPRESS_WARNINGS_BEGIN
 #include <string>
 #include <DirectXMath.h>
 #include <vector>
@@ -15,22 +19,22 @@
 #include <d3dx12.h>
 
 #include <fbxsdk.h>
-
+ALICE_SUPPRESS_WARNINGS_END
 struct Node
 {
-	//–¼‘O
+	//åå‰
 	std::string name;
-	//ƒ[ƒJƒ‹ƒXƒP[ƒ‹
+	//ãƒ­ãƒ¼ã‚«ãƒ«ã‚¹ã‚±ãƒ¼ãƒ«
 	Vector4 scaling = { 1,1,1,0 };
-	//ƒ[ƒJƒ‹‰ñ“]Šp
+	//ãƒ­ãƒ¼ã‚«ãƒ«å›è»¢è§’
 	Vector4 rotation = { 0,0,0,0 };
-	//ƒ[ƒJƒ‹ˆÚ“®
+	//ãƒ­ãƒ¼ã‚«ãƒ«ç§»å‹•
 	Vector4 translation = { 0,0,0,1 };
-	//ƒ[ƒJƒ‹•ÏŠ·s—ñ
+	//ãƒ­ãƒ¼ã‚«ãƒ«å¤‰æ›è¡Œåˆ—
 	Matrix4 transform;
-	//ƒOƒ[ƒoƒ‹•ÏŠ·s—ñ
+	//ã‚°ãƒ­ãƒ¼ãƒãƒ«å¤‰æ›è¡Œåˆ—
 	Matrix4 worldTransform;
-	//eƒm[ƒh
+	//è¦ªãƒãƒ¼ãƒ‰
 	Node* parent = nullptr;
 
 };
@@ -38,113 +42,119 @@ struct Node
 class FbxModel
 {
 public:
-	//ƒ{[ƒ“\‘¢‘Ì
+	//ãƒœãƒ¼ãƒ³æ§‹é€ ä½“
 	struct Bone
 	{
-		//–¼‘O
+		//åå‰
 		std::string name;
-		//‰Šúp¨‚Ì‹ts—ñ
+		//åˆæœŸå§¿å‹¢ã®é€†è¡Œåˆ—
 		DirectX::XMMATRIX invInitialPose;
-		//ƒNƒ‰ƒXƒ^[(FBX‘¤‚Ìƒ{[ƒ“î•ñ
+		//ã‚¯ãƒ©ã‚¹ã‚¿ãƒ¼(FBXå´ã®ãƒœãƒ¼ãƒ³æƒ…å ±
 		FbxCluster* fbxCluster;
-		//ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+		//ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 		Bone(const std::string& name) {
 			this->name = name;
 		}
 	};
 public:
 
-	//ƒtƒŒƒ“ƒhƒNƒ‰ƒX
+	//ãƒ•ãƒ¬ãƒ³ãƒ‰ã‚¯ãƒ©ã‚¹
 	friend class FbxLoader;
-public://’è”
-	//ƒ{[ƒ“ƒCƒ“ƒfƒbƒNƒX‚ÌÅ‘å”
+public://å®šæ•°
+	//ãƒœãƒ¼ãƒ³ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã®æœ€å¤§æ•°
 	static const int MAX_BONE_INDICES = 4;
 
-public://ƒTƒuƒNƒ‰ƒX
+public://ã‚µãƒ–ã‚¯ãƒ©ã‚¹
 	struct VertexPosNormalUvSkin
 	{
-		DirectX::XMFLOAT3 pos;//xyzÀ•W
-		DirectX::XMFLOAT3 normal;//–@üƒxƒNƒgƒ‹
-		DirectX::XMFLOAT3 uv;//uvÀ•W
-		UINT boneIndex[MAX_BONE_INDICES];//ƒ{[ƒ“@”Ô†
-		float boneWeight[MAX_BONE_INDICES];//ƒ{[ƒ“@d‚İ
+		DirectX::XMFLOAT3 pos;//xyzåº§æ¨™
+		DirectX::XMFLOAT3 normal;//æ³•ç·šãƒ™ã‚¯ãƒˆãƒ«
+		DirectX::XMFLOAT3 uv;//uvåº§æ¨™
+		UINT boneIndex[ MAX_BONE_INDICES ];//ãƒœãƒ¼ãƒ³ã€€ç•ªå·
+		float boneWeight[ MAX_BONE_INDICES ];//ãƒœãƒ¼ãƒ³ã€€é‡ã¿
 	};
 
-private://ƒGƒCƒŠƒAƒX
+private://ã‚¨ã‚¤ãƒªã‚¢ã‚¹
 
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
-	//DirectX‚ğÈ—ª
+	//DirectXã‚’çœç•¥
 	using XMFLOAT2 = DirectX::XMFLOAT2;
 	using XMFLOAT3 = DirectX::XMFLOAT3;
 	using XMFLOAT4 = DirectX::XMFLOAT4;
 	using XMMATRIX = DirectX::XMMATRIX;
 	using TexMetadata = DirectX::TexMetadata;
 	using ScratchImage = DirectX::ScratchImage;
-	//std::‚ğÈ—ª
+	//std::ã‚’çœç•¥
 	using string = std::string;
 	template <class T> using vector = std::vector<T>;
 
-public://ƒƒ“ƒoŠÖ”
+public://ãƒ¡ãƒ³ãƒé–¢æ•°
 
-	//ƒfƒXƒgƒ‰ƒNƒ^
+	//ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	~FbxModel();
 
-	//ƒoƒbƒtƒ@¶¬
+	//ãƒãƒƒãƒ•ã‚¡ç”Ÿæˆ
 	void CreateBuffers(ID3D12Device* device);
 
-	//•`‰æ
+	//æç”»
 	void Draw(ID3D12GraphicsCommandList* cmdList);
-	//ƒ‚ƒfƒ‹‚Ì•ÏŒ`s—ñæ“¾
-	const Matrix4& GetModelTransform() { return meshNode->worldTransform; }
+	//ãƒ¢ãƒ‡ãƒ«ã®å¤‰å½¢è¡Œåˆ—å–å¾—
+	const Matrix4& GetModelTransform() {
+		return meshNode->worldTransform;
+	}
 
-	//getter
-	std::vector<Bone>& GetBones() { return bones; }
+//getter
+	std::vector<Bone>& GetBones() {
+		return bones;
+	}
 
-	//getter
-	FbxScene* GetFbxScene() { return fbxScene; }
+//getter
+	FbxScene* GetFbxScene() {
+		return fbxScene;
+	}
 
-private://ƒƒ“ƒo•Ï”
+private://ãƒ¡ãƒ³ãƒå¤‰æ•°
 
-	//ƒ‚ƒfƒ‹–¼
+	//ãƒ¢ãƒ‡ãƒ«å
 	std::string name;
 
-	//ƒm[ƒh”z—ñ
+	//ãƒãƒ¼ãƒ‰é…åˆ—
 	std::vector<Node> nodes;
 
-	//ƒƒbƒVƒ…‚ğ‚Âƒm[ƒh
+	//ãƒ¡ãƒƒã‚·ãƒ¥ã‚’æŒã¤ãƒãƒ¼ãƒ‰
 	Node* meshNode = nullptr;
-	//’¸“_ƒf[ƒ^”z—ñ
+	//é ‚ç‚¹ãƒ‡ãƒ¼ã‚¿é…åˆ—
 	std::vector<VertexPosNormalUvSkin> vertices;
-	//ƒCƒ“ƒfƒbƒNƒX”z—ñ
+	//ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹é…åˆ—
 	std::vector<unsigned short> indices;
 
-	//ƒAƒ“ƒrƒGƒ“ƒgŒW”
-	DirectX::XMFLOAT3 ambient = {1,1,1};
-	//ƒfƒBƒtƒ…[ƒYŒW”
+	//ã‚¢ãƒ³ãƒ“ã‚¨ãƒ³ãƒˆä¿‚æ•°
+	DirectX::XMFLOAT3 ambient = { 1,1,1 };
+	//ãƒ‡ã‚£ãƒ•ãƒ¥ãƒ¼ã‚ºä¿‚æ•°
 	DirectX::XMFLOAT3 diffuse = { 1,1,1 };
-	//ƒeƒNƒXƒ`ƒƒƒƒ^ƒf[ƒ^
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿
 	DirectX::TexMetadata metadata = {};
-	//ƒXƒNƒ‰ƒbƒ`ƒCƒ[ƒW
+	//ã‚¹ã‚¯ãƒ©ãƒƒãƒã‚¤ãƒ¡ãƒ¼ã‚¸
 	DirectX::ScratchImage scratchImg = {};
 
-	//’¸“_ƒoƒbƒtƒ@
+	//é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡
 	ComPtr<ID3D12Resource> vertBuff;
-	//ƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@
+	//ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒãƒƒãƒ•ã‚¡
 	ComPtr<ID3D12Resource> indexBuff;
-	//ƒeƒNƒXƒ`ƒƒƒoƒbƒtƒ@
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒãƒƒãƒ•ã‚¡
 	ComPtr<ID3D12Resource> texBuff;
-	//’¸“_ƒoƒbƒtƒ@ƒrƒ…[
+	//é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ãƒ“ãƒ¥ãƒ¼
 	D3D12_VERTEX_BUFFER_VIEW vbView = {};
-	//ƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@ƒrƒ…[
+	//ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒãƒƒãƒ•ã‚¡ãƒ“ãƒ¥ãƒ¼
 	D3D12_INDEX_BUFFER_VIEW ibView = {};
-	//SRV—pƒfƒXƒNƒŠƒvƒ^ƒq[ƒv
+	//SRVç”¨ãƒ‡ã‚¹ã‚¯ãƒªãƒ—ã‚¿ãƒ’ãƒ¼ãƒ—
 	ComPtr<ID3D12DescriptorHeap> descHeapSRV;
 
-	//ƒ{[ƒ“”z—ñ
+	//ãƒœãƒ¼ãƒ³é…åˆ—
 	std::vector<Bone> bones;
 
 
-	//FBXƒV[ƒ“
+	//FBXã‚·ãƒ¼ãƒ³
 	FbxScene* fbxScene = nullptr;
-	
+
 };

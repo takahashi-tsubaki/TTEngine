@@ -8,6 +8,8 @@ void SceneObjects::Initialize(SceneManager* controller)
 	Sprite::LoadTexture(4, L"Resources/sprite/clear.png");
 	Sprite::LoadTexture(5, L"Resources/sprite/over.png");
 
+	Sprite::LoadTexture(7, L"Resources/sprite/alart2.png");
+
 	controller_ = controller;
 
 	skydomeO_ = Object3d::Create();

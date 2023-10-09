@@ -1,6 +1,14 @@
 #include "Affin.h"
 #include "math.h"
+
+#include "Defineder.h"
+#include "Pading.h"
+
+ALICE_SUPPRESS_WARNINGS_BEGIN
+
 #include <cmath>
+
+ALICE_SUPPRESS_WARNINGS_END
 
 /// <summary>
 /// 単位行列設定

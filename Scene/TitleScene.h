@@ -6,10 +6,10 @@
 
 struct LevelEditer;
 class TitleScene :
-    public IScene
+	public IScene
 {
 protected:
-    SceneManager* controller_;
+	SceneManager* controller_;
 	Input* input_ = nullptr;
 	GamePad* gamePad_ = nullptr;
 
@@ -25,7 +25,7 @@ protected:
 	FbxModel* fbxModel = nullptr;
 	FbxObject3d* fbxObject = nullptr;
 
-	//�V��
+	//天球
 	Object3d* skydomeO_ = nullptr;
 	Model* skydomeM_ = nullptr;
 
@@ -35,26 +35,34 @@ protected:
 
 	SceneObjects* sceneObj_;
 
-	//�V�[���J�ڗp�̃t���O
+	//シーン遷移用のフラグ
 	bool isTransition = false;
 	Vector3 scale = { 1,1,1 };
 
+	//タイトルアニメーション用の天球回転に必要な変数
+	Vector3 skydomeRotate = { 0,0,0 };
+	float rotateSpeed = 0.01f;
+
 public:
 
-    TitleScene(SceneManager* controller, SceneObjects* sceneObj);
-    ~TitleScene() override;
+	TitleScene(SceneManager* controller,SceneObjects* sceneObj);
+	~TitleScene() override;
 
-    void Initialize()override;
+	void Initialize()override;
 
-    void Update(Input* input, GamePad* gamePad) override;
+	void Update(Input* input,GamePad* gamePad) override;
 
-    void Draw() override;
+	void Draw() override;
 
 	void SceneTransition();
 
-	void SetTransition(bool Transition) { isTransition = Transition; }
-	bool GetIsTransiton() { return isTransition; }
+	void SetTransition(bool Transition) {
+		isTransition = Transition;
+	}
+	bool GetIsTransiton() {
+		return isTransition;
+	}
 
-    //void Pause(Input* input);
+//void Pause(Input* input);
 };
 

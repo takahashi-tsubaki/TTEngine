@@ -41,7 +41,7 @@ public:
 	FbxObject3d* fbxObject = nullptr;
 	Sprite* sprite_ = nullptr;
 
-	//“V‹…
+	//å¤©çƒ
 	Object3d* skydomeO_ = nullptr;
 	Model* skydomeM_ = nullptr;
 

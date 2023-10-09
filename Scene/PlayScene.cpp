@@ -24,7 +24,7 @@ void PlayScene::Initialize()
 	//Sprite::LoadTexture(1, L"Resources/kuribo-.jpg");
 	//Sprite::LoadTexture(2, L"Resources/mario.jpg");
 	////HpSprite
-
+	
 
 	sprite_ = Sprite::Create(1, { WinApp::window_width,WinApp::window_height });
 	enemyHpSprite_ = Sprite::Create(3, { 200,10 });
@@ -32,6 +32,9 @@ void PlayScene::Initialize()
 
 	playerHpSprite_ = Sprite::Create(3,{100,600});
 	playerHpSprite_->Initialize();
+
+	alart = Sprite::Create(7, { 400,200 });
+	alart->Initialize();
 
 	player_ = sceneObj_->player_;
 	enemy_ = sceneObj_->enemy_;
@@ -50,7 +53,7 @@ void PlayScene::Update(Input* input, GamePad* gamePad)
 	gamePad->Update();
 	if (isTransition == false)
 	{
-		//ƒV[ƒ“ƒ`ƒFƒ“ƒW
+		//ã‚·ãƒ¼ãƒ³ãƒã‚§ãƒ³ã‚¸
 		if (input->TriggerKey(DIK_RETURN) || gamePad->ButtonTrigger(X))
 		{
 			player_->Reset();
@@ -89,7 +92,7 @@ void PlayScene::Update(Input* input, GamePad* gamePad)
 	}
 	
 
-	//ƒXƒvƒ‰ƒCƒg‚Ì‘å‚«‚³‚ð‘Ì—Í‚ÉÝ’è
+	//ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆã®å¤§ãã•ã‚’ä½“åŠ›ã«è¨­å®š
 	enemyHpSprite_->SetSize({ enemy_->GetHp() * 32.0f, 32.0f });
 	playerHpSprite_->SetSize({ player_->GetHp() * 32.0f, 32.0f});
 
@@ -116,7 +119,7 @@ void PlayScene::Update(Input* input, GamePad* gamePad)
 		sceneObj_->transitionO_->worldTransform.scale_ = { 1,1,1 };
 	}
 
-	//ƒŠƒZƒbƒgˆ—
+	//ãƒªã‚»ãƒƒãƒˆå‡¦ç†
 	if (input->TriggerKey(DIK_R))
 	{
 		player_->Reset();
@@ -144,11 +147,11 @@ void PlayScene::Update(Input* input, GamePad* gamePad)
 
 void PlayScene::Draw()
 {
-#pragma region 3DƒIƒuƒWƒFƒNƒg•`‰æ
-	//// 3DƒIƒuƒWƒFƒNƒg•`‰æ‘Oˆ—
+#pragma region
+	//// 3Dã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæç”»å‰å‡¦ç†
 	Object3d::PreDraw(controller_->dxCommon_->GetCommandList());
 
-	//// 3DƒIƒuƒWƒFƒNƒg‚Ì•`‰æ
+	//// 3Dã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®æç”»
 
 	/*fbxObject->Draw(dxCommon_->GetCommandList());*/
 
@@ -159,31 +162,31 @@ void PlayScene::Draw()
 	player_->Draw();
 
 	///// <summary>
-	///// ‚±‚±‚É3DƒIƒuƒWƒFƒNƒg‚Ì•`‰æˆ—‚ð’Ç‰Á‚Å‚«‚é
+	///// ã“ã“ã«3Dã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®æç”»å‡¦ç†ã‚’è¿½åŠ ã§ãã‚‹
 	///// </summary>
 
-	//// 3DƒIƒuƒWƒFƒNƒg•`‰æŒãˆ—
+	//// 3Dã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæç”»å¾Œå‡¦ç†
 	Object3d::PostDraw();
 #pragma endregion
-#pragma region ”wŒiƒXƒvƒ‰ƒCƒg•`‰æ
-	// ”wŒiƒXƒvƒ‰ƒCƒg•`‰æ‘Oˆ—
+#pragma region
+	// èƒŒæ™¯ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆæç”»å‰å‡¦ç†
 	Sprite::PreDraw(controller_->dxCommon_->GetCommandList());
-	// ”wŒiƒXƒvƒ‰ƒCƒg•`‰æ
+	// èƒŒæ™¯ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆæç”»
 
 
 	/// <summary>
-	/// ‚±‚±‚É”wŒiƒXƒvƒ‰ƒCƒg‚Ì•`‰æˆ—‚ð’Ç‰Á‚Å‚«‚é
+	/// ã“ã“ã«èƒŒæ™¯ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆã®æç”»å‡¦ç†ã‚’è¿½åŠ ã§ãã‚‹
 	/// </summary>
 
-	// ƒXƒvƒ‰ƒCƒg•`‰æŒãˆ—
+	// ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆæç”»å¾Œå‡¦ç†
 	Sprite::PostDraw();
 #pragma endregion
 
-#pragma region 3DƒIƒuƒWƒFƒNƒg•`‰æ
-	//// 3DƒIƒuƒWƒFƒNƒg•`‰æ‘Oˆ—
+#pragma region
+	//// 3Dã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæç”»å‰å‡¦ç†
 	Object3d::PreDraw(controller_->dxCommon_->GetCommandList());
 
-	//// 3DƒIƒuƒWƒFƒNƒg‚Ì•`‰æ
+	//// 3Dã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®æç”»
 
 	/*fbxObject->Draw(dxCommon_->GetCommandList());*/
 
@@ -196,21 +199,21 @@ void PlayScene::Draw()
 	enemy_->GetParticle()->Draw(controller_->dxCommon_->GetCommandList());
 
 	///// <summary>
-	///// ‚±‚±‚É3DƒIƒuƒWƒFƒNƒg‚Ì•`‰æˆ—‚ð’Ç‰Á‚Å‚«‚é
+	///// ã“ã“ã«3Dã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®æç”»å‡¦ç†ã‚’è¿½åŠ ã§ãã‚‹
 	///// </summary>
 
-	//// 3DƒIƒuƒWƒFƒNƒg•`‰æŒãˆ—
+	//// 3Dã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæç”»å¾Œå‡¦ç†
 	Object3d::PostDraw();
 #pragma endregion
 
 
-	//#pragma region ‚Ø‚çƒ|ƒŠƒSƒ“•`‰æ
+	//#pragma region ãºã‚‰ãƒãƒªã‚´ãƒ³æç”»
 	//	postEffect->PreDrawScene(dxCommon_->GetCommandList());
 	//
-	//	//// ‚Ø‚çƒ|ƒŠƒSƒ“‚Ì•`‰æ
+	//	//// ãºã‚‰ãƒãƒªã‚´ãƒ³ã®æç”»
 	//	postEffect->Draw(dxCommon_->GetCommandList());
 	//	///// <summary>
-	//	///// ‚±‚±‚É‚Ø‚çƒ|ƒŠƒSƒ“‚Ì•`‰æˆ—‚ð’Ç‰Á‚Å‚«‚é
+	//	///// ã“ã“ã«ãºã‚‰ãƒãƒªã‚´ãƒ³ã®æç”»å‡¦ç†ã‚’è¿½åŠ ã§ãã‚‹
 	//	///// </summary>
 	//
 	//	
@@ -220,18 +223,23 @@ void PlayScene::Draw()
 	//
 	//
 	//#pragma endregion
-#pragma region ‘OŒiƒXƒvƒ‰ƒCƒg•`‰æ
-	// ‘OŒiƒXƒvƒ‰ƒCƒg•`‰æ‘Oˆ—
+#pragma region
+	// å‰æ™¯ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆæç”»å‰å‡¦ç†
 	Sprite::PreDraw(controller_->dxCommon_->GetCommandList());
 
 	//sprite_->Draw();
 	/// <summary>
-	/// ‚±‚±‚É‘OŒiƒXƒvƒ‰ƒCƒg‚Ì•`‰æˆ—‚ð’Ç‰Á‚Å‚«‚é
+	/// ã“ã“ã«å‰æ™¯ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆã®æç”»å‡¦ç†ã‚’è¿½åŠ ã§ãã‚‹
 	/// </summary>
 	playerHpSprite_->Draw();
 	enemyHpSprite_->Draw();
+
+	if (player_->GetVanishTimer() > 0)
+	{
+		alart->Draw();
+	}
 	//
-	// ƒXƒvƒ‰ƒCƒg•`‰æŒãˆ—
+	// ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆæç”»å¾Œå‡¦ç†
 	Sprite::PostDraw();
 
 #pragma endregion

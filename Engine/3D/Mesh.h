@@ -1,5 +1,9 @@
-﻿#pragma once
+#pragma once
 
+#include "Defineder.h"
+#include "Pading.h"
+
+ALICE_SUPPRESS_WARNINGS_BEGIN
 #include "Material.h"
 #include <DirectXMath.h>
 #include <Windows.h>
@@ -9,13 +13,15 @@
 #include <wrl.h>
 
 #include <unordered_map>
+ALICE_SUPPRESS_WARNINGS_END
 
 /// <summary>
 /// 形状データ
 /// </summary>
-class Mesh {
-  private: // エイリアス
-	// Microsoft::WRL::を省略
+class Mesh
+{
+private: // エイリアス
+  // Microsoft::WRL::を省略
 	template<class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 	// DirectX::を省略
 	using XMFLOAT2 = DirectX::XMFLOAT2;
@@ -24,36 +30,39 @@ class Mesh {
 	using XMVECTOR = DirectX::XMVECTOR;
 	using XMMATRIX = DirectX::XMMATRIX;
 
-  public: // サブクラス
-	// 頂点データ構造体（テクスチャあり）
-	struct VertexPosNormalUv {
+public: // サブクラス
+  // 頂点データ構造体（テクスチャあり）
+	struct VertexPosNormalUv
+	{
 		XMFLOAT3 pos;    // xyz座標
 		XMFLOAT3 normal; // 法線ベクトル
 		XMFLOAT2 uv;     // uv座標
 	};
 
-  public: // 静的メンバ関数
-	/// <summary>
-	/// 静的初期化
-	/// </summary>
-	/// <param name="device">デバイス</param>
+public: // 静的メンバ関数
+  /// <summary>
+  /// 静的初期化
+  /// </summary>
+  /// <param name="device">デバイス</param>
 	static void StaticInitialize(ID3D12Device* device);
 
-  private: // 静的メンバ変数
-	// デバイス
+private: // 静的メンバ変数
+  // デバイス
 	static ID3D12Device* device_;
 
-  public: // メンバ関数
-	/// <summary>
-	/// 名前を取得
-	/// </summary>
-	/// <returns>名前</returns>
-	const std::string& GetName() { return name_; }
+public: // メンバ関数
+  /// <summary>
+  /// 名前を取得
+  /// </summary>
+  /// <returns>名前</returns>
+	const std::string& GetName() {
+		return name_;
+	}
 
-	/// <summary>
-	/// 名前をセット
-	/// </summary>
-	/// <param name="name">名前</param>
+/// <summary>
+/// 名前をセット
+/// </summary>
+/// <param name="name">名前</param>
 	void SetName(const std::string& name);
 
 	/// <summary>
@@ -72,12 +81,14 @@ class Mesh {
 	/// マテリアルの取得
 	/// </summary>
 	/// <returns>マテリアル</returns>
-	Material* GetMaterial() { return material_; }
+	Material* GetMaterial() {
+		return material_;
+	}
 
-	/// <summary>
-	/// マテリアルの割り当て
-	/// </summary>
-	/// <param name="material">マテリアル</param>
+/// <summary>
+/// マテリアルの割り当て
+/// </summary>
+/// <param name="material">マテリアル</param>
 	void SetMaterial(Material* material);
 
 	/// <summary>
@@ -89,30 +100,36 @@ class Mesh {
 	/// 頂点バッファ取得
 	/// </summary>
 	/// <returns>頂点バッファ</returns>
-	const D3D12_VERTEX_BUFFER_VIEW& GetVBView() { return vbView; }
+	const D3D12_VERTEX_BUFFER_VIEW& GetVBView() {
+		return vbView;
+	}
 
-	/// <summary>
-	/// インデックスバッファ取得
-	/// </summary>
-	/// <returns>インデックスバッファ</returns>
-	const D3D12_INDEX_BUFFER_VIEW& GetIBView() { return ibView; }
+/// <summary>
+/// インデックスバッファ取得
+/// </summary>
+/// <returns>インデックスバッファ</returns>
+	const D3D12_INDEX_BUFFER_VIEW& GetIBView() {
+		return ibView;
+	}
 
-	/// <summary>
-	/// 描画
-	/// </summary>
-	/// <param name="cmdList">命令発行先コマンドリスト</param>
+/// <summary>
+/// 描画
+/// </summary>
+/// <param name="cmdList">命令発行先コマンドリスト</param>
 	void Draw(ID3D12GraphicsCommandList* cmdList);
 
 	/// <summary>
 	/// 頂点データの数を取得
 	/// </summary>
 	/// <returns></returns>
-	inline size_t GetVertexCount() { return vertices.size(); }
+	inline size_t GetVertexCount() {
+		return vertices.size();
+	}
 
-	/// <summary>
-	/// 頂点配列を取得
-	/// </summary>
-	/// <returns>頂点配列</returns>
+/// <summary>
+/// 頂点配列を取得
+/// </summary>
+/// <returns>頂点配列</returns>
 	inline const std::vector<VertexPosNormalUv>& GetVertices()
 	{
 		return vertices;
@@ -132,15 +149,15 @@ class Mesh {
 	/// </summary>
 	/// <param name="indexPos"></param>
 	/// <param name="indexVertex"></param>
-	void AddSmoothData(unsigned short indexPos, unsigned short indexVertex);
+	void AddSmoothData(unsigned short indexPos,unsigned short indexVertex);
 
 	/// <summary>
 	/// 平滑化された頂点法線の計算
 	/// </summary>
 	void CalculateSmoothedVertexNormals();
 
-  private: // メンバ変数
-	// 名前
+private: // メンバ変数
+  // 名前
 	std::string name_;
 	// 頂点バッファ
 	ComPtr<ID3D12Resource> vertBuff;
@@ -162,5 +179,5 @@ class Mesh {
 	unsigned short* indexMap = nullptr;
 
 	//頂点法線スムージング用データ
-	std::unordered_map<unsigned short, std::vector<unsigned short>> smoothData;
+	std::unordered_map<unsigned short,std::vector<unsigned short>> smoothData;
 };

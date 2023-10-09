@@ -1,20 +1,26 @@
 #pragma once
-#include "math.h"
+#include "Defineder.h"
+#include "Pading.h"
+
+ALICE_SUPPRESS_WARNINGS_BEGIN
+#include <math.h>
+ALICE_SUPPRESS_WARNINGS_END
 #include "Vector3.h"
 
 
-class Ease {	//ƒC[ƒWƒ“ƒOƒNƒ‰ƒX’è‹`
+class Ease
+{	//ã‚¤ãƒ¼ã‚¸ãƒ³ã‚°ã‚¯ãƒ©ã‚¹å®šç¾©
 public:
-	static double InQuad(double change, double base, double duration, double time);
-	static double OutQuad(double change, double base, double duration, double time);
-	static double InOutQuad(double change, double base, double duration, double time) ;
-	//«‚±‚±‚©‚ç‰º‚Íg‚¢‚Ü‚¹‚ñBB«
+	static double InQuad(double change,double base,double duration,double time);
+	static double OutQuad(double change,double base,double duration,double time);
+	static double InOutQuad(double change,double base,double duration,double time);
+	//â†“ã“ã“ã‹ã‚‰ä¸‹ã¯ä½¿ã„ã¾ã›ã‚“ã€‚ã€‚â†“
 	void Initialize();
 	void Update();
 
 private:
-	int maxTime_ = 50;	//Å‘åŠÔ
-	int time_ = 0;//Œo‰ßŠÔ
+	int maxTime_ = 50;	//æœ€å¤§æ™‚é–“
+	int time_ = 0;//çµŒéæ™‚é–“
 	Vector3 startVec_ = {};
 	Vector3 endVec_ = {};
 	double start_ = 0;

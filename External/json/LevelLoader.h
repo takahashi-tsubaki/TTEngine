@@ -1,38 +1,45 @@
 #pragma once
+
+#include "Defineder.h"
+#include "Pading.h"
+
+ALICE_SUPPRESS_WARNINGS_BEGIN
 #include <vector>
 #include <string>
+ALICE_SUPPRESS_WARNINGS_END
 #include "Vector3.h"
 
 struct LevelEditer
 {
-	struct ObjectData {
-		// ƒtƒ@ƒCƒ‹–¼
+	struct ObjectData
+	{
+// ãƒ•ã‚¡ã‚¤ãƒ«å
 		std::string filename;
-		// •½sˆÚ“®
+		// å¹³è¡Œç§»å‹•
 		Vector3 translation;
-		// ‰ñ“]Šp
+		// å›è»¢è§’
 		Vector3 rotation;
-		// ƒXƒP[ƒŠƒ“ƒO
+		// ã‚¹ã‚±ãƒ¼ãƒªãƒ³ã‚°
 		Vector3 scaling;
 	};
-	//ƒIƒuƒWƒFƒNƒg
+	//ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	std::vector<ObjectData> objects;
 };
 
 class LevelLoader
 {
-public://ƒƒ“ƒoŠÖ”
+public://ãƒ¡ãƒ³ãƒé–¢æ•°
 
-	//ƒfƒBƒŒƒNƒgƒŠ[
+	//ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªãƒ¼
 	static const std::string directry;
 
-	//ƒtƒ@ƒCƒ‹Šg’£q
+	//ãƒ•ã‚¡ã‚¤ãƒ«æ‹¡å¼µå­
 	static const std::string kakutyousi;
 
-public://ƒƒ“ƒo•Ï”
+public://ãƒ¡ãƒ³ãƒå¤‰æ•°
 
 	static LevelEditer* LoadFile(const std::string& filename);
-	// “x”–@ -> ƒ‰ƒWƒAƒ“
+	// åº¦æ•°æ³• -> ãƒ©ã‚¸ã‚¢ãƒ³
 	static float RadConvert(float value);
 };
 

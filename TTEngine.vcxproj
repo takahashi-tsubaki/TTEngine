@@ -59,9 +59,11 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Engine\Base;$(SolutionDir)Engine\2D;$(SolutionDir)Engine\3D;$(SolutionDir)Scene;$(SolutionDir)Engine\Math;$(SolutionDir)Engine\Particle;$(SolutionDir)Engine\FBX;$(SolutionDir)External\DirectXTex;$(SolutionDir)External\lib\fbx_sdk\include;$(SolutionDir)Engine\FrameWork;$(SolutionDir)External\imgui;$(SolutionDir)Engine\Camera;$(SolutionDir)Engine\Light;$(SolutionDir)Engine\Enemy;$(SolutionDir)Engine\Player;$(SolutionDir)Engine\Bullet;$(SolutionDir)Engine\Collider;$(SolutionDir)External\json</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Engine\Base;$(SolutionDir)Engine\2D;$(SolutionDir)Engine\3D;$(SolutionDir)Scene;$(SolutionDir)Engine\Math;$(SolutionDir)Engine\Particle;$(SolutionDir)Engine\FBX;$(SolutionDir)External\DirectXTex;$(SolutionDir)External\lib\fbx_sdk\include;$(SolutionDir)Engine\FrameWork;$(SolutionDir)External\imgui;$(SolutionDir)Engine\Camera;$(SolutionDir)Engine\Light;$(SolutionDir)User\Enemy;$(SolutionDir)User\Player;$(SolutionDir)User\Bullet;$(SolutionDir)Engine\Collider;$(SolutionDir)External\json</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <TreatWarningAsError>false</TreatWarningAsError>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <DisableSpecificWarnings>5045;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -81,11 +83,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Engine\Base;$(SolutionDir)Engine\2D;$(SolutionDir)Engine\3D;$(SolutionDir)Scene;$(SolutionDir)Engine\Math;$(SolutionDir)Engine\Particle;$(SolutionDir)Engine\FBX;$(SolutionDir)External\DirectXTex;$(SolutionDir)External\lib\fbx_sdk\include;$(SolutionDir)Engine\FrameWork;$(SolutionDir)External\imgui;$(SolutionDir)Engine\Camera;$(SolutionDir)Engine\Light;$(SolutionDir)Engine\Enemy;$(SolutionDir)Engine\Player;$(SolutionDir)Engine\Bullet;$(SolutionDir)Engine\Collider;$(SolutionDir)External\json</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Engine\Base;$(SolutionDir)Engine\2D;$(SolutionDir)Engine\3D;$(SolutionDir)Scene;$(SolutionDir)Engine\Math;$(SolutionDir)Engine\Particle;$(SolutionDir)Engine\FBX;$(SolutionDir)External\DirectXTex;$(SolutionDir)External\lib\fbx_sdk\include;$(SolutionDir)Engine\FrameWork;$(SolutionDir)External\imgui;$(SolutionDir)Engine\Camera;$(SolutionDir)Engine\Light;$(SolutionDir)User\Enemy;$(SolutionDir)User\Player;$(SolutionDir)User\Bullet;$(SolutionDir)Engine\Collider;$(SolutionDir)External\json</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <TreatWarningAsError>false</TreatWarningAsError>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <DisableSpecificWarnings>5045;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -111,8 +115,6 @@
     <ClCompile Include="Engine\Base\GamePad.cpp" />
     <ClCompile Include="Engine\Base\Input.cpp" />
     <ClCompile Include="Engine\Base\WinApp.cpp" />
-    <ClCompile Include="Engine\Bullet\EnemyBullet.cpp" />
-    <ClCompile Include="Engine\Bullet\PlayerBullet.cpp" />
     <ClCompile Include="Engine\Camera\Camera.cpp" />
     <ClCompile Include="Engine\Camera\GameCamera.cpp" />
     <ClCompile Include="Engine\Collider\Collision.cpp" />
@@ -121,7 +123,6 @@
     <ClCompile Include="Engine\Collider\MeshCollider.cpp" />
     <ClCompile Include="Engine\Collider\QueryCallback.cpp" />
     <ClCompile Include="Engine\Collider\SphereCollider.cpp" />
-    <ClCompile Include="Engine\Enemy\Enemy.cpp" />
     <ClCompile Include="Engine\FBX\FbxLoader.cpp" />
     <ClCompile Include="Engine\FBX\FbxModel.cpp" />
     <ClCompile Include="Engine\FBX\FbxObject3d.cpp" />
@@ -136,7 +137,6 @@
     <ClCompile Include="Engine\Math\Vector3.cpp" />
     <ClCompile Include="Engine\Math\Vector4.cpp" />
     <ClCompile Include="Engine\Particle\ParticleManager.cpp" />
-    <ClCompile Include="Engine\Player\Player.cpp" />
     <ClCompile Include="External\json\LevelLoader.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Scene\GameClearScene.cpp" />
@@ -148,6 +148,10 @@
     <ClCompile Include="Scene\SceneManager.cpp" />
     <ClCompile Include="Scene\SceneObjects.cpp" />
     <ClCompile Include="Scene\TitleScene.cpp" />
+    <ClCompile Include="User\Bullet\EnemyBullet.cpp" />
+    <ClCompile Include="User\Bullet\PlayerBullet.cpp" />
+    <ClCompile Include="User\Enemy\Enemy.cpp" />
+    <ClCompile Include="User\Player\Player.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\2D\ImguiManager.h" />
@@ -159,14 +163,14 @@
     <ClInclude Include="Engine\3D\Object3d.h" />
     <ClInclude Include="Engine\3D\worldTransform.h" />
     <ClInclude Include="Engine\Base\Audio.h" />
+    <ClInclude Include="Engine\Base\Defineder.h" />
     <ClInclude Include="Engine\Base\DirectXCommon.h" />
     <ClInclude Include="Engine\Base\ErrorException.h" />
     <ClInclude Include="Engine\Base\FPS.h" />
     <ClInclude Include="Engine\Base\GamePad.h" />
     <ClInclude Include="Engine\Base\Input.h" />
+    <ClInclude Include="Engine\Base\Pading.h" />
     <ClInclude Include="Engine\Base\WinApp.h" />
-    <ClInclude Include="Engine\Bullet\EnemyBullet.h" />
-    <ClInclude Include="Engine\Bullet\PlayerBullet.h" />
     <ClInclude Include="Engine\Camera\Camera.h" />
     <ClInclude Include="Engine\Camera\GameCamera.h" />
     <ClInclude Include="Engine\Collider\BaseCollider.h" />
@@ -180,7 +184,6 @@
     <ClInclude Include="Engine\Collider\QueryCallback.h" />
     <ClInclude Include="Engine\Collider\RaycastHit.h" />
     <ClInclude Include="Engine\Collider\SphereCollider.h" />
-    <ClInclude Include="Engine\Enemy\Enemy.h" />
     <ClInclude Include="Engine\FBX\FbxLoader.h" />
     <ClInclude Include="Engine\FBX\FbxModel.h" />
     <ClInclude Include="Engine\FBX\FbxObject3d.h" />
@@ -195,7 +198,6 @@
     <ClInclude Include="Engine\Math\Vector3.h" />
     <ClInclude Include="Engine\Math\Vector4.h" />
     <ClInclude Include="Engine\Particle\ParticleManager.h" />
-    <ClInclude Include="Engine\Player\Player.h" />
     <ClInclude Include="External\json\LevelLoader.h" />
     <ClInclude Include="Scene\GameClearScene.h" />
     <ClInclude Include="Scene\GameOverScene.h" />
@@ -207,6 +209,10 @@
     <ClInclude Include="Scene\SceneManager.h" />
     <ClInclude Include="Scene\SceneObjects.h" />
     <ClInclude Include="Scene\TitleScene.h" />
+    <ClInclude Include="User\Bullet\EnemyBullet.h" />
+    <ClInclude Include="User\Bullet\PlayerBullet.h" />
+    <ClInclude Include="User\Enemy\Enemy.h" />
+    <ClInclude Include="User\Player\Player.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\shaders\FBXPS.hlsl">

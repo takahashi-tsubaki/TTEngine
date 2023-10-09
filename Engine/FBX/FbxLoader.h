@@ -1,13 +1,20 @@
-﻿#pragma once
+#pragma once
 #pragma warning(push)
-#include "fbxsdk.h"
+#pragma warning(disable:4061)
+#pragma warning(disable:4514)
+#pragma warning(disable:4619)
+
 #pragma warning(pop)
 
+#include "Defineder.h"
+#include "Pading.h"
 
+ALICE_SUPPRESS_WARNINGS_BEGIN
+#include <fbxsdk.h>
 #include <d3d12.h>
 #include <d3dx12.h>
-
 #include <string>
+ALICE_SUPPRESS_WARNINGS_END
 
 #include "FbxModel.h"
 
@@ -32,7 +39,7 @@ public:
 
 public:
 
-	
+
 
 	/// <summary>
 	/// シングルトンインスタンスの取得
@@ -53,37 +60,37 @@ public:
 	FbxModel* LoadModelFromFile(const string& modelname);
 
 
-	void ParseNodeRecursive(FbxModel*fbxModel, FbxNode* fbxNode, Node* parent = nullptr);
+	void ParseNodeRecursive(FbxModel* fbxModel,FbxNode* fbxNode,Node* parent = nullptr);
 
 	/// <summary>
 	/// メッシュ読み取り
 	/// </summary>
 	/// <param name="fbxModel"></param>
 	/// <param name="fbxNode"></param>
-	void ParseMesh(FbxModel* fbxModel, FbxNode* fbxNode);
+	void ParseMesh(FbxModel* fbxModel,FbxNode* fbxNode);
 
 	/// <summary>
 	/// 頂点読み取り
 	/// </summary>
 	/// <param name="fbxModel"></param>
 	/// <param name="fbxNode"></param>
-	void ParseMeshVertices(FbxModel* fbxModel, FbxMesh* fbxMesh);
+	void ParseMeshVertices(FbxModel* fbxModel,FbxMesh* fbxMesh);
 
 	/// <summary>
 	/// 面情報読み取り
 	/// </summary>
 	/// <param name="fbxModel"></param>
 	/// <param name="fbxNode"></param>
-	void ParseMeshFaces(FbxModel* fbxModel, FbxMesh* fbxMesh);
+	void ParseMeshFaces(FbxModel* fbxModel,FbxMesh* fbxMesh);
 	/// <summary>
 	/// マテリアル読み取り
 	/// </summary>
 	/// <param name="fbxModel"></param>
 	/// <param name="fbxNode"></param>
-	void ParseMaterial(FbxModel* fbxModel, FbxNode* fbxNode);
+	void ParseMaterial(FbxModel* fbxModel,FbxNode* fbxNode);
 
 	//テクスチャ読み込み
-	void LoadTexture(FbxModel* fbxModel, const std::string & fullpath);
+	void LoadTexture(FbxModel* fbxModel,const std::string& fullpath);
 
 	//ディレクトリを含んだファイルパスからファイル名を抽出する
 	std::string ExtractFileName(const std::string& path);
@@ -96,7 +103,7 @@ public:
 	static void ConvertMatrixFromFbx(DirectX::XMMATRIX* dst,const FbxAMatrix& src);
 
 	//スキニング情報の読み取り
-	void ParseSkin(FbxModel* fbxModel, FbxMesh* fbxMesh);
+	void ParseSkin(FbxModel* fbxModel,FbxMesh* fbxMesh);
 
 private:
 	// privateなコンストラクタ（シングルトンパターン）
@@ -118,6 +125,6 @@ private:
 
 	//テクスチャファイルがない場合の標準テクスチャファイル名
 	static const string defaultTexureFileName;
-	
+
 
 };

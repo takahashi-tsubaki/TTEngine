@@ -1,18 +1,23 @@
 #pragma once
 
 #include "Mesh.h"
+#include "Defineder.h"
+#include "Pading.h"
+
+ALICE_SUPPRESS_WARNINGS_BEGIN
 #include <string>
 #include <unordered_map>
 #include <vector>
-
+ALICE_SUPPRESS_WARNINGS_END
 /// <summary>
-/// ƒ‚ƒfƒ‹ƒf[ƒ^
+/// ãƒ¢ãƒ‡ãƒ«ãƒ‡ãƒ¼ã‚¿
 /// </summary>
-class Model {
-private: // ƒGƒCƒŠƒAƒX
-  // Microsoft::WRL::‚ğÈ—ª
+class Model
+{
+private: // ã‚¨ã‚¤ãƒªã‚¢ã‚¹
+  // Microsoft::WRL::ã‚’çœç•¥
 	template<class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
-	// DirectX::‚ğÈ—ª
+	// DirectX::ã‚’çœç•¥
 	using XMFLOAT2 = DirectX::XMFLOAT2;
 	using XMFLOAT3 = DirectX::XMFLOAT3;
 	using XMFLOAT4 = DirectX::XMFLOAT4;
@@ -21,76 +26,76 @@ private: // ƒGƒCƒŠƒAƒX
 private:
 	static const std::string baseDirectory;
 
-private: // Ã“Iƒƒ“ƒo•Ï”
-  // ƒfƒoƒCƒX
+private: // é™çš„ãƒ¡ãƒ³ãƒå¤‰æ•°
+  // ãƒ‡ãƒã‚¤ã‚¹
 	static ID3D12Device* device_;
-	// ƒfƒXƒNƒŠƒvƒ^ƒTƒCƒY
+	// ãƒ‡ã‚¹ã‚¯ãƒªãƒ—ã‚¿ã‚µã‚¤ã‚º
 	static UINT descriptorHandleIncrementSize;
 
-public: // Ã“Iƒƒ“ƒoŠÖ”
+public: // é™çš„ãƒ¡ãƒ³ãƒé–¢æ•°
   /// <summary>
-  /// Ã“I‰Šú‰»
+  /// é™çš„åˆæœŸåŒ–
   /// </summary>
-  /// <param name="device">ƒfƒoƒCƒX</param>
+  /// <param name="device">ãƒ‡ãƒã‚¤ã‚¹</param>
 	static void StaticInitialize(ID3D12Device* device);
 
 	/// <summary>
-	/// OBJƒtƒ@ƒCƒ‹‚©‚çƒƒbƒVƒ…¶¬
+	/// OBJãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰ãƒ¡ãƒƒã‚·ãƒ¥ç”Ÿæˆ
 	/// </summary>
-	/// <param name="modelname">ƒ‚ƒfƒ‹–¼</param>
-	/// <returns>¶¬‚³‚ê‚½ƒ‚ƒfƒ‹</returns>
+	/// <param name="modelname">ãƒ¢ãƒ‡ãƒ«å</param>
+	/// <returns>ç”Ÿæˆã•ã‚ŒãŸãƒ¢ãƒ‡ãƒ«</returns>
 	/*static Model* CreateFromOBJ(const std::string& modelname);*/
-	static Model* CreateFromOBJ(const std::string& modelname, bool smoothing = false);
+	static Model* CreateFromOBJ(const std::string& modelname,bool smoothing = false);
 
 
-public: // ƒƒ“ƒoŠÖ”
+public: // ãƒ¡ãƒ³ãƒé–¢æ•°
   /// <summary>
-  /// ƒfƒXƒgƒ‰ƒNƒ^
+  /// ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
   /// </summary>
 	~Model();
 
 	/// <summary>
-	/// ‰Šú‰»
+	/// åˆæœŸåŒ–
 	/// </summary>
-	/// <param name="modelname">ƒ‚ƒfƒ‹–¼</param>
-	void Initialize(const std::string& modelname, bool smoothing);
+	/// <param name="modelname">ãƒ¢ãƒ‡ãƒ«å</param>
+	void Initialize(const std::string& modelname,bool smoothing);
 
 	/// <summary>
-	/// •`‰æ
+	/// æç”»
 	/// </summary>
-	/// <param name="cmdList">–½—ß”­sæƒRƒ}ƒ“ƒhƒŠƒXƒg</param>
+	/// <param name="cmdList">å‘½ä»¤ç™ºè¡Œå…ˆã‚³ãƒãƒ³ãƒ‰ãƒªã‚¹ãƒˆ</param>
 	void Draw(ID3D12GraphicsCommandList* cmdList);
 
-private: // ƒƒ“ƒo•Ï”
-  // –¼‘O
+private: // ãƒ¡ãƒ³ãƒå¤‰æ•°
+  // åå‰
 	std::string name;
-	// ƒƒbƒVƒ…ƒRƒ“ƒeƒi
+	// ãƒ¡ãƒƒã‚·ãƒ¥ã‚³ãƒ³ãƒ†ãƒŠ
 	std::vector<Mesh*> meshes;
-	// ƒ}ƒeƒŠƒAƒ‹ƒRƒ“ƒeƒi
-	std::unordered_map<std::string, Material*> materials;
-	// ƒfƒtƒHƒ‹ƒgƒ}ƒeƒŠƒAƒ‹
+	// ãƒãƒ†ãƒªã‚¢ãƒ«ã‚³ãƒ³ãƒ†ãƒŠ
+	std::unordered_map<std::string,Material*> materials;
+	// ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆãƒãƒ†ãƒªã‚¢ãƒ«
 	Material* defaultMaterial = nullptr;
-	// ƒfƒXƒNƒŠƒvƒ^ƒq[ƒv
+	// ãƒ‡ã‚¹ã‚¯ãƒªãƒ—ã‚¿ãƒ’ãƒ¼ãƒ—
 	ComPtr<ID3D12DescriptorHeap> descHeap;
 
-private: // ƒƒ“ƒoŠÖ”
+private: // ãƒ¡ãƒ³ãƒé–¢æ•°
   /// <summary>
-  /// ƒ}ƒeƒŠƒAƒ‹“Ç‚İ‚İ
+  /// ãƒãƒ†ãƒªã‚¢ãƒ«èª­ã¿è¾¼ã¿
   /// </summary>
-	void LoadMaterial(const std::string& directoryPath, const std::string& filename);
+	void LoadMaterial(const std::string& directoryPath,const std::string& filename);
 
 	/// <summary>
-	/// ƒ}ƒeƒŠƒAƒ‹“o˜^
+	/// ãƒãƒ†ãƒªã‚¢ãƒ«ç™»éŒ²
 	/// </summary>
 	void AddMaterial(Material* material);
 
 	/// <summary>
-	/// ƒfƒXƒNƒŠƒvƒ^ƒq[ƒv‚Ì¶¬
+	/// ãƒ‡ã‚¹ã‚¯ãƒªãƒ—ã‚¿ãƒ’ãƒ¼ãƒ—ã®ç”Ÿæˆ
 	/// </summary>
 	void CreateDescriptorHeap();
 
 	/// <summary>
-	/// ƒeƒNƒXƒ`ƒƒ“Ç‚İ‚İ
+	/// ãƒ†ã‚¯ã‚¹ãƒãƒ£èª­ã¿è¾¼ã¿
 	/// </summary>
 	void LoadTextures();
 };

@@ -4,30 +4,30 @@
 #include "CollisionPrimitive.h"
 #include "MyMath.h"
 
-class SphereCollider : public BaseCollider , public Sphere
+class SphereCollider : public BaseCollider,public Sphere
 {
 public:
-	SphereCollider(Vector3 offset = {0 , 0 , 0} , float radius = 1.0f) :
-		offset(offset) ,
+	SphereCollider(Vector3 offset = { 0 , 0 , 0 },float radius = 1.0f) :
+		offset(offset),
 		radius_(radius)
 	{
-		//‹…Œ`ó‚ğƒZƒbƒg
+		//çƒå½¢çŠ¶ã‚’ã‚»ãƒƒãƒˆ
 		shapeType = COLLISIONSHAPE_SPHERE;
 	}
 
-	//XV
+	//æ›´æ–°
 	void Update() override;
 
 	inline void SetRadius(float rad)
 	{
-		radius_ = rad; 
+		radius_ = rad;
 	}
-	
+
 	float GetRadius()
 	{
-		return radius_; 
+		return radius_;
 	}
-	
+
 	inline void SetBasisPos(Vector3* pos)
 	{
 		basisPos = pos;
@@ -39,13 +39,13 @@ public:
 	}
 
 private:
-	//ƒIƒuƒWƒFƒNƒg’†S‚©‚ç‚ÌƒIƒtƒZƒbƒg
+	//ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆä¸­å¿ƒã‹ã‚‰ã®ã‚ªãƒ•ã‚»ãƒƒãƒˆ
 	Vector3 offset;
 
-	//ƒ‚ƒfƒ‹‚ª‚È‚¢ê‡‚ÌŠî€‚Æ‚È‚éƒxƒNƒgƒ‹
+	//ãƒ¢ãƒ‡ãƒ«ãŒãªã„å ´åˆã®åŸºæº–ã¨ãªã‚‹ãƒ™ã‚¯ãƒˆãƒ«
 	Vector3* basisPos = nullptr;
 
-	//”¼Œa
+	//åŠå¾„
 	float radius_;
 
 };

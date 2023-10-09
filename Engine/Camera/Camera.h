@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include <DirectXMath.h>
 #include <Vector3.h>
@@ -12,22 +12,23 @@
 /// <summary>
 /// カメラ基本機能
 /// </summary>
-class Camera {
-  protected: // エイリアス
-	// DirectX::を省略
+class Camera
+{
+protected: // エイリアス
+  // DirectX::を省略
 	using XMFLOAT2 = DirectX::XMFLOAT2;
 	using XMFLOAT3 = DirectX::XMFLOAT3;
 	using XMFLOAT4 = DirectX::XMFLOAT4;
 	using XMVECTOR = DirectX::XMVECTOR;
 	using XMMATRIX = DirectX::XMMATRIX;
 
-  public: // メンバ関数
-	/// <summary>
-	/// コンストラクタ
-	/// </summary>
-	/// <param name="window_width">画面幅</param>
-	/// <param name="window_height">画面高さ</param>
-	Camera(int window_width, int window_height);
+public: // メンバ関数
+  /// <summary>
+  /// コンストラクタ
+  /// </summary>
+  /// <param name="window_width">画面幅</param>
+  /// <param name="window_height">画面高さ</param>
+	Camera(int window_width,int window_height);
 
 	/// <summary>
 	/// デストラクタ
@@ -53,36 +54,46 @@ class Camera {
 	/// ビュー行列の取得
 	/// </summary>
 	/// <returns>ビュー行列</returns>
-	inline const Matrix4& GetViewMatrix() { return matView; }
+	inline const Matrix4& GetViewMatrix() {
+		return matView;
+	}
 
-	/// <summary>
-	/// 射影行列の取得
-	/// </summary>
-	/// <returns>射影行列</returns>
-	inline const Matrix4& GetProjectionMatrix() { return matProjection; }
+/// <summary>
+/// 射影行列の取得
+/// </summary>
+/// <returns>射影行列</returns>
+	inline const Matrix4& GetProjectionMatrix() {
+		return matProjection;
+	}
 
-	/// <summary>
-	/// ビュー射影行列の取得
-	/// </summary>
-	/// <returns>ビュー射影行列</returns>
-	inline const Matrix4& GetViewProjectionMatrix() { return matViewProjection; }
+/// <summary>
+/// ビュー射影行列の取得
+/// </summary>
+/// <returns>ビュー射影行列</returns>
+	inline const Matrix4& GetViewProjectionMatrix() {
+		return matViewProjection;
+	}
 
-	/// <summary>
-	/// ビルボード行列の取得
-	/// </summary>
-	/// <returns>ビルボード行列</returns>
-	inline const Matrix4& GetBillboardMatrix() { return matBillboard; }
+/// <summary>
+/// ビルボード行列の取得
+/// </summary>
+/// <returns>ビルボード行列</returns>
+	inline const Matrix4& GetBillboardMatrix() {
+		return matBillboard;
+	}
 
-	/// <summary>
-	/// 視点座標の取得
-	/// </summary>
-	/// <returns>座標</returns>
-	inline const Vector3& GetEye() { return eye_; }
+/// <summary>
+/// 視点座標の取得
+/// </summary>
+/// <returns>座標</returns>
+	inline const Vector3& GetEye() {
+		return eye_;
+	}
 
-	/// <summary>
-	/// 視点座標の設定
-	/// </summary>
-	/// <param name="eye">座標</param>
+/// <summary>
+/// 視点座標の設定
+/// </summary>
+/// <param name="eye">座標</param>
 	inline void SetEye(Vector3 eye) {
 		eye_ = eye;
 		viewDirty = true;
@@ -92,12 +103,14 @@ class Camera {
 	/// 注視点座標の取得
 	/// </summary>
 	/// <returns>座標</returns>
-	inline const Vector3& GetTarget() { return target_; }
+	inline const Vector3& GetTarget() {
+		return target_;
+	}
 
-	/// <summary>
-	/// 注視点座標の設定
-	/// </summary>
-	/// <param name="target">座標</param>
+/// <summary>
+/// 注視点座標の設定
+/// </summary>
+/// <param name="target">座標</param>
 	inline void SetTarget(Vector3 tar) {
 		target_ = tar;
 		viewDirty = true;
@@ -107,12 +120,14 @@ class Camera {
 	/// 上方向ベクトルの取得
 	/// </summary>
 	/// <returns>上方向ベクトル</returns>
-	inline const Vector3& GetUp() { return up_; }
+	inline const Vector3& GetUp() {
+		return up_;
+	}
 
-	/// <summary>
-	/// 上方向ベクトルの設定
-	/// </summary>
-	/// <param name="up">上方向ベクトル</param>
+/// <summary>
+/// 上方向ベクトルの設定
+/// </summary>
+/// <param name="up">上方向ベクトル</param>
 	inline void SetUp(Vector3 up) {
 		up_ = up;
 		viewDirty = true;
@@ -146,18 +161,18 @@ class Camera {
 
 	float FieldOfViewY();
 
-	static void MakePerspectiveL(float fovAngleY, float aspect, float near_, float far_, Matrix4& matrix);
-	
-	static void MakeLookL(const Vector3& eye, const Vector3& target, const Vector3& up, Matrix4& mat);
+	static void MakePerspectiveL(float fovAngleY,float aspect,float near_,float far_,Matrix4& matrix);
+
+	static void MakeLookL(const Vector3& eye,const Vector3& target,const Vector3& up,Matrix4& mat);
 	static Camera* GetInstance();
 
 	//カメラの視点と注視点を差分ベクトルでとる関数
-	void disEyeTarget(Vector3 pos1, Vector3 pos2);
+	void disEyeTarget(Vector3 pos1,Vector3 pos2);
 
 	void MoveTarget(Input* input);
 
-  protected: // メンバ変数
-	// ビュー行列
+protected: // メンバ変数
+  // ビュー行列
 	Matrix4 matView = MyMath::ConvertXMMATtoMat4(DirectX::XMMatrixIdentity());
 	// ビルボード行列
 	static Matrix4 matBillboard;
@@ -171,9 +186,9 @@ class Camera {
 	bool viewDirty = false;
 	// 射影行列ダーティフラグ
 	bool projectionDirty = false;
-	
+
 	// 上方向ベクトル
-	Vector3 up_ = {0, 1, 0};
+	Vector3 up_ = { 0, 1, 0 };
 	// アスペクト比
 	float aspectRatio = 1.0f;
 
@@ -185,7 +200,7 @@ public:
 	Vector3 rotation1_;
 	Vector3 rotation2_;
 
-	Vector3 target = {0,1,0};
+	Vector3 target = { 0,1,0 };
 
 	// 視点座標
 	Vector3 eye_ = { 0, 0, -1 };

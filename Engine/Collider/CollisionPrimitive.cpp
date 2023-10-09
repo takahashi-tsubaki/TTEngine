@@ -1,4 +1,4 @@
-#include "CollisionPrimitive.h"
+﻿#include "CollisionPrimitive.h"
 
 void Triangle::ComputeNormal() {
 	Vector3 p0_p1 = p1 - p0;

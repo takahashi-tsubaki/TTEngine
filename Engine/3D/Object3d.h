@@ -1,11 +1,19 @@
 #pragma once
 
+#include "Defineder.h"
+#include "Pading.h"
+
+ALICE_SUPPRESS_WARNINGS_BEGIN
 #include <Windows.h>
 #include <wrl.h>
 #include <d3d12.h>
 #include <DirectXMath.h>
 #include <d3dx12.h>
 #include <string>
+
+
+ALICE_SUPPRESS_WARNINGS_END
+
 #include "Model.h"
 #include "Camera.h"
 #include "GameCamera.h"
@@ -14,189 +22,214 @@
 #include "worldTransform.h"
 
 #include "Vector3.h"
-
 /// <summary>
-/// 3DƒIƒuƒWƒFƒNƒg
+/// 3Dã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 /// </summary>
 class Object3d
 {
-private: // ƒGƒCƒŠƒAƒX
-	// Microsoft::WRL::‚ğÈ—ª
+private: // ã‚¨ã‚¤ãƒªã‚¢ã‚¹
+	// Microsoft::WRL::ã‚’çœç•¥
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
-	// DirectX::‚ğÈ—ª
+	// DirectX::ã‚’çœç•¥
 	using XMFLOAT2 = DirectX::XMFLOAT2;
 	using XMFLOAT3 = DirectX::XMFLOAT3;
 	using XMFLOAT4 = DirectX::XMFLOAT4;
 	using XMMATRIX = DirectX::XMMATRIX;
 
-public: // ƒTƒuƒNƒ‰ƒX	
+public: // ã‚µãƒ–ã‚¯ãƒ©ã‚¹	
 
-	// ƒpƒCƒvƒ‰ƒCƒ“ƒZƒbƒg
+	// ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³ã‚»ãƒƒãƒˆ
 	struct PipelineSet
 	{
-		// ƒ‹[ƒgƒVƒOƒlƒ`ƒƒ
+		// ãƒ«ãƒ¼ãƒˆã‚·ã‚°ãƒãƒãƒ£
 		ComPtr<ID3D12RootSignature> rootsignature;
-		// ƒpƒCƒvƒ‰ƒCƒ“ƒXƒe[ƒgƒIƒuƒWƒFƒNƒg
+		// ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³ã‚¹ãƒ†ãƒ¼ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 		ComPtr<ID3D12PipelineState> pipelinestate;
 	};
 
-	// ’è”ƒoƒbƒtƒ@—pƒf[ƒ^\‘¢‘ÌB0
+	// å®šæ•°ãƒãƒƒãƒ•ã‚¡ç”¨ãƒ‡ãƒ¼ã‚¿æ§‹é€ ä½“B0
 	struct ConstBufferDataB0
 	{
-		Matrix4 mat; // 3D•ÏŠ·s—ñ
+		Matrix4 mat; // 3Då¤‰æ›è¡Œåˆ—
 		Vector4 color;
 	};
 
-private: // ’è”
+private: // å®šæ•°
 
 
-public: // Ã“Iƒƒ“ƒoŠÖ”
+public: // é™çš„ãƒ¡ãƒ³ãƒé–¢æ•°
 	/// <summary>
-	/// Ã“I‰Šú‰»
+	/// é™çš„åˆæœŸåŒ–
 	/// </summary>
-	/// <param name="device">ƒfƒoƒCƒX</param>
-	/// <param name="camera">ƒJƒƒ‰</param>
-	static void StaticInitialize(ID3D12Device* device, Camera* camera = nullptr);
+	/// <param name="device">ãƒ‡ãƒã‚¤ã‚¹</param>
+	/// <param name="camera">ã‚«ãƒ¡ãƒ©</param>
+	static void StaticInitialize(ID3D12Device* device,Camera* camera = nullptr);
 
 	/// <summary>
-	/// ƒOƒ‰ƒtƒBƒbƒNƒpƒCƒvƒ‰ƒCƒ“‚Ì¶¬
+	/// ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³ã®ç”Ÿæˆ
 	/// </summary>
 	static void CreateGraphicsPipeline();
 
 	/// <summary>
-	/// ƒJƒƒ‰‚ÌƒZƒbƒg
+	/// ã‚«ãƒ¡ãƒ©ã®ã‚»ãƒƒãƒˆ
 	/// </summary>
-	/// <param name="camera">ƒJƒƒ‰</param>
-	static void SetCamera(Camera* camera) { sCamera_ = camera; }
+	/// <param name="camera">ã‚«ãƒ¡ãƒ©</param>
+	static void SetCamera(Camera* camera) {
+		sCamera_ = camera;
+	}
 
-	/// <summary>
-	/// •`‰æ‘Oˆ—
-	/// </summary>
-	/// <param name="commandList">•`‰æƒRƒ}ƒ“ƒhƒŠƒXƒg</param>
+/// <summary>
+/// æç”»å‰å‡¦ç†
+/// </summary>
+/// <param name="commandList">æç”»ã‚³ãƒãƒ³ãƒ‰ãƒªã‚¹ãƒˆ</param>
 	static void PreDraw(ID3D12GraphicsCommandList* commandList);
 
 	/// <summary>
-	/// •`‰æŒãˆ—
+	/// æç”»å¾Œå‡¦ç†
 	/// </summary>
 	static void PostDraw();
 
 	/// <summary>
-	/// 3DƒIƒuƒWƒFƒNƒg¶¬
+	/// 3Dã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç”Ÿæˆ
 	/// </summary>
 	/// <returns></returns>
 	static Object3d* Create();
 
-private: // Ã“Iƒƒ“ƒo•Ï”
-	// ƒfƒoƒCƒX
+private: // é™çš„ãƒ¡ãƒ³ãƒå¤‰æ•°
+	// ãƒ‡ãƒã‚¤ã‚¹
 	static ID3D12Device* device_;
-	// ƒRƒ}ƒ“ƒhƒŠƒXƒg
+	// ã‚³ãƒãƒ³ãƒ‰ãƒªã‚¹ãƒˆ
 	static ID3D12GraphicsCommandList* sCommandList;
-	// ƒeƒNƒXƒ`ƒƒ‚ ‚è—pƒpƒCƒvƒ‰ƒCƒ“
+	// ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚ã‚Šç”¨ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³
 	static PipelineSet pipelineSet;
-	// ƒJƒƒ‰
+	// ã‚«ãƒ¡ãƒ©
 	static Camera* sCamera_;
 
-public: // ƒƒ“ƒoŠÖ”
+public: // ãƒ¡ãƒ³ãƒé–¢æ•°
 	bool Initialize();
 	/// <summary>
-	/// –ˆƒtƒŒ[ƒ€ˆ—
+	/// æ¯ãƒ•ãƒ¬ãƒ¼ãƒ å‡¦ç†
 	/// </summary>
 	void Update();
 
 	void UpdateMatrix();
 
 	/// <summary>
-	/// •`‰æ
+	/// æç”»
 	/// </summary>
 	void Draw();
 
 
 
 	/// <summary>
-	/// À•W‚Ìæ“¾
+	/// åº§æ¨™ã®å–å¾—
 	/// </summary>
-	/// <returns>À•W</returns>
-	const Vector3& GetPosition() { return worldTransform.translation_; }
+	/// <returns>åº§æ¨™</returns>
+	const Vector3& GetPosition() {
+		return worldTransform.translation_;
+	}
 
-	/// <summary>
-	/// ‰ñ“]Šp‚Ìæ“¾
-	/// </summary>
-	/// <returns></returns>
-	const Vector3& GetRotation() { return rotation_; }
+/// <summary>
+/// å›è»¢è§’ã®å–å¾—
+/// </summary>
+/// <returns></returns>
+	const Vector3& GetRotation() {
+		return rotation_;
+	}
 
-	/// <summary>
-	/// À•W‚Ìİ’è
-	/// </summary>
-	/// <param name="position">À•W</param>
-	void SetPosition(Vector3 position) { worldTransform.translation_ = position; }
+/// <summary>
+/// åº§æ¨™ã®è¨­å®š
+/// </summary>
+/// <param name="position">åº§æ¨™</param>
+	void SetPosition(Vector3 position) {
+		worldTransform.translation_ = position;
+	}
 
-	void SetRotation(Vector3 rotation) { worldTransform.rotation_ = rotation; }
+	void SetRotation(Vector3 rotation) {
+		worldTransform.rotation_ = rotation;
+	}
 
-	/// <summary>
-	/// ƒXƒP[ƒ‹‚Ìİ’è
-	/// </summary>
-	/// <param name="position">ƒXƒP[ƒ‹</param>
-	void SetScale(Vector3 scale) { worldTransform.scale_ = scale; }
+/// <summary>
+/// ã‚¹ã‚±ãƒ¼ãƒ«ã®è¨­å®š
+/// </summary>
+/// <param name="position">ã‚¹ã‚±ãƒ¼ãƒ«</param>
+	void SetScale(Vector3 scale) {
+		worldTransform.scale_ = scale;
+	}
 
-	/// <summary>
-	/// ƒ[ƒ‹ƒhs—ñ‚Ìæ“¾
-	/// </summary>
-	/// <returns>ƒ[ƒ‹ƒhs—ñ</returns>
-	const Matrix4& GetMatWorld() { return worldTransform.matWorld_; }
+/// <summary>
+/// ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—ã®å–å¾—
+/// </summary>
+/// <returns>ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—</returns>
+	const Matrix4& GetMatWorld() {
+		return worldTransform.matWorld_;
+	}
 
-	/// <summary>
-	/// ƒ‚ƒfƒ‹‚ÌƒZƒbƒg
-	/// </summary>
-	/// <param name="model">ƒ‚ƒfƒ‹</param>
-	void SetModel(Model* model) { model_ = model; }
+/// <summary>
+/// ãƒ¢ãƒ‡ãƒ«ã®ã‚»ãƒƒãƒˆ
+/// </summary>
+/// <param name="model">ãƒ¢ãƒ‡ãƒ«</param>
+	void SetModel(Model* model) {
+		model_ = model;
+	}
 
-	void SetBillboard(bool isBillboard) { isBillboard_ = isBillboard; }
+	void SetBillboard(bool isBillboard) {
+		isBillboard_ = isBillboard;
+	}
 
 	static void SetLight(Light* light)
 	{
 		light_ = light;
 	}
 
-	void SetColor(Vector4 color) { color_ = color; }
+	void SetColor(Vector4 color) {
+		color_ = color;
+	}
 
-	WorldTransform GetWorldTransform() { return worldTransform; }
-	WorldTransform* GetWorldTransformPtr() { return &worldTransform; }
+	WorldTransform GetWorldTransform() {
+		return worldTransform;
+	}
+	WorldTransform* GetWorldTransformPtr() {
+		return &worldTransform;
+	}
 
-	Camera* GetCamera() { return sCamera_; }
+	Camera* GetCamera() {
+		return sCamera_;
+	}
 
-private: // ƒƒ“ƒo•Ï”
-	
-	// ’è”ƒoƒbƒtƒ@‚Öƒf[ƒ^“]‘—
+private: // ãƒ¡ãƒ³ãƒå¤‰æ•°
+
+	// å®šæ•°ãƒãƒƒãƒ•ã‚¡ã¸ãƒ‡ãƒ¼ã‚¿è»¢é€
 	ConstBufferDataB0* constMap = nullptr;
 
-	ComPtr<ID3D12Resource> constBuffB0; // ’è”ƒoƒbƒtƒ@
-	ComPtr<ID3D12Resource> constBuffCameraPosition; // ’è”ƒoƒbƒtƒ@
+	ComPtr<ID3D12Resource> constBuffB0; // å®šæ•°ãƒãƒƒãƒ•ã‚¡
+	ComPtr<ID3D12Resource> constBuffCameraPosition; // å®šæ•°ãƒãƒƒãƒ•ã‚¡
 
-	// eƒIƒuƒWƒFƒNƒg
+	// è¦ªã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	Object3d* parent = nullptr;
-	// ƒ‚ƒfƒ‹
+	// ãƒ¢ãƒ‡ãƒ«
 	Model* model_ = nullptr;
-	// ƒrƒ‹ƒ{[ƒh
+	// ãƒ“ãƒ«ãƒœãƒ¼ãƒ‰
 	bool isBillboard_ = false;
 
-	//ƒ‰ƒCƒg
+	//ãƒ©ã‚¤ãƒˆ
 	static Light* light_;
 public:
 
-	//ƒ[ƒ‹ƒhs—ñ
+	//ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—
 	WorldTransform worldTransform;
 
-	// F
+	// è‰²
 	Vector4 color_ = { 1,1,1,1 };
-	// ƒ[ƒJƒ‹ƒXƒP[ƒ‹
+	// ãƒ­ãƒ¼ã‚«ãƒ«ã‚¹ã‚±ãƒ¼ãƒ«
 	Vector3 scale_ = { 1,1,1 };
-	// X,Y,Z²‰ñ‚è‚Ìƒ[ƒJƒ‹‰ñ“]Šp
+	// X,Y,Zè»¸å›ã‚Šã®ãƒ­ãƒ¼ã‚«ãƒ«å›è»¢è§’
 	Vector3 rotation_ = { 0,0,0 };
-	// ƒ[ƒJƒ‹À•W
+	// ãƒ­ãƒ¼ã‚«ãƒ«åº§æ¨™
 	Vector3 position_ = { 0,0,0 };
-	// ƒ[ƒJƒ‹ƒ[ƒ‹ƒh•ÏŠ·s—ñ
+	// ãƒ­ãƒ¼ã‚«ãƒ«ãƒ¯ãƒ¼ãƒ«ãƒ‰å¤‰æ›è¡Œåˆ—
 	XMMATRIX matWorld;
-	
+
 
 
 
