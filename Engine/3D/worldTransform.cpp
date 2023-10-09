@@ -12,16 +12,16 @@ void WorldTransform::initialize()
 	scale_ = { 1 , 1 , 1 };
 	rotation_ = { 0 , 0 , 0 };
 	translation_ = { 0 , 0 , 0 };
-	//’PˆÊs—ñ‰»
+	//å˜ä½è¡Œåˆ—åŒ–
 	matWorld_.identity();
 
-	//s—ñ‚ÌXV
+	//è¡Œåˆ—ã®æ›´æ–°
 	UpdateMatWorld();
 }
 
 void WorldTransform::UpdateMatWorld()
 {
-	//ƒ[ƒ‹ƒh•ÏŠ·s—ñ‚ð—pˆÓ
+	//ãƒ¯ãƒ¼ãƒ«ãƒ‰å¤‰æ›è¡Œåˆ—ã‚’ç”¨æ„
 	Matrix4 affineMat, matScale, matRot, matTrans;
 
 	affineMat.identity();
@@ -29,22 +29,22 @@ void WorldTransform::UpdateMatWorld()
 	matRot.identity();
 	//matTrans.identity();
 
-	//ƒ[ƒ‹ƒh•ÏŠ·s—ñ‚ÉƒXƒP[ƒŠƒ“ƒO,‰ñ“],•½sˆÚ“®‚Ìs—ñ‚ð‡¬
+	//ãƒ¯ãƒ¼ãƒ«ãƒ‰å¤‰æ›è¡Œåˆ—ã«ã‚¹ã‚±ãƒ¼ãƒªãƒ³ã‚°,å›žè»¢,å¹³è¡Œç§»å‹•ã®è¡Œåˆ—ã‚’åˆæˆ
 	matScale = MyMath::Scale(scale_);
-	matRot = MyMath::Rotate(rotation_, 6);//6‚Í‘S•”‚ÌŽ²‚ð“K—p
+	matRot = MyMath::Rotate(rotation_, 6);//6ã¯å…¨éƒ¨ã®è»¸ã‚’é©ç”¨
 	matTrans = MyMath::Move(translation_);
-	//ƒ[ƒ‹ƒhs—ñ‚É’PˆÊs—ñ‚ð‘ã“ü
+	//ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—ã«å˜ä½è¡Œåˆ—ã‚’ä»£å…¥
 	matWorld_.identity();
 
-	//s—ñ‚ÌŒvŽZ
+	//è¡Œåˆ—ã®è¨ˆç®—
 	matWorld_ *= matScale;
 	matWorld_ *= matRot;
 	matWorld_ *= matTrans;
 
 
-	//‚à‚µe‚ª‚ ‚éê‡
+	//ã‚‚ã—è¦ªãŒã‚ã‚‹å ´åˆ
 	if (parent_) {
-		//e‚Ìƒ[ƒ‹ƒhs—ñ‚Æ‚ÌŒvŽZ‚ðs‚¤
+		//è¦ªã®ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—ã¨ã®è¨ˆç®—ã‚’è¡Œã†
 		matWorld_ *= parent_->matWorld_;
 	}
 }

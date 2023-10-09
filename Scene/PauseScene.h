@@ -5,7 +5,7 @@
 class PlayScene;
 
 class PauseScene :
-    public IScene
+	public IScene
 {
 protected:
 	SceneManager* controller_;
@@ -28,7 +28,7 @@ protected:
 	FbxModel* fbxModel = nullptr;
 	FbxObject3d* fbxObject = nullptr;
 
-	//“V‹…
+	//å¤©çƒ
 	Object3d* skydomeO_ = nullptr;
 	Model* skydomeM_ = nullptr;
 
@@ -45,18 +45,18 @@ protected:
 
 	Vector3 nowEye;
 
-	//ƒvƒŒƒCƒ„[‚Ì’eƒ‚ƒfƒ‹ŠÖ˜A
+	//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®å¼¾ãƒ¢ãƒ‡ãƒ«é–¢é€£
 	std::list <std::unique_ptr<PlayerBullet>> pBullets_;
 	std::list <std::unique_ptr<EnemyBullet>> eBullets_;
 
 public:
 
-	PauseScene(SceneManager* controller, SceneObjects* sceneObj);
+	PauseScene(SceneManager* controller,SceneObjects* sceneObj);
 	~PauseScene() override;
 
 	void Initialize() override;
 
-	void Update(Input* input, GamePad* gamePad) override;
+	void Update(Input* input,GamePad* gamePad) override;
 
 	void Draw() override;
 

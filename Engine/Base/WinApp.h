@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <Windows.h>
 
 #include <tchar.h>
@@ -23,7 +23,7 @@ public:
 	//
 	void Finalize();
 
-	//ƒƒbƒZ[ƒWˆ—
+	//ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸å‡¦ç†
 	bool ProcessMessage();
 
 public:
@@ -33,10 +33,10 @@ public:
 
 private:
 
-	//ƒEƒBƒ“ƒhƒEƒNƒ‰ƒX‚Ìİ’è
+	//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚¯ãƒ©ã‚¹ã®è¨­å®š
 	WNDCLASSEX w = {};
 
-	//ƒEƒBƒ“ƒhƒEƒnƒ“ƒhƒ‹
+	//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãƒãƒ³ãƒ‰ãƒ«
 	HWND hwnd = nullptr;
 
 };

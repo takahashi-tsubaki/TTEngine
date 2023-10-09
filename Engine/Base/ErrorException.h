@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #pragma warning(push)
 #pragma warning(disable: 4265)
 #pragma warning(disable: 4324)
@@ -20,7 +20,7 @@
 #include<cstdint>
 #include<d3d12.h>
 #include<d3dcompiler.h>
-#define DIRECTINPUT_VERSION 0x0800	//DirectInput‚Ìƒo[ƒWƒ‡ƒ“w’è
+#define DIRECTINPUT_VERSION 0x0800	//DirectInputã®ãƒãƒ¼ã‚¸ãƒ§ãƒ³æŒ‡å®š
 #include<dinput.h>
 #include<DirectXMath.h>
 #include<DirectXTex.h>
@@ -48,9 +48,9 @@
 using namespace DirectX;
 using namespace Microsoft::WRL;
 
-//ƒŠƒ“ƒN‚Ìİ’è
+//ãƒªãƒ³ã‚¯ã®è¨­å®š
 #pragma comment(lib,"d3d12.lib")
 #pragma comment(lib,"dxgi.lib")
 #pragma comment(lib,"d3dcompiler.lib")
-#pragma comment(lib,"dinput8.lib")//directInput‚Ìƒo[ƒWƒ‡ƒ“
+#pragma comment(lib,"dinput8.lib")//directInputã®ãƒãƒ¼ã‚¸ãƒ§ãƒ³
 #pragma comment(lib,"dxguid.lib")

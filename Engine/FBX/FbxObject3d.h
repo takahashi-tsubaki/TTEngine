@@ -1,8 +1,15 @@
 #pragma once
+
+
 #include "ErrorException.h"
 #include "FbxLoader.h"
 #include "FbxModel.h"
 #include "Camera.h"
+
+#include "Defineder.h"
+#include "Pading.h"
+
+ALICE_SUPPRESS_WARNINGS_BEGIN
 
 #include <Windows.h>
 #include <wrl.h>
@@ -11,27 +18,28 @@
 #include<DirectXMath.h>
 #include <string>
 
+ALICE_SUPPRESS_WARNINGS_END
 #include "worldTransform.h"
 
 class FbxObject3d
 {
 public:
-	//ƒ{[ƒ“‚ÌÅ‘å”
-	static const int MAX_BONES = 1000;//HLSL‘¤‚ğ‡‚í‚¹‚é
+	//ãƒœãƒ¼ãƒ³ã®æœ€å¤§æ•°
+	static const int MAX_BONES = 1000;//HLSLå´ã‚’åˆã‚ã›ã‚‹
 
 
 	WorldTransform worldTransform;
 
-protected://ƒGƒCƒŠƒAƒX
+protected://ã‚¨ã‚¤ãƒªã‚¢ã‚¹
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
-	//DirectX‚ğÈ—ª
+	//DirectXã‚’çœç•¥
 	using XMFLOAT2 = DirectX::XMFLOAT2;
 	using XMFLOAT3 = DirectX::XMFLOAT3;
 	using XMFLOAT4 = DirectX::XMFLOAT4;
 	using XMMATRIX = DirectX::XMMATRIX;
 
-public://ƒTƒuƒNƒ‰ƒX
-	//’è”ƒoƒbƒtƒ@—pƒf[ƒ^\‘¢‘Ì(À•W•ÏŠ·s—ñ—p)
+public://ã‚µãƒ–ã‚¯ãƒ©ã‚¹
+	//å®šæ•°ãƒãƒƒãƒ•ã‚¡ç”¨ãƒ‡ãƒ¼ã‚¿æ§‹é€ ä½“(åº§æ¨™å¤‰æ›è¡Œåˆ—ç”¨)
 	struct ConstBufferDataTransfrom
 	{
 		Matrix4 viewproj;
@@ -41,96 +49,110 @@ public://ƒTƒuƒNƒ‰ƒX
 	};
 	struct ConstBufferDataSkin
 	{
-		XMMATRIX bones[MAX_BONES];
+		XMMATRIX bones[ MAX_BONES ];
 	};
-public://î“Iƒƒ“ƒoŠÖ”
+public://æƒ…çš„ãƒ¡ãƒ³ãƒé–¢æ•°
 	//setter
-	static void SetDevice(ID3D12Device* device) { device_ = device; }
-	static void SetCamera(Camera* camera) { camera_ = camera; }
+	static void SetDevice(ID3D12Device* device) {
+		device_ = device;
+	}
+	static void SetCamera(Camera* camera) {
+		camera_ = camera;
+	}
 
 	static void CreateGraphicsPipeline();
 
-private://î“Iƒƒ“ƒo•Ï”
-	//ƒfƒoƒCƒX
+private://æƒ…çš„ãƒ¡ãƒ³ãƒå¤‰æ•°
+	//ãƒ‡ãƒã‚¤ã‚¹
 	static ID3D12Device* device_;
-	//ƒJƒƒ‰
+	//ã‚«ãƒ¡ãƒ©
 	static Camera* camera_;
 
 	static ComPtr<ID3D12RootSignature>rootsignature;
-	//ƒpƒCƒvƒ‰ƒCƒ“ƒXƒe[ƒg
+	//ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³ã‚¹ãƒ†ãƒ¼ãƒˆ
 	static ComPtr<ID3D12PipelineState> pipelineState;
 
-public://ƒƒ“ƒoŠÖ”
+public://ãƒ¡ãƒ³ãƒé–¢æ•°
 	/// <summary>
-	/// ‰Šú‰»
+	/// åˆæœŸåŒ–
 	/// </summary>
 	void Initialize();
 	/// <summary>
-	/// –ˆƒtƒŒ[ƒ€ˆ—
+	/// æ¯ãƒ•ãƒ¬ãƒ¼ãƒ å‡¦ç†
 	/// </summary>
 	void Update();
 
 	/// <summary>
-	/// •`‰æ
+	/// æç”»
 	/// </summary>
 	void Draw(ID3D12GraphicsCommandList* cmdList);
 
 	/// <summary>
-	/// ƒ‚ƒfƒ‹‚ÌƒZƒbƒg
+	/// ãƒ¢ãƒ‡ãƒ«ã®ã‚»ãƒƒãƒˆ
 	/// </summary>
 	/// <param name="fbxModel"></param>
-	void SetModel(FbxModel* fbxModel) { fbxModel_ = fbxModel; }
+	void SetModel(FbxModel* fbxModel) {
+		fbxModel_ = fbxModel;
+	}
 
-	void SetScale(Vector3 scale) { worldTransform.scale_ = scale;}
+	void SetScale(Vector3 scale) {
+		worldTransform.scale_ = scale;
+	}
 
-	void SetPosition(Vector3 position) { worldTransform.translation_ = position; }
-	/// <summary>
-	/// ƒ{[ƒ“—p
-	/// </summary>
+	void SetPosition(Vector3 position) {
+		worldTransform.translation_ = position;
+	}
+/// <summary>
+/// ãƒœãƒ¼ãƒ³ç”¨
+/// </summary>
 	std::vector<Matrix4> bonesMat;
-	void ResizeBonesMat(std::vector<FbxModel::Bone> bones);	//ƒ{[ƒ“‚ÌƒTƒCƒY‚ğƒNƒ‰ƒXƒ^[ƒ{[ƒ“‚É‡‚í‚¹‚é
-	bool isBonesWorldMatCalc = false;	//ƒ{[ƒ“‚Ìƒ[ƒ‹ƒhÀ•Wã‚Å‚ÌŒvZ‚ğ‚·‚é‚©‚Ç‚¤‚©
-	std::vector<Matrix4>* GetBonesMatPtr();	//ƒ{[ƒ“‚Ìƒ[ƒ‹ƒhs—ñƒ|ƒCƒ“ƒ^‚ğ“n‚·
-	void SetIsBonesWorldMatCalc(bool isCalc);	//ƒ{[ƒ“ŒvZƒtƒ‰ƒO‚ÌƒZƒbƒ^[
+	void ResizeBonesMat(std::vector<FbxModel::Bone> bones);	//ãƒœãƒ¼ãƒ³ã®ã‚µã‚¤ã‚ºã‚’ã‚¯ãƒ©ã‚¹ã‚¿ãƒ¼ãƒœãƒ¼ãƒ³ã«åˆã‚ã›ã‚‹
+	bool isBonesWorldMatCalc = false;	//ãƒœãƒ¼ãƒ³ã®ãƒ¯ãƒ¼ãƒ«ãƒ‰åº§æ¨™ä¸Šã§ã®è¨ˆç®—ã‚’ã™ã‚‹ã‹ã©ã†ã‹
+	std::vector<Matrix4>* GetBonesMatPtr();	//ãƒœãƒ¼ãƒ³ã®ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—ãƒã‚¤ãƒ³ã‚¿ã‚’æ¸¡ã™
+	void SetIsBonesWorldMatCalc(bool isCalc);	//ãƒœãƒ¼ãƒ³è¨ˆç®—ãƒ•ãƒ©ã‚°ã®ã‚»ãƒƒã‚¿ãƒ¼
 	/// <summary>
-	/// ƒAƒjƒ[ƒVƒ‡ƒ“ŠJn
+	/// ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³é–‹å§‹
 	/// </summary>
 	void PlayAnimetion(int AnimNum);
 
 
-	Vector3 GetPosition() { return worldTransform.translation_; }
+	Vector3 GetPosition() {
+		return worldTransform.translation_;
+	}
 
-	void SetColor(Vector4 color) { color_ = color; }
+	void SetColor(Vector4 color) {
+		color_ = color;
+	}
 
 public:
-	//’è”ƒoƒbƒtƒ@
+	//å®šæ•°ãƒãƒƒãƒ•ã‚¡
 	ComPtr<ID3D12Resource> constBuffTransform;
 
-	//’è”ƒoƒbƒtƒ@(ƒXƒLƒ“)
+	//å®šæ•°ãƒãƒƒãƒ•ã‚¡(ã‚¹ã‚­ãƒ³)
 	ComPtr<ID3D12Resource> constBuffSkin;
 
 	Vector4 color_ = { 1,1,1,1 };
 
-	// ƒ[ƒJƒ‹ƒXƒP[ƒ‹
+	// ãƒ­ãƒ¼ã‚«ãƒ«ã‚¹ã‚±ãƒ¼ãƒ«
 	Vector3 scale_ = { 1,1,1 };
-	// X,Y,Z²‰ñ‚è‚Ìƒ[ƒJƒ‹‰ñ“]Šp
+	// X,Y,Zè»¸å›ã‚Šã®ãƒ­ãƒ¼ã‚«ãƒ«å›è»¢è§’
 	Vector3 rotation = { 0,0,0 };
-	// ƒ[ƒJƒ‹À•W
+	// ãƒ­ãƒ¼ã‚«ãƒ«åº§æ¨™
 	Vector3 position_ = { 0,0,0 };
-	// ƒ[ƒJƒ‹ƒ[ƒ‹ƒh•ÏŠ·s—ñ
+	// ãƒ­ãƒ¼ã‚«ãƒ«ãƒ¯ãƒ¼ãƒ«ãƒ‰å¤‰æ›è¡Œåˆ—
 	Matrix4 matWorld;
 
 	FbxModel* fbxModel_ = nullptr;
 
-	//1ƒtƒŒ[ƒ€‚ÌŠÔ
+	//1ãƒ•ãƒ¬ãƒ¼ãƒ ã®æ™‚é–“
 	FbxTime frameTime;
-	//ƒAƒjƒ[ƒVƒ‡ƒ“ŠJnŠÔ
+	//ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³é–‹å§‹æ™‚é–“
 	FbxTime startTime;
-	//ƒAƒjƒ[ƒVƒ‡ƒ“I—¹ŠÔ
+	//ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³çµ‚äº†æ™‚é–“
 	FbxTime endTime;
-	//Œ»İŠÔ
+	//ç¾åœ¨æ™‚é–“
 	FbxTime currentTime;
-	//ƒAƒjƒ[ƒVƒ‡ƒ“Ä¶’†
+	//ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³å†ç”Ÿä¸­
 	bool isPlay = false;
 
 };

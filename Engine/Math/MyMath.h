@@ -1,99 +1,110 @@
 #pragma once
+#include "Defineder.h"
+#include "Pading.h"
+
+
+
+ALICE_SUPPRESS_WARNINGS_BEGIN
+
+#pragma warning(push)
+#pragma warning(disable:4514)
 
 #include <DirectXMath.h>
-
+#pragma warning(pop)
+ALICE_SUPPRESS_WARNINGS_END
 #include "Vector2.h"
 #include "Vector3.h"
 #include "Vector4.h"
 #include "Matrix4.h"
 
-namespace MyMath {
+namespace MyMath
+{
 
 	const float PI = 3.141592654f;
-	// “x”–@->ƒ‰ƒWƒAƒ“•ÏŠ·
+	// åº¦æ•°æ³•->ãƒ©ã‚¸ã‚¢ãƒ³å¤‰æ›
 	float Dig2Rad(float value);
-	// ƒ‰ƒWƒAƒ“->“x”–@•ÏŠ· 
+	// ãƒ©ã‚¸ã‚¢ãƒ³->åº¦æ•°æ³•å¤‰æ› 
 	float Rad2Dig(float value);
 
-	// ƒmƒ‹ƒ€(’·‚³)‚ğ‹‚ß‚é
+	// ãƒãƒ«ãƒ (é•·ã•)ã‚’æ±‚ã‚ã‚‹
 	float Vector2Length(const Vector2& v);
 
-	// —ëƒxƒNƒgƒ‹‚ğ•Ô‚·
+	// é›¶ãƒ™ã‚¯ãƒˆãƒ«ã‚’è¿”ã™
 	const Vector3 Vector3Zero();
-	// 2ƒxƒNƒgƒ‹‚ªˆê’v‚µ‚Ä‚¢‚é‚©’²‚×‚é
-	bool Vector3Equal(const Vector3& v1, const Vector3& v2);
-	// ƒmƒ‹ƒ€(’·‚³)‚ğ‹‚ß‚é
+	// 2ãƒ™ã‚¯ãƒˆãƒ«ãŒä¸€è‡´ã—ã¦ã„ã‚‹ã‹èª¿ã¹ã‚‹
+	bool Vector3Equal(const Vector3& v1,const Vector3& v2);
+	// ãƒãƒ«ãƒ (é•·ã•)ã‚’æ±‚ã‚ã‚‹
 	float Vector3Length(const Vector3& v);
-	// ³‹K‰»‚·‚é
+	// æ­£è¦åŒ–ã™ã‚‹
 	Vector3& Vector3Normalize(Vector3& v);
-	// “àÏ‚ğ‹‚ß‚é
-	float Vector3Dot(const Vector3& v1, const Vector3& v2);
-	// ŠOÏ‚ğ‹‚ß‚é
-	Vector3 Vector3Cross(const Vector3& v1, const Vector3& v2);
+	// å†…ç©ã‚’æ±‚ã‚ã‚‹
+	float Vector3Dot(const Vector3& v1,const Vector3& v2);
+	// å¤–ç©ã‚’æ±‚ã‚ã‚‹
+	Vector3 Vector3Cross(const Vector3& v1,const Vector3& v2);
 
-	// ’PˆÊs—ñ‚ğ‹‚ß‚é
+	// å˜ä½è¡Œåˆ—ã‚’æ±‚ã‚ã‚‹
 	Matrix4 Matrix4Identity();
-	// “]’us—ñ‚ğ‹‚ß‚é
+	// è»¢ç½®è¡Œåˆ—ã‚’æ±‚ã‚ã‚‹
 	Matrix4 Matrix4Transpose(const Matrix4& m);
-	// ‹ts—ñ‚ğ‹‚ß‚é
-	Matrix4 Matrix4Inverse(const Matrix4& m, float* det = nullptr);
+	// é€†è¡Œåˆ—ã‚’æ±‚ã‚ã‚‹
+	Matrix4 Matrix4Inverse(const Matrix4& m,float* det = nullptr);
 
-	// Šg‘åk¬s—ñ‚Ìì¬
-	Matrix4 Matrix4Scaling(float sx, float sy, float sz);
+	// æ‹¡å¤§ç¸®å°è¡Œåˆ—ã®ä½œæˆ
+	Matrix4 Matrix4Scaling(float sx,float sy,float sz);
 
-	// ‰ñ“]s—ñ‚Ìì¬
+	// å›è»¢è¡Œåˆ—ã®ä½œæˆ
 	Matrix4 Matrix4RotationX(float angle);
 	Matrix4 Matrix4RotationY(float angle);
 	Matrix4 Matrix4RotationZ(float angle);
 
-	// •½sˆÚ“®s—ñ‚Ìì¬
-	Matrix4 Matrix4Translation(float tx, float ty, float tz);
+	// å¹³è¡Œç§»å‹•è¡Œåˆ—ã®ä½œæˆ
+	Matrix4 Matrix4Translation(float tx,float ty,float tz);
 
-	// ƒrƒ…[s—ñ‚Ìì¬
-	Matrix4 Matrix4LookAtLH(const Vector3& eye, const Vector3& target, const Vector3& up);
-	// •Às“Š‰es—ñ‚Ìì¬
+	// ãƒ“ãƒ¥ãƒ¼è¡Œåˆ—ã®ä½œæˆ
+	Matrix4 Matrix4LookAtLH(const Vector3& eye,const Vector3& target,const Vector3& up);
+	// ä¸¦è¡ŒæŠ•å½±è¡Œåˆ—ã®ä½œæˆ
 	Matrix4 Matrix4Orthographic(
-		float viewLeft, float viewRight, float viewBottom, float viewTop, float nearZ, float farZ);
-	// “§‹“Š‰es—ñ‚Ìì¬
-	Matrix4 Matrix4Perspective(float fovAngleY, float aspectRatio, float nearZ, float farZ);
+		float viewLeft,float viewRight,float viewBottom,float viewTop,float nearZ,float farZ);
+	// é€è¦–æŠ•å½±è¡Œåˆ—ã®ä½œæˆ
+	Matrix4 Matrix4Perspective(float fovAngleY,float aspectRatio,float nearZ,float farZ);
 
-	// À•W•ÏŠ·iwœZ‚È‚µj
-	Vector3 Vector3Transform(const Vector3& v, const Matrix4& m);
-	// À•W•ÏŠ·iwœZ‚ ‚èj
-	Vector3 Vector3TransformCoord(const Vector3& v, const Matrix4& m);
-	// ƒxƒNƒgƒ‹•ÏŠ·
-	Vector3 Vector3TransformNormal(const Vector3& v, const Matrix4& m);
+	// åº§æ¨™å¤‰æ›ï¼ˆwé™¤ç®—ãªã—ï¼‰
+	Vector3 Vector3Transform(const Vector3& v,const Matrix4& m);
+	// åº§æ¨™å¤‰æ›ï¼ˆwé™¤ç®—ã‚ã‚Šï¼‰
+	Vector3 Vector3TransformCoord(const Vector3& v,const Matrix4& m);
+	// ãƒ™ã‚¯ãƒˆãƒ«å¤‰æ›
+	Vector3 Vector3TransformNormal(const Vector3& v,const Matrix4& m);
 
-	// 2€‰‰ZqƒI[ƒo[ƒ[ƒh
-	Matrix4 operator*(const Matrix4& m1, const Matrix4& m2);
-	Vector3 operator*(const Vector3& v, const Matrix4& m);
+	// 2é …æ¼”ç®—å­ã‚ªãƒ¼ãƒãƒ¼ãƒ­ãƒ¼ãƒ‰
+	Matrix4 operator*(const Matrix4& m1,const Matrix4& m2);
+	Vector3 operator*(const Vector3& v,const Matrix4& m);
 
-	// üŒ`•âŠÔ
-	float Lerp(float a, float b, float t);
+	// ç·šå½¢è£œé–“
+	float Lerp(float a,float b,float t);
 
 	Matrix4 Initialize();
 	Matrix4 Scale(Vector3 scale);
-	Matrix4 Rotate(Vector3 rotation, int X_1_Y_2_Z_3_XYZ_6);
+	Matrix4 Rotate(Vector3 rotation,int X_1_Y_2_Z_3_XYZ_6);
 	Matrix4 Move(Vector3 move);
 	//void  affin(WorldTransform& affin);
 
-	Vector3 MatVector(const Vector3 vector3, const Matrix4 matrix4);
+	Vector3 MatVector(const Vector3 vector3,const Matrix4 matrix4);
 
 	Vector3 GetWorldtransform(const Matrix4 matrix4);
 
-	Vector3 AddVector(const Vector3 v1, const Vector3 v2);
+	Vector3 AddVector(const Vector3 v1,const Vector3 v2);
 
-	Vector3 bVelocity(Vector3& velocity, Matrix4& mat);
+	Vector3 bVelocity(Vector3& velocity,Matrix4& mat);
 
-	//À•W•ÏŠ·
-	Vector3 wDivision(const Vector3& v, const Matrix4& m);
+	//åº§æ¨™å¤‰æ›
+	Vector3 wDivision(const Vector3& v,const Matrix4& m);
 
-	float FieldOfViewY(float focalLengs, float sensor);
+	float FieldOfViewY(float focalLengs,float sensor);
 
 	Matrix4 ConvertXMMATtoMat4(DirectX::XMMATRIX XMMatrix);
 	DirectX::XMMATRIX ConvertMat4toXMMat(Matrix4 m);
 
 	Matrix4 MakeInverse(const Matrix4* mat);
 
-	
+
 } // namespace MathUtility

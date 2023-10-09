@@ -2,15 +2,16 @@
 #include "IScene.h"
 #include "SceneInc.h"
 class PlayScene :
-    public IScene
+	public IScene
 {
 protected:
-    SceneManager* controller_;
+	SceneManager* controller_;
 	Input* input_ = nullptr;
 	GamePad* gamePad_ = nullptr;
 
 	Sprite* sprite_ = nullptr;
 	Sprite* sprite2_ = nullptr;
+	Sprite* alart = nullptr;
 
 	Model* model = nullptr;
 	Object3d* object = nullptr;
@@ -25,7 +26,7 @@ protected:
 	FbxModel* fbxModel = nullptr;
 	FbxObject3d* fbxObject = nullptr;
 
-	//ìVãÖ
+	//Â§©ÁêÉ
 	Object3d* skydomeO_ = nullptr;
 	Model* skydomeM_ = nullptr;
 
@@ -47,17 +48,17 @@ protected:
 
 public:
 
-    PlayScene(SceneManager* controller, SceneObjects* sceneObj);
-    ~PlayScene() override;
+	PlayScene(SceneManager* controller,SceneObjects* sceneObj);
+	~PlayScene() override;
 
-    void Initialize()override;
+	void Initialize()override;
 
-    void Update(Input*input, GamePad* gamePad) override;
+	void Update(Input* input,GamePad* gamePad) override;
 
-    void Draw() override;
+	void Draw() override;
 
 	void SceneTransition();
 
-    //void Pause(Input* input);
+	//void Pause(Input* input);
 };
 

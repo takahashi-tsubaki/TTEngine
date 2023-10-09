@@ -1,77 +1,86 @@
 #pragma once
+
+#include "Defineder.h"
+#include "Pading.h"
+
+ALICE_SUPPRESS_WARNINGS_BEGIN
 #include <DirectXMath.h>
 #include <d3d12.h>
 #include <d3dx12.h>
+
+
 #include "Vector4.h"
+
+ALICE_SUPPRESS_WARNINGS_END
 class Light
 {
 private:
-	// Microsoft::WRL::‚ğÈ—ª
+	// Microsoft::WRL::ã‚’çœç•¥
 	template<class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
-	// DirectX::‚ğÈ—ª
+	// DirectX::ã‚’çœç•¥
 	using XMFLOAT2 = DirectX::XMFLOAT2;
 	using XMFLOAT3 = DirectX::XMFLOAT3;
 	using XMFLOAT4 = DirectX::XMFLOAT4;
 	using XMVECTOR = DirectX::XMVECTOR;
 	using XMMATRIX = DirectX::XMMATRIX;
 public:
-	// ’è”ƒoƒbƒtƒ@—pƒf[ƒ^\‘¢‘Ì
+	// å®šæ•°ãƒãƒƒãƒ•ã‚¡ç”¨ãƒ‡ãƒ¼ã‚¿æ§‹é€ ä½“
 	struct ConstBufferData
 	{
-		Vector4 lightv;//ƒ‰ƒCƒg‚Ö‚Ì•ûŒü‚ğ•\‚·ƒxƒNƒgƒ‹
-		XMFLOAT3 lightColor;//ƒ‰ƒCƒg‚ÌF
+		Vector4 lightv;//ãƒ©ã‚¤ãƒˆã¸ã®æ–¹å‘ã‚’è¡¨ã™ãƒ™ã‚¯ãƒˆãƒ«
+		XMFLOAT3 lightColor;//ãƒ©ã‚¤ãƒˆã®è‰²
 	};
 
-private://î“Iƒƒ“ƒo•Ï”
-	//ƒfƒoƒCƒX
+private://æƒ…çš„ãƒ¡ãƒ³ãƒå¤‰æ•°
+	//ãƒ‡ãƒã‚¤ã‚¹
 	static ID3D12Device* device_;
 
-public://î“Iƒƒ“ƒoŠÖ”
+public://æƒ…çš„ãƒ¡ãƒ³ãƒé–¢æ•°
 	/// <summary>
-	/// î“I‰Šú‰»
+	/// æƒ…çš„åˆæœŸåŒ–
 	/// </summary>
 	static void StaticInitalize(ID3D12Device* device);
 
-private://ƒƒ“ƒo•Ï”
-	//’è”ƒoƒbƒtƒ@
+private://ãƒ¡ãƒ³ãƒå¤‰æ•°
+	//å®šæ•°ãƒãƒƒãƒ•ã‚¡
 	ComPtr<ID3D12Resource>constBuff;
-	//ƒ‰ƒCƒgŒõü•ûŒü(’PˆÊƒxƒNƒgƒ‹)
+	//ãƒ©ã‚¤ãƒˆå…‰ç·šæ–¹å‘(å˜ä½ãƒ™ã‚¯ãƒˆãƒ«)
 	Vector4 lightdir_ = { 1,0,0,0 };
-	//ƒ‰ƒCƒgF
+	//ãƒ©ã‚¤ãƒˆè‰²
 	XMFLOAT3 lightcolor_ = { 1,1,1 };
-	//ƒ_[ƒeƒBƒtƒ‰ƒO
+	//ãƒ€ãƒ¼ãƒ†ã‚£ãƒ•ãƒ©ã‚°
 	bool dirty = false;
 
 public:
 	/// <summary>
-	/// ’è”ƒoƒbƒtƒ@“]‘—
+	/// å®šæ•°ãƒãƒƒãƒ•ã‚¡è»¢é€
 	/// </summary>
 	void TransfarConstBuffer();
 
 	/// <summary>
-	/// ƒ‰ƒCƒg•ûŒü‚ğƒZƒbƒg
+	/// ãƒ©ã‚¤ãƒˆæ–¹å‘ã‚’ã‚»ãƒƒãƒˆ
 	/// </summary>
 	/// <param name="lightdir"></param>
-	void SetLightDir( Vector4& lightdir);
+	void SetLightDir(Vector4& lightdir);
 	/// <summary>
-	/// ƒ‰ƒCƒgF‚ğƒZƒbƒg
+	/// ãƒ©ã‚¤ãƒˆè‰²ã‚’ã‚»ãƒƒãƒˆ
 	/// </summary>
 	void SetLightColor(const XMFLOAT3 lightcolor);
 
 	/// <summary>
-	/// ‰Šú‰»
+	/// åˆæœŸåŒ–
 	/// </summary>
 	void Initalize();
 
 	/// <summary>
-	/// XV
+	/// æ›´æ–°
 	/// </summary>
 	void Update();
 
 	/// <summary>
-	/// •`‰æ
+	/// æç”»
 	/// </summary>
-	void Draw(ID3D12GraphicsCommandList*cmdList,UINT rootParameterIndex);
+	void Draw(ID3D12GraphicsCommandList* cmdList,UINT rootParameterIndex);
 
 
 	static Light* Create();

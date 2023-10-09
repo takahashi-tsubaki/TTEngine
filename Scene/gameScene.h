@@ -30,13 +30,13 @@ public:
 	GameScene();
 	~GameScene();
 
-	void Initalize(DirectXCommon* dxCommon, Input* input, GamePad* gamePad);
+	void Initalize(DirectXCommon* dxCommon,Input* input,GamePad* gamePad);
 
 	void Update();
 
 	void Draw();
 
-	
+
 
 private:
 	DirectXCommon* dxCommon_ = nullptr;
@@ -61,7 +61,7 @@ private:
 	FbxModel* fbxModel = nullptr;
 	FbxObject3d* fbxObject = nullptr;
 
-	//ìVãÖ
+	//Â§©ÁêÉ
 	Object3d* skydomeO_ = nullptr;
 	Model* skydomeM_ = nullptr;
 

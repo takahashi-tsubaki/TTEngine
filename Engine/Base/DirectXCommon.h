@@ -1,7 +1,7 @@
-#pragma once
+ï»¿#pragma once
 #include"ErrorException.h"
 #include "WinApp.h"
-//ƒŠƒ“ƒN‚Ìİ’è
+//ãƒªãƒ³ã‚¯ã®è¨­å®š
 #pragma comment(lib,"d3d12.lib")
 #pragma comment(lib,"dxgi.lib")
 using namespace Microsoft::WRL;
@@ -19,7 +19,7 @@ private:
 	ComPtr<ID3D12GraphicsCommandList>commandList;
 	ComPtr<ID3D12CommandQueue>commandQueue;
 	ComPtr<ID3D12DescriptorHeap> rtvHeap;
-	//ƒRƒ}ƒ“ƒhƒLƒ…[‚Ìİ’è
+	//ã‚³ãƒãƒ³ãƒ‰ã‚­ãƒ¥ãƒ¼ã®è¨­å®š
 	D3D12_COMMAND_QUEUE_DESC commandQueueDesc{};
 
 	DXGI_SWAP_CHAIN_DESC1 swapChainDesc{};
@@ -32,13 +32,13 @@ private:
 
 	UINT64 fenceVal = 0;
 
-	FLOAT clearColor[4] = { 0.1f, 0.25f, 0.5f, 0.0f };//Â‚Á‚Û‚¢F
+	FLOAT clearColor[4] = { 0.1f, 0.25f, 0.5f, 0.0f };//é’ã£ã½ã„è‰²
 
 	D3D12_RESOURCE_BARRIER barrierDesc{};
-	//ƒfƒXƒNƒŠƒvƒ^ƒq[ƒv‚Ìİ’è
+	//ãƒ‡ã‚¹ã‚¯ãƒªãƒ—ã‚¿ãƒ’ãƒ¼ãƒ—ã®è¨­å®š
 	D3D12_DESCRIPTOR_HEAP_DESC rtvHeapDesc{};
 
-	//[“xƒoƒbƒtƒ@‚Ì¶¬
+	//æ·±åº¦ãƒãƒƒãƒ•ã‚¡ã®ç”Ÿæˆ
 	ComPtr<ID3D12Resource> depthBuff = nullptr;
 
 	WinApp* winApp_ = nullptr;
@@ -54,7 +54,7 @@ public:
 	void InitializeDeaphBuffer();
 	void InitializeFence();
 
-	//•`‰æŠÖ˜A
+	//æç”»é–¢é€£
 	void preDraw();
 	void postDraw();
 
@@ -63,7 +63,7 @@ public:
 	ID3D12GraphicsCommandList* GetCommandList()const { return commandList.Get(); }
 	static DirectXCommon* GetInstance();
 
-	//ƒoƒbƒNƒoƒbƒtƒ@‚Ì”‚ğæ“¾
+	//ãƒãƒƒã‚¯ãƒãƒƒãƒ•ã‚¡ã®æ•°ã‚’å–å¾—
 	size_t GetBackBufferCount() const { return backBuffers.size(); }
 };
 

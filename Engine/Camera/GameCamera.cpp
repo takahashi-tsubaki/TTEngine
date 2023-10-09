@@ -5,14 +5,14 @@ GameCamera::GameCamera(int width, int height, Input* input) : Camera(width, heig
 {
 	input_ = input;
 
-	//ƒJƒƒ‰‚Ì‰Šú‰»
-	Vector3 eye = eye_;
-	Vector3 target = target_;
-	Vector3 up = up_;
+	//ã‚«ãƒ¡ãƒ©ã®åˆæœŸåŒ–
+	Vector3 cameraEye = eye_;
+	Vector3 cameraTarget = target_;
+	Vector3  cameraUp = up_;
 
-	this->SetEye(eye);
-	this->SetTarget(target);
-	this->SetUp(up);
+	this->SetEye(cameraEye);
+	this->SetTarget(cameraTarget);
+	this->SetUp(cameraUp);
 
 	//followerPos_->initialize();
 	//targetPos_->initialize();
@@ -38,38 +38,38 @@ void GameCamera::Update()
 
 void GameCamera::MoveCamera()
 {
-	//ƒJƒƒ‰‚ÌˆÊ’u
+	//ã‚«ãƒ¡ãƒ©ã®ä½ç½®
 	Vector3 eyeVec = followerPos_->translation_ - targetPos_->translation_;
 
 	Vector3 eyePos = eyeVec;
 
 	float mag = 1.0f;
-	float eyeLen = eyePos.length();//ƒxƒNƒgƒ‹‚Ì’·‚³
+	float eyeLen = eyePos.length();//ãƒ™ã‚¯ãƒˆãƒ«ã®é•·ã•
 
-	if (eyeLen > 1.0f) {	//‚à‚µ·•ª‚ÌƒxƒNƒgƒ‹‚ª’PˆÊƒxƒNƒgƒ‹‚æ‚è‘å‚«‚©‚Á‚½‚ç
-		mag = 1.0f / eyeLen; //ƒxƒNƒgƒ‹‚Ì’·‚³‚ğ1‚É‚·‚é
+	if (eyeLen > 1.0f) {	//ã‚‚ã—å·®åˆ†ã®ãƒ™ã‚¯ãƒˆãƒ«ãŒå˜ä½ãƒ™ã‚¯ãƒˆãƒ«ã‚ˆã‚Šå¤§ãã‹ã£ãŸã‚‰
+		mag = 1.0f / eyeLen; //ãƒ™ã‚¯ãƒˆãƒ«ã®é•·ã•ã‚’1ã«ã™ã‚‹
 	};
 
-	eyePos.x *= mag;	//mag‚ğ‚©‚¯‚é‚Æ³‹K‰»‚³‚ê‚é
+	eyePos.x *= mag;	//magã‚’ã‹ã‘ã‚‹ã¨æ­£è¦åŒ–ã•ã‚Œã‚‹
 	eyePos.y *= mag;
 	eyePos.z *= mag;
 
-	cameraDistance_ = Ease::InQuad(MIN_CAMERA_DISTANCE, MAX_CAMERA_DISTANCE, cameraModeChangeCountTimer, MAX_CHANGE_TIMER);
-	cameraHeight_ = Ease::InQuad(3, 6, cameraModeChangeCountTimer, MAX_CHANGE_TIMER);
+	cameraDistance_ = ( float ) Ease::InQuad(MIN_CAMERA_DISTANCE, MAX_CAMERA_DISTANCE, cameraModeChangeCountTimer, MAX_CHANGE_TIMER);
+	cameraHeight_ = ( float ) Ease::InQuad(3, 6, cameraModeChangeCountTimer, MAX_CHANGE_TIMER);
 
 	Vector3 primalyCamera =
-	{ followerPos_->translation_.x + eyePos.x * cameraDistance_ ,//©‹@‚©‚çˆø‚¢‚½ˆÊ’u‚ÉƒJƒƒ‰‚ğƒZƒbƒg
+	{ followerPos_->translation_.x + eyePos.x * cameraDistance_ ,//è‡ªæ©Ÿã‹ã‚‰å¼•ã„ãŸä½ç½®ã«ã‚«ãƒ¡ãƒ©ã‚’ã‚»ãƒƒãƒˆ
 		cameraHeight_ ,
 		followerPos_->translation_.z + eyePos.z * cameraDistance_ };
 
-	float eyeVecAngle = atan2f(primalyCamera.x - targetPos_->translation_.x, primalyCamera.z - targetPos_->translation_.z);//ƒJƒƒ‰‚ğ‚¸‚ç‚·Û‚Ég‚í‚ê‚é
+	float eyeVecAngle = atan2f(primalyCamera.x - targetPos_->translation_.x, primalyCamera.z - targetPos_->translation_.z);//ã‚«ãƒ¡ãƒ©ã‚’ãšã‚‰ã™éš›ã«ä½¿ã‚ã‚Œã‚‹
 
-	float shiftLen = -2.0f;	//‚¸‚ç‚·—Ê
+	float shiftLen = -2.0f;	//ãšã‚‰ã™é‡
 	Vector3 shiftVec = { primalyCamera.x + sinf(eyeVecAngle + MyMath::PI / 2) * shiftLen , primalyCamera.y , primalyCamera.z + cosf(eyeVecAngle + MyMath::PI / 2) * shiftLen };
 
 	SetEye(shiftVec/* + loolAtPos*/);
 
-	//Vector3 zOffsetTarget = targetPos_->translation_ - eye_;	//“G‚Æ©‹@‚ª‹ß‚·‚¬‚Ä‚àƒoƒO‚ç‚È‚¢‚æ‚¤‚É‚µ‚½‚¢
+	//Vector3 zOffsetTarget = targetPos_->translation_ - eye_;	//æ•µã¨è‡ªæ©ŸãŒè¿‘ã™ãã¦ã‚‚ãƒã‚°ã‚‰ãªã„ã‚ˆã†ã«ã—ãŸã„
 	//float targetToEyeLen = zOffsetTarget.length();
 	//zOffsetTarget.nomalize();
 	//zOffsetTarget *= targetToEyeLen * 2.0f;

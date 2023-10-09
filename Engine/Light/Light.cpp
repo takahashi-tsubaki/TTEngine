@@ -4,36 +4,36 @@ ID3D12Device* Light::device_ = nullptr;
 
 void Light::StaticInitalize(ID3D12Device* device)
 {
-	//Ä‰Šú‰»ƒ`ƒFƒbƒN
+	//å†åˆæœŸåŒ–ãƒã‚§ãƒƒã‚¯
 	assert(!device_);
-	//nullptrƒ`ƒFƒbƒN
+	//nullptrãƒã‚§ãƒƒã‚¯
 	assert(device);
-	//î“Iƒƒ“ƒo•Ï”‚ÌƒZƒbƒg
+	//æƒ…çš„ãƒ¡ãƒ³ãƒå¤‰æ•°ã®ã‚»ãƒƒãƒˆ
 	device_ = device;
 }
 
 void Light::Initalize()
 {
 	HRESULT result;
-	// ƒq[ƒvƒvƒƒpƒeƒB
+	// ãƒ’ãƒ¼ãƒ—ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£
 	CD3DX12_HEAP_PROPERTIES heapPropsConstantBuffer = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
-	// ƒŠƒ\[ƒXİ’è
+	// ãƒªã‚½ãƒ¼ã‚¹è¨­å®š
 	CD3DX12_RESOURCE_DESC resourceDescConstantBuffer =
 		CD3DX12_RESOURCE_DESC::Buffer((sizeof(ConstBufferData) + 0xff) & ~0xff);
 
-	// ’è”ƒoƒbƒtƒ@‚Ì¶¬
+	// å®šæ•°ãƒãƒƒãƒ•ã‚¡ã®ç”Ÿæˆ
 	result = device_->CreateCommittedResource(
 		&heapPropsConstantBuffer, D3D12_HEAP_FLAG_NONE, &resourceDescConstantBuffer, D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr, IID_PPV_ARGS(&constBuff));
 	assert(SUCCEEDED(result));
 
-	//’è”ƒoƒbƒtƒ@‚Öƒf[ƒ^“]‘—
+	//å®šæ•°ãƒãƒƒãƒ•ã‚¡ã¸ãƒ‡ãƒ¼ã‚¿è»¢é€
 	TransfarConstBuffer();
 }
 
 void Light::Update()
 {
-	//’l‚ÌXV‚ª‚ ‚Á‚½‚Æ‚«‚¾‚¯’è”ƒoƒbƒtƒ@‚É“]‘—‚·‚é
+	//å€¤ã®æ›´æ–°ãŒã‚ã£ãŸã¨ãã ã‘å®šæ•°ãƒãƒƒãƒ•ã‚¡ã«è»¢é€ã™ã‚‹
 	if (dirty)
 	{
 		TransfarConstBuffer();
@@ -43,15 +43,15 @@ void Light::Update()
 
 void Light::Draw(ID3D12GraphicsCommandList* cmdList, UINT rootParameterIndex)
 {
-	//’è”ƒoƒbƒtƒ@ƒrƒ…[‚ğƒZƒbƒg
+	//å®šæ•°ãƒãƒƒãƒ•ã‚¡ãƒ“ãƒ¥ãƒ¼ã‚’ã‚»ãƒƒãƒˆ
 	cmdList->SetGraphicsRootConstantBufferView(rootParameterIndex,constBuff->GetGPUVirtualAddress());
 }
 
 Light* Light::Create()
 {
-	//3DƒIƒuƒWƒFƒNƒg‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚Ì¶¬
+	//3Dã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã®ç”Ÿæˆ
 	Light* instance = new Light();
-	//‰Šú‰»
+	//åˆæœŸåŒ–
 	instance->Initalize();
 	return instance;
 }
@@ -60,19 +60,19 @@ void Light::TransfarConstBuffer()
 {
 
 	HRESULT result;
-	// ’è”ƒoƒbƒtƒ@‚Éƒf[ƒ^“]‘—
+	// å®šæ•°ãƒãƒƒãƒ•ã‚¡ã«ãƒ‡ãƒ¼ã‚¿è»¢é€
 	ConstBufferData* constMap = nullptr;
 	result = this->constBuff->Map(0, nullptr, (void**)&constMap);
 	if (SUCCEEDED(result)) {
 		constMap->lightv = -lightdir_;
-		constMap->lightColor =lightcolor_;	// s—ñ‚Ì‡¬	
+		constMap->lightColor =lightcolor_;	// è¡Œåˆ—ã®åˆæˆ	
 		constBuff->Unmap(0, nullptr);
 	}
 }
 
 void Light::SetLightDir(Vector4& lightdir)
 {
-	//³‹K‰»‚µ‚ÄƒZƒbƒg
+	//æ­£è¦åŒ–ã—ã¦ã‚»ãƒƒãƒˆ
 	lightdir_ = lightdir.normalize();
 	dirty = true;
 }

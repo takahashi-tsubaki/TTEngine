@@ -1,4 +1,4 @@
-﻿#include "Camera.h"
+#include "Camera.h"
 
 using namespace DirectX;
 
@@ -267,10 +267,10 @@ void Camera::disEyeTarget(Vector3 pos1, Vector3 pos2)
 	disXtoZ.y = 20.0f;
 	disXtoZ.z = distance.z * 2 - 100.0f;
 
-	Vector3 target = { 0,45.0f,0 };
+	Vector3 distarget = { 0,45.0f,0 };
 
 	SetEye(disXtoZ);
-	SetTarget(target);
+	SetTarget(distarget);
 
 
 }

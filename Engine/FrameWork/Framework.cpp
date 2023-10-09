@@ -1,4 +1,4 @@
-#include "Framework.h"
+ï»¿#include "Framework.h"
 
 void Framework::Initialize()
 {
@@ -30,10 +30,10 @@ void Framework::Finalize()
 {
 	imgui->Finalize();
 	winApp->Finalize();
-	////FBXƒƒ‚ƒŠŠJ•ú
+	////FBXãƒ¡ãƒ¢ãƒªé–‹æ”¾
 	//FbxLoader::GetInstance()->Finalize();
 	delete imgui;
-	//“ü—Í‰ğ•ú
+	//å…¥åŠ›è§£æ”¾
 	delete input;
 	delete winApp;
 	delete dxCommon_;
@@ -46,7 +46,7 @@ void Framework::Update()
 	if (winApp->ProcessMessage())
 	{
 		SetRequest(true);
-		//ƒQ[ƒ€ƒ‹[ƒv‚ğ”²‚¯‚é
+		//ã‚²ãƒ¼ãƒ ãƒ«ãƒ¼ãƒ—ã‚’æŠœã‘ã‚‹
 	}
 
 	fps->FpsControlBegin();
@@ -56,21 +56,21 @@ void Framework::Update()
 
 void Framework::Run()
 {
-	//‰Šú‰»
+	//åˆæœŸåŒ–
 	Initialize();
 
 	while (true)
 	{
-		//XV
+		//æ›´æ–°
 		Update();
 		if (IsEndRequest())
 		{
 			break;
-			//ƒQ[ƒ€ƒ‹[ƒv‚ğ”²‚¯‚é
+			//ã‚²ãƒ¼ãƒ ãƒ«ãƒ¼ãƒ—ã‚’æŠœã‘ã‚‹
 		}
-		//•`‰æ
+		//æç”»
 		Draw();
 	}
-	//‰ğ•úˆ—
+	//è§£æ”¾å‡¦ç†
 	Finalize();
 }

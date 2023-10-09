@@ -1,75 +1,75 @@
-#include "Input.h"
+ï»¿#include "Input.h"
 
 void Input::Initialize(WinApp* winApp)
 {
 	this->winapp_ = winApp;
 	HRESULT result;
 
-	//DirectInput‚Ì‰Šú‰»
+	//DirectInputã®åˆæœŸåŒ–
 	result = DirectInput8Create(winapp_->GetInstance(), DIRECTINPUT_VERSION, IID_IDirectInput8, (void**)&directInput, nullptr);
 	assert(SUCCEEDED(result));
 
-	//ƒL[ƒ{[ƒhƒfƒoƒCƒX‚Ì¶¬
+	//ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰ãƒ‡ãƒã‚¤ã‚¹ã®ç”Ÿæˆ
 	result = directInput->CreateDevice(GUID_SysKeyboard, &keyboard, NULL);
 	assert(SUCCEEDED(result));
 
-	//“ü—Íƒf[ƒ^Œ`®‚ÌƒZƒbƒg
+	//å…¥åŠ›ãƒ‡ãƒ¼ã‚¿å½¢å¼ã®ã‚»ãƒƒãƒˆ
 	result = keyboard->SetDataFormat(&c_dfDIKeyboard);
 	assert(SUCCEEDED(result));
 
-	//”r‘¼§ŒäƒŒƒxƒ‹‚ÌƒZƒbƒg
+	//æ’ä»–åˆ¶å¾¡ãƒ¬ãƒ™ãƒ«ã®ã‚»ãƒƒãƒˆ
 	result = keyboard->SetCooperativeLevel(winapp_->Gethwnd(), DISCL_FOREGROUND | DISCL_NONEXCLUSIVE | DISCL_NOWINKEY);
 	assert(SUCCEEDED(result));
-	//DISCL_FOREGROUND   ‰æ–Ê‚ªè‘O‚É‚ ‚éê‡‚Ì‚İ“ü—Í‚ğó‚¯•t‚¯‚é
-	//DISCL_NONEXCLUSIVE ƒfƒoƒCƒX‚ğ‚±‚ÌƒAƒvƒŠ‚¾‚¯‚Åê—L‚µ‚È‚¢
-	//DISCL_NOWINKEY     WindowsƒL[‚ğ–³Œø‚É‚·‚é
+	//DISCL_FOREGROUND   ç”»é¢ãŒæ‰‹å‰ã«ã‚ã‚‹å ´åˆã®ã¿å…¥åŠ›ã‚’å—ã‘ä»˜ã‘ã‚‹
+	//DISCL_NONEXCLUSIVE ãƒ‡ãƒã‚¤ã‚¹ã‚’ã“ã®ã‚¢ãƒ—ãƒªã ã‘ã§å°‚æœ‰ã—ãªã„
+	//DISCL_NOWINKEY     Windowsã‚­ãƒ¼ã‚’ç„¡åŠ¹ã«ã™ã‚‹
 
 }
 
 void Input::Update()
 {
 
-	//‘O‰ñ‚ÌƒL[“ü—Í‚ğ•Û‘¶
+	//å‰å›ã®ã‚­ãƒ¼å…¥åŠ›ã‚’ä¿å­˜
 	memcpy(oldkeys, keys, sizeof(keys));
 
-	//ƒL[ƒ{[ƒhî•ñ‚Ìæ“¾ŠJn
+	//ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰æƒ…å ±ã®å–å¾—é–‹å§‹
 	keyboard->Acquire();
 
-	//‘SƒL[‚Ì“ü—Íó‘Ô‚ğæ“¾‚·‚é
+	//å…¨ã‚­ãƒ¼ã®å…¥åŠ›çŠ¶æ…‹ã‚’å–å¾—ã™ã‚‹
 	keyboard->GetDeviceState(sizeof(keys), keys);
 
 }
 
 bool Input::PushKey(BYTE keyNum)
 {
-	// w’èƒL[‚ğ‰Ÿ‚µ‚Ä‚¢‚ê‚Îtrue‚ğ•Ô‚·
+	// æŒ‡å®šã‚­ãƒ¼ã‚’æŠ¼ã—ã¦ã„ã‚Œã°trueã‚’è¿”ã™
 	if (keys[keyNum])
 	{
 		return true;
 	}
-	// ‚»‚¤‚Å‚È‚¯‚ê‚Îfalse‚ğ•Ô‚·
+	// ãã†ã§ãªã‘ã‚Œã°falseã‚’è¿”ã™
 	return false;
 }
 
 bool Input::TriggerKey(BYTE keyNum)
 {
-	// w’èƒL[‚ğ‰Ÿ‚³‚ê‚½uŠÔ‚Étrue‚ğ•Ô‚·
+	// æŒ‡å®šã‚­ãƒ¼ã‚’æŠ¼ã•ã‚ŒãŸç¬é–“ã«trueã‚’è¿”ã™
 	if (!oldkeys[keyNum] && keys[keyNum])
 	{
 		return true;
 	}
-	// ‚»‚¤‚Å‚È‚¯‚ê‚Îfalse‚ğ•Ô‚·
+	// ãã†ã§ãªã‘ã‚Œã°falseã‚’è¿”ã™
 	return false;
 }
 
 bool Input::ReleaseKey(BYTE keyNum)
 {
-	// w’èƒL[‚ğ—£‚³‚ê‚Ä‚¢‚é‚½‚Étrue‚ğ•Ô‚·
+	// æŒ‡å®šã‚­ãƒ¼ã‚’é›¢ã•ã‚Œã¦ã„ã‚‹ãŸæ™‚ã«trueã‚’è¿”ã™
 	if (oldkeys[keyNum] && !keys[keyNum])
 	{
 		return true;
 	}
-	// ‚»‚¤‚Å‚È‚¯‚ê‚Îfalse‚ğ•Ô‚·
+	// ãã†ã§ãªã‘ã‚Œã°falseã‚’è¿”ã™
 	return false;
 }
 

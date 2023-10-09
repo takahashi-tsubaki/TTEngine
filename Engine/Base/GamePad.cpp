@@ -1,4 +1,4 @@
-#include "GamePad.h"
+ï»¿#include "GamePad.h"
 
 GamePad::GamePad()
 {
@@ -39,12 +39,12 @@ void GamePad::Update()
 	oldXinputState = xinputState;
 	ZeroMemory(&xinputState, sizeof(XINPUT_STATE));
 
-	//ƒRƒ“ƒgƒ[ƒ‰[æ“¾
+	//ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ãƒ¼å–å¾—
 	DWORD dwResult = XInputGetState(0, &xinputState);
 
 	if (dwResult == ERROR_SUCCESS)
 	{
-		//ƒRƒ“ƒgƒ[ƒ‰[‚ªÚ‘±‚³‚ê‚Ä‚¢‚é
+		//ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ãƒ¼ãŒæ¥ç¶šã•ã‚Œã¦ã„ã‚‹
 		if (0 < shakeTimer)
 		{
 			shakeTimer--;
@@ -67,13 +67,13 @@ void GamePad::Update()
 	}
 	else
 	{
-		//ƒRƒ“ƒgƒ[ƒ‰[‚ªÚ‘±‚³‚ê‚Ä‚¢‚È‚¢
+		//ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ãƒ¼ãŒæ¥ç¶šã•ã‚Œã¦ã„ãªã„
 	}
 }
 
 bool GamePad::ButtonTrigger(Button button)
 {
-	//ƒgƒŠƒK[
+	//ãƒˆãƒªã‚¬ãƒ¼
 	if (button == LT)
 	{
 		return oldXinputState.Gamepad.bLeftTrigger <= XINPUT_GAMEPAD_TRIGGER_THRESHOLD && ButtonInput(button);
@@ -195,7 +195,7 @@ bool GamePad::StickInput(Stick stick, const float& deadRange, const Vector2& dea
 
 bool GamePad::ButtonOffTrigger(Button button)
 {
-	//ƒgƒŠƒK[
+	//ãƒˆãƒªã‚¬ãƒ¼
 	if (button == LT)
 	{
 		return XINPUT_GAMEPAD_TRIGGER_THRESHOLD < oldXinputState.Gamepad.bLeftTrigger && !ButtonInput(button);
@@ -204,7 +204,7 @@ bool GamePad::ButtonOffTrigger(Button button)
 	{
 		return XINPUT_GAMEPAD_TRIGGER_THRESHOLD < oldXinputState.Gamepad.bRightTrigger && !ButtonInput(button);
 	}
-	//ƒ{ƒ^ƒ“
+	//ãƒœã‚¿ãƒ³
 	else
 	{
 		return (oldXinputState.Gamepad.wButtons & button) && !ButtonInput(button);

@@ -213,18 +213,6 @@
     <ClCompile Include="Engine\Camera\GameCamera.cpp">
       <Filter>ソース ファイル\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Player\Player.cpp">
-      <Filter>ソース ファイル\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Enemy\Enemy.cpp">
-      <Filter>ソース ファイル\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Bullet\EnemyBullet.cpp">
-      <Filter>ソース ファイル\Bullet</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Bullet\PlayerBullet.cpp">
-      <Filter>ソース ファイル\Bullet</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Math\Affin.cpp">
       <Filter>ソース ファイル\math</Filter>
     </ClCompile>
@@ -269,6 +257,18 @@
     </ClCompile>
     <ClCompile Include="Engine\Base\Audio.cpp">
       <Filter>Base\.cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="User\Bullet\EnemyBullet.cpp">
+      <Filter>ソース ファイル\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="User\Bullet\PlayerBullet.cpp">
+      <Filter>ソース ファイル\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="User\Enemy\Enemy.cpp">
+      <Filter>ソース ファイル\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="User\Player\Player.cpp">
+      <Filter>ソース ファイル\Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -371,18 +371,6 @@
     <ClInclude Include="Engine\Camera\GameCamera.h">
       <Filter>ヘッダー ファイル\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Player\Player.h">
-      <Filter>ヘッダー ファイル\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Enemy\Enemy.h">
-      <Filter>ヘッダー ファイル\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Bullet\PlayerBullet.h">
-      <Filter>ヘッダー ファイル\Bullet</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Bullet\EnemyBullet.h">
-      <Filter>ヘッダー ファイル\Bullet</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Math\Affin.h">
       <Filter>ヘッダー ファイル\math</Filter>
     </ClInclude>
@@ -441,6 +429,24 @@
       <Filter>ヘッダー ファイル\Loader</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Base\Audio.h">
+      <Filter>Base\.h</Filter>
+    </ClInclude>
+    <ClInclude Include="User\Enemy\Enemy.h">
+      <Filter>ヘッダー ファイル\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="User\Player\Player.h">
+      <Filter>ヘッダー ファイル\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="User\Bullet\EnemyBullet.h">
+      <Filter>ヘッダー ファイル\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="User\Bullet\PlayerBullet.h">
+      <Filter>ヘッダー ファイル\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Base\Defineder.h">
+      <Filter>Base\.h</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Base\Pading.h">
       <Filter>Base\.h</Filter>
     </ClInclude>
   </ItemGroup>

@@ -60,7 +60,7 @@ namespace MyMath
 		return temp;
 	}
 
-	//// 2€‰‰ZqƒI[ƒo[ƒ[ƒh
+	//// 2é …æ¼”ç®—å­ã‚ªãƒ¼ãƒãƒ¼ãƒ­ãƒ¼ãƒ‰
 	//const Vector3 operator+(const Vector3& v1, const Vector3& v2) {
 	//	Vector3 temp(v1);
 	//	return temp += v2;
@@ -83,7 +83,7 @@ namespace MyMath
 	//	return temp /= s;
 	//}
 
-	// ’PˆÊs—ñ‚ğ‹‚ß‚é
+	// å˜ä½è¡Œåˆ—ã‚’æ±‚ã‚ã‚‹
 	Matrix4 Matrix4Identity() {
 		static const Matrix4 result{ 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
 									0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f };
@@ -141,7 +141,7 @@ namespace MyMath
 
 	Matrix4 Matrix4Inverse(const Matrix4& m, float* pdet) {
 
-		// s—ñ®‚ğ“¾‚é
+		// è¡Œåˆ—å¼ã‚’å¾—ã‚‹
 		float det = Matrix4Determinant(m);
 		if (pdet) {
 			*pdet = det;
@@ -284,10 +284,10 @@ namespace MyMath
 		assert(!Vector3Equal(eye, target));
 		assert(!Vector3Equal(up, Vector3Zero()));
 
-		// ‹ü•ûŒü
+		// è¦–ç·šæ–¹å‘
 		Vector3 eyeDirection = target - eye;
 
-		// Še²ƒxƒNƒgƒ‹‚ğZo
+		// å„è»¸ãƒ™ã‚¯ãƒˆãƒ«ã‚’ç®—å‡º
 		Vector3 R2 = Vector3Normalize(eyeDirection);
 
 		Vector3 R0 = Vector3Cross(up, R2);
@@ -295,7 +295,7 @@ namespace MyMath
 
 		Vector3 R1 = Vector3Cross(R2, R0);
 
-		// •½sˆÚ“®¬•ª‚ğZo
+		// å¹³è¡Œç§»å‹•æˆåˆ†ã‚’ç®—å‡º
 		Vector3 NegEyePosition = -eye;
 
 		float D0 = Vector3Dot(R0, NegEyePosition);
@@ -403,7 +403,7 @@ namespace MyMath
 
 	Matrix4 Scale(Vector3 scale)
 	{
-		//ƒXƒP[ƒŠƒ“ƒOs—ñ‚ğéŒ¾
+		//ã‚¹ã‚±ãƒ¼ãƒªãƒ³ã‚°è¡Œåˆ—ã‚’å®£è¨€
 		Matrix4 matScale = {
 			scale.x, 0.0f, 0.0f,    0.0f,
 			0.0f, scale.y, 0.0f, 0.0f,
@@ -481,7 +481,7 @@ namespace MyMath
 			  0.0f,0.0f,1.0f,0.0f,
 			  0.0f,0.0f,0.0f,1.0f
 			};
-			//Še²‚Ì‰ñ“]s—ñ‚ğ‡¬
+			//å„è»¸ã®å›è»¢è¡Œåˆ—ã‚’åˆæˆ
 			matRotXYZ = Initialize();
 
 			matRotXYZ *= matRot_X;
@@ -522,9 +522,9 @@ namespace MyMath
 
 	Vector3 GetWorldtransform(const Matrix4 matrix4)
 	{
-		//ƒ[ƒ‹ƒhÀ•W‚ğ“ü‚ê‚é•Ï”
+		//ãƒ¯ãƒ¼ãƒ«ãƒ‰åº§æ¨™ã‚’å…¥ã‚Œã‚‹å¤‰æ•°
 		Vector3 worldPos;
-		//ƒ[ƒ‹ƒhs—ñ‚Ì•½sˆÚ“®¬•ª
+		//ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—ã®å¹³è¡Œç§»å‹•æˆåˆ†
 		worldPos.x = matrix4.m[3][0];
 		worldPos.y = matrix4.m[3][1];
 		worldPos.z = matrix4.m[3][2];
@@ -625,35 +625,35 @@ namespace MyMath
 	{
 		assert(mat);
 
-		//‘|‚«o‚µ–@‚ğs‚¤s—ñ
+		//æƒãå‡ºã—æ³•ã‚’è¡Œã†è¡Œåˆ—
 		float sweep[4][8]{};
-		//’è””{—p
+		//å®šæ•°å€ç”¨
 		float constTimes = 0.0f;
-		//‹–—e‚·‚éŒë·
+		//è¨±å®¹ã™ã‚‹èª¤å·®
 		float MAX_ERR = 1e-10f;
-		//–ß‚è’l—p
+		//æˆ»ã‚Šå€¤ç”¨
 		Matrix4 retMat;
 
 		for (int i = 0; i < 4; i++)
 		{
 			for (int j = 0; j < 4; j++)
 			{
-				//weep‚Ì¶‘¤‚É‹ts—ñ‚ğ‹‚ß‚és—ñ‚ğƒZƒbƒg
+				//weepã®å·¦å´ã«é€†è¡Œåˆ—ã‚’æ±‚ã‚ã‚‹è¡Œåˆ—ã‚’ã‚»ãƒƒãƒˆ
 				sweep[i][j] = mat->m[i][j];
 
-				//sweep‚Ì‰E‘¤‚É’PˆÊs—ñ‚ğƒZƒbƒg
+				//sweepã®å³å´ã«å˜ä½è¡Œåˆ—ã‚’ã‚»ãƒƒãƒˆ
 				sweep[i][4 + j] = Matrix4::MakeIdentity().m[i][j];
 			}
 		}
 
-		//‘S‚Ä‚Ì—ñ‚Ì‘ÎŠp¬•ª‚É‘Î‚·‚éŒJ‚è•Ô‚µ
+		//å…¨ã¦ã®åˆ—ã®å¯¾è§’æˆåˆ†ã«å¯¾ã™ã‚‹ç¹°ã‚Šè¿”ã—
 		for (int i = 0; i < 4; i++)
 		{
-			//Å‘å‚Ìâ‘Î’l‚ğ’–Ú‘ÎŠp¬•ª‚Ìâ‘Î’l‚Æ‰¼’è
+			//æœ€å¤§ã®çµ¶å¯¾å€¤ã‚’æ³¨ç›®å¯¾è§’æˆåˆ†ã®çµ¶å¯¾å€¤ã¨ä»®å®š
 			float max = fabs(sweep[i][i]);
 			int maxIndex = i;
 
-			//i—ñ–Ú‚ªÅ‘å‚Ìâ‘Î’l‚Æ‚È‚és‚ğ’T‚·
+			//iåˆ—ç›®ãŒæœ€å¤§ã®çµ¶å¯¾å€¤ã¨ãªã‚‹è¡Œã‚’æ¢ã™
 			for (int j = i + 1; j < 4; j++)
 			{
 				if (fabs(sweep[j][i]) > max)
@@ -665,11 +665,11 @@ namespace MyMath
 
 			if (fabs(sweep[maxIndex][i]) <= MAX_ERR)
 			{
-				//‹ts—ñ‚Í‹‚ß‚ç‚ê‚È‚¢
+				//é€†è¡Œåˆ—ã¯æ±‚ã‚ã‚‰ã‚Œãªã„
 				return Matrix4::MakeIdentity();
 			}
 
-			//‘€ì(1):is–Ú‚ÆmaxIndexs–Ú‚ğ“ü‚ê‘Ö‚¦‚é
+			//æ“ä½œ(1):iè¡Œç›®ã¨maxIndexè¡Œç›®ã‚’å…¥ã‚Œæ›¿ãˆã‚‹
 			if (i != maxIndex)
 			{
 				for (int j = 0; j < 8; j++)
@@ -680,38 +680,38 @@ namespace MyMath
 				}
 			}
 
-			//sweep[i][i]‚ÉŠ|‚¯‚é‚Æ1‚É‚È‚é’l‚ğ‹‚ß‚é
+			//sweep[i][i]ã«æ›ã‘ã‚‹ã¨1ã«ãªã‚‹å€¤ã‚’æ±‚ã‚ã‚‹
 			constTimes = 1 / sweep[i][i];
 
-			//‘€ì(2):ps–Ú‚ğa”{‚·‚é
+			//æ“ä½œ(2):pè¡Œç›®ã‚’aå€ã™ã‚‹
 			for (int j = 0; j < 8; j++)
 			{
-				//‚±‚ê‚É‚æ‚èsweep[i][i]‚ª1‚É‚È‚é
+				//ã“ã‚Œã«ã‚ˆã‚Šsweep[i][i]ãŒ1ã«ãªã‚‹
 				sweep[i][j] *= constTimes;
 			}
 
-			//‘€ì(3)‚É‚æ‚èis–ÚˆÈŠO‚Ìs‚Ìi—ñ–Ú‚ğ0‚É‚·‚é
+			//æ“ä½œ(3)ã«ã‚ˆã‚Šiè¡Œç›®ä»¥å¤–ã®è¡Œã®iåˆ—ç›®ã‚’0ã«ã™ã‚‹
 			for (int j = 0; j < 4; j++)
 			{
 				if (j == i)
 				{
-					//is–Ú‚Í‚»‚Ì‚Ü‚Ü
+					//iè¡Œç›®ã¯ãã®ã¾ã¾
 					continue;
 				}
 
-				//is–Ú‚ÉŠ|‚¯‚é’l‚ğ‹‚ß‚é
+				//iè¡Œç›®ã«æ›ã‘ã‚‹å€¤ã‚’æ±‚ã‚ã‚‹
 				constTimes = -sweep[j][i];
 
 				for (int k = 0; k < 8; k++)
 				{
-					//js–Ú‚Éis–Ú‚ğa”{‚µ‚½s‚ğ‘«‚·
-					//‚±‚ê‚É‚æ‚èsweep[j][i]‚ª0‚É‚È‚é
+					//jè¡Œç›®ã«iè¡Œç›®ã‚’aå€ã—ãŸè¡Œã‚’è¶³ã™
+					//ã“ã‚Œã«ã‚ˆã‚Šsweep[j][i]ãŒ0ã«ãªã‚‹
 					sweep[j][k] += sweep[i][k] * constTimes;
 				}
 			}
 		}
 
-		//sweep‚Ì‰E”¼•ª‚ªmat‚Ì‹ts—ñ
+		//sweepã®å³åŠåˆ†ãŒmatã®é€†è¡Œåˆ—
 		for (int i = 0; i < 4; i++)
 		{
 			for (int j = 0; j < 4; j++)

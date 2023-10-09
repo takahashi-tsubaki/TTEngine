@@ -2,7 +2,7 @@
 #include "IScene.h"
 #include "SceneInc.h"
 class GameOverScene :
-    public IScene
+	public IScene
 {
 protected:
 	SceneManager* controller_;
@@ -25,7 +25,7 @@ protected:
 	FbxModel* fbxModel = nullptr;
 	FbxObject3d* fbxObject = nullptr;
 
-	//ìVãÖ
+	//Â§©ÁêÉ
 	Object3d* skydomeO_ = nullptr;
 	Model* skydomeM_ = nullptr;
 
@@ -43,12 +43,12 @@ protected:
 	Vector3 nowEye;
 public:
 
-	GameOverScene(SceneManager* controller, SceneObjects* sceneObj);
+	GameOverScene(SceneManager* controller,SceneObjects* sceneObj);
 	~GameOverScene() override;
 
 	void Initialize()override;
 
-	void Update(Input* input, GamePad* gamePad) override;
+	void Update(Input* input,GamePad* gamePad) override;
 
 	void Draw() override;
 

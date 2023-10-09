@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <cassert>
 
 #define DIRECTINPUT_VERSION  0x0800
@@ -8,54 +8,54 @@
 #include <windows.h>
 #include <wrl.h>
 
-#pragma comment(lib,"dinput8.lib")//directInput‚Ìƒo[ƒWƒ‡ƒ“
+#pragma comment(lib,"dinput8.lib")//directInputã®ãƒãƒ¼ã‚¸ãƒ§ãƒ³
 #pragma comment(lib,"dxguid.lib")
 
 class Input
 {
-	//ƒƒ“ƒoŠÖ”
+	//ãƒ¡ãƒ³ãƒé–¢æ•°
 public:
 
 	template<class Type> using ComPtr = Microsoft::WRL::ComPtr<Type>;
 
 	/// <summary>
-	/// ‰Šú‰»
+	/// åˆæœŸåŒ–
 	/// </summary>
 	void Initialize(WinApp* winApp);
 
 	/// <summary>
-	/// XV
+	/// æ›´æ–°
 	/// </summary>
 	void Update();
 
 	/// <summary>
 	/// 
 	/// </summary>
-	/// <returns>‰Ÿ‚³‚ê‚Ä‚¢‚é‚©‚Ç‚¤‚©</returns>
+	/// <returns>æŠ¼ã•ã‚Œã¦ã„ã‚‹ã‹ã©ã†ã‹</returns>
 	bool PushKey(BYTE keyNum);
 
 	/// <summary>
 	/// 
 	/// </summary>
-	/// <returns>‰Ÿ‚µ‚½‚©‚Ç‚¤‚©</returns>
+	/// <returns>æŠ¼ã—ãŸã‹ã©ã†ã‹</returns>
 	bool TriggerKey(BYTE keyNum);
 
 	/// <summary>
 	/// 
 	/// </summary>
 	/// <param name="keyNum"></param>
-	/// <returns>—£‚³‚ê‚½‚©‚Ç‚¤‚©</returns>
+	/// <returns>é›¢ã•ã‚ŒãŸã‹ã©ã†ã‹</returns>
 	bool ReleaseKey(BYTE keyNum);
 
 	static Input* GetInstance();
 
-	//ƒƒ“ƒo•Ï”
+	//ãƒ¡ãƒ³ãƒå¤‰æ•°
 private:
 
-	//DirectInput‚Ì‰Šú‰»
+	//DirectInputã®åˆæœŸåŒ–
 	ComPtr<IDirectInput8> directInput = nullptr;
 
-	//ƒL[ƒ{[ƒhƒfƒoƒCƒX‚Ì¶¬
+	//ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰ãƒ‡ãƒã‚¤ã‚¹ã®ç”Ÿæˆ
 	ComPtr<IDirectInputDevice8> keyboard = nullptr;
 
 	BYTE keys[256] = {};
