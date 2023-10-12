@@ -1,6 +1,9 @@
 #pragma once
 #include "IScene.h"
 #include "SceneInc.h"
+/// <summary>
+/// ゲームオーバーシーン
+/// </summary>
 class GameOverScene :
 	public IScene
 {

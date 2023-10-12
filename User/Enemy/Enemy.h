@@ -27,7 +27,9 @@ enum EnemyBulletType
 	ONESHOT,
 	RAPIDSHOT,
 };
-
+/// <summary>
+/// 敵
+/// </summary>
 class Enemy
 {
 public:

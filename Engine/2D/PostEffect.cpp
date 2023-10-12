@@ -100,7 +100,7 @@ void PostEffect::Initialize()
 	result = constBuff->Map(0, nullptr, (void**)&constMap);
 	if (SUCCEEDED(result)) {
 		constMap->color = this->color_;
-		constMap->mat = XMMatrixIdentity();
+		constMap->mat = constMap->mat.identity();
 		constBuff->Unmap(0, nullptr);
 	}
 
@@ -257,10 +257,9 @@ void PostEffect::Initialize()
 void PostEffect::Draw(ID3D12GraphicsCommandList* cmdList)
 {
 	// ワールド行列の更新
-	matWorld_ = XMMatrixIdentity();
-	matWorld_ *= XMMatrixRotationZ(XMConvertToRadians(rotation_));
-	matWorld_ *= XMMatrixTranslation(position_.x, position_.y, 0.0f);
-
+	this->matWorld_ = matWorld_.identity();
+	this->matWorld_ *= matWorld_.rotateZ(( XMConvertToRadians(rotation_) ));
+	this->matWorld_ *= matWorld_.translate({ position_.x,position_.y,0.0f });
 	// 定数バッファにデータ転送
 	ConstBufferData* constMap = nullptr;
 	HRESULT result = this->constBuff->Map(0, nullptr, (void**)&constMap);

@@ -1,4 +1,4 @@
-﻿#include "Enemy.h"
+#include "Enemy.h"
 #include "ImguiManager.h"
 #include "Player.h"
 void Enemy::Initialize(DirectXCommon* dxCommon, Player* player)
@@ -26,7 +26,7 @@ void Enemy::Initialize(DirectXCommon* dxCommon, Player* player)
 
 	enemyO_ = Object3d::Create();
 
-	enemyM_ = Model::CreateFromOBJ("cube");
+	enemyM_ = Model::CreateFromOBJ("enemy");
 
 	enemyO_->SetModel(enemyM_);
 
@@ -85,7 +85,10 @@ void Enemy::Update()
 				playerPos_.z - enemyPos_.z };
 
 	angle = (atan2(distance_.x, distance_.z) + MyMath::PI / 2);
-	enemyO_->worldTransform.rotation_.y = (angle + MyMath::PI / 2);
+	if ( isShot == false )
+	{
+		enemyO_->worldTransform.rotation_.y = ( angle + MyMath::PI / 2 );
+	}
 
 
 	if (Hp_ <= 0)
@@ -535,7 +538,7 @@ void Enemy::Reset()
 
 		bullet->Reset();
 	}
-
+	bullets_.remove_if([ ] (std::unique_ptr<EnemyBullet>& bullet){return bullet->GetIsDead();});
 	if (isDead_ == true)
 	{
 		ResetAttribute();
@@ -543,6 +546,8 @@ void Enemy::Reset()
 	}
 	Hp_ = 30;
 
+	enemyO_->SetPosition({ 0,0,0 });
+	enemyO_->SetRotation({ 0,0,0 });
 	playerPos_ = { 0,0,0 };
 	enemyPos_ = { 0,0,0 };
 	distance_ = { 0,0,0 };
@@ -588,7 +593,7 @@ void Enemy::Reset()
 
 	isHit_ = false;
 
-
+	particle_->Reset();
 }
 
 void Enemy::ResetAttribute()

@@ -4,6 +4,9 @@
 #include "CollisionPrimitive.h"
 #include "MyMath.h"
 
+/// <summary>
+/// スフィアコライダー
+/// </summary>
 class SphereCollider : public BaseCollider,public Sphere
 {
 public:

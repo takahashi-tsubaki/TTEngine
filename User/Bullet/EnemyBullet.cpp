@@ -1,4 +1,4 @@
-﻿#include "EnemyBullet.h"
+#include "EnemyBullet.h"
 #include "Player.h"
 #include "ImguiManager.h"
 
@@ -124,16 +124,19 @@ void EnemyBullet::Reset()
 {
 	isDead_ = true;
 	livingTimer = 540.0f;
-	if (isDead_ == true)
+
+	for (int i = 0; i < SPHERE_COLISSION_NUM; i++)
 	{
-		for (int i = 0; i < SPHERE_COLISSION_NUM; i++)
-		{
 
-				CollisionManager::GetInstance()->RemoveCollider(sphere[i]);
-				//こいつはいらない
-				/*sphere[i]->GetCollisionInfo().collider->RemoveAttribute(COLLISION_ATTR_PLAYERBULLETS);*/
+		CollisionManager::GetInstance()->RemoveCollider(sphere[i]);
+		//こいつはいらない
+		/*sphere[i]->GetCollisionInfo().collider->RemoveAttribute(COLLISION_ATTR_PLAYERBULLETS);*/
 
-		}
+	}
+	for ( int i = 0; i < SPHERE_COLISSION_NUM; i++ )
+	{
+		spherePos[ i ] = bulletO_->GetPosition();
+		sphere[ i ]->Update();
 	}
 	
 }

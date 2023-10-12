@@ -44,6 +44,8 @@ public:
 	// Vector3でゲット
 	Vector3 GetWorldPos();
 
+	void MakeOrthogonalL(float left,float right,float bottom,float top,float near,float far,Matrix4& matrix);
+
 	//// posをptr
 	//Vector3* GetWorldPosPtr();
 

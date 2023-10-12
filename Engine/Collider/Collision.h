@@ -1,6 +1,9 @@
 #pragma once
 #include "CollisionPrimitive.h"
 
+/// <summary>
+/// 当たり判定
+/// </summary>
 class Collision
 {
 public:

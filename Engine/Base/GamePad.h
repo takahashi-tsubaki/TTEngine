@@ -36,7 +36,9 @@ enum Stick
 	R_UP,R_DOWN,R_LEFT,R_RIGHT,
 	XBOX_STICK_NUM
 };
-
+/// <summary>
+/// コントローラークラス
+/// </summary>
 class GamePad
 {
 

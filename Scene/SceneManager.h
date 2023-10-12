@@ -14,7 +14,9 @@ ALICE_SUPPRESS_WARNINGS_END
 #include "SceneObjects.h"
 class IScene;
 class Input;
-
+/// <summary>
+/// シーンマネージャー
+/// </summary>
 class SceneManager
 {
 public:
@@ -44,9 +46,12 @@ public:
 	// 各シーンのDrawを呼び出す
 	void SceneDraw();
 
+
 	void ChangeSceneNum(int number);
 	// シーンを変更する
 	void ChangeScene();
+
+	void Transition();
 
 	void PushScene(int number);
 

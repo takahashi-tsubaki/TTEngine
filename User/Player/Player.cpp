@@ -19,7 +19,7 @@ void Player::Initialize(DirectXCommon* dxCommon, Enemy* enemy)
 
 	playerO_ = Object3d::Create();
 
-	playerM_ = Model::CreateFromOBJ("cube");
+	playerM_ = Model::CreateFromOBJ("human");
 
 	playerO_->SetModel(playerM_);
 
@@ -169,7 +169,11 @@ void Player::Draw()
 		{
 			bullet->Draw();
 		}
-		playerO_->Draw();
+		if ( scale_.x > 0.2 )
+		{
+			playerO_->Draw();
+		}
+
 		/*playerFbxO_->Draw(dxCommon_->GetCommandList());*/
 	}
 }
@@ -447,6 +451,54 @@ void Player::Vanish(Input* input, GamePad* gamePad)
 	}
 }
 
+void Player::TitleAnime()
+{
+	CheckHitCollision();
+
+	srand(( unsigned int ) time(nullptr));
+
+	
+
+
+	if ( animevanish == false )
+	{
+			
+		scale_.x -= reduction;
+		playerO_->SetScale(scale_);
+		if ( playerO_->GetScale().x < 0 )
+		{
+			vstanCount--;
+		
+			playerO_->SetScale({ 0,0,0 });
+
+		}
+
+		if ( vstanCount <= 0 )
+		{
+			randPosX = rand() % 81 - 40;
+			randPosZ = rand() % 81 - 40;
+			animevanish = true;
+		}
+	}
+
+	if ( animevanish == true )
+	{
+		playerO_->SetPosition({ ( float ) randPosX,0,( float ) randPosZ });
+		scale_.x += expansion;
+		playerO_->SetScale(scale_);
+		if ( playerO_->GetScale().x >= 1 )
+		{
+			animevanish = false;
+			vstanCount = 30.0f;
+			playerO_->SetScale({ 1,1,1 });
+
+		}
+		
+	}
+
+	playerO_->Update();
+}
+
 void Player::CheckHitCollision()
 {
 
@@ -546,7 +598,6 @@ void Player::CheckHitCollision()
 	{
 		for (int i = 0; i < SPHERE_COLISSION_NUM; i++) {
 
-
 			CollisionManager::GetInstance()->RemoveCollider(sphere[i]);
 			//こいつはいらない
 			/*sphere[i]->GetCollisionInfo().collider->RemoveAttribute(COLLISION_ATTR_PLAYERBULLETS);*/
@@ -574,13 +625,22 @@ void Player::Reset()
 
 	}
 
-	if (isDead_ == true)
-	{
-		ResetAttribute();
-		isDead_ = false;
-	}
-	
+		//デスフラグが立った球を削除
+	bullets_.remove_if([ ] (std::unique_ptr<PlayerBullet>& bullet){return bullet->GetIsDead();});
 
+	for ( int i = 0; i < SPHERE_COLISSION_NUM; i++ )
+	{
+
+		CollisionManager::GetInstance()->RemoveCollider(sphere[ i ]);
+		//こいつはいらない
+		/*sphere[i]->GetCollisionInfo().collider->RemoveAttribute(COLLISION_ATTR_PLAYERBULLETS);*/
+	}
+	ResetAttribute();
+
+	playerO_->SetColor({ 1,1,1,1 });
+
+	playerO_->SetPosition({0,0,-50});
+	playerO_->SetRotation({0,0,0});
 	oldPos = { 0,0,0 };
 	playerPos_ = { 0,0,0 };
 	enemyPos_ = { 0,0,0 };
@@ -592,6 +652,7 @@ void Player::Reset()
 	cameraAngle = { 0,0,0 };
 	velocity_ = { 0,0,0 };
 
+	hitDeley = 0;
 
 	VanishGauge = 3.0f;
 	isVanising = false;
@@ -624,7 +685,8 @@ void Player::Reset()
 	maxTime = 5.0f;				//全体時間[s]
 	timeRate;						//何％時間が進んだか
 
-	
+	particle_->Reset();
+
 }
 
 void Player::ResetAttribute()

@@ -8,7 +8,9 @@
 #include"CollisionAttribute.h"
 
 class Player;
-
+/// <summary>
+/// 敵の弾
+/// </summary>
 class EnemyBullet
 {
 public:

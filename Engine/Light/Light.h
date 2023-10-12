@@ -12,6 +12,9 @@ ALICE_SUPPRESS_WARNINGS_BEGIN
 #include "Vector4.h"
 
 ALICE_SUPPRESS_WARNINGS_END
+/// <summary>
+/// ライト
+/// </summary>
 class Light
 {
 private:

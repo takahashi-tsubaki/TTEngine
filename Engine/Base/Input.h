@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include <cassert>
 
 #define DIRECTINPUT_VERSION  0x0800
@@ -10,7 +10,9 @@
 
 #pragma comment(lib,"dinput8.lib")//directInputのバージョン
 #pragma comment(lib,"dxguid.lib")
-
+/// <summary>
+/// インプットクラス
+/// </summary>
 class Input
 {
 	//メンバ関数

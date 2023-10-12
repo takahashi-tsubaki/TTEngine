@@ -6,6 +6,9 @@ ALICE_SUPPRESS_WARNINGS_BEGIN
 #include <DirectXMath.h>
 ALICE_SUPPRESS_WARNINGS_END
 
+/// <summary>
+/// 4次元ベクトル
+/// </summary>
 class Vector4
 {
 public:

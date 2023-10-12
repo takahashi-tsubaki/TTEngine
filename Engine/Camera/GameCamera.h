@@ -3,6 +3,9 @@
 #include "Input.h"
 #include "Object3d.h"
 
+/// <summary>
+/// ゲームカメラ
+/// </summary>
 class GameCamera :
 	public Camera
 {

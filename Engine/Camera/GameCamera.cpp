@@ -31,7 +31,6 @@ void GameCamera::Initialize()
 
 void GameCamera::Update()
 {
-	MoveCamera();
 
 	Camera::Update();
 }

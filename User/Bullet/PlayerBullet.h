@@ -10,7 +10,9 @@
 #include"CollisionAttribute.h"
 
 class Enemy;
-
+/// <summary>
+/// 自機の弾
+/// </summary>
 class PlayerBullet
 {
 public:

@@ -19,6 +19,13 @@ double Ease::InOutQuad(double change, double base, double duration, double time)
 	return -change / 2 * ((--time) * (time - 2) - 1) + base;
 }
 
+double Ease::InOutQuint(double change,double base,double duration,double time)
+{
+	change;
+	time /= duration;
+	return time < 1 ? 16 * powf((float)time,5.0f) + base : 1 - powf(-2 * (float)time + 2,5) / 2+base;
+}
+
 void Ease::Initialize()
 {
 }

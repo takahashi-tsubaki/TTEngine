@@ -5,6 +5,7 @@
 #include "GameClearScene.h"
 #include "GameOverScene.h"
 #include "PauseScene.h"
+#include "StageSelectScene.h"
 
 enum SceneState
 {
@@ -13,4 +14,5 @@ enum SceneState
 	S_CLEAR = 3,
 	S_OVER = 4,
 	S_PAUSE = 5,
+	S_SELECT = 6,
 };

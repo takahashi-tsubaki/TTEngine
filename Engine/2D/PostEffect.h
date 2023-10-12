@@ -1,5 +1,8 @@
 #pragma once
 #include "Sprite.h"
+/// <summary>
+/// ポストエフェクトクラス
+/// </summary>
 class PostEffect : public Sprite
 {
 public:

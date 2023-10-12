@@ -21,6 +21,9 @@ ALICE_SUPPRESS_WARNINGS_BEGIN
 ALICE_SUPPRESS_WARNINGS_END
 #include "worldTransform.h"
 
+/// <summary>
+/// FBXオブジェクト
+/// </summary>
 class FbxObject3d
 {
 public:

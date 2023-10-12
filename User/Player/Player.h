@@ -30,7 +30,9 @@ enum PlayerBulletType
 };
 
 
-
+/// <summary>
+/// 自機
+/// </summary>
 class Player
 {
 public:
@@ -49,6 +51,8 @@ public:
 	void Shot(Input* input,GamePad* gamePad);
 
 	void Vanish(Input* input,GamePad* gamePad);
+
+	void TitleAnime();
 
 	Vector3 GetPosition() {
 		return wtf.translation_;
@@ -171,7 +175,17 @@ private:
 
 #pragma endregion
 
+	bool animevanish = false;
+	float reduction = 0.05f;
+	float expansion = 0.05f;
 
+	float vstanCount = 30.0f;
+
+	Vector3 scale_ = { 1,1,1 };
+
+	int randPosX =  0;
+	int randPosZ =  0;
+	Vector3 animepos = { 0,0,0 };
 
 	//仮置きプレイヤーのモデル
 	Object3d* playerO_ = nullptr;

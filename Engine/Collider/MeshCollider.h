@@ -2,6 +2,9 @@
 #include "BaseCollider.h"
 #include "CollisionPrimitive.h"
 
+/// <summary>
+/// メッシュコライダー
+/// </summary>
 class MeshCollider :public BaseCollider
 {
 public:
