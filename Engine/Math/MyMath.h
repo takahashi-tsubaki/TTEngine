@@ -17,6 +17,9 @@ ALICE_SUPPRESS_WARNINGS_END
 #include "Vector4.h"
 #include "Matrix4.h"
 
+/// <summary>
+/// math.h
+/// </summary>
 namespace MyMath
 {
 

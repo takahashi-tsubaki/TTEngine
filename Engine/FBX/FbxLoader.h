@@ -18,6 +18,9 @@ ALICE_SUPPRESS_WARNINGS_END
 
 #include "FbxModel.h"
 
+/// <summary>
+/// FBX読み込み
+/// </summary>
 class FbxLoader
 {
 private:

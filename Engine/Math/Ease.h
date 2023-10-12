@@ -7,7 +7,9 @@ ALICE_SUPPRESS_WARNINGS_BEGIN
 ALICE_SUPPRESS_WARNINGS_END
 #include "Vector3.h"
 
-
+/// <summary>
+/// イージング
+/// </summary>
 class Ease
 {	//イージングクラス定義
 public:

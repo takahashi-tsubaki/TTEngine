@@ -1,5 +1,7 @@
-﻿#pragma once
-
+#pragma once
+///
+///外部エラーを無視するための.h
+///
 #define ALICE_PRAGMA(x)				__pragma(x)
 
 #define ALICE_SUPPRESS_WARNING_PUSH ALICE_PRAGMA(warning(push))
