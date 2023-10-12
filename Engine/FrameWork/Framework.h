@@ -29,6 +29,10 @@ public:
 	//描画
 	virtual void Draw() = 0;
 
+	/// <summary>
+	/// 終了するか豪華のフラグのセット
+	/// </summary>
+	/// <param name="request"></param>
 	virtual void SetRequest(bool request) {
 		endRequest_ = request;
 	}

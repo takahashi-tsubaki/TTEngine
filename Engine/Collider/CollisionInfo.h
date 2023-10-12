@@ -8,6 +8,12 @@ class BaseCollider;
 struct CollisionInfo
 {
 public:
+	/// <summary>
+	/// コンストラクタ
+	/// </summary>
+	/// <param name="object"></param>
+	/// <param name="collider"></param>
+	/// <param name="inter"></param>
 	CollisionInfo(Object3d* object,BaseCollider* collider,const Vector3& inter)
 	{
 		object_ = object;

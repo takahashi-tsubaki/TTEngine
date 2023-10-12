@@ -94,11 +94,6 @@ void SceneManager::ChangeScene()
 	
 }
 
-void SceneManager::Transition()
-{
-
-}
-
 void SceneManager::PushScene(int number)
 {
 	sceneNum = number;

@@ -17,28 +17,59 @@ class PlayerBullet
 {
 public:
 
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	/// <param name="model"></param>
+	/// <param name="position"></param>
+	/// <param name="velocity"></param>
 	void Initialize(Model* model,const Vector3& position,const Vector3& velocity);
 
+	/// <summary>
+	/// 更新
+	/// </summary>
 	void Update();
 
+	/// <summary>
+	/// 描画
+	/// </summary>
 	void Draw();
 
+	/// <summary>
+	/// 射撃
+	/// </summary>
 	void Shot();
 
+	/// <summary>
+	/// 衝突したかのチェック
+	/// </summary>
 	void CheckCollision();
-
+	/// <summary>
+	/// deadフラグのセット
+	/// </summary>
+	/// <param name="isDead"></param>
 	void SetisDead(bool isDead) {
 		isDead_ = isDead;
 	}
-
+	/// <summary>
+	/// deadフラグのゲット
+	/// </summary>
+	/// <returns></returns>
 	bool GetIsDead() {
 		return isDead_;
 	}
 
+	/// <summary>
+	/// 敵のセット
+	/// </summary>
+	/// <param name="enemy"></param>
 	void SetEnemy(Enemy* enemy) {
 		enemy_ = enemy;
 	}
 
+	/// <summary>
+	/// リセット処理
+	/// </summary>
 	void Reset();
 
 private:

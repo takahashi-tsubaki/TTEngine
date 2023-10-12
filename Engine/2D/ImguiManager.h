@@ -15,11 +15,22 @@ public:
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 
 public:
-
+	/// <summary>
+	/// 初期化処理
+	/// </summary>
+	/// <param name="winApp"></param>
+	/// <param name="dxCommon"></param>
 	void Initialize(WinApp* winApp,DirectXCommon* dxCommon);
 
+	/// <summary>
+	/// 解放処理
+	/// </summary>
 	void Finalize();
 
+	/// <summary>
+	/// シングルトン
+	/// </summary>
+	/// <returns></returns>
 	static ImguiManager* GetInstance();
 
 	/// <summary>

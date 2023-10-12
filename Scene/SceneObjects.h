@@ -25,15 +25,30 @@ class SceneManager;
 class SceneObjects
 {
 public:
-
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	/// <param name="controller"></param>
 	void Initialize(SceneManager* controller);
 
+	/// <summary>
+	/// 更新
+	/// </summary>
 	void Update();
 
+	/// <summary>
+	/// 描画
+	/// </summary>
 	void Draw();
 
+	/// <summary>
+	/// 削除
+	/// </summary>
 	void Delete();
 
+	/// <summary>
+	/// リセット
+	/// </summary>
 	void Reset();
 
 public:

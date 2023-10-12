@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include"ErrorException.h"
 #include "WinApp.h"
 //リンクの設定
@@ -46,6 +46,10 @@ private:
 
 	
 public:
+	/// <summary>
+	/// 初期化処理
+	/// </summary>
+	/// <param name="winApp"></param>
 	void Initialize(WinApp*winApp);
 	void InitializeDevice();
 	void InitializeCommand();

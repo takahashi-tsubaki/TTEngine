@@ -50,16 +50,30 @@ protected:
 	Vector3 scale = { 1,1,1 };
 
 public:
-
+	//コンストラクタとデストラクタ
 	PlayScene(SceneManager* controller,SceneObjects* sceneObj);
 	~PlayScene() override;
 
+	/// <summary>
+	/// 初期化
+	/// </summary>
 	void Initialize()override;
 
+	/// <summary>
+	/// 更新
+	/// </summary>
+	/// <param name="input"></param>
+	/// <param name="gamePad"></param>
 	void Update(Input* input,GamePad* gamePad) override;
 
+	/// <summary>
+	/// 描画
+	/// </summary>
 	void Draw() override;
 
+	/// <summary>
+	/// シーン遷移
+	/// </summary>
 	void SceneTransition();
 
 	//void Pause(Input* input);

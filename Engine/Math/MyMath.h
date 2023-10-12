@@ -91,22 +91,60 @@ namespace MyMath
 	Matrix4 Move(Vector3 move);
 	//void  affin(WorldTransform& affin);
 
+	/// <summary>
+	/// vevtor3とmatrix4の計算
+	/// </summary>
+	/// <param name="vector3"></param>
+	/// <param name="matrix4"></param>
+	/// <returns></returns>
 	Vector3 MatVector(const Vector3 vector3,const Matrix4 matrix4);
 
+	/// <summary>
+	/// worldTransformのゲット
+	/// </summary>
+	/// <param name="matrix4"></param>
+	/// <returns></returns>
 	Vector3 GetWorldtransform(const Matrix4 matrix4);
 
+	/// <summary>
+	/// ベクトル同士の計算
+	/// </summary>
+	/// <param name="v1"></param>
+	/// <param name="v2"></param>
+	/// <returns></returns>
 	Vector3 AddVector(const Vector3 v1,const Vector3 v2);
-
+	/// <summary>
+	/// vevtor3とmatrix4の計算
+	/// </summary>
+	/// <param name="velocity"></param>
+	/// <param name="mat"></param>
+	/// <returns></returns>
 	Vector3 bVelocity(Vector3& velocity,Matrix4& mat);
 
 	//座標変換
 	Vector3 wDivision(const Vector3& v,const Matrix4& m);
 
+	/// <summary>
+	/// 地面とY軸回転の計算
+	/// </summary>
+	/// <param name="focalLengs"></param>
+	/// <param name="sensor"></param>
+	/// <returns></returns>
 	float FieldOfViewY(float focalLengs,float sensor);
 
+	/// <summary>
+	/// XMMATRIXとMatrix4の計算
+	/// </summary>
+	/// <param name="XMMatrix"></param>
+	/// <returns></returns>
 	Matrix4 ConvertXMMATtoMat4(DirectX::XMMATRIX XMMatrix);
 	DirectX::XMMATRIX ConvertMat4toXMMat(Matrix4 m);
 
+	/// <summary>
+	/// 逆行列の生成
+	/// </summary>
+	/// <param name="mat"></param>
+	/// <returns></returns>
 	Matrix4 MakeInverse(const Matrix4* mat);
 
 

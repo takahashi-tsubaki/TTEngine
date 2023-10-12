@@ -85,7 +85,10 @@ public:
 	/// </summary>
 	void Draw(ID3D12GraphicsCommandList* cmdList,UINT rootParameterIndex);
 
-
+	/// <summary>
+	/// ライトの生成
+	/// </summary>
+	/// <returns></returns>
 	static Light* Create();
 };
 

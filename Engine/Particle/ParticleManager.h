@@ -151,7 +151,13 @@ private:// メンバ関数
 
 public: // メンバ関数
 
+	/// <summary>
+	/// コンストラクタ
+	/// </summary>
 	ParticleManager();
+	/// <summary>
+	/// デストラクタ
+	/// </summary>
 	~ParticleManager();
 
 	void LoadTexture(const std::string& fileName);
@@ -186,6 +192,10 @@ public: // メンバ関数
 	///	<param name="accel">加速度</param>
 	void Add(int life,Vector3 position,Vector3 velociy,Vector3 accel,float start_scale,float end_scale);
 
+	/// <summary>
+	/// カメラのセット
+	/// </summary>
+	/// <param name="camera"></param>
 	static void SetCamera(Camera* camera) {
 		camera_ = camera;
 	}
@@ -198,13 +208,25 @@ public: // メンバ関数
 	void Setposition(Vector3 position) {
 		wtf_.translation_ = position;
 	};
+	/// <summary>
+	/// 行列のセット
+	/// </summary>
+	/// <param name="mat"></param>
 	void SetMatWorld(Matrix4 mat) {
 		wtf_.matWorld_ = mat;
 	};
+	/// <summary>
+	/// ビルボード行列のセット
+	/// </summary>
+	/// <param name="mat"></param>
 	void SetBillboardMatWorld(Matrix4 mat) {
 		bill = mat;
 	};
 
+	/// <summary>
+	/// worldTransformのゲット
+	/// </summary>
+	/// <returns></returns>
 	WorldTransform GetWorldTransform()
 	{
 		return wtf_;

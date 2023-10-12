@@ -56,16 +56,24 @@ protected:
 	Vector3 scale = { 1,1,1 };
 
 public:
-
+	//コンストラクタとデストラクタ
 	StageSelectScene(SceneManager* controller,SceneObjects* sceneObj);
 	~StageSelectScene() override;
 
+	/// <summary>
+	/// 初期化
+	/// </summary>
 	void Initialize()override;
 
+	//更新
 	void Update(Input* input,GamePad* gamePad) override;
 
+	/// <summary>
+	/// 描画
+	/// </summary>
 	void Draw() override;
 
+	//シーン遷移
 	void SceneTransition();
 
 	//void Pause(Input* input);

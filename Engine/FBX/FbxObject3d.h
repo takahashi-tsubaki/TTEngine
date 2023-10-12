@@ -55,14 +55,20 @@ public://サブクラス
 		XMMATRIX bones[ MAX_BONES ];
 	};
 public://情的メンバ関数
-	//setter
+	//デバイスのセット
 	static void SetDevice(ID3D12Device* device) {
 		device_ = device;
 	}
+	/// <summary>
+	/// カメラのセット
+	/// </summary>
+	/// <param name="camera"></param>
 	static void SetCamera(Camera* camera) {
 		camera_ = camera;
 	}
-
+	/// <summary>
+	/// パイプライン生成
+	/// </summary>
 	static void CreateGraphicsPipeline();
 
 private://情的メンバ変数
@@ -97,11 +103,17 @@ public://メンバ関数
 	void SetModel(FbxModel* fbxModel) {
 		fbxModel_ = fbxModel;
 	}
-
+	/// <summary>
+	/// スケールのセット
+	/// </summary>
+	/// <param name="scale"></param>
 	void SetScale(Vector3 scale) {
 		worldTransform.scale_ = scale;
 	}
-
+	/// <summary>
+	/// 座標のセット
+	/// </summary>
+	/// <param name="position"></param>
 	void SetPosition(Vector3 position) {
 		worldTransform.translation_ = position;
 	}
@@ -118,11 +130,17 @@ public://メンバ関数
 	/// </summary>
 	void PlayAnimetion(int AnimNum);
 
-
+	/// <summary>
+	/// 座標のゲット
+	/// </summary>
+	/// <returns></returns>
 	Vector3 GetPosition() {
 		return worldTransform.translation_;
 	}
-
+	/// <summary>
+	/// i\色のセット
+	/// </summary>
+	/// <param name="color"></param>
 	void SetColor(Vector4 color) {
 		color_ = color;
 	}

@@ -170,11 +170,6 @@ void Enemy::Draw()
 
 }
 
-void Enemy::Action()
-{
-
-}
-
 void Enemy::CheckHitCollision()
 {
 

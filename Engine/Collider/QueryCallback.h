@@ -24,7 +24,14 @@ struct QueryHit {
 class QueryCallback
 {
 public:
+	/// <summary>
+	/// コンストラクタ
+	/// </summary>
 	QueryCallback() = default;
+
+	/// <summary>
+	/// デストラクタ
+	/// </summary>
 	virtual ~QueryCallback() = default;
 
 	/// <summary>
