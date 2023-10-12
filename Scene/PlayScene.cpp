@@ -19,7 +19,7 @@ PlayScene::~PlayScene()
 
 void PlayScene::Initialize()
 {
-
+	
 
 	//Sprite::LoadTexture(1, L"Resources/kuribo-.jpg");
 	//Sprite::LoadTexture(2, L"Resources/mario.jpg");
@@ -38,6 +38,7 @@ void PlayScene::Initialize()
 
 	player_ = sceneObj_->player_;
 	enemy_ = sceneObj_->enemy_;
+	player_->GetObject3d()->SetScale({1,1,1});
 
 	controller_->camera_->SetFollowerPos(player_->GetObject3d()->GetWorldTransformPtr());
 
@@ -54,13 +55,15 @@ void PlayScene::Update(Input* input, GamePad* gamePad)
 	if (isTransition == false)
 	{
 		//シーンチェンジ
-		if (input->TriggerKey(DIK_RETURN) || gamePad->ButtonTrigger(X))
+		if ( input->TriggerKey(DIK_RETURN) || gamePad->ButtonTrigger(X) )
 		{
+
 			player_->Reset();
 			enemy_->Reset();
 			controller_->ChangeSceneNum(S_TITLE);
 		}
 
+		//ポーズシーンへ
 		if (input->TriggerKey(DIK_TAB) || gamePad->ButtonTrigger(START))
 		{
 			sceneObj_->player_ =player_;
@@ -83,7 +86,7 @@ void PlayScene::Update(Input* input, GamePad* gamePad)
 		player_->Update(input, gamePad);
 		enemy_->Update();
 	}
-	player_ = sceneObj_->player_;
+	/*player_ = sceneObj_->player_;*/
 	
 
 	if (isTransition == true)
@@ -129,20 +132,29 @@ void PlayScene::Update(Input* input, GamePad* gamePad)
 
 	if (player_->GetHp() <= 0)
 	{
-		controller_->ChangeSceneNum(S_OVER);
 		player_->Reset();
 		enemy_->Reset();
+		sceneObj_->player_ = player_;
+		sceneObj_->enemy_ = enemy_;
+		controller_->camera_->SetFollowerPos(player_->GetObject3d()->GetWorldTransformPtr());
+
+		controller_->camera_->SetTargetPos(enemy_->GetObject3d()->GetWorldTransformPtr());
+		controller_->ChangeSceneNum(S_OVER);
 	}
 
 	else if (enemy_->GetHp() <= 0)
 	{
-		controller_->ChangeSceneNum(S_CLEAR);
 		player_->Reset();
 		enemy_->Reset();
+		sceneObj_->player_ = player_;
+		sceneObj_->enemy_ = enemy_;
+		controller_->camera_->SetFollowerPos(player_->GetObject3d()->GetWorldTransformPtr());
+		controller_->camera_->SetTargetPos(enemy_->GetObject3d()->GetWorldTransformPtr());
+		controller_->ChangeSceneNum(S_CLEAR);
 	}
 
 
-	controller_->camera_->Update();
+	controller_->camera_->MoveCamera();
 }
 
 void PlayScene::Draw()

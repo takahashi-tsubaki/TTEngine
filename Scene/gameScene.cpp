@@ -57,8 +57,9 @@ void GameScene::Initalize(DirectXCommon* dxCommon, Input* input, GamePad* gamePa
 	sceneObjects = new SceneObjects();
 
 	sceneManager = new SceneManager(dxCommon_,gameCamera, sceneObjects);
-	sceneManager->SceneInitialize();
 	sceneObjects->Initialize(sceneManager);
+	sceneManager->SceneInitialize();
+
 
 }
 

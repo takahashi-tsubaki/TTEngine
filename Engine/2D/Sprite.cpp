@@ -1,4 +1,5 @@
 #include "Sprite.h"
+#include "Affin.h"
 #include <cassert>
 #include <d3dx12.h>
 #include <d3dcompiler.h>
@@ -14,7 +15,7 @@ UINT Sprite::descriptorHandleIncrementSize;
 ID3D12GraphicsCommandList* Sprite::cmdList_ = nullptr;
 ComPtr<ID3D12RootSignature> Sprite::rootSignature;
 ComPtr<ID3D12PipelineState> Sprite::pipelineState;
-XMMATRIX Sprite::matProjection;
+Matrix4 Sprite::matProjection;
 ComPtr<ID3D12DescriptorHeap> Sprite::descHeap;
 ComPtr<ID3D12Resource> Sprite::texBuff[ srvCount ];
 
@@ -173,10 +174,13 @@ void Sprite::StaticInitialize(ID3D12Device* device,int window_width,int window_h
 	assert(SUCCEEDED(result));
 
 	// 射影行列計算
-	matProjection = XMMatrixOrthographicOffCenterLH(
+	matProjection.MakeOrthogonalL
+	(
 		0.0f,( float ) window_width,
 		( float ) window_height,0.0f,
-		0.0f,1.0f);
+		0.0f,1.0f,
+		matProjection
+	);
 
 	// デスクリプタヒープを生成	
 	D3D12_DESCRIPTOR_HEAP_DESC descHeapDesc = {};
@@ -283,10 +287,10 @@ void Sprite::PostDraw()
 	cmdList_ = nullptr;
 }
 
-Sprite* Sprite::Create(UINT texNumber,XMFLOAT2 position,XMFLOAT4 color,XMFLOAT2 anchorpoint,bool isFlipX,bool isFlipY)
+Sprite* Sprite::Create(UINT texNumber,Vector2 position,Vector4 color,Vector2 anchorpoint,bool isFlipX,bool isFlipY)
 {
 	// 仮サイズ
-	XMFLOAT2 size = { 100.0f, 100.0f };
+	Vector2 size = { 1.0f, 1.0f };
 
 	if ( texBuff[ texNumber ] )
 	{
@@ -314,12 +318,12 @@ Sprite* Sprite::Create(UINT texNumber,XMFLOAT2 position,XMFLOAT4 color,XMFLOAT2 
 	return sprite;
 }
 
-Sprite::Sprite(UINT texNumber,XMFLOAT2 position,XMFLOAT2 size,XMFLOAT4 color,XMFLOAT2 anchorpoint,bool isFlipX,bool isFlipY)
+Sprite::Sprite(UINT texNumber,Vector2 position,Vector2 size,Vector4 color,Vector2 anchorpoint,bool isFlipX,bool isFlipY)
 {
 	position_ = position;
 	size_ = size;
 	anchorpoint_ = anchorpoint;
-	matWorld_ = XMMatrixIdentity();
+	matWorld_ = matWorld_.identity();
 	color_ = color;
 	texNumber_ = texNumber;
 	isFlipX_ = isFlipX;
@@ -387,7 +391,7 @@ void Sprite::SetRotation(float rotation)
 	TransferVertices();
 }
 
-void Sprite::SetPosition(const XMFLOAT2& position)
+void Sprite::SetPosition(const Vector2& position)
 {
 	position_ = position;
 
@@ -395,7 +399,7 @@ void Sprite::SetPosition(const XMFLOAT2& position)
 	TransferVertices();
 }
 
-void Sprite::SetSize(const XMFLOAT2& size)
+void Sprite::SetSize(const Vector2& size)
 {
 	size_ = size;
 
@@ -403,7 +407,7 @@ void Sprite::SetSize(const XMFLOAT2& size)
 	TransferVertices();
 }
 
-void Sprite::SetAnchorPoint(const XMFLOAT2& anchorpoint)
+void Sprite::SetAnchorPoint(const Vector2& anchorpoint)
 {
 	anchorpoint_ = anchorpoint;
 
@@ -427,7 +431,7 @@ void Sprite::SetIsFlipY(bool isFlipY)
 	TransferVertices();
 }
 
-void Sprite::SetTextureRect(const XMFLOAT2& texBase,const XMFLOAT2& texSize)
+void Sprite::SetTextureRect(const Vector2& texBase,const Vector2& texSize)
 {
 	texBase_ = texBase;
 	texSize_ = texSize;
@@ -439,17 +443,18 @@ void Sprite::SetTextureRect(const XMFLOAT2& texBase,const XMFLOAT2& texSize)
 void Sprite::Draw()
 {
 	// ワールド行列の更新
-	this->matWorld_ = XMMatrixIdentity();
-	this->matWorld_ *= XMMatrixRotationZ(XMConvertToRadians(rotation_));
-	this->matWorld_ *= XMMatrixTranslation(position_.x,position_.y,0.0f);
+	matWorld_.identity();
+	matWorld_ *= Affin::matRotateZ((XMConvertToRadians(rotation_)));
+	matWorld_ *= Affin::matTrans({position_.x,position_.y,0.0f});
 
+	/*this->matWorld_ = matWorld_.scale(size_);*/
 	// 定数バッファにデータ転送
 	ConstBufferData* constMap = nullptr;
 	HRESULT result = this->constBuff->Map(0,nullptr,( void** ) &constMap);
 	if ( SUCCEEDED(result) )
 	{
-		constMap->color = this->color_;
-		constMap->mat = this->matWorld_ * matProjection;	// 行列の合成	
+		constMap->color = color_;
+		constMap->mat = matWorld_ * matProjection;	// 行列の合成	
 		this->constBuff->Unmap(0,nullptr);
 	}
 

@@ -3,11 +3,13 @@
 #include "SceneInc.h"
 #include "SceneObjects.h"
 #include <map>
-
-struct LevelEditer;
+/// <summary>
+/// タイトルシーン
+/// </summary>
 class TitleScene :
 	public IScene
 {
+
 protected:
 	SceneManager* controller_;
 	Input* input_ = nullptr;
@@ -41,7 +43,29 @@ protected:
 
 	//タイトルアニメーション用の天球回転に必要な変数
 	Vector3 skydomeRotate = { 0,0,0 };
-	float rotateSpeed = 0.01f;
+	float rotateSpeed = 0.001f;
+
+	Player* player_ = nullptr;
+	Enemy* enemy_ = nullptr;
+
+	//シーン遷移用の変数たち
+	float reduction = 0.05f;//縮小
+	float expansion = 0.05f;//拡大
+
+	Vector3 transScale_ = { 1,1,1 };//シーン遷移用のスケール
+	Vector3 playerScale = { 1,1,1 };
+	Vector3 enemyScale = { 1,1,1 };
+
+	Vector3 transPos = { 0,600,0 };
+	float transSpeed = 15;
+
+	bool cameraRise = false;//カメラの上昇するかどうかのフラグ
+	float riseSpeed = 0;//上昇用変数
+
+	const float change = 1.0f;
+	float easeTimer = 0;
+
+	Vector2 spritePos = {100,-1000};
 
 public:
 
@@ -53,6 +77,8 @@ public:
 	void Update(Input* input,GamePad* gamePad) override;
 
 	void Draw() override;
+
+	void ParamReset();
 
 	void SceneTransition();
 

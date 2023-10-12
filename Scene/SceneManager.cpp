@@ -73,6 +73,11 @@ void SceneManager::ChangeScene()
 			_scene.emplace(new PauseScene(&*this, sceneObjects_));
 			SceneInitialize();
 			break;
+		case S_SELECT:
+			_scene.pop();
+			_scene.emplace(new StageSelectScene(&*this,sceneObjects_));
+			SceneInitialize();
+			break;
 		default:
 			_scene.emplace(new TitleScene(&*this, sceneObjects_));
 			SceneInitialize();
@@ -87,6 +92,11 @@ void SceneManager::ChangeScene()
 		isChange = false;
 	}
 	
+}
+
+void SceneManager::Transition()
+{
+
 }
 
 void SceneManager::PushScene(int number)
@@ -111,7 +121,9 @@ void SceneManager::PushScene(int number)
 		break;
 	case S_PAUSE:
 		_scene.emplace(new PauseScene(&*this, sceneObjects_));
-
+		break;
+	case S_SELECT:
+		_scene.emplace(new StageSelectScene(&*this,sceneObjects_));
 		break;
 	default:
 		_scene.emplace(new TitleScene(&*this, sceneObjects_));

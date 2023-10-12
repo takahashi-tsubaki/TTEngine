@@ -1,8 +1,10 @@
-﻿#pragma once
+#pragma once
 #include <Windows.h>
 
 #include <tchar.h>
-
+/// <summary>
+/// WinAppクラス
+/// </summary>
 class WinApp
 {
 public:

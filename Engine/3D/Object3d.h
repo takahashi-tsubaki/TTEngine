@@ -134,7 +134,15 @@ public: // メンバ関数
 /// </summary>
 /// <returns></returns>
 	const Vector3& GetRotation() {
-		return rotation_;
+		return worldTransform.rotation_;
+	}
+
+	/// <summary>
+	/// 大きさの取得
+	/// </summary>
+	/// <returns></returns>
+	const Vector3& GetScale() {
+		return worldTransform.scale_;
 	}
 
 /// <summary>

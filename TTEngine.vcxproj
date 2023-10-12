@@ -114,6 +114,7 @@
     <ClCompile Include="Engine\Base\FPS.cpp" />
     <ClCompile Include="Engine\Base\GamePad.cpp" />
     <ClCompile Include="Engine\Base\Input.cpp" />
+    <ClCompile Include="Engine\Base\MouseInput.cpp" />
     <ClCompile Include="Engine\Base\WinApp.cpp" />
     <ClCompile Include="Engine\Camera\Camera.cpp" />
     <ClCompile Include="Engine\Camera\GameCamera.cpp" />
@@ -147,6 +148,7 @@
     <ClCompile Include="Scene\PlayScene.cpp" />
     <ClCompile Include="Scene\SceneManager.cpp" />
     <ClCompile Include="Scene\SceneObjects.cpp" />
+    <ClCompile Include="Scene\StageSelectScene.cpp" />
     <ClCompile Include="Scene\TitleScene.cpp" />
     <ClCompile Include="User\Bullet\EnemyBullet.cpp" />
     <ClCompile Include="User\Bullet\PlayerBullet.cpp" />
@@ -169,6 +171,7 @@
     <ClInclude Include="Engine\Base\FPS.h" />
     <ClInclude Include="Engine\Base\GamePad.h" />
     <ClInclude Include="Engine\Base\Input.h" />
+    <ClInclude Include="Engine\Base\MouseInput.h" />
     <ClInclude Include="Engine\Base\Pading.h" />
     <ClInclude Include="Engine\Base\WinApp.h" />
     <ClInclude Include="Engine\Camera\Camera.h" />
@@ -208,6 +211,7 @@
     <ClInclude Include="Scene\SceneInc.h" />
     <ClInclude Include="Scene\SceneManager.h" />
     <ClInclude Include="Scene\SceneObjects.h" />
+    <ClInclude Include="Scene\StageSelectScene.h" />
     <ClInclude Include="Scene\TitleScene.h" />
     <ClInclude Include="User\Bullet\EnemyBullet.h" />
     <ClInclude Include="User\Bullet\PlayerBullet.h" />

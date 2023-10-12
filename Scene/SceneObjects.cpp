@@ -9,6 +9,7 @@ void SceneObjects::Initialize(SceneManager* controller)
 	Sprite::LoadTexture(5, L"Resources/sprite/over.png");
 
 	Sprite::LoadTexture(7, L"Resources/sprite/alart2.png");
+	Sprite::LoadTexture(8, L"Resources/black.jpg");
 
 	controller_ = controller;
 
@@ -16,7 +17,7 @@ void SceneObjects::Initialize(SceneManager* controller)
 	skydomeM_ = Model::CreateFromOBJ("skydome");
 	skydomeO_->SetModel(skydomeM_);
 
-	skydomeO_->SetScale({ 5,5,5 });
+	skydomeO_->SetScale({ 10,10,10 });
 
 	transitionM_ = Model::CreateFromOBJ("transition");
 	transitionO_ = Object3d::Create();
@@ -35,8 +36,10 @@ void SceneObjects::Initialize(SceneManager* controller)
 
 	player_ = new Player();
 	enemy_ = new Enemy();
-	enemy_->Initialize(controller_->dxCommon_, player_);
+
 	player_->Initialize(controller_->dxCommon_, enemy_);
+
+	enemy_->Initialize(controller_->dxCommon_,player_);
 }
 
 void SceneObjects::Delete()

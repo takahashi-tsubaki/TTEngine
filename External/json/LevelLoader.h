@@ -25,7 +25,9 @@ struct LevelEditer
 	//オブジェクト
 	std::vector<ObjectData> objects;
 };
-
+/// <summary>
+/// jsonローダー
+/// </summary>
 class LevelLoader
 {
 public://メンバ関数

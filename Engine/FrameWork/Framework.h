@@ -10,6 +10,9 @@
 #include"Light.h"
 #include "ParticleManager.h"
 #include "FbxLoader.h"
+/// <summary>
+/// フレームワーク
+/// </summary>
 class Framework
 {
 public:

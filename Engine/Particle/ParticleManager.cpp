@@ -20,7 +20,7 @@ using namespace Microsoft::WRL;
 /// 静的メンバ変数の実体
 /// 
 Microsoft::WRL::ComPtr<ID3D12Device> ParticleManager::device;
-//Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> ParticleManager::cmdList;
+Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> ParticleManager::cmdList_;
 ComPtr<ID3D12RootSignature> ParticleManager::rootsignature;
 ComPtr<ID3D12PipelineState> ParticleManager::pipelinestate;
 Camera* ParticleManager::camera_ = nullptr;
@@ -39,7 +39,7 @@ void ParticleManager::StaticInitialize(ID3D12Device* Device, ID3D12GraphicsComma
 	assert(cmdlist);
 
 	device = Device;
-	//cmdList = cmdlist;
+	cmdList_ = cmdlist;
 
 	// パイプライン初期化
 	InitializeGraphicsPipeline();
@@ -707,4 +707,9 @@ void ParticleManager::RandParticle(Vector3 pos)
 			static_cast<float>((rand() % 20 - 10) / 100.0f) - 0.3f ,
 			static_cast<float>((rand() % 20 - 10) / 100.0f) }, 0.4f, 0.0f);
 	}
+}
+
+void ParticleManager::Reset()
+{
+	particles.clear();
 }

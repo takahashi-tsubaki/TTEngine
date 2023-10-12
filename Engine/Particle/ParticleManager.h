@@ -16,7 +16,7 @@ ALICE_SUPPRESS_WARNINGS_END
 #include "MyMath.h"
 #include "GameCamera.h"
 /// <summary>
-/// 3Dオブジェクト
+/// パーティクルマネージャー
 /// </summary>
 class ParticleManager
 {
@@ -95,7 +95,7 @@ private: // 静的メンバ変数
 	// デバイス
 	static Microsoft::WRL::ComPtr<ID3D12Device> device;
 	// コマンドリスト
-	//static Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> cmdList;
+	static Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> cmdList_;
 	// ルートシグネチャ
 	static ComPtr<ID3D12RootSignature> rootsignature;
 	// パイプラインステートオブジェクト
@@ -172,6 +172,10 @@ public: // メンバ関数
 
 	void RandParticle(Vector3 pos);
 
+	/// <summary>
+	/// パーティクルのリセット
+	/// </summary>
+	void Reset();
 
 	/// <summary>
 	/// パーティクルの追加

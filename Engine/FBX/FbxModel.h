@@ -38,7 +38,9 @@ struct Node
 	Node* parent = nullptr;
 
 };
-
+/// <summary>
+/// FBXモデル
+/// </summary>
 class FbxModel
 {
 public:

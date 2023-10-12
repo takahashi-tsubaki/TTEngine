@@ -8,6 +8,9 @@
 
 class BaseCollider;
 
+/// <summary>
+/// 衝突マネージャー
+/// </summary>
 class CollisionManager
 {
 public:

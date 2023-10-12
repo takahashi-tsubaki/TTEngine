@@ -1,5 +1,6 @@
 #include "TitleScene.h"
 #include "levelLoader.h"
+#include "Ease.h"
 #include <cassert>
 #include <sstream>
 #include <iomanip>
@@ -10,11 +11,13 @@ TitleScene::TitleScene(SceneManager* controller, SceneObjects* sceneObj)
 
 	targetPos.translation_ = { 0,0,0 };
 	followPos.translation_ = { 0,0,-50 };
+
 }
 
 TitleScene::~TitleScene()
 {
-
+	delete player_;
+	delete enemy_;
 
 	sceneObj_->Reset();
 	isTransition = false;
@@ -25,41 +28,66 @@ TitleScene::~TitleScene()
 void TitleScene::Initialize()
 {
 
-	/*sceneObj_->transitionO_->worldTransform.scale_ = scale;*/
-
 	controller_->camera_->SetFollowerPos(&followPos);
 
 	controller_->camera_->SetTargetPos(&targetPos);
 	Sprite::LoadTexture(6, L"Resources/sprite/title.png");
 	sprite_ = Sprite::Create(6, { 100,100 });
+
+	//sceneObj_->transitionO_->SetRotation({ 0,0,0 });
+	//sprite2_ = Sprite::Create(8,{200,200});
+
+	player_ = new Player();
+	enemy_ = new Enemy();
+
+	//自機と敵の初期化
+	player_->Initialize(controller_->dxCommon_,enemy_);
+	enemy_->Initialize(controller_->dxCommon_,player_);
+
+	//カメラの座標と注視点をセット
+	controller_->camera_->SetEye({ player_->GetObject3d()->GetPosition().x,player_->GetObject3d()->GetPosition().y,player_->GetObject3d()->GetPosition().z -50 });
+	controller_->camera_->SetTarget(enemy_->GetObject3d()->GetPosition());
+
+	sceneObj_->transitionO_->SetScale({ 400,400,60 });
+	sceneObj_->transitionO_->SetPosition({ transPos });
+
 }
 
 void TitleScene::Update(Input* input, GamePad* gamePad)
 {
+	gamePad->Update();
 	//天球を回転させる処理
 	skydomeRotate.y += rotateSpeed;
 	sceneObj_->skydomeO_->SetRotation(skydomeRotate);
 
 	sceneObj_->skydomeO_->Update();
-	controller_->camera_->Update();
+	sceneObj_->transitionO_->Update();
 	
-	gamePad->Update();
+
+	//player_->TitleAnime();
+	player_->GetObject3d()->Update();
+	enemy_->GetObject3d()->Update();
+
+	/*player_->Update(input,gamePad);
+	enemy_->Update();*/
+	
+
 
 	//ボタンを押したらシーン遷移を行う
 	if (input->TriggerKey(DIK_SPACE) || gamePad->ButtonTrigger(X))
 	{
 		isTransition = true;
 	}
-
-	//シーン遷移のオブジェクトのスケールが一定以上に到達したとき
-	if (sceneObj_->transitionO_->worldTransform.scale_.x>=60 && sceneObj_->transitionO_->worldTransform.scale_.z>=60)
+	if ( easeTimer >= 120 )
 	{
-		controller_->ChangeSceneNum(S_PLAY);
+		ParamReset();
+		controller_->ChangeSceneNum(S_SELECT);
 	}
 	if (isTransition == true)
 	{
 		SceneTransition();
 	}
+	controller_->camera_->Update();
 }
 
 void TitleScene::Draw()
@@ -73,6 +101,13 @@ void TitleScene::Draw()
 	/*fbxObject->Draw(dxCommon_->GetCommandList());*/
 
 	sceneObj_->skydomeO_->Draw();
+
+	if ( transScale_.x >= 0 )
+	{
+		enemy_->Draw();
+		player_->Draw();
+	}
+	
 
 	//skydomeO_->Draw();
 
@@ -88,6 +123,7 @@ void TitleScene::Draw()
 	// 背景スプライト描画
 
 	sprite_->Draw();
+	//sprite2_->Draw();
 	/// <summary>
 	/// ここに背景スプライトの描画処理を追加できる
 	/// </summary>
@@ -103,7 +139,6 @@ void TitleScene::Draw()
 	//// 3Dオブジェクトの描画
 
 	/*fbxObject->Draw(dxCommon_->GetCommandList());*/
-
 
 
 	if (isTransition == true)
@@ -154,8 +189,62 @@ void TitleScene::Draw()
 #pragma endregion
 }
 
+void TitleScene::ParamReset()
+{
+	controller_->camera_->SetFollowerPos(sceneObj_->player_->GetObject3d()->GetWorldTransformPtr());
+	controller_->camera_->SetTargetPos(sceneObj_->enemy_->GetObject3d()->GetWorldTransformPtr());
+	controller_->camera_->MoveCamera();
+	player_->GetObject3d()->SetScale({ 1,1,1 });
+	player_->GetObject3d()->SetPosition({ 0,0,-50 });
+	sceneObj_->transitionO_->SetScale({1,1,1});
+	sceneObj_->transitionO_->SetPosition({ 0,0,0 });
+
+	transScale_ = { 1,1,1 };
+	cameraRise = false;
+}
+
 void TitleScene::SceneTransition()
 {
-	sceneObj_->transitionO_->worldTransform.scale_ += scale;
-	sceneObj_->transitionO_->Update();
+	//sceneObj_->transitionO_->worldTransform.scale_ += scale;
+	//sceneObj_->transitionO_->Update();
+
+
+
+	playerScale.x -= reduction;
+	playerScale.y += expansion;
+	player_->GetObject3d()->SetScale(playerScale);
+	
+
+	if ( player_->GetObject3d()->GetScale().x <= 0 )
+	{
+		player_->GetObject3d()->SetScale({ 0,0,0 });
+		enemyScale.x -= reduction;
+		enemyScale.y += expansion;
+		enemy_->GetObject3d()->SetScale(enemyScale);
+	}
+
+	if ( enemy_->GetObject3d()->GetScale().x <= 0 )
+	{
+		enemy_->GetObject3d()->SetScale({ 0,0,0 });
+		cameraRise = true;
+	}
+
+	if ( cameraRise == true )
+	{
+		easeTimer++;
+
+		riseSpeed = 3.0f * ( float ) Ease::InOutQuint(change,0,120,easeTimer);
+
+		controller_->camera_->eye_.y += riseSpeed;
+		controller_->camera_->target_.y += riseSpeed;
+		controller_->camera_->SetEye(controller_->camera_->eye_);
+		controller_->camera_->SetTarget(controller_->camera_->target_);
+		//controller_->camera_->Update();
+	}
+	else
+	{
+		easeTimer = 0;
+		riseSpeed = 0;
+	}
+
 }

@@ -1,6 +1,9 @@
 #pragma once
 #include "IScene.h"
 #include "SceneInc.h"
+/// <summary>
+/// ゲームプレイシーン
+/// </summary>
 class PlayScene :
 	public IScene
 {

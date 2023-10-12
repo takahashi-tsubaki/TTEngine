@@ -1,8 +1,10 @@
-﻿#pragma once
+#pragma once
 #include"ErrorException.h"
 
 #pragma comment(lib,"winmm.lib")
-
+/// <summary>
+/// FPS設定
+/// </summary>
 class FPS
 {
 private:

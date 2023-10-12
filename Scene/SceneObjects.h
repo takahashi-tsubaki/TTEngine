@@ -19,7 +19,9 @@
 #include "Enemy.h"
 
 class SceneManager;
-
+/// <summary>
+/// シーンオブジェクト
+/// </summary>
 class SceneObjects
 {
 public:

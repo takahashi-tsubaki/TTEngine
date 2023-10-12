@@ -3,6 +3,9 @@
 #include "Matrix4.h"
 #include "MyMath.h"
 
+/// <summary>
+/// ワールドトランスフォーム
+/// </summary>
 class WorldTransform
 {
 public:

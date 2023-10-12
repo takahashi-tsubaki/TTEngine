@@ -4,6 +4,9 @@
 
 class PlayScene;
 
+/// <summary>
+/// ポーズシーン
+/// </summary>
 class PauseScene :
 	public IScene
 {
