@@ -68,23 +68,39 @@ protected:
 	Vector2 spritePos = {100,-1000};
 
 public:
-
+	//コンストラクタとデストラクタ
 	TitleScene(SceneManager* controller,SceneObjects* sceneObj);
 	~TitleScene() override;
 
+	/// <summary>
+	/// 初期化
+	/// </summary>
 	void Initialize()override;
 
+	/// <summary>
+	/// 更新
+	/// </summary>
+	/// <param name="input"></param>
+	/// <param name="gamePad"></param>
 	void Update(Input* input,GamePad* gamePad) override;
 
+	/// <summary>
+	/// 描画
+	/// </summary>
 	void Draw() override;
 
+	/// <summary>
+	/// パラメーターのリセット
+	/// </summary>
 	void ParamReset();
-
+	//シーン遷移
 	void SceneTransition();
 
+	//シーン遷移フラグのセット
 	void SetTransition(bool Transition) {
 		isTransition = Transition;
 	}
+		//シーン遷移フラグのゲット
 	bool GetIsTransiton() {
 		return isTransition;
 	}

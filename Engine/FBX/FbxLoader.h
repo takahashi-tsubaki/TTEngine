@@ -18,6 +18,9 @@ ALICE_SUPPRESS_WARNINGS_END
 
 #include "FbxModel.h"
 
+/// <summary>
+/// FBX読み込み
+/// </summary>
 class FbxLoader
 {
 private:
@@ -57,9 +60,19 @@ public:
 	/// </summary>
 	void Finalize();
 
+	/// <summary>
+	/// ファイル読み込み
+	/// </summary>
+	/// <param name="modelname"></param>
+	/// <returns></returns>
 	FbxModel* LoadModelFromFile(const string& modelname);
 
-
+	/// <summary>
+	/// ノード読み取り
+	/// </summary>
+	/// <param name="fbxModel"></param>
+	/// <param name="fbxNode"></param>
+	/// <param name="parent"></param>
 	void ParseNodeRecursive(FbxModel* fbxModel,FbxNode* fbxNode,Node* parent = nullptr);
 
 	/// <summary>

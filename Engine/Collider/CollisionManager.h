@@ -14,6 +14,10 @@ class BaseCollider;
 class CollisionManager
 {
 public:
+	/// <summary>
+	/// シングルトン
+	/// </summary>
+	/// <returns></returns>
 	static CollisionManager* GetInstance();
 
 	//メンバ関数
@@ -29,7 +33,9 @@ public:
 	{
 		colliders.remove(collider);
 	}
-
+	/// <summary>
+	/// 当たり判定処理
+	/// </summary>
 	void CheckAllCollisions();
 	bool Raycast(const Ray& ray,unsigned short attribute,RaycastHit* hitInfo = nullptr,float maxDistance = D3D12_FLOAT32_MAX);
 	bool Raycast(const Ray& ray,RaycastHit* hitInfo = nullptr,float maxDistance = D3D12_FLOAT32_MAX);

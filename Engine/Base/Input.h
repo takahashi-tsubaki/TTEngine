@@ -49,6 +49,10 @@ public:
 	/// <returns>離されたかどうか</returns>
 	bool ReleaseKey(BYTE keyNum);
 
+	/// <summary>
+	/// シングルトン
+	/// </summary>
+	/// <returns></returns>
 	static Input* GetInstance();
 
 	//メンバ変数

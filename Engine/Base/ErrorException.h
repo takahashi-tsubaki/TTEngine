@@ -1,4 +1,7 @@
-﻿#pragma once
+#pragma once
+///
+///外部エラーを無視するための.h
+///
 #pragma warning(push)
 #pragma warning(disable: 4265)
 #pragma warning(disable: 4324)

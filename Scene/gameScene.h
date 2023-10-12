@@ -26,14 +26,26 @@ class GameScene
 {
 
 public:
-
+	//コンストラクタとデストラクタ
 	GameScene();
 	~GameScene();
 
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	/// <param name="dxCommon"></param>
+	/// <param name="input"></param>
+	/// <param name="gamePad"></param>
 	void Initalize(DirectXCommon* dxCommon,Input* input,GamePad* gamePad);
 
+	/// <summary>
+	/// 更新
+	/// </summary>
 	void Update();
 
+	/// <summary>
+	/// 描画
+	/// </summary>
 	void Draw();
 
 

@@ -36,57 +36,106 @@ public:
 	WorldTransform wtf;
 	int Hp_ = 30;
 public:
-
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	/// <param name="dxCommon"></param>
+	/// <param name="player"></param>
 	void Initialize(DirectXCommon* dxCommon,Player* player);
-
+	/// <summary>
+	/// 更新
+	/// </summary>
 	void Update();
-
+	/// <summary>
+	/// 描画
+	/// </summary>
 	void Draw();
 
-	void Action();
-
+	/// <summary>
+	/// 当たり判定のチェック
+	/// </summary>
 	void CheckHitCollision();
 
+	/// <summary>
+	/// 座標のゲット
+	/// </summary>
+	/// <returns></returns>
 	Vector3 GetPosition() {
 		return wtf.translation_;
 	}
 
-
+	/// <summary>
+	/// 当たったかどうかのフラグのセット
+	/// </summary>
+	/// <param name="isHit"></param>
 	void SetIsHit(bool isHit) {
 		isHit_ = isHit;
 	}
+	/// <summary>
+	/// 当たったかどうかのフラグのゲット
+	/// </summary>
+	/// <returns></returns>
 	bool GetIsHit() {
 		return isHit_;
 	}
-
+	/// <summary>
+	/// 体力のセット
+	/// </summary>
+	/// <param name="Hp"></param>
 	void SetHp(int Hp) {
 		Hp_ = Hp;
 	}
+	/// <summary>
+	/// 体力のゲット
+	/// </summary>
+	/// <returns></returns>
 	int GetHp() {
 		return Hp_;
 	}
-
+	/// <summary>
+	/// 死んだかどうかのフラグのセット
+	/// </summary>
+	/// <param name="isDead"></param>
 	void SetisDead(bool isDead) {
 		isDead_ = isDead;
 	}
+	/// <summary>
+	/// 死んだかどうかのフラグのゲット
+	/// </summary>
 	bool GetisDead() {
 		return isDead_;
 	}
-
+	/// <summary>
+	/// object3dのゲット
+	/// </summary>
+	/// <returns></returns>
 	Object3d* GetObject3d() {
 		return enemyO_;
 	}
-
+	/// <summary>
+	/// 射撃したかどうかのフラグのゲット
+	/// </summary>
+	/// <returns></returns>
 	bool GetisShot() {
 		return isShot;
 	}
+	/// <summary>
+	/// 単発射撃をしたかのフラグのゲット
+	/// </summary>
+	/// <returns></returns>
 	bool GetisOneShot() {
 		return oneShot;
 	}
+	/// <summary>
+	/// 連続射撃をしたかどうかのフラグ
+	/// </summary>
 	bool GetisRapidShot() {
 		return rapidShot;
 	}
-
+	/// <summary>
+	/// パーティクルのゲット
+	/// </summary>
+	/// <returns></returns>
 	ParticleManager* GetParticle() {
 		return particle_.get();
 	}
@@ -97,22 +146,38 @@ public:
 
 	//敵の回避関数
 	void Vanish();
-
+	/// <summary>
+	/// 移動
+	/// </summary>
 	void Move();
 
 	void Step();
-
+	/// <summary>
+	/// リセット
+	/// </summary>
 	void Reset();
+	/// <summary>
+	/// 当たり判定属性のリセット
+	/// </summary>
 	void ResetAttribute();
 
+	/// <summary>
+	/// デバックモードのフラグのセット
+	/// </summary>
+	/// <param name="mode"></param>
 	void SetDebugMode(bool mode) {
 		isDebugMode = mode;
 	}
+	/// <summary>
+	/// デバックモードのフラグのゲット
+	/// </summary>
+	/// <returns></returns>
 	bool GetDebugMode() {
 		return isDebugMode;
 	}
-
-
+	/// <summary>
+	/// カメラアングルの移動処理
+	/// </summary>
 	void moveAngle();
 
 #pragma endregion

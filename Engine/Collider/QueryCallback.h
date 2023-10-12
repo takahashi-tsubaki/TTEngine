@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include "MyMath.h"
 
 class Object3d;
@@ -18,10 +18,20 @@ struct QueryHit {
 	Vector3 reject;
 };
 
+/// <summary>
+/// クエリィによる押し出し
+/// </summary>
 class QueryCallback
 {
 public:
+	/// <summary>
+	/// コンストラクタ
+	/// </summary>
 	QueryCallback() = default;
+
+	/// <summary>
+	/// デストラクタ
+	/// </summary>
 	virtual ~QueryCallback() = default;
 
 	/// <summary>

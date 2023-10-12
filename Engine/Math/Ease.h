@@ -7,10 +7,20 @@ ALICE_SUPPRESS_WARNINGS_BEGIN
 ALICE_SUPPRESS_WARNINGS_END
 #include "Vector3.h"
 
-
+/// <summary>
+/// イージング
+/// </summary>
 class Ease
 {	//イージングクラス定義
 public:
+	/// <summary>
+	/// イージング
+	/// </summary>
+	/// <param name="change"></param>
+	/// <param name="base"></param>
+	/// <param name="duration"></param>
+	/// <param name="time"></param>
+	/// <returns></returns>
 	static double InQuad(double change,double base,double duration,double time);
 	static double OutQuad(double change,double base,double duration,double time);
 	static double InOutQuad(double change,double base,double duration,double time);

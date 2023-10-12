@@ -8,6 +8,9 @@
 class MeshCollider :public BaseCollider
 {
 public:
+	/// <summary>
+	/// コンストラクタ
+	/// </summary>
 	MeshCollider()
 	{
 		shapeType = COLLISIONSHAPE_MESH;

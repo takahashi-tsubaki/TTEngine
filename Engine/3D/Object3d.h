@@ -181,26 +181,46 @@ public: // メンバ関数
 		model_ = model;
 	}
 
+	/// <summary>
+	/// ビルボードのセット
+	/// </summary>
+	/// <param name="isBillboard"></param>
 	void SetBillboard(bool isBillboard) {
 		isBillboard_ = isBillboard;
 	}
-
+	/// <summary>
+	/// ライトのセット
+	/// </summary>
+	/// <param name="light"></param>
 	static void SetLight(Light* light)
 	{
 		light_ = light;
 	}
-
+	/// <summary>
+	/// 色のセット
+	/// </summary>
+	/// <param name="color"></param>
 	void SetColor(Vector4 color) {
 		color_ = color;
 	}
-
+	/// <summary>
+	/// worldTransformのゲット
+	/// </summary>
+	/// <returns></returns>
 	WorldTransform GetWorldTransform() {
 		return worldTransform;
 	}
+	/// <summary>
+	/// worldTransformのポインターのゲット
+	/// </summary>
+	/// <returns></returns>
 	WorldTransform* GetWorldTransformPtr() {
 		return &worldTransform;
 	}
-
+	/// <summary>
+	/// カメラのゲット
+	/// </summary>
+	/// <returns></returns>
 	Camera* GetCamera() {
 		return sCamera_;
 	}

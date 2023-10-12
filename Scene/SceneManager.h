@@ -33,7 +33,7 @@ protected:
 	int sceneNum = 0;
 
 public:
-
+	//コンストラクタとデストラクタ
 	SceneManager(DirectXCommon* dxCommon,GameCamera* camera,SceneObjects* sceneObjects);
 	~SceneManager();
 
@@ -46,17 +46,15 @@ public:
 	// 各シーンのDrawを呼び出す
 	void SceneDraw();
 
-
+	//シーンを変更する番号をセット
 	void ChangeSceneNum(int number);
 	// シーンを変更する
 	void ChangeScene();
-
-	void Transition();
-
+	//シーンを挿入
 	void PushScene(int number);
-
+	//シーンを取り出す
 	void PopScene();
-
+	//シーンの番号を取得
 	int GetSceneNum() {
 		return sceneNum;
 	}

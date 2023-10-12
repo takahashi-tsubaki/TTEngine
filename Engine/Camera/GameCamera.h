@@ -19,34 +19,61 @@ public:
 	void Initialize();
 	//更新
 	void Update();
-
+	/// <summary>
+	/// 注視点座標のセット
+	/// </summary>
+	/// <param name="targetPos"></param>
 	void SetTargetPos(WorldTransform* targetPos) {
 		targetPos_ = targetPos;
 	}
+	/// <summary>
+	/// 注視点座標のゲット
+	/// </summary>
+	/// <returns></returns>
 	WorldTransform* GetTargetPos() {
 		return targetPos_;
 	}
+	/// <summary>
+	/// 注視点座標の削除
+	/// </summary>
 	void RemoveTargetPos() {
 		targetPos_ = nullptr;
 	}
+	/// <summary>
+	/// 視点座標のゲット
+	/// </summary>
+	/// <param name="eyePos"></param>
 	void SetEyePos(WorldTransform* eyePos) {
 		eyePos_ = eyePos;
 	}
+	/// <summary>
+	/// 追従する対象の座標をゲット
+	/// </summary>
+	/// <param name="wtf"></param>
 	void SetFollowerPos(WorldTransform* wtf) {
 		followerPos_ = wtf;
 	}
+	/// <summary>
+	/// 視点座標のゲット
+	/// </summary>
+	/// <returns></returns>
 	WorldTransform* GetEyePos() {
 		return eyePos_;
 	}
+	/// <summary>
+	/// 視点座標の削除
+	/// </summary>
 	void RemoveEyePos() {
 		eyePos_ = nullptr;
 	}
-	void ViewPointMovement();
+	//void ViewPointMovement();
 
+	/// <summary>
+	/// カメラの移動処理
+	/// </summary>
 	void MoveCamera();
 
 	//自機と敵を追従する
-
 	void IsFollow(bool isFollow) {
 		isFollow_ = isFollow;
 	}

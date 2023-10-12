@@ -169,6 +169,10 @@ public: // メンバ関数
 	//カメラの視点と注視点を差分ベクトルでとる関数
 	void disEyeTarget(Vector3 pos1,Vector3 pos2);
 
+	/// <summary>
+	/// 注視点の移動処理
+	/// </summary>
+	/// <param name="input"></param>
 	void MoveTarget(Input* input);
 
 protected: // メンバ変数

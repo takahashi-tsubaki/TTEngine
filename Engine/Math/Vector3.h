@@ -16,12 +16,12 @@ public:
 	Vector3();                          // 零ベクトルとする
 	Vector3(float x,float y,float z); // x成分, y成分, z成分 を指定しての生成
 
-	float length() const;
-	Vector3& nomalize();
-	float dot(const Vector3& v) const;
-	Vector3 cross(const Vector3& v) const;
-	Vector3 sub(const Vector3& v)const;
-	const Vector3 lerp(const Vector3& start,const Vector3& end,const float t);
+	float length() const;//長さを求める
+	Vector3& nomalize();//ノーマライズ
+	float dot(const Vector3& v) const;//内積を求める
+	Vector3 cross(const Vector3& v) const;//外積を求める
+	Vector3 sub(const Vector3& v)const;//引き算
+	const Vector3 lerp(const Vector3& start,const Vector3& end,const float t);//ラープ関数
 
 	// 単項演算子オーバーロード
 	Vector3 operator+() const;

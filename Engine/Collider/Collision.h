@@ -23,7 +23,7 @@ public:
 
 	//レイと三角形の当たり判定
 	static bool CheckRay2Triangle(const Ray& ray,const Triangle& triangle,float* distance = nullptr,Vector3* inter = nullptr);
-
+	//レイと球の当たり判定
 	static bool CheckRay2Sphere(const Ray& ray,const Sphere& sphere,float* distance = nullptr,Vector3* inter = nullptr);
 
 };

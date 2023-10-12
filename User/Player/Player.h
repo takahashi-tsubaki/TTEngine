@@ -40,24 +40,56 @@ public:
 	WorldTransform wtf;
 
 public:
-
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	/// <param name="dxCommon"></param>
+	/// <param name="enemy"></param>
 	void Initialize(DirectXCommon* dxCommon,Enemy* enemy);
 
+	/// <summary>
+	/// 更新
+	/// </summary>
+	/// <param name="input"></param>
+	/// <param name="gamePad"></param>
 	void Update(Input* input,GamePad* gamePad);
 
+	/// <summary>
+	/// 描画
+	/// </summary>
 	void Draw();
+	/// <summary>
+	/// 移動
+	/// </summary>
+	/// <param name="input"></param>
+	/// <param name="gamePad"></param>
 	void Move(Input* input,GamePad* gamePad);
-
+	/// <summary>
+	/// 射撃
+	/// </summary>
+	/// <param name="input"></param>
+	/// <param name="gamePad"></param>
 	void Shot(Input* input,GamePad* gamePad);
-
+	/// <summary>
+	/// 回避
+	/// </summary>
+	/// <param name="input"></param>
+	/// <param name="gamePad"></param>
 	void Vanish(Input* input,GamePad* gamePad);
-
+	/// <summary>
+	/// タイトルシーンのアニメーション
+	/// </summary>
 	void TitleAnime();
-
+	/// <summary>
+	/// 座標のゲット
+	/// </summary>
+	/// <returns></returns>
 	Vector3 GetPosition() {
 		return wtf.translation_;
 	}
-
+	/// <summary>
+	/// 当たり判定のチェック
+	/// </summary>
 	void CheckHitCollision();
 
 	//Hpのsetterとgetter
@@ -74,33 +106,61 @@ public:
 	bool GetisDead() {
 		return isDead_;
 	}
-
+	/// <summary>
+	/// object3dのゲット
+	/// </summary>
+	/// <returns></returns>
 	Object3d* GetObject3d() {
 		return playerO_;
 	}
-
+	/// <summary>
+	/// カメラのから見た回転座標の移動
+	/// </summary>
 	void moveAngle();
 
+	/// <summary>
+	/// カメラアングルのゲット
+	/// </summary>
+	/// <returns></returns>
 	Vector3 GetAngle() {
 		return cameraAngle;
 	}
 
+	/// <summary>
+	/// パーティクルのゲット
+	/// </summary>
+	/// <returns></returns>
 	ParticleManager* GetParticle() {
 		return particle_.get();
 	}
-
+	/// <summary>
+	/// リセット
+	/// </summary>
 	void Reset();
 
+	/// <summary>
+	/// 当たり判定属性のリセット
+	/// </summary>
 	void ResetAttribute();
-
+	/// <summary>
+	/// 弾のタイプのゲット
+	/// </summary>
+	/// <returns></returns>
 	int GetBulletType() {
 		return bulletType;
 	}
-
+	/// <summary>
+	/// 回避したかどうかのフラグのゲット
+	/// </summary>
+	/// <returns></returns>
 	bool GetVanish() {
 		return isVanising;
 	}
 
+	/// <summary>
+	/// 回避タイマーのゲット
+	/// </summary>
+	/// <returns></returns>
 	float GetVanishTimer() {
 		return vanishTimer;
 	}
