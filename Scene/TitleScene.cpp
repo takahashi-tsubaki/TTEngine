@@ -34,6 +34,8 @@ void TitleScene::Initialize()
 	Sprite::LoadTexture(6, L"Resources/sprite/title.png");
 	sprite_ = Sprite::Create(6, { 100,100 });
 
+
+
 	//sceneObj_->transitionO_->SetRotation({ 0,0,0 });
 	//sprite2_ = Sprite::Create(8,{200,200});
 
@@ -51,6 +53,7 @@ void TitleScene::Initialize()
 	sceneObj_->transitionO_->SetScale({ 400,400,60 });
 	sceneObj_->transitionO_->SetPosition({ transPos });
 
+
 }
 
 void TitleScene::Update(Input* input, GamePad* gamePad)
@@ -62,7 +65,6 @@ void TitleScene::Update(Input* input, GamePad* gamePad)
 
 	sceneObj_->skydomeO_->Update();
 	sceneObj_->transitionO_->Update();
-	
 
 	//player_->TitleAnime();
 	player_->GetObject3d()->Update();
@@ -101,7 +103,6 @@ void TitleScene::Draw()
 	/*fbxObject->Draw(dxCommon_->GetCommandList());*/
 
 	sceneObj_->skydomeO_->Draw();
-
 	if ( transScale_.x >= 0 )
 	{
 		enemy_->Draw();
@@ -123,6 +124,11 @@ void TitleScene::Draw()
 	// 背景スプライト描画
 
 	sprite_->Draw();
+	if ( isTransition == false )
+	{
+		sceneObj_->spaceButton_->Draw();
+	}
+
 	//sprite2_->Draw();
 	/// <summary>
 	/// ここに背景スプライトの描画処理を追加できる
@@ -191,9 +197,10 @@ void TitleScene::Draw()
 
 void TitleScene::ParamReset()
 {
-	controller_->camera_->SetFollowerPos(sceneObj_->player_->GetObject3d()->GetWorldTransformPtr());
-	controller_->camera_->SetTargetPos(sceneObj_->enemy_->GetObject3d()->GetWorldTransformPtr());
-	controller_->camera_->MoveCamera();
+
+	//カメラの座標と注視点をセット
+	controller_->camera_->SetEye({ player_->GetObject3d()->GetPosition().x,player_->GetObject3d()->GetPosition().y,player_->GetObject3d()->GetPosition().z - 50 });
+	controller_->camera_->SetTarget(enemy_->GetObject3d()->GetPosition());
 	player_->GetObject3d()->SetScale({ 1,1,1 });
 	player_->GetObject3d()->SetPosition({ 0,0,-50 });
 	sceneObj_->transitionO_->SetScale({1,1,1});

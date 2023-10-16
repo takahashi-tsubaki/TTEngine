@@ -1,5 +1,5 @@
 #include "StageSelectScene.h"
-
+#include "Ease.h"
 StageSelectScene::StageSelectScene(SceneManager* controller, SceneObjects* sceneObj)
 {
 	controller_ = controller;
@@ -14,7 +14,6 @@ StageSelectScene::~StageSelectScene()
 
 	sceneObj_->Reset();
 	isTransition = false;
-	//delete sceneObj_->skydomeO_;
 	/*sceneObj_->Delete();*/
 }
 
@@ -24,17 +23,22 @@ void StageSelectScene::Initialize()
 	player_ = sceneObj_->player_;
 	enemy_ = sceneObj_->enemy_;
 
+
+
 	controller_->camera_->SetFollowerPos(&followPos);
 
 	controller_->camera_->SetTargetPos(&targetPos);
+
+	sceneObj_->transitionO_->SetScale({ 400,400,60 });
+	sceneObj_->transitionO_->SetPosition({ transPos });
+
 }
 
 void StageSelectScene::Update(Input* input, GamePad* gamePad)
 {
 	gamePad->Update();
 	//天球を回転させる処理
-
-	sceneObj_->skydomeO_->Update();
+	sceneObj_->selectSkydomeO_->Update();
 	sceneObj_->transitionO_->Update();
 
 
@@ -43,42 +47,24 @@ void StageSelectScene::Update(Input* input, GamePad* gamePad)
 	//ボタンを押したらシーン遷移を行う
 	if (input->TriggerKey(DIK_SPACE) || gamePad->ButtonTrigger(X))
 	{
-		if (sceneObj_->transitionO_->worldTransform.scale_.x <= 1 || sceneObj_->transitionO_->worldTransform.scale_.z <= 1)
-		{
-			addScale = true;
-			isTransition = true;
-		}
+		
+
+		isTransition = true;
+
 
 	}
 	if ( input->TriggerKey(DIK_TAB) || gamePad->ButtonTrigger(B) )
 	{
 		controller_->ChangeSceneNum(S_TITLE);
 	}
-	//シーン遷移のオブジェクトのスケールが一定以上に到達したとき
-	if (isTransition == true)
+	if ( easeTimer >= 120 )
 	{
-		if (sceneObj_->transitionO_->worldTransform.scale_.x >= 60 && sceneObj_->transitionO_->worldTransform.scale_.z >= 60)
-		{
-			
-			player_->GetObject3d()->SetScale({ 1,1,1 });
-			player_->GetObject3d()->SetPosition({ 0,0,-50 });
-			sceneObj_->player_ = player_;
-			sceneObj_->enemy_ = enemy_;
-			controller_->camera_->SetFollowerPos(player_->GetObject3d()->GetWorldTransformPtr());
-			controller_->camera_->SetTargetPos(enemy_->GetObject3d()->GetWorldTransformPtr());
-			controller_->ChangeSceneNum(S_PLAY);
-		}
+		ParamReset();
+		controller_->ChangeSceneNum(S_PLAY);
 	}
-
-	SceneTransition();
-	if (sceneObj_->transitionO_->worldTransform.scale_.x <= 0 || sceneObj_->transitionO_->worldTransform.scale_.z <= 0)
+	if ( isTransition == true )
 	{
-		sceneObj_->transitionO_->worldTransform.scale_ = { 1,1,1 };
-		subScale = false;
-	}
-	if (subScale == false)
-	{
-
+		SceneTransition();
 	}
 	controller_->camera_->Update();
 }
@@ -93,7 +79,7 @@ void StageSelectScene::Draw()
 
 	/*fbxObject->Draw(dxCommon_->GetCommandList());*/
 
-	sceneObj_->skydomeO_->Draw();
+	sceneObj_->selectSkydomeO_->Draw();
 
 	enemy_->Draw();
 	player_->Draw();
@@ -111,7 +97,12 @@ void StageSelectScene::Draw()
 	Sprite::PreDraw(controller_->dxCommon_->GetCommandList());
 	// 背景スプライト描画
 
-	//sprite_->Draw();
+	if ( isTransition == false )
+	{
+		sceneObj_->spaceButton_->Draw();
+	}
+
+
 	/// <summary>
 	/// ここに背景スプライトの描画処理を追加できる
 	/// </summary>
@@ -129,7 +120,8 @@ void StageSelectScene::Draw()
 	/*fbxObject->Draw(dxCommon_->GetCommandList());*/
 
 
-	if (subScale == true || addScale == true)
+	//sprite_->Draw();
+	if ( isTransition == true )
 	{
 		sceneObj_->transitionO_->Draw();
 	}
@@ -179,13 +171,57 @@ void StageSelectScene::Draw()
 
 void StageSelectScene::SceneTransition()
 {
-	if (subScale == true)
+	playerScale.x -= reduction;
+	playerScale.y += expansion;
+	player_->GetObject3d()->SetScale(playerScale);
+
+
+	if ( player_->GetObject3d()->GetScale().x <= 0 )
 	{
-		sceneObj_->transitionO_->worldTransform.scale_ -= scale;
+		player_->GetObject3d()->SetScale({ 0,0,0 });
+		enemyScale.x -= reduction;
+		enemyScale.y += expansion;
+		enemy_->GetObject3d()->SetScale(enemyScale);
 	}
-	else if(addScale == true)
+
+	if ( enemy_->GetObject3d()->GetScale().x <= 0 )
 	{
-		sceneObj_->transitionO_->worldTransform.scale_ += scale;
+		enemy_->GetObject3d()->SetScale({ 0,0,0 });
+		cameraDescent = true;
 	}
-	sceneObj_->transitionO_->Update();
+
+	if ( cameraDescent == true )
+	{
+		easeTimer++;
+
+		descentSpeed = 3.0f * ( float ) Ease::InOutQuint(change,0,120,easeTimer);
+
+		controller_->camera_->eye_.y -= descentSpeed;
+		controller_->camera_->target_.y -= descentSpeed;
+		controller_->camera_->SetEye(controller_->camera_->eye_);
+		controller_->camera_->SetTarget(controller_->camera_->target_);
+		//controller_->camera_->Update();
+	}
+	else
+	{
+		easeTimer = 0;
+		descentSpeed = 0;
+	}
+}
+
+void StageSelectScene::ParamReset()
+{
+	//カメラの座標と注視点をセット
+	controller_->camera_->SetFollowerPos(player_->GetObject3d()->GetWorldTransformPtr());
+
+	controller_->camera_->SetTargetPos(enemy_->GetObject3d()->GetWorldTransformPtr());
+
+	controller_->camera_->MoveCamera();
+	enemy_->GetObject3d()->SetScale({ 1,1,1 });
+	player_->GetObject3d()->SetScale({ 1,1,1 });
+	player_->GetObject3d()->SetPosition({ 0,0,-50 });
+	sceneObj_->transitionO_->SetScale({ 1,1,1 });
+	sceneObj_->transitionO_->SetPosition({ 0,0,0 });
+
+	transScale_ = { 1,1,1 };
 }

@@ -58,15 +58,23 @@ public:
 	FbxObject3d* fbxObject = nullptr;
 	Sprite* sprite_ = nullptr;
 
+
+	Sprite* spaceButton_ = nullptr;
+
 	//天球
 	Object3d* skydomeO_ = nullptr;
 	Model* skydomeM_ = nullptr;
+
+	//天球
+	Object3d* selectSkydomeO_ = nullptr;
+	Model* selectSkydomeM_ = nullptr;
 
 	Model* model = nullptr;
 	Object3d* object = nullptr;
 
 	Model* transitionM_ = nullptr;
 	Object3d* transitionO_ = nullptr;
+
 
 	Player* player_ = nullptr;
 	Enemy* enemy_ = nullptr;

@@ -55,6 +55,24 @@ protected:
 
 	Vector3 scale = { 1,1,1 };
 
+		//シーン遷移用の変数たち
+	float reduction = 0.05f;//縮小
+	float expansion = 0.05f;//拡大
+
+	Vector3 transScale_ = { 1,1,1 };//シーン遷移用のスケール
+	Vector3 playerScale = { 1,1,1 };
+	Vector3 enemyScale = { 1,1,1 };
+
+	Vector3 transPos = { 0,-600,0 };
+	float transSpeed = 15;
+
+	bool cameraDescent = false;//カメラの上昇するかどうかのフラグ
+	float descentSpeed = 0;//上昇用変数
+
+	const float change = 1.0f;
+	float easeTimer = 0;
+
+
 public:
 	//コンストラクタとデストラクタ
 	StageSelectScene(SceneManager* controller,SceneObjects* sceneObj);
@@ -75,6 +93,8 @@ public:
 
 	//シーン遷移
 	void SceneTransition();
+
+	void ParamReset();
 
 	//void Pause(Input* input);
 };
