@@ -39,6 +39,7 @@ void PlayScene::Initialize()
 	player_ = sceneObj_->player_;
 	enemy_ = sceneObj_->enemy_;
 	player_->GetObject3d()->SetScale({1,1,1});
+	enemy_->GetObject3d()->SetScale({ 1,1,1 });
 
 	controller_->camera_->SetFollowerPos(player_->GetObject3d()->GetWorldTransformPtr());
 
@@ -52,47 +53,46 @@ void PlayScene::Update(Input* input, GamePad* gamePad)
 
 	assert(input);
 	gamePad->Update();
-	if (isTransition == false)
+
+	//シーンチェンジ
+	if ( input->TriggerKey(DIK_RETURN) || gamePad->ButtonTrigger(X) )
 	{
-		//シーンチェンジ
-		if ( input->TriggerKey(DIK_RETURN) || gamePad->ButtonTrigger(X) )
-		{
 
-			player_->Reset();
-			enemy_->Reset();
-			controller_->ChangeSceneNum(S_TITLE);
-		}
-
-		//ポーズシーンへ
-		if (input->TriggerKey(DIK_TAB) || gamePad->ButtonTrigger(START))
-		{
-			sceneObj_->player_ =player_;
-			sceneObj_->enemy_ = enemy_;
-			controller_->PushScene(S_PAUSE);
-		}
-
-		if (input->TriggerKey(DIK_LSHIFT) || gamePad->ButtonTrigger(BACK))
-		{
-			if (enemy_->GetDebugMode() == false)
-			{
-				enemy_->SetDebugMode(true);
-			}
-			else
-			{
-				enemy_->SetDebugMode(false);
-			}
-		}
-		
-		player_->Update(input, gamePad);
-		enemy_->Update();
+		player_->Reset();
+		enemy_->Reset();
+		controller_->ChangeSceneNum(S_TITLE);
 	}
+
+	//ポーズシーンへ
+	if (input->TriggerKey(DIK_TAB) || gamePad->ButtonTrigger(START))
+	{
+		sceneObj_->player_ =player_;
+		sceneObj_->enemy_ = enemy_;
+		controller_->PushScene(S_PAUSE);
+	}
+
+	if (input->TriggerKey(DIK_LSHIFT) || gamePad->ButtonTrigger(BACK))
+	{
+		if (enemy_->GetDebugMode() == false)
+		{
+			enemy_->SetDebugMode(true);
+		}
+		else
+		{
+			enemy_->SetDebugMode(false);
+		}
+	}
+		
+	player_->Update(input, gamePad);
+	enemy_->Update();
+
 	/*player_ = sceneObj_->player_;*/
 	
 
-	if (isTransition == true)
-	{
-		SceneTransition();
-	}
+	//if (isTransition == true)
+	//{
+	//	SceneTransition();
+	//}
 	
 
 	//スプライトの大きさを体力に設定
@@ -112,15 +112,15 @@ void PlayScene::Update(Input* input, GamePad* gamePad)
 
 	sceneObj_->skydomeO_->SetPosition({ sceneObj_->skydomeO_->GetPosition().x + player_->GetPosition().x,sceneObj_->skydomeO_->GetPosition().y,sceneObj_->skydomeO_->GetPosition().z });
 	sceneObj_->skydomeO_->Update();
-
-	if (sceneObj_->transitionO_->worldTransform.scale_.x <= 0 || sceneObj_->transitionO_->worldTransform.scale_.z <= 0)
-	{
-		isTransition = false;
-	}
-	if (isTransition == false)
-	{
-		sceneObj_->transitionO_->worldTransform.scale_ = { 1,1,1 };
-	}
+	sceneObj_->transitionO_->Update();
+	//if (sceneObj_->transitionO_->worldTransform.scale_.x <= 0 || sceneObj_->transitionO_->worldTransform.scale_.z <= 0)
+	//{
+	//	isTransition = false;
+	//}
+	//if (isTransition == false)
+	//{
+	//	sceneObj_->transitionO_->worldTransform.scale_ = { 1,1,1 };
+	//}
 
 	//リセット処理
 	if (input->TriggerKey(DIK_R))
@@ -201,11 +201,6 @@ void PlayScene::Draw()
 	//// 3Dオブジェクトの描画
 
 	/*fbxObject->Draw(dxCommon_->GetCommandList());*/
-
-	if (isTransition == true)
-	{
-		sceneObj_->transitionO_->Draw();
-	}
 
 	player_->GetParticle()->Draw(controller_->dxCommon_->GetCommandList());
 	enemy_->GetParticle()->Draw(controller_->dxCommon_->GetCommandList());

@@ -10,14 +10,23 @@ void SceneObjects::Initialize(SceneManager* controller)
 
 	Sprite::LoadTexture(7, L"Resources/sprite/alart2.png");
 	Sprite::LoadTexture(8, L"Resources/black.jpg");
+	Sprite::LoadTexture(9,L"Resources/sprite/Space.png");
+	Sprite::LoadTexture(10,L"Resources/sprite/stageSelect.png");
+
+	spaceButton_ = Sprite::Create(9,{ 525,500 });
 
 	controller_ = controller;
 
 	skydomeO_ = Object3d::Create();
 	skydomeM_ = Model::CreateFromOBJ("skydome");
 	skydomeO_->SetModel(skydomeM_);
-
 	skydomeO_->SetScale({ 10,10,10 });
+
+	selectSkydomeO_ = Object3d::Create();
+	selectSkydomeM_ = Model::CreateFromOBJ("selectSkydome");
+	selectSkydomeO_->SetModel(selectSkydomeM_);
+
+	selectSkydomeO_->SetScale({ 10,10,10 });
 
 	transitionM_ = Model::CreateFromOBJ("transition");
 	transitionO_ = Object3d::Create();
@@ -46,6 +55,8 @@ void SceneObjects::Delete()
 {
 	delete skydomeO_;
 	delete skydomeM_;
+	delete selectSkydomeO_;
+	delete selectSkydomeM_;
 	delete fbxObject;
 	delete fbxModel;
 	delete player_;
