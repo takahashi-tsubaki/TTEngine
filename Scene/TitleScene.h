@@ -66,6 +66,10 @@ protected:
 	const float change = 1.0f;
 	float easeTimer = 0;
 
+	float speed;
+	Vector3 pos;
+	float moveTimer = 0;
+
 	Vector2 spritePos = {100,-1000};
 
 public:

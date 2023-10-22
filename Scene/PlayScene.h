@@ -49,6 +49,22 @@ protected:
 	bool isTransition = true;
 	Vector3 scale = { 1,1,1 };
 
+
+
+	bool isStartSign = true;
+	bool isReady = false;
+	bool isFight = false;
+
+	Vector3 cameraDis;
+
+	float addSpeed = 0.1f;
+
+	Vector3 GoalPos;
+
+	int startSignCount = 0;
+	int readyCount = 0;
+
+	const float change = 0.5f;
 public:
 	//コンストラクタとデストラクタ
 	PlayScene(SceneManager* controller,SceneObjects* sceneObj);
@@ -75,6 +91,15 @@ public:
 	/// シーン遷移
 	/// </summary>
 	void SceneTransition();
+
+	/// <summary>
+	/// スタート演出
+	/// </summary>
+	void StartSign(Input* input);
+
+	void SetCamera();
+
+	void ResetParam();
 
 	//void Pause(Input* input);
 };

@@ -24,7 +24,7 @@ void GameOverScene::Update(Input* input, GamePad* gamePad)
 		controller_->ChangeSceneNum(S_TITLE);
 	}
 	assert(input);
-	controller_->camera_->Update();
+	controller_->GetGameCamera()->Update();
 }
 
 void GameOverScene::Draw()

@@ -80,7 +80,7 @@ void TitleScene::Update(Input* input, GamePad* gamePad)
 	{
 		isTransition = true;
 	}
-	if ( easeTimer >= 120 )
+	if ( easeTimer >= 240 )
 	{
 		ParamReset();
 		controller_->ChangeSceneNum(S_SELECT);
@@ -147,10 +147,10 @@ void TitleScene::Draw()
 	/*fbxObject->Draw(dxCommon_->GetCommandList());*/
 
 
-	if (isTransition == true)
+	/*if (isTransition == true)
 	{
 		sceneObj_->transitionO_->Draw();
-	}
+	}*/
 
 	//skydomeO_->Draw();
 
@@ -197,7 +197,7 @@ void TitleScene::Draw()
 
 void TitleScene::ParamReset()
 {
-
+	enemy_->GetObject3d()->SetPosition({ 0,0,0 });
 	//カメラの座標と注視点をセット
 	controller_->camera_->SetEye({ player_->GetObject3d()->GetPosition().x,player_->GetObject3d()->GetPosition().y,player_->GetObject3d()->GetPosition().z - 50 });
 	controller_->camera_->SetTarget(enemy_->GetObject3d()->GetPosition());
@@ -215,6 +215,10 @@ void TitleScene::SceneTransition()
 	//sceneObj_->transitionO_->worldTransform.scale_ += scale;
 	//sceneObj_->transitionO_->Update();
 
+	moveTimer++;
+
+	pos = { 0,0.5f,0 };
+
 
 
 	playerScale.x -= reduction;
@@ -225,27 +229,36 @@ void TitleScene::SceneTransition()
 	if ( player_->GetObject3d()->GetScale().x <= 0 )
 	{
 		player_->GetObject3d()->SetScale({ 0,0,0 });
-		enemyScale.x -= reduction;
-		enemyScale.y += expansion;
-		enemy_->GetObject3d()->SetScale(enemyScale);
+		//enemyScale.x -= reduction;
+		//enemyScale.y += expansion;
+		//enemy_->GetObject3d()->SetScale(enemyScale);
+
+		speed = 3.0f * (float)Ease::InQuart(change,0,180,moveTimer);
+		pos.y *= speed;
+		enemy_->GetObject3d()->SetPosition(enemy_->GetObject3d()->GetPosition() + pos);
+		controller_->GetGameCamera()->target_.y = enemy_->GetObject3d()->GetPosition().y;
+	
 	}
 
-	if ( enemy_->GetObject3d()->GetScale().x <= 0 )
+	if ( moveTimer > 180 )
 	{
 		enemy_->GetObject3d()->SetScale({ 0,0,0 });
+
 		cameraRise = true;
 	}
 
 	if ( cameraRise == true )
 	{
 		easeTimer++;
+		
+			
+		riseSpeed = 3.0f * ( float ) Ease::InQuint(change,0,120,easeTimer);
 
-		riseSpeed = 3.0f * ( float ) Ease::InOutQuint(change,0,120,easeTimer);
+		controller_->GetGameCamera()->eye_.y += riseSpeed;
 
-		controller_->camera_->eye_.y += riseSpeed;
-		controller_->camera_->target_.y += riseSpeed;
-		controller_->camera_->SetEye(controller_->camera_->eye_);
-		controller_->camera_->SetTarget(controller_->camera_->target_);
+		controller_->GetGameCamera()->SetEye(controller_->camera_->eye_);
+		
+		
 		//controller_->camera_->Update();
 	}
 	else
@@ -253,5 +266,5 @@ void TitleScene::SceneTransition()
 		easeTimer = 0;
 		riseSpeed = 0;
 	}
-
+	controller_->GetGameCamera()->SetTarget(controller_->camera_->target_);
 }

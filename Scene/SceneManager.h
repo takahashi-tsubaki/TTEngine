@@ -37,6 +37,23 @@ public:
 	SceneManager(DirectXCommon* dxCommon,GameCamera* camera,SceneObjects* sceneObjects);
 	~SceneManager();
 
+	DirectXCommon* GetDxCommon() {
+		return dxCommon_;
+	}
+
+	GameCamera* GetGameCamera() {
+		return camera_;
+	}
+
+
+	Input* GetInput() {
+		return input_;
+	}
+
+	GamePad* GetGamePad() {
+		return gamePad_;
+	}
+
 	//オブジェクトのInitializeを呼び出す
 	void ObjectInitialize();
 	// 各シーンのInitializeを呼び出す

@@ -58,6 +58,7 @@ public:
 	FbxObject3d* fbxObject = nullptr;
 	Sprite* sprite_ = nullptr;
 
+	Sprite* selectSp_ = nullptr;
 
 	Sprite* spaceButton_ = nullptr;
 

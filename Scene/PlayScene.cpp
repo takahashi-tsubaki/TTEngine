@@ -1,5 +1,6 @@
 #include "PlayScene.h"
 #include "ImguiManager.h"
+#include "Ease.h"
 PlayScene::PlayScene(SceneManager* controller, SceneObjects* sceneObj)
 {
 	controller_ = controller;
@@ -41,11 +42,12 @@ void PlayScene::Initialize()
 	player_->GetObject3d()->SetScale({1,1,1});
 	enemy_->GetObject3d()->SetScale({ 1,1,1 });
 
-	controller_->camera_->SetFollowerPos(player_->GetObject3d()->GetWorldTransformPtr());
+	//controller_->camera_->SetFollowerPos(player_->GetObject3d()->GetWorldTransformPtr());
 
-	controller_->camera_->SetTargetPos(enemy_->GetObject3d()->GetWorldTransformPtr());
+	//controller_->camera_->SetTargetPos(enemy_->GetObject3d()->GetWorldTransformPtr());
 
-
+	//controller_->camera_->SetEye(StartPos);
+	//controller_->camera_->Update();
 }
 
 void PlayScene::Update(Input* input, GamePad* gamePad)
@@ -54,38 +56,58 @@ void PlayScene::Update(Input* input, GamePad* gamePad)
 	assert(input);
 	gamePad->Update();
 
-	//シーンチェンジ
-	if ( input->TriggerKey(DIK_RETURN) || gamePad->ButtonTrigger(X) )
-	{
 
-		player_->Reset();
-		enemy_->Reset();
-		controller_->ChangeSceneNum(S_TITLE);
+	//controller_->camera_->eye_.y = 50.0f;
+	//controller_->camera_->SetEye(controller_->camera_->eye_);
+
+	if ( isFight == false )
+	{
+		controller_->GetGameCamera()->Update();
+		StartSign(input);
+
 	}
-
-	//ポーズシーンへ
-	if (input->TriggerKey(DIK_TAB) || gamePad->ButtonTrigger(START))
+	if ( isFight == true )
 	{
-		sceneObj_->player_ =player_;
-		sceneObj_->enemy_ = enemy_;
-		controller_->PushScene(S_PAUSE);
-	}
-
-	if (input->TriggerKey(DIK_LSHIFT) || gamePad->ButtonTrigger(BACK))
-	{
-		if (enemy_->GetDebugMode() == false)
+			//シーンチェンジ
+		if ( input->TriggerKey(DIK_RETURN) || gamePad->ButtonTrigger(X) )
 		{
-			enemy_->SetDebugMode(true);
-		}
-		else
-		{
-			enemy_->SetDebugMode(false);
-		}
-	}
-		
-	player_->Update(input, gamePad);
-	enemy_->Update();
 
+			player_->Reset();
+			enemy_->Reset();
+			controller_->ChangeSceneNum(S_TITLE);
+		}
+
+		//ポーズシーンへ
+		if ( input->TriggerKey(DIK_TAB) || gamePad->ButtonTrigger(START) )
+		{
+			sceneObj_->player_ = player_;
+			sceneObj_->enemy_ = enemy_;
+			controller_->PushScene(S_PAUSE);
+		}
+
+		if ( input->TriggerKey(DIK_LSHIFT) || gamePad->ButtonTrigger(BACK) )
+		{
+			if ( enemy_->GetDebugMode() == false )
+			{
+				enemy_->SetDebugMode(true);
+			}
+			else
+			{
+				enemy_->SetDebugMode(false);
+			}
+		}
+
+		player_->Update(input,gamePad);
+		enemy_->Update();
+
+		controller_->GetGameCamera()->SetFollowerPos(player_->GetObject3d()->GetWorldTransformPtr());
+
+		controller_->GetGameCamera()->SetTargetPos(enemy_->GetObject3d()->GetWorldTransformPtr());
+		controller_->GetGameCamera()->MoveCamera();
+	}
+
+	player_->GetObject3d()->Update();
+	enemy_->GetObject3d()->Update();
 	/*player_ = sceneObj_->player_;*/
 	
 
@@ -132,29 +154,18 @@ void PlayScene::Update(Input* input, GamePad* gamePad)
 
 	if (player_->GetHp() <= 0)
 	{
-		player_->Reset();
-		enemy_->Reset();
-		sceneObj_->player_ = player_;
-		sceneObj_->enemy_ = enemy_;
-		controller_->camera_->SetFollowerPos(player_->GetObject3d()->GetWorldTransformPtr());
-
-		controller_->camera_->SetTargetPos(enemy_->GetObject3d()->GetWorldTransformPtr());
+		ResetParam();
 		controller_->ChangeSceneNum(S_OVER);
 	}
 
 	else if (enemy_->GetHp() <= 0)
 	{
-		player_->Reset();
-		enemy_->Reset();
-		sceneObj_->player_ = player_;
-		sceneObj_->enemy_ = enemy_;
-		controller_->camera_->SetFollowerPos(player_->GetObject3d()->GetWorldTransformPtr());
-		controller_->camera_->SetTargetPos(enemy_->GetObject3d()->GetWorldTransformPtr());
+		ResetParam();
 		controller_->ChangeSceneNum(S_CLEAR);
 	}
 
 
-	controller_->camera_->MoveCamera();
+
 }
 
 void PlayScene::Draw()
@@ -256,5 +267,85 @@ void PlayScene::SceneTransition()
 {
 	sceneObj_->transitionO_->worldTransform.scale_ -= scale;
 	sceneObj_->transitionO_->Update();
+}
+
+void PlayScene::StartSign(Input* input)
+{
+	Vector3 StartPos = { 2,50,50 };
+	GoalPos = { player_->GetObject3d()->GetPosition().x,player_->GetObject3d()->GetPosition().y + 9 ,player_->GetObject3d()->GetPosition().z - 7 };
+	cameraDis = StartPos  - GoalPos ;
+	addSpeed =  2.0f * (float)Ease::OutCubic(change,0,120,startSignCount);
+
+	//addSpeed *= -1;
+
+	//cameraDis.nomalize();
+	cameraDis *= addSpeed;
+
+	cameraDis.y *= -1;
+	cameraDis.z *= -1;
+
+	cameraDis.y += 50.0f;//イージング開始の初期値をずらす
+
+
+	controller_->GetGameCamera()->eye_ = cameraDis;
+	controller_->GetGameCamera()->SetEye(controller_->camera_->eye_);
+	controller_->GetGameCamera()->SetTarget(enemy_->GetObject3d()->GetPosition());
+
+	startSignCount++;
+	if ( startSignCount>=120 )
+	{
+		startSignCount = 120;
+		if ( isReady == false )
+		{
+			if (input->TriggerKey(DIK_SPACE) )
+			{
+				isReady = true;
+			}
+		}
+	
+	}
+	if ( isReady == true )
+	{
+		readyCount++;
+		if ( readyCount >= 60 )
+		{
+			isFight = true;
+			isReady = false;
+			readyCount = 0;
+		}
+	}
+
+	if ( isFight == true )
+	{
+		isStartSign = false;
+		startSignCount = 0;
+	}
+
+}
+
+void PlayScene::SetCamera()
+{
+	if ( isStartSign == true )
+	{
+		//controller_->camera_->Update();
+	}
+	else
+	{
+
+		controller_->GetGameCamera()->SetFollowerPos(player_->GetObject3d()->GetWorldTransformPtr());
+
+		controller_->GetGameCamera()->SetTargetPos(enemy_->GetObject3d()->GetWorldTransformPtr());
+		controller_->GetGameCamera()->MoveCamera();
+	}
+}
+
+void PlayScene::ResetParam()
+{
+	player_->Reset();
+	enemy_->Reset();
+	sceneObj_->player_ = player_;
+	sceneObj_->enemy_ = enemy_;
+	controller_->GetGameCamera()->SetFollowerPos(player_->GetObject3d()->GetWorldTransformPtr());
+	controller_->GetGameCamera()->SetTargetPos(enemy_->GetObject3d()->GetWorldTransformPtr());
 }
 

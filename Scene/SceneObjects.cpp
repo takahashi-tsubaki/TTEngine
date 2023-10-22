@@ -13,6 +13,7 @@ void SceneObjects::Initialize(SceneManager* controller)
 	Sprite::LoadTexture(9,L"Resources/sprite/Space.png");
 	Sprite::LoadTexture(10,L"Resources/sprite/stageSelect.png");
 
+	selectSp_ = Sprite::Create(10,{100,100});
 	spaceButton_ = Sprite::Create(9,{ 525,500 });
 
 	controller_ = controller;

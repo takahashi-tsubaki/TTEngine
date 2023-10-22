@@ -35,9 +35,6 @@ enum PlayerBulletType
 /// </summary>
 class Player
 {
-public:
-
-	WorldTransform wtf;
 
 public:
 	/// <summary>
@@ -113,6 +110,15 @@ public:
 	Object3d* GetObject3d() {
 		return playerO_;
 	}
+
+	/// <summary>
+	/// worldTransformのゲット
+	/// </summary>
+	/// <returns></returns>
+	WorldTransform GetWorldTransform() {
+		return wtf;
+	}
+
 	/// <summary>
 	/// カメラのから見た回転座標の移動
 	/// </summary>
@@ -167,7 +173,7 @@ public:
 
 private:
 
-
+	WorldTransform wtf;
 
 	Vector3 oldPos;
 	Vector3 playerPos_;
