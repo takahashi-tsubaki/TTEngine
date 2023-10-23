@@ -77,6 +77,8 @@ void Enemy::Update()
 
 	wtf = enemyO_->GetWorldTransform();
 
+	GetHp();
+
 	//敵の向きを常に自機のほうへ向ける
 	playerPos_ = player_->GetObject3d()->GetWorldTransform().translation_;
 	enemyPos_ = enemyO_->worldTransform.translation_;
@@ -89,6 +91,8 @@ void Enemy::Update()
 	{
 		enemyO_->worldTransform.rotation_.y = ( angle + MyMath::PI / 2 );
 	}
+
+
 
 
 	if (Hp_ <= 0)
@@ -233,6 +237,10 @@ void Enemy::CheckHitCollision()
 
 #pragma endregion 
 
+	if ( hitDeley <= 0 )
+	{
+		isDamage = false;
+	}
 
 	if (hitDeley > 0) {	//毎フレームヒットを防止
 		enemyO_->SetColor({ 0,0,1,1 });
@@ -250,7 +258,8 @@ void Enemy::CheckHitCollision()
 		{
 			if (sphere[i]->GetCollisionInfo().collider_->GetAttribute() == COLLISION_ATTR_PLAYERBULLETS)
 			{
-				Hp_ -= 1;
+				Damage();
+				
 				hitDeley = 5;
 				particle_->RandParticle(sphere[i]->GetCollisionInfo().inter_);
 				SetIsHit(true);
@@ -524,6 +533,28 @@ void Enemy::Move()
 
 void Enemy::Step()
 {
+}
+
+void Enemy::Damage()
+{
+
+	damageSize += damage;
+	Hp_ -= damage;
+	decreaseHpCount--;
+	if ( decreaseHpCount <= 0 )
+	{
+		if ( damageSize > 0 )
+		{
+			damageSize -= 1;
+		}
+
+	}
+	if ( damageSize <= 0 )
+	{
+		damageSize = 0;
+	}
+
+	SetHp(Hp_);
 }
 
 void Enemy::Reset()

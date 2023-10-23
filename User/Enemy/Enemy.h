@@ -32,9 +32,7 @@ enum EnemyBulletType
 /// </summary>
 class Enemy
 {
-public:
-	WorldTransform wtf;
-	int Hp_ = 30;
+
 public:
 	/// <summary>
 	/// 初期化
@@ -55,6 +53,15 @@ public:
 	/// 当たり判定のチェック
 	/// </summary>
 	void CheckHitCollision();
+
+	/// <summary>
+	/// worldTransformのゲット
+	/// </summary>
+	/// <returns></returns>
+	WorldTransform GetWorldTransform() {
+		return wtf;
+	}
+
 
 	/// <summary>
 	/// 座標のゲット
@@ -152,6 +159,9 @@ public:
 	void Move();
 
 	void Step();
+
+	void Damage();
+
 	/// <summary>
 	/// リセット
 	/// </summary>
@@ -175,6 +185,10 @@ public:
 	bool GetDebugMode() {
 		return isDebugMode;
 	}
+
+	int GetDamageSize() {
+		return damageSize;
+	}
 	/// <summary>
 	/// カメラアングルの移動処理
 	/// </summary>
@@ -185,7 +199,14 @@ public:
 
 private:
 
-#pragma region 
+#pragma region
+
+	WorldTransform wtf;
+	int Hp_ = 30;
+	int damage = 1;
+	int damageSize = 0;
+
+	int decreaseHpCount = 60;
 
 	Vector3 oldPos;
 	Vector3 playerPos_;
@@ -199,6 +220,7 @@ private:
 	float angle;
 
 	bool isDead_ = false;
+	bool isDamage = false;
 
 	/// <summary>
 	/// 移動関連系
@@ -262,6 +284,7 @@ private:
 	//仮置き敵のモデル
 	Object3d* enemyO_ = nullptr;
 	Model* enemyM_ = nullptr;
+
 
 	//敵の弾モデル関連
 	std::list <std::unique_ptr<EnemyBullet>> bullets_;

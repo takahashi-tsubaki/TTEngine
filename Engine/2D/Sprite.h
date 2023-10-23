@@ -161,6 +161,14 @@ public: // メンバ関数
 	void SetTextureRect(const Vector2& texBase,const Vector2& texSize);
 
 	/// <summary>
+	/// 色の設定
+	/// </summary>
+	/// <param name="color"></param>
+	void SetColor(Vector4 color) {
+		color_ = color;
+	}
+
+	/// <summary>
 	/// 描画
 	/// </summary>
 	void Draw();

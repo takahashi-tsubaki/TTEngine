@@ -25,7 +25,7 @@ void GameClearScene::Update(Input* input, GamePad* gamePad)
 	}
 
 	assert(input);
-	controller_->camera_->Update();
+	controller_->GetGameCamera()->Update();
 }
 
 void GameClearScene::Draw()

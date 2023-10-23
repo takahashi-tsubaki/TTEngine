@@ -50,7 +50,7 @@ void StageSelectScene::Update(Input* input, GamePad* gamePad)
 		
 
 		isTransition = true;
-
+		//controller_->ChangeSceneNum(S_PLAY);
 
 	}
 	if ( input->TriggerKey(DIK_TAB) || gamePad->ButtonTrigger(B) )
@@ -102,7 +102,7 @@ void StageSelectScene::Draw()
 		sceneObj_->spaceButton_->Draw();
 	}
 
-
+	sceneObj_->selectSp_->Draw();
 	/// <summary>
 	/// ここに背景スプライトの描画処理を追加できる
 	/// </summary>
@@ -212,11 +212,11 @@ void StageSelectScene::SceneTransition()
 void StageSelectScene::ParamReset()
 {
 	//カメラの座標と注視点をセット
-	controller_->camera_->SetFollowerPos(player_->GetObject3d()->GetWorldTransformPtr());
+	//controller_->camera_->SetFollowerPos(player_->GetObject3d()->GetWorldTransformPtr());
 
-	controller_->camera_->SetTargetPos(enemy_->GetObject3d()->GetWorldTransformPtr());
+	//controller_->camera_->SetTargetPos(enemy_->GetObject3d()->GetWorldTransformPtr());
 
-	controller_->camera_->MoveCamera();
+	//controller_->camera_->MoveCamera();
 	enemy_->GetObject3d()->SetScale({ 1,1,1 });
 	player_->GetObject3d()->SetScale({ 1,1,1 });
 	player_->GetObject3d()->SetPosition({ 0,0,-50 });

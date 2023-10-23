@@ -35,9 +35,6 @@ enum PlayerBulletType
 /// </summary>
 class Player
 {
-public:
-
-	WorldTransform wtf;
 
 public:
 	/// <summary>
@@ -76,6 +73,12 @@ public:
 	/// <param name="input"></param>
 	/// <param name="gamePad"></param>
 	void Vanish(Input* input,GamePad* gamePad);
+
+	/// <summary>
+	/// ダメージ
+	/// </summary>
+	void Damage();
+
 	/// <summary>
 	/// タイトルシーンのアニメーション
 	/// </summary>
@@ -113,6 +116,15 @@ public:
 	Object3d* GetObject3d() {
 		return playerO_;
 	}
+
+	/// <summary>
+	/// worldTransformのゲット
+	/// </summary>
+	/// <returns></returns>
+	WorldTransform GetWorldTransform() {
+		return wtf;
+	}
+
 	/// <summary>
 	/// カメラのから見た回転座標の移動
 	/// </summary>
@@ -167,7 +179,11 @@ public:
 
 private:
 
+	WorldTransform wtf;
 
+	int damage = 1;
+	int damageSize = 0;
+	int decreaseHpCount = 60;
 
 	Vector3 oldPos;
 	Vector3 playerPos_;
@@ -180,7 +196,7 @@ private:
 
 	int Hp_ = 10;
 	bool isDead_ = false;
-
+	bool isDamage = false;
 	//自機の向き
 	Vector3 faceAngle_ = { 0 , 0 , 0 };
 	//カメラの角度

@@ -16,6 +16,11 @@ protected:
 	Sprite* sprite2_ = nullptr;
 	Sprite* alart = nullptr;
 
+	Sprite* damageSP_ = nullptr;
+	Sprite* isFightSP_ = nullptr;
+
+	Sprite* startSp_ = nullptr;
+
 	Model* model = nullptr;
 	Object3d* object = nullptr;
 
@@ -49,6 +54,35 @@ protected:
 	bool isTransition = true;
 	Vector3 scale = { 1,1,1 };
 
+
+
+	bool isStartSign = true;
+	bool isReady = false;
+	bool isFight = false;
+
+	Vector3 cameraDis;
+
+	float addSpeed = 0.1f;
+
+	Vector3 GoalPos;
+
+	int startSignCount = 0;
+	int readyCount = 0;
+	int fightSpCount = 0;//スプライト用のカウント
+
+	float SpAlpha = 1.0f;
+	float decreaseAlpha = 0.05f;
+
+	float SpSize = 1.0f;
+	float addSize = 0.05f;
+	float decSize = 0.1f;
+
+	float startSpSize = 0.0f;
+
+	const float change = 0.5f;
+
+	float hpSpSize = 0.0f;
+	float addHpSize = 0.1f;
 public:
 	//コンストラクタとデストラクタ
 	PlayScene(SceneManager* controller,SceneObjects* sceneObj);
@@ -75,6 +109,15 @@ public:
 	/// シーン遷移
 	/// </summary>
 	void SceneTransition();
+
+	/// <summary>
+	/// スタート演出
+	/// </summary>
+	void StartSign(Input* input);
+
+	void SetCamera();
+
+	void ResetParam();
 
 	//void Pause(Input* input);
 };
