@@ -73,6 +73,12 @@ public:
 	/// <param name="input"></param>
 	/// <param name="gamePad"></param>
 	void Vanish(Input* input,GamePad* gamePad);
+
+	/// <summary>
+	/// ダメージ
+	/// </summary>
+	void Damage();
+
 	/// <summary>
 	/// タイトルシーンのアニメーション
 	/// </summary>
@@ -175,6 +181,10 @@ private:
 
 	WorldTransform wtf;
 
+	int damage = 1;
+	int damageSize = 0;
+	int decreaseHpCount = 60;
+
 	Vector3 oldPos;
 	Vector3 playerPos_;
 	Vector3 enemyPos_;
@@ -186,7 +196,7 @@ private:
 
 	int Hp_ = 10;
 	bool isDead_ = false;
-
+	bool isDamage = false;
 	//自機の向き
 	Vector3 faceAngle_ = { 0 , 0 , 0 };
 	//カメラの角度

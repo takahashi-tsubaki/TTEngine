@@ -62,6 +62,8 @@ public:
 
 	Sprite* spaceButton_ = nullptr;
 
+
+
 	//天球
 	Object3d* skydomeO_ = nullptr;
 	Model* skydomeM_ = nullptr;

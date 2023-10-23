@@ -140,11 +140,11 @@ void Player::Update(Input* input, GamePad* gamePad)
 
 	//ImGui::End();
 	
-	ImGui::Begin("Vanish");
+	/*ImGui::Begin("Vanish");
 
 	ImGui::SliderFloat("Gauge",&VanishGauge, -400.0f, 400.0f);
 	ImGui::InputFloat("Timer", &vanishTimer);
-	ImGui::End();
+	ImGui::End();*/
 
 
 	/*ImGui::Begin("Camera");
@@ -412,7 +412,7 @@ void Player::Vanish(Input* input, GamePad* gamePad)
 					if (isVanising == false)
 					{
 						VanishGauge = 0.0f;
-						VanishPos = { enemyPos_.x+10 , enemyPos_.y, enemyPos_.z + 5 };
+						VanishPos = { playerPos_.x , playerPos_.y, playerPos_.z *-1 };
 						playerO_->SetPosition(VanishPos);
 						isVanising = true;
 					}
@@ -449,6 +449,10 @@ void Player::Vanish(Input* input, GamePad* gamePad)
 			isVanising = false;
 		}
 	}
+}
+
+void Player::Damage()
+{
 }
 
 void Player::TitleAnime()

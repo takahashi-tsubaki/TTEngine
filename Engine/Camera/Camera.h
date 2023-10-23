@@ -54,7 +54,7 @@ public: // メンバ関数
 	/// ビュー行列の取得
 	/// </summary>
 	/// <returns>ビュー行列</returns>
-	inline const Matrix4& GetViewMatrix() {
+	Matrix4& GetViewMatrix() {
 		return matView;
 	}
 
@@ -62,7 +62,7 @@ public: // メンバ関数
 /// 射影行列の取得
 /// </summary>
 /// <returns>射影行列</returns>
-	inline const Matrix4& GetProjectionMatrix() {
+	Matrix4& GetProjectionMatrix() {
 		return matProjection;
 	}
 
@@ -70,7 +70,7 @@ public: // メンバ関数
 /// ビュー射影行列の取得
 /// </summary>
 /// <returns>ビュー射影行列</returns>
-	inline const Matrix4& GetViewProjectionMatrix() {
+	Matrix4& GetViewProjectionMatrix() {
 		return matViewProjection;
 	}
 
@@ -78,7 +78,7 @@ public: // メンバ関数
 /// ビルボード行列の取得
 /// </summary>
 /// <returns>ビルボード行列</returns>
-	inline const Matrix4& GetBillboardMatrix() {
+	Matrix4& GetBillboardMatrix() {
 		return matBillboard;
 	}
 
@@ -86,7 +86,7 @@ public: // メンバ関数
 /// 視点座標の取得
 /// </summary>
 /// <returns>座標</returns>
-	inline const Vector3& GetEye() {
+	Vector3& GetEye() {
 		return eye_;
 	}
 
@@ -94,7 +94,7 @@ public: // メンバ関数
 /// 視点座標の設定
 /// </summary>
 /// <param name="eye">座標</param>
-	inline void SetEye(Vector3 eye) {
+	 void SetEye(Vector3 eye) {
 		eye_ = eye;
 		viewDirty = true;
 	}
@@ -103,7 +103,7 @@ public: // メンバ関数
 	/// 注視点座標の取得
 	/// </summary>
 	/// <returns>座標</returns>
-	inline const Vector3& GetTarget() {
+	Vector3& GetTarget() {
 		return target_;
 	}
 
@@ -120,7 +120,7 @@ public: // メンバ関数
 	/// 上方向ベクトルの取得
 	/// </summary>
 	/// <returns>上方向ベクトル</returns>
-	inline const Vector3& GetUp() {
+	Vector3& GetUp() {
 		return up_;
 	}
 
@@ -128,22 +128,22 @@ public: // メンバ関数
 /// 上方向ベクトルの設定
 /// </summary>
 /// <param name="up">上方向ベクトル</param>
-	inline void SetUp(Vector3 up) {
+	void SetUp(Vector3 up) {
 		up_ = up;
 		viewDirty = true;
 	}
 
-	inline const float& GetSensor() {
+	float& GetSensor() {
 		return sensor_;
 	}
-	inline void SetSensor(float sensor) {
+	void SetSensor(float sensor) {
 		sensor_ = sensor; viewDirty = true;
 	}
 	// FL
-	inline const float& GetForcalLengs() {
+	float& GetForcalLengs() {
 		return focalLengs_;
 	}
-	inline void SetFocalLengs(float focalLengs) {
+	void SetFocalLengs(float focalLengs) {
 		focalLengs_ = focalLengs; viewDirty = true;
 	}
 

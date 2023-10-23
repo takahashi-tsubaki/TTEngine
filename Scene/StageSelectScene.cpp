@@ -49,8 +49,8 @@ void StageSelectScene::Update(Input* input, GamePad* gamePad)
 	{
 		
 
-		/*isTransition = true;*/
-		controller_->ChangeSceneNum(S_PLAY);
+		isTransition = true;
+		//controller_->ChangeSceneNum(S_PLAY);
 
 	}
 	if ( input->TriggerKey(DIK_TAB) || gamePad->ButtonTrigger(B) )
