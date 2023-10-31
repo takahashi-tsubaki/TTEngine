@@ -12,7 +12,7 @@ StageSelectScene::StageSelectScene(SceneManager* controller, SceneObjects* scene
 StageSelectScene::~StageSelectScene()
 {
 
-	sceneObj_->Reset();
+	//sceneObj_->Reset();
 	isTransition = false;
 	/*sceneObj_->Delete();*/
 }
@@ -47,10 +47,9 @@ void StageSelectScene::Update(Input* input, GamePad* gamePad)
 	//ボタンを押したらシーン遷移を行う
 	if (input->TriggerKey(DIK_SPACE) || gamePad->ButtonTrigger(X))
 	{
-		
 
 		isTransition = true;
-		//controller_->ChangeSceneNum(S_PLAY);
+		/*controller_->ChangeSceneNum(S_PLAY);*/
 
 	}
 	if ( input->TriggerKey(DIK_TAB) || gamePad->ButtonTrigger(B) )

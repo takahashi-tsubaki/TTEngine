@@ -4,18 +4,21 @@ void SceneObjects::Initialize(SceneManager* controller)
 {
 	Sprite::LoadTexture(1, L"Resources/kuribo-.jpg");
 	Sprite::LoadTexture(2, L"Resources/mario.jpg");
-	Sprite::LoadTexture(3, L"Resources/sprite/hp.png");
+	Sprite::LoadTexture(3, L"Resources/sprite/hp.png");//hpバー
 	Sprite::LoadTexture(4, L"Resources/sprite/clear.png");
 	Sprite::LoadTexture(5, L"Resources/sprite/over.png");
-
-	Sprite::LoadTexture(7, L"Resources/sprite/alart2.png");
+	Sprite::LoadTexture(6,L"Resources/sprite/title2.png");//タイトル
+	Sprite::LoadTexture(7, L"Resources/sprite/alart2.png");// !マーク
 	Sprite::LoadTexture(8, L"Resources/black.jpg");
-	Sprite::LoadTexture(9,L"Resources/sprite/Space.png");
-	Sprite::LoadTexture(10,L"Resources/sprite/stageSelect.png");
-	Sprite::LoadTexture(11,L"Resources/sprite/damageRed.png");
+	Sprite::LoadTexture(9,L"Resources/sprite/Space2.png");//space
+	Sprite::LoadTexture(10,L"Resources/sprite/stageSelect.png");//stage select
+	Sprite::LoadTexture(11,L"Resources/sprite/damageRed.png");//hp減少バー
 
-	Sprite::LoadTexture(12,L"Resources/sprite/Fight.png");
-	Sprite::LoadTexture(13,L"Resources/sprite/StartSign.png");
+	Sprite::LoadTexture(12,L"Resources/sprite/Fight.png");//Fight
+	Sprite::LoadTexture(13,L"Resources/sprite/StartSign.png");//敵を倒せ
+	Sprite::LoadTexture(14, L"Resources/sprite/Win.png"); // 敵を倒せ
+	Sprite::LoadTexture(15, L"Resources/sprite/Lose.png"); // 敵を倒せ
+	Sprite::LoadTexture(16, L"Resources/sprite/Finish.png"); // 敵を倒せ
 
 	selectSp_ = Sprite::Create(10,{100,100});
 	spaceButton_ = Sprite::Create(9,{ 525,500 });
@@ -52,7 +55,6 @@ void SceneObjects::Initialize(SceneManager* controller)
 	enemy_ = new Enemy();
 
 	player_->Initialize(controller_->dxCommon_, enemy_);
-
 	enemy_->Initialize(controller_->dxCommon_,player_);
 }
 

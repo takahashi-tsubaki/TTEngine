@@ -254,3 +254,35 @@ void Affin::SinCos(float& sin_, float& cos_, float angle)
 	cos_ = cos(angle);
 }
 
+void Affin::HorizontalProjection(
+	WorldTransform& worldTransform, const Vector3& startSpeed, float G, int flame)
+{
+	Vector3 speed;
+
+	speed.z = startSpeed.z;
+	// 速度を計算(鉛直投げ上げ)
+	speed.y = startSpeed.y - G * (static_cast<float>(flame) / 60.0f);
+
+	// translationにspeedを加算する
+	worldTransform.translation_ += speed;
+
+	// アフィン変換用の行列
+	Matrix4 affinMat;
+
+	// Positionの情報を入れる
+	affinMat.m[3][0] = worldTransform.translation_.x;
+	affinMat.m[3][1] = worldTransform.translation_.y;
+	affinMat.m[3][2] = worldTransform.translation_.z;
+
+	// matWorldに単位行列を入れる
+	worldTransform.matWorld_.identity();
+
+	// 行列の計算
+	worldTransform.matWorld_ *= affinMat;
+
+	// 行列の転送
+	worldTransform.UpdateMatWorld();
+	// フレームを追加
+	flame++;
+}
+

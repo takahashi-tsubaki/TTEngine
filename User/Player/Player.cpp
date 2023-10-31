@@ -1,6 +1,8 @@
 #include "Player.h"
 #include "Enemy.h"
 #include "ImguiManager.h"
+#include "Affin.h"
+#include "Ease.h"
 void Player::Initialize(DirectXCommon* dxCommon, Enemy* enemy)
 {
 	dxCommon_ = dxCommon;
@@ -79,6 +81,9 @@ void Player::Initialize(DirectXCommon* dxCommon, Enemy* enemy)
 
 	}
 	startCount = clock() / 1000;
+
+	blowAwayPos = playerO_->GetPosition();
+	//playerO_->SetRotation({180, 0, 0});
 }
 
 void Player::Update(Input* input, GamePad* gamePad)
@@ -89,6 +94,7 @@ void Player::Update(Input* input, GamePad* gamePad)
 	if (Hp_ <= 0)
 	{
 		SetisDead(true);
+		GameOverAnime();
 	}
 
 	
@@ -119,7 +125,7 @@ void Player::Update(Input* input, GamePad* gamePad)
 	Shot(input, gamePad);
 	Vanish(input, gamePad);
 	////行列の更新など
-	playerO_->UpdateMatrix();
+	//playerO_->UpdateMatrix();
 
 	particle_->Update();
 
@@ -169,12 +175,16 @@ void Player::Draw()
 		{
 			bullet->Draw();
 		}
-		if ( scale_.x > 0.2 )
+		
+
+		/*playerFbxO_->Draw(dxCommon_->GetCommandList());*/
+	}
+	if ( blowAwayCount <90)
+	{
+		if (scale_.x > 0.2)
 		{
 			playerO_->Draw();
 		}
-
-		/*playerFbxO_->Draw(dxCommon_->GetCommandList());*/
 	}
 }
 
@@ -217,7 +227,11 @@ void Player::Move(Input* input, GamePad* gamePad)
 
 		velocity_ += { moveSpeed , 0 , 0 };
 	}
-	playerO_->worldTransform.rotation_ = cameraAngle;
+	if (GetisDead()==false)
+	{
+		playerO_->worldTransform.rotation_ = cameraAngle;
+	}
+	
 
 	playerO_->worldTransform.UpdateMatWorld();
 
@@ -452,7 +466,16 @@ void Player::Vanish(Input* input, GamePad* gamePad)
 }
 
 void Player::Damage()
+{}
+
+void Player::RemoveAttribute()
 {
+	for (int i = 0; i < SPHERE_COLISSION_NUM; i++) {
+
+		CollisionManager::GetInstance()->RemoveCollider(sphere[i]);
+		// こいつはいらない
+		/*sphere[i]->GetCollisionInfo().collider->RemoveAttribute(COLLISION_ATTR_PLAYERBULLETS);*/
+	}
 }
 
 void Player::TitleAnime()
@@ -460,9 +483,6 @@ void Player::TitleAnime()
 	CheckHitCollision();
 
 	srand(( unsigned int ) time(nullptr));
-
-	
-
 
 	if ( animevanish == false )
 	{
@@ -501,6 +521,36 @@ void Player::TitleAnime()
 	}
 
 	playerO_->Update();
+}
+
+void Player::GameOverAnime()
+{
+
+	blowAwayCount++;
+	
+	/*addblowSpeed = 3.0f * (float)Ease::OutExpo(2.0f, 0, 120, blowAwayCount);
+
+	if ( blowAwayRotate.x > -90 )
+	{
+		blowAwayRotate.x -= 4;
+	}
+	else
+	{
+		blowAwayRotate.x = -90;
+	}
+
+	playerO_->SetRotation(blowAwayRotate);
+
+	if ( blowAwayCount > 24 )
+	{
+		blowAwayPos.y -= addblowSpeed * ((blowAwayCount - 24) * gravity);
+	}*/
+
+	//水平投射をしながら自機を下に落下させる
+	Affin::HorizontalProjection(playerO_->worldTransform, {0, 0, -5}, 1.0f, blowAwayCount);
+
+	playerO_->SetPosition(playerO_->worldTransform.translation_);
+
 }
 
 void Player::CheckHitCollision()
@@ -690,6 +740,8 @@ void Player::Reset()
 	timeRate;						//何％時間が進んだか
 
 	particle_->Reset();
+	blowAwayCount = 0;
+	blowAwayPos = playerO_->GetPosition();
 
 }
 

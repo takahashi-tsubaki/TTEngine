@@ -1,6 +1,7 @@
 #include "Enemy.h"
 #include "ImguiManager.h"
 #include "Player.h"
+#include "Affin.h"
 void Enemy::Initialize(DirectXCommon* dxCommon, Player* player)
 {
 
@@ -75,7 +76,7 @@ void Enemy::Update()
 
 	GetDebugMode();
 
-	wtf = enemyO_->GetWorldTransform();
+	/*wtf = enemyO_->GetWorldTransform();*/
 
 	GetHp();
 
@@ -98,7 +99,7 @@ void Enemy::Update()
 	if (Hp_ <= 0)
 	{
 		isDead_ = true;
-
+		isDeadAnime();
 	}
 	else
 	{
@@ -126,7 +127,7 @@ void Enemy::Update()
 
 	GetIsHit();
 
-	enemyO_->UpdateMatrix();
+	//enemyO_->UpdateMatrix();
 
 	
 	CheckHitCollision();
@@ -169,9 +170,12 @@ void Enemy::Draw()
 		{
 			bullet->Draw();
 		}
+		
+	}
+	if ( blowAwayCount < 90 )
+	{
 		enemyO_->Draw();
 	}
-
 }
 
 void Enemy::CheckHitCollision()
@@ -285,6 +289,16 @@ void Enemy::CheckHitCollision()
 		spherePos[i] = enemyO_->GetPosition();
 		sphere[i]->Update();
 	}
+}
+
+void Enemy::isDeadAnime()
+{
+	blowAwayCount++;
+
+	// 水平投射をしながら自機を下に落下させる
+	Affin::HorizontalProjection(enemyO_->worldTransform, {0, 0, 5}, 1.0f, blowAwayCount);
+
+	enemyO_->SetPosition(enemyO_->worldTransform.translation_);
 }
 
 void Enemy::Attack()
@@ -501,8 +515,11 @@ void Enemy::Move()
 		isRight = false;
 		isApproach = false;*/
 	}
+	if ( GetisDead() == false )
+	{
+		enemyO_->worldTransform.rotation_ = cameraAngle;
+	}
 
-	enemyO_->worldTransform.rotation_ = cameraAngle;
 
 	enemyO_->worldTransform.UpdateMatWorld();
 
