@@ -79,10 +79,18 @@ public:
 	/// </summary>
 	void Damage();
 
+
+	void RemoveAttribute();
+
 	/// <summary>
 	/// タイトルシーンのアニメーション
 	/// </summary>
 	void TitleAnime();
+
+	//
+
+	void GameOverAnime();
+
 	/// <summary>
 	/// 座標のゲット
 	/// </summary>
@@ -285,5 +293,19 @@ private:
 	int hitDeley = 0;	//何フレーム連続で当たるか
 
 	std::unique_ptr<ParticleManager> particle_;
+
+#pragma region 演出関連
+
+	Vector3 blowAwayPos;
+
+	Vector3 blowAwayRotate;
+
+	int blowAwayCount = 0;
+
+	float addblowSpeed = 2.0f;
+	float gravity = 0.3f;
+
+
+#pragma endregion 
 };
 

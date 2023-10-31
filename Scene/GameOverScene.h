@@ -15,6 +15,8 @@ protected:
 	Sprite* sprite_ = nullptr;
 	Sprite* sprite2_ = nullptr;
 
+	Sprite* loseSP_ = nullptr; // LOSEの文字
+
 	Model* model = nullptr;
 	Object3d* object = nullptr;
 
@@ -44,6 +46,16 @@ protected:
 	Sprite* enemyHpSprite_ = nullptr;
 
 	Vector3 nowEye;
+
+	float loseSpSize = 1.0f;
+	float loseSPAlpha = 1.0f;
+
+	int gameOverCount = 0;
+	int gameOverAnimeCount = 0;
+	Vector3 enemyPos;
+	float addPos = 0.5f;
+	float color = 1.0f;
+
 public:
 	//コンストラクタとデストラクタ
 	GameOverScene(SceneManager* controller,SceneObjects* sceneObj);
@@ -65,6 +77,10 @@ public:
 	/// 描画
 	/// </summary>
 	void Draw() override;
+
+	void GameOverAnime();
+
+	void ResetParam();
 
 	//void Pause(Input* input);
 };

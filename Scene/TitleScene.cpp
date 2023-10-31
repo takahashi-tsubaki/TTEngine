@@ -19,7 +19,7 @@ TitleScene::~TitleScene()
 	delete player_;
 	delete enemy_;
 
-	sceneObj_->Reset();
+	//sceneObj_->Reset();
 	isTransition = false;
 	//delete sceneObj_->skydomeO_;
 	/*sceneObj_->Delete();*/
@@ -31,8 +31,8 @@ void TitleScene::Initialize()
 	controller_->camera_->SetFollowerPos(&followPos);
 
 	controller_->camera_->SetTargetPos(&targetPos);
-	Sprite::LoadTexture(6, L"Resources/sprite/title.png");
-	sprite_ = Sprite::Create(6, { 100,100 });
+
+	sprite_ = Sprite::Create(6, { 350,100 });
 
 
 
@@ -78,7 +78,10 @@ void TitleScene::Update(Input* input, GamePad* gamePad)
 	//ボタンを押したらシーン遷移を行う
 	if (input->TriggerKey(DIK_SPACE) || gamePad->ButtonTrigger(X))
 	{
-		isTransition = true;
+		/*isTransition = true;*/
+
+		controller_->ChangeSceneNum(S_SELECT);
+
 	}
 	if ( easeTimer >= 240 )
 	{

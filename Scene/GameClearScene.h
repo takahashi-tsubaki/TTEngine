@@ -15,6 +15,8 @@ protected:
 	Sprite* sprite_ = nullptr;
 	Sprite* sprite2_ = nullptr;
 
+	Sprite* winSP_ = nullptr; // WINの文字
+
 	Model* model = nullptr;
 	Object3d* object = nullptr;
 

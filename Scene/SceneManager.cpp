@@ -8,7 +8,7 @@ SceneManager::SceneManager(DirectXCommon* dxCommon,GameCamera* camera, SceneObje
 {
 	dxCommon_ = dxCommon;
 	sceneObjects_ = sceneObjects;
-	_scene.emplace(new TitleScene(&*this, sceneObjects_));
+	_scene.emplace(new PlayScene(&*this, sceneObjects_));
 	camera_ = camera;
 
 }

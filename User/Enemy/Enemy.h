@@ -54,6 +54,8 @@ public:
 	/// </summary>
 	void CheckHitCollision();
 
+	void isDeadAnime();
+
 	/// <summary>
 	/// worldTransformのゲット
 	/// </summary>
@@ -62,6 +64,14 @@ public:
 		return wtf;
 	}
 
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="position"></param>
+	void SetPosition(Vector3 position)
+	{
+		wtf.translation_ = position;
+	}
 
 	/// <summary>
 	/// 座標のゲット
@@ -306,5 +316,18 @@ private:
 	bool isDebugMode = false;
 
 	std::unique_ptr<ParticleManager> particle_;
+
+#pragma region 演出関連
+
+	Vector3 blowAwayPos;
+
+	Vector3 blowAwayRotate;
+
+	int blowAwayCount = 0;
+
+	float addblowSpeed = 2.0f;
+	float gravity = 0.3f;
+
+#pragma endregion
 };
 

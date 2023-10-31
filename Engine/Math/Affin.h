@@ -4,7 +4,7 @@
 #include "Vector3.h"
 #include "Vector4.h"
 
-//#include "WorldTransform.h"
+#include "WorldTransform.h"
 
 /// <summary>
 /// アフィン行列 （角度指定：度数法）
@@ -54,5 +54,8 @@ namespace Affin
 
 	//sin、cosを両方出す
 	void SinCos(float& sin_,float& cos_,float angle);
+
+	//水平投射
+	void HorizontalProjection(WorldTransform& worldTransform, const Vector3& startSpeed, float G, int flame);
 
 } // namespace Affin
