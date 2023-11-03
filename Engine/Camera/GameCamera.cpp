@@ -38,7 +38,7 @@ void GameCamera::Update()
 void GameCamera::MoveCamera()
 {
 	//カメラの位置
-	Vector3 eyeVec = followerPos_->translation_ - targetPos_->translation_;
+	eyeVec = followerPos_->translation_ - targetPos_->translation_;
 
 	Vector3 eyePos = eyeVec;
 

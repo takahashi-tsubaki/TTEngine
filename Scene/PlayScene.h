@@ -95,8 +95,11 @@ protected:
 	float addfinishSpeed = 0.0f;
 	Vector3 addRotation;
 
-	Vector3 finishCameraPos;
-	Vector3 finishCameraTarget;
+	Vector3 finishCameraPlayerPos;
+	Vector3 finishCameraPlayerTarget;
+
+	Vector3 finishCameraEnemyPos;
+	Vector3 finishCameraEnemyTarget;
 
 	float transObjAlpha = 0.0f;
 	float addAlpha = 0.018f;
@@ -142,6 +145,10 @@ public:
 	void gameOverAnimetion();
 
 	void gameClearAnimetion();
+
+	void finishPlayerCamera();
+
+	void finishEnemyCamera();
 
 	//void Pause(Input* input);
 };

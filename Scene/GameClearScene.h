@@ -46,6 +46,16 @@ protected:
 	Sprite* enemyHpSprite_ = nullptr;
 
 	Vector3 nowEye;
+
+	float winSpSize = 1.0f;
+	float winSPAlpha = 1.0f;
+
+	int gameClearCount = 0;
+	int gameClearAnimeCount = 0;
+	Vector3 playerPos;
+	float addPos = 0.5f;
+	float color = 1.0f;
+
 public:
 	//コンストラクタとデストラクタ
 	GameClearScene(SceneManager* controller,SceneObjects* sceneObj);
@@ -66,6 +76,12 @@ public:
 	/// 描画
 	/// </summary>
 	void Draw() override;
+
+	//ゲームクリアの演出
+	void GameClearAnime();
+
+	//このSceneで使ってる各種パラメーターのリセット
+	void ResetParam();
 
 	//void Pause(Input* input);
 };

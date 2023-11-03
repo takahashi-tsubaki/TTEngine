@@ -94,9 +94,16 @@ void Player::Update(Input* input, GamePad* gamePad)
 	if (Hp_ <= 0)
 	{
 		SetisDead(true);
+
+		
 		GameOverAnime();
 	}
+	else
+	{
+		transNormal = {0, 0.5f, -5};
 
+		transNormal = MyMath::bVelocity(transNormal, playerO_->worldTransform.matWorld_);
+	}
 	
 	oldPos = wtf.translation_;
 
@@ -171,10 +178,10 @@ void Player::Draw()
 {
 	if (GetisDead() == false)
 	{
-		for (std::unique_ptr<PlayerBullet>& bullet : bullets_)
+		/*for (std::unique_ptr<PlayerBullet>& bullet : bullets_)
 		{
 			bullet->Draw();
-		}
+		}*/
 		
 
 		/*playerFbxO_->Draw(dxCommon_->GetCommandList());*/
@@ -526,28 +533,12 @@ void Player::TitleAnime()
 void Player::GameOverAnime()
 {
 
+
+
 	blowAwayCount++;
 	
-	/*addblowSpeed = 3.0f * (float)Ease::OutExpo(2.0f, 0, 120, blowAwayCount);
-
-	if ( blowAwayRotate.x > -90 )
-	{
-		blowAwayRotate.x -= 4;
-	}
-	else
-	{
-		blowAwayRotate.x = -90;
-	}
-
-	playerO_->SetRotation(blowAwayRotate);
-
-	if ( blowAwayCount > 24 )
-	{
-		blowAwayPos.y -= addblowSpeed * ((blowAwayCount - 24) * gravity);
-	}*/
-
 	//水平投射をしながら自機を下に落下させる
-	Affin::HorizontalProjection(playerO_->worldTransform, {0, 0, -5}, 1.0f, blowAwayCount);
+	Affin::HorizontalProjection(playerO_->worldTransform, transNormal, 1.0f, blowAwayCount);
 
 	playerO_->SetPosition(playerO_->worldTransform.translation_);
 

@@ -107,6 +107,7 @@ void GameOverScene::GameOverAnime() {
 
 void GameOverScene::ResetParam()
 {
+	gameOverAnimeCount = 0;
 	loseSpSize = 1.0f;
 	loseSPAlpha = 1.0f;
 	addPos = 0.5f;

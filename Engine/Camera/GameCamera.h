@@ -60,6 +60,15 @@ public:
 	WorldTransform* GetEyePos() {
 		return eyePos_;
 	}
+
+	Vector3 GetEyeVec() { return eyeVec; }
+
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="eVec"></param>
+	void SetEyeVec(Vector3& eVec) { eyeVec = eVec; }
+
 	/// <summary>
 	/// 視点座標の削除
 	/// </summary>
@@ -78,6 +87,10 @@ public:
 		isFollow_ = isFollow;
 	}
 
+	float GetCameraDis() { return cameraDistance_; }
+
+	float GetCameraHeight() { return cameraHeight_; }
+
 private:
 
 	Input* input_ = nullptr;
@@ -93,6 +106,8 @@ private:
 	float cameraDistance_ = 20.0f;
 	const float MAX_CHANGE_TIMER = 30;
 	int cameraModeChangeCountTimer = 30;
+
+	Vector3 eyeVec = {};
 
 	Vector3 loolAtPos = {};
 

@@ -119,7 +119,7 @@ namespace MyMath
 	/// <param name="velocity"></param>
 	/// <param name="mat"></param>
 	/// <returns></returns>
-	Vector3 bVelocity(Vector3& velocity,Matrix4& mat);
+    Vector3 bVelocity(const Vector3& velocity, const Matrix4& mat);
 
 	//座標変換
 	Vector3 wDivision(const Vector3& v,const Matrix4& m);
