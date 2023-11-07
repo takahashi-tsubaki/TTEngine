@@ -66,7 +66,7 @@ void Enemy::Initialize(DirectXCommon* dxCommon, Player* player)
 		//coliderPosTest_[i]->Update();
 
 	}
-	SetHp(1);
+	SetHp(30);
 
 }
 
@@ -94,8 +94,6 @@ void Enemy::Update()
 	}
 
 
-
-
 	if (Hp_ <= 0)
 	{
 		isDead_ = true;
@@ -110,7 +108,7 @@ void Enemy::Update()
 		
 		if (player_->GetHp() > 0)
 		{
-			/*Attack();*/
+			Attack();
 
 			//Move();
 		}

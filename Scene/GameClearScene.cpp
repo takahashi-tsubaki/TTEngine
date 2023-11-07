@@ -10,6 +10,7 @@ GameClearScene::GameClearScene(SceneManager* controller, SceneObjects* sceneObj)
 GameClearScene::~GameClearScene()
 {
 	sceneObj_->Reset();
+	ResetParam();
 }
 
 void GameClearScene::Initialize()
@@ -18,21 +19,29 @@ void GameClearScene::Initialize()
 	winSP_ = Sprite::Create(14, {645, 360}, {1, 1, 1, 1}, {0.5f, 0.5f});
 	winSP_->Initialize();
 
+	
+	// シーン遷移時のスプライト
+	transSP_ = Sprite::Create(8, {WinApp::window_width / 2, WinApp::window_height / 2}, {1, 1, 1, 1}, {0.5f, 0.5f});
+	transSP_->Initialize();
+	transSP_->SetSize({10.0f * 275.0f, 10.0f *183.0f});
+
 	player_ = sceneObj_->player_;
 	sceneObj_->spaceButton_->SetPosition({545, 575});
 	playerPos = {0, 50, 0};
 	sprite_ = Sprite::Create(4, { 310,200 });
+
+	spSize = 5.0f;
 }
 
 void GameClearScene::Update(Input* input, GamePad* gamePad)
 {
 	gamePad->Update();
-	sceneObj_->transitionO_->Update();
+	//sceneObj_->transitionO_->Update();
 	player_->GetObject3d()->Update();
 	GameClearAnime();
 	if (input->TriggerKey(DIK_SPACE) || gamePad->ButtonTrigger(X))
 	{
-		ResetParam();
+
 		controller_->ChangeSceneNum(S_TITLE);
 	}
 
@@ -47,7 +56,7 @@ void GameClearScene::Draw()
 
 	sceneObj_->skydomeO_->Draw();
 	player_->Draw();
-	sceneObj_->transitionO_->Draw();
+	//sceneObj_->transitionO_->Draw();
 	Object3d::PostDraw();
 
 #pragma region
@@ -59,7 +68,7 @@ void GameClearScene::Draw()
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
 	
-	if(gameClearAnimeCount > 60)
+	if(gameClearAnimeCount > 50)
 	{
 		winSP_->Draw();
 	}
@@ -67,7 +76,7 @@ void GameClearScene::Draw()
 	{
 		sceneObj_->spaceButton_->Draw();
 	}
-	
+	transSP_->Draw();
 
 	//
 	// スプライト描画後処理
@@ -79,11 +88,6 @@ void GameClearScene::Draw()
 
 void GameClearScene::GameClearAnime()
 {
-	sceneObj_->transitionO_->SetColor({1, 1, 1, color});
-	color -= 0.02f;
-	controller_->GetGameCamera()->SetEye({0, 0, -20});
-	controller_->GetGameCamera()->SetTarget({0, 0, 0});
-	controller_->GetGameCamera()->Update();
 
 	gameClearAnimeCount++;
 
@@ -97,9 +101,29 @@ void GameClearScene::GameClearAnime()
 
 	player_->GetObject3d()->SetPosition(playerPos);
 	player_->GetObject3d()->UpdateMatrix();
-	if (gameClearAnimeCount > 90) {
+
+
+	winSP_->SetSize({spSize * 320.0f, spSize * 128.0f});
+	if ( gameClearAnimeCount > 50 )
+	{
+		spSize -= 0.5f;
+	}
+	if ( spSize <= 1.0f )
+	{
+		spSize = 1.0f;
+	}
+
+	transSP_->SetColor({1, 1, 1, color});
+	color -= 0.02f;
+	controller_->GetGameCamera()->SetEye({0, 0, -20});
+	controller_->GetGameCamera()->SetTarget({0, 0, 0});
+	controller_->GetGameCamera()->Update();
+
+
+
+	if (gameClearAnimeCount > 120) {
 		winSpSize += 0.025f;
-		winSP_->SetSize({winSpSize * 320.0f, 128.0f});
+		winSP_->SetSize({winSpSize * 320.0f, winSpSize * 128.0f});
 		winSPAlpha -= 0.025f;
 		winSP_->SetColor({1, 1, 1, winSPAlpha});
 	};
@@ -114,4 +138,6 @@ void GameClearScene::ResetParam()
 	addPos = 0.5f;
 	player_->Reset();
 	sceneObj_->enemy_->Reset();
+	color = 1.0f;
+	spSize = 5.0f;
 }

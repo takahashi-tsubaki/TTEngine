@@ -17,6 +17,8 @@ protected:
 
 	Sprite* winSP_ = nullptr; // WINの文字
 
+	Sprite* transSP_ = nullptr;
+
 	Model* model = nullptr;
 	Object3d* object = nullptr;
 
@@ -55,6 +57,8 @@ protected:
 	Vector3 playerPos;
 	float addPos = 0.5f;
 	float color = 1.0f;
+
+	float spSize;
 
 public:
 	//コンストラクタとデストラクタ

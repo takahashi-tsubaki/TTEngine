@@ -28,6 +28,7 @@ void Player::Initialize(DirectXCommon* dxCommon, Enemy* enemy)
 	wtf.translation_ = { 0,0,-50 };
 	//playerO_->SetScale({ 2,2,2 });
 	playerO_->SetPosition(wtf.translation_);
+	//playerO_->SetColor({1,0,0,1});
 
 	bulletM_ = Model::CreateFromOBJ("cube");
 	//playerFbxO_->SetPosition(player_.translation_);
@@ -178,10 +179,10 @@ void Player::Draw()
 {
 	if (GetisDead() == false)
 	{
-		/*for (std::unique_ptr<PlayerBullet>& bullet : bullets_)
+		for (std::unique_ptr<PlayerBullet>& bullet : bullets_)
 		{
 			bullet->Draw();
-		}*/
+		}
 		
 
 		/*playerFbxO_->Draw(dxCommon_->GetCommandList());*/
@@ -682,7 +683,7 @@ void Player::Reset()
 	}
 	ResetAttribute();
 
-	playerO_->SetColor({ 1,1,1,1 });
+	playerO_->SetColor({1, 1, 1, 1});
 
 	playerO_->SetPosition({0,0,-50});
 	playerO_->SetRotation({0,0,0});
