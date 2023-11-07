@@ -22,12 +22,14 @@ PlayScene::~PlayScene()
 	delete isFightSP_;
 	delete damageSP_;
 
+	ResetParam();
+
 }
 
 void PlayScene::Initialize()
 {
 	
-
+#pragma region スプライト関連の初期化
 	sprite_ = Sprite::Create(1, { WinApp::window_width,WinApp::window_height });
 	enemyHpSprite_ = Sprite::Create(3,{ 200,10 },{ 1,1,1,1 },{0.0f,0.5f});
 	enemyHpSprite_->Initialize();
@@ -37,22 +39,33 @@ void PlayScene::Initialize()
 
 	alart = Sprite::Create(7, { 400,200 });
 	alart->Initialize();
+
+	//Fightの文字のスプライト
 	isFightSP_ = Sprite::Create(12,{ WinApp::window_width / 2,WinApp::window_height / 2 },{1,1,1,1},{0.5f,0.5f});
 	isFightSP_->Initialize();
-	
+
+	//敵を倒せ　のスプライト
 	startSp_ = Sprite::Create(13,{ WinApp::window_width / 2,WinApp::window_height / 2 },{1,1,1,1},{0.5f,0.5f} );
 	startSp_->Initialize();
+
+	//シーン遷移時のスプライト
+	transSP_ = Sprite::Create(8, {WinApp::window_width / 2, WinApp::window_height / 2}, {1, 1, 1, 1}, {0.5f, 0.5f});
+	transSP_->Initialize();
+
+	//Hp減少バーのスプライト
+	damageSP_ = Sprite::Create(11, {1160, 10});
+	damageSP_->SetIsFlipX(true);
+
+	finishSP_ = Sprite::Create(16, finishSpPos);
+	finishSP_->Initialize();
+#pragma endregion
 
 	player_ = sceneObj_->player_;
 	enemy_ = sceneObj_->enemy_;
 	player_->GetObject3d()->SetScale({1,1,1});
 	enemy_->GetObject3d()->SetScale({ 1,1,1 });
 
-	damageSP_ = Sprite::Create(11,{1160,10 });
-	damageSP_->SetIsFlipX(true);
 
-	finishSP_ = Sprite::Create(16, finishSpPos);
-	finishSP_->Initialize();
 
 	addRotation = {45, 0, 0};
 
@@ -73,6 +86,12 @@ void PlayScene::Update(Input* input, GamePad* gamePad)
 	assert(input);
 	gamePad->Update();
 
+	//プレイヤー(エネミー)座標でのカメラの計算
+	if ( isFinish == false )
+	{
+		finishPlayerCamera();
+		finishEnemyCamera();
+	}
 
 	//controller_->camera_->eye_.y = 50.0f;
 	//controller_->camera_->SetEye(controller_->camera_->eye_);
@@ -142,7 +161,7 @@ void PlayScene::Update(Input* input, GamePad* gamePad)
 		
 	
 
-		if ( fightSpCount > 20 )
+		if (fightSpCount > Number::Twenty)
 		{
 			isFightSP_->SetColor({ 1,1,1,SpAlpha });
 			SpAlpha -= decreaseAlpha;
@@ -169,18 +188,19 @@ void PlayScene::Update(Input* input, GamePad* gamePad)
 	//}
 	
 
-	//スプライトの大きさを体力に設定
+	//スプライトの大きさを設定
 	enemyHpSprite_->SetSize({ enemy_->GetHp() * 32.0f, hpSpSize *  32.0f });
 	playerHpSprite_->SetSize({ player_->GetHp() * 32.0f, hpSpSize * 32.0f});
-	damageSP_->SetSize({ enemy_->GetDamageSize() * 32.0f,32.0f });
+	damageSP_->SetSize({enemy_->GetDamageSize() * 32.0f, hpSpSize * 32.0f});
 	startSp_->SetSize({ 1280.0f,startSpSize * 256.0f });
+	transSP_->SetSize({(float)Size::TenTimes * 275.0f,(float) Size::TenTimes* 183.0f});
 	//fbxObject->Update();
 
 	/*ImGui::Begin("cameraPos");
-	//ImGui::SetWindowPos({ 200 , 200 });
+	ImGui::SetWindowPos({ 200 , 200 });
 	ImGui::SetWindowSize({ 500,100 });
-	ImGui::InputFloat3("eye", &camera_->eye_.x);
-	ImGui::InputFloat3("target", &camera_->target_.x);
+	ImGui::InputFloat3("eye", &finishCameraEnemyPos.x);
+	ImGui::InputFloat3("target", &finishCameraEnemyTarget.x);
 	ImGui::End();*/
 
 
@@ -204,35 +224,29 @@ void PlayScene::Update(Input* input, GamePad* gamePad)
 
 	}
 
-	if (player_->GetHp() <= 0)
+	/*if (player_->GetHp() <= 0)
 	{
 		player_->RemoveAttribute();
 	}
 
 	if (enemy_->GetHp() <= 0) {
 		enemy_->CheckHitCollision();
-	}
+		enemy_->Reset
+	}*/
 
-	if (player_->GetHp() <= 0 || enemy_->GetHp() <= 0)
+	if (player_->GetHp() <= Number::Zero || enemy_->GetHp() <= Number::Zero)
 	{
 
 		isFinish = true;
 
 	}
 
-	/*else if (enemy_->GetHp() <= 0)
-	{
-
-		
-	
-	}*/
-
-	if (isFinish == true && player_->GetHp() <= 0)
+	if (isFinish == true && player_->GetHp() <= Number::Zero)
 	{
 		gameOverAnimetion();
 	}
 
-	else if ( isFinish == true && enemy_->GetHp() <= 0 )
+	if (isFinish == true && enemy_->GetHp() <= Number::Zero)
 	{
 		gameClearAnimetion();
 	}
@@ -304,12 +318,18 @@ void PlayScene::Draw()
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
-	playerHpSprite_->Draw();
-	enemyHpSprite_->Draw();
+	///
 
-	damageSP_->Draw();
+	if ( isFinish == false )
+	{
+		playerHpSprite_->Draw();
+		enemyHpSprite_->Draw();
 
-	if (player_->GetisDead() == false && player_->GetVanishTimer() > 0)
+		damageSP_->Draw();
+	}
+
+
+	if (player_->GetHp() > 0 && player_->GetVanishTimer() > 0)
 	{
 		alart->Draw();
 	}
@@ -318,11 +338,18 @@ void PlayScene::Draw()
 	{
 		isFightSP_->Draw();
 	}
-	if ( startSignCount >= 120 && startSpSize > 0.0f )
+	if (startSignCount >= Number::HundredTwenty && startSpSize > 0.0f)
 	{
 		startSp_->Draw();
 	}
 	finishSP_->Draw();
+
+
+	if ( isFinishSpCount > Number::Sixty )
+	{
+		transSP_->Draw();
+	}
+
 	//
 	// スプライト描画後処理
 	Sprite::PostDraw();
@@ -331,10 +358,12 @@ void PlayScene::Draw()
 #pragma region
 	//// 3Dオブジェクト描画前処理
 	Object3d::PreDraw(controller_->dxCommon_->GetCommandList());
-	if ( isFinishSpCount > 60 )
+
+	if (isFinishSpCount > Number::Sixty)
 	{
 		sceneObj_->transitionO_->Draw();
 	}
+
 	//// 3Dオブジェクト描画後処理
 	Object3d::PostDraw();
 #pragma endregion
@@ -349,6 +378,9 @@ void PlayScene::SceneTransition()
 void PlayScene::StartSign(Input* input)
 {
 	Vector3 StartPos = { 2,50,50 };
+
+	const float shiftPos = 50.0f;
+
 	GoalPos = { player_->GetObject3d()->GetPosition().x,player_->GetObject3d()->GetPosition().y + 9 ,player_->GetObject3d()->GetPosition().z - 7 };
 	cameraDis = StartPos  - GoalPos ;
 	addSpeed =  2.0f * (float)Ease::OutCubic(change,0,120,startSignCount);
@@ -361,16 +393,16 @@ void PlayScene::StartSign(Input* input)
 	cameraDis.y *= -1;
 	cameraDis.z *= -1;
 
-	cameraDis.y += 50.0f;//イージング開始の初期値をずらす
+	cameraDis.y += shiftPos; // イージング開始の初期値をずらす
 
 	controller_->GetGameCamera()->GetEye() = cameraDis;
 	controller_->GetGameCamera()->SetEye(controller_->camera_->eye_);
 	controller_->GetGameCamera()->SetTarget(enemy_->GetObject3d()->GetPosition());
 
 	startSignCount++;
-	if ( startSignCount>=120 )
+	if (startSignCount >= Number::HundredTwenty)
 	{
-		startSignCount = 120;
+		startSignCount = Number::HundredTwenty;
 
 		if ( isReady == false )
 		{
@@ -395,12 +427,12 @@ void PlayScene::StartSign(Input* input)
 		
 		readyCount++;
 
-		if ( readyCount >= 30 && hpSpSize <= 1.0f )
+		if (readyCount >= Number::Thirty && hpSpSize <= 1.0f)
 		{
 			hpSpSize += addHpSize;
 		}
 
-		if ( readyCount >= 60 )
+		if (readyCount >= Number::Sixty)
 		{
 			isFight = true;
 			isReady = false;
@@ -452,106 +484,152 @@ void PlayScene::ResetParam()
 	hpSpSize = 0.0f;
 	addHpSize = 0.1f;
 
-	isFinish = false;
+
 	finishSpPos = {WinApp::window_width, WinApp::window_height / 2};
 	isFinishSpCount = 0; // FIHISHSP_が画面に描画される時間
 
 	addfinishSpeed = 0.1f;
 	addRotation = {0, 0, 0};
 
-	finishCameraPos = {0, 0, 0};
-	finishCameraTarget = {0, 0, 0};
+	finishCameraPlayerPos = {0, 0, 0};
+	finishCameraPlayerTarget = {0, 0, 0};
+
+	finishCameraEnemyPos = {0, 0, 0};
+	finishCameraEnemyTarget = {0, 0, 0};
 	
 	transObjAlpha = 0.0f;
 	addAlpha = 0.018f;
+	isFinish = false;
 }
 
 
 void PlayScene::gameOverAnimetion() {
 
+	sceneObj_->transitionO_->SetPosition({finishCameraPlayerTarget.x, finishCameraPlayerTarget.y, finishCameraPlayerTarget.z});
 	isFinishSpCount++;
-	transObjAlpha += addAlpha;
-	float addRota = 0.0075f;
+	if (isFinishSpCount > Number::Sixty)
+	{
+		transObjAlpha += addAlpha;
+	}
+
+	float addRota = /*0.0075f*/0.5f;
 
 	addRotation.x += addRota;
-	addRotation.z = -178.0f;
+	//addRotation.y += addRota;
+	addRotation.z+= addRota;
 	player_->GetObject3d()->SetRotation(addRotation);
 
-	if ( transObjAlpha >= 1.0f )
+	if ( transObjAlpha >= (float)Size::OneTimes )
 	{
-		transObjAlpha = 1.0f;
+		transObjAlpha =(float) Size::OneTimes;
 	}
 	sceneObj_->transitionO_->SetColor({1, 1, 1, transObjAlpha});
-	if (isFinishSpCount > 30 && isFinishSpCount < 90) {
+	sceneObj_->transitionO_->Update();
+
+	if (isFinishSpCount > Number::Thirty && isFinishSpCount < Number::Ninety) {
 		finishSP_->SetPosition(finishSpPos);
 	} else {
 		finishSpPos.x -= addfinishSpeed;
 		finishSP_->SetPosition({finishSpPos.x, finishSpPos.y});
 	}
 
-	if (isFinishSpCount > 120) {
-		if (player_->GetHp() <= 0) {
-			sceneObj_->transitionO_->Update();
+	if (isFinishSpCount > Number::HundredTwenty) {
+		if (player_->GetHp() <= Number::Zero) {
+			
 			ResetParam();
 			controller_->ChangeSceneNum(S_OVER);
 
 		
-		}
-		else if (enemy_->GetHp() <= 0 && player_->GetHp() <= 0) {
+		} else if (enemy_->GetHp() <= Number::Zero && player_->GetHp() <= Number::Zero)
+		{
 			// 後で追加
 		}
 	}
 
-	
 
-	finishCameraPos = {
-	    player_->GetPosition().x+5, player_->GetPosition().y, player_->GetPosition().z + 20};
-	controller_->GetGameCamera()->SetEye(finishCameraPos);
-	finishCameraTarget = player_->GetPosition();
-	controller_->GetGameCamera()->SetTarget(finishCameraTarget);
+
+	controller_->GetGameCamera()->SetEye(finishCameraPlayerPos);
+
+	controller_->GetGameCamera()->SetTarget(finishCameraPlayerTarget);
 	controller_->GetGameCamera()->Update();
 }
 
 void PlayScene::gameClearAnimetion()
 {
+	const float shiftRotate = 2.0f;
+	transSP_->SetColor({1, 1, 1, transObjAlpha});
+
 	isFinishSpCount++;
-	transObjAlpha += addAlpha;
-	float addRota = 0.0075f;
+	if (isFinishSpCount > Number::Sixty) {
+		transObjAlpha += addAlpha;
+	}
+	float addRota = 0.075f;
 
 	addRotation.x += addRota;
-	addRotation.z = 2.0f;
+	addRotation.z = shiftRotate;
 	enemy_->GetObject3d()->SetRotation(addRotation);
 
-	if (transObjAlpha >= 1.0f) {
-		transObjAlpha = 1.0f;
+	if (transObjAlpha >= (float)Size::OneTimes) {
+		transObjAlpha = (float)Size::OneTimes;
 	}
 	sceneObj_->transitionO_->SetColor({1, 1, 1, transObjAlpha});
-	if (isFinishSpCount > 30 && isFinishSpCount < 90) {
+	sceneObj_->transitionO_->Update();
+
+	if (isFinishSpCount > Number ::Thirty && isFinishSpCount < Number::Ninety) {
 		finishSP_->SetPosition(finishSpPos);
 	} else {
 		finishSpPos.x -= addfinishSpeed;
 		finishSP_->SetPosition({finishSpPos.x, finishSpPos.y});
 	}
 
-	if (isFinishSpCount > 120)
+	if (isFinishSpCount > Number::HundredTwenty)
 	{
-		if (enemy_->GetHp() <= 0)
+		if (enemy_->GetHp() <= Number::Zero)
 		{
-			sceneObj_->transitionO_->Update();
-			ResetParam();
+
 			controller_->ChangeSceneNum(S_CLEAR);
+			
 		}
-		else if (enemy_->GetHp() <= 0 && player_->GetHp() <= 0)
+		else if (enemy_->GetHp() <= Number::Zero && player_->GetHp() <= Number::Zero)
 		{
 			// 後で追加
 		}
 	}
 
-	finishCameraPos = {
-	    enemy_->GetPosition().x, enemy_->GetPosition().y+ 5, enemy_->GetPosition().z - 20};
-	controller_->GetGameCamera()->SetEye(finishCameraPos);
-	finishCameraTarget = enemy_->GetPosition();
-	controller_->GetGameCamera()->SetTarget(finishCameraTarget);
+		
+
+	controller_->GetGameCamera()->SetEye(finishCameraEnemyPos);
+	controller_->GetGameCamera()->SetTarget(finishCameraEnemyTarget);
 	controller_->GetGameCamera()->Update();
+}
+
+void PlayScene::finishPlayerCamera() {
+	Vector3 finishCameraPlayerVec;
+
+	finishCameraPlayerVec = {5, 0, 20}; // オフセット座標の設定
+
+	// finishCameraVec = {0, 0, 20};
+	finishCameraPlayerVec = MyMath::bVelocity(
+	    finishCameraPlayerVec, player_->GetObject3d()->GetWorldTransform().matWorld_);
+
+	finishCameraPlayerPos = player_->GetObject3d()->GetPosition() + finishCameraPlayerVec;
+
+	finishCameraPlayerTarget = player_->GetObject3d()->GetPosition();
+}
+
+void PlayScene::finishEnemyCamera() {
+	Vector3 finishCameraEnemyVec;
+
+	finishCameraEnemyVec = {5, 0, -20}; // オフセット座標の設定
+
+	// finishCameraVec = {0, 0, 20};
+
+	//平行移動だけを取り除いた回転行列の計算
+	finishCameraEnemyVec = MyMath::bVelocity(
+	    finishCameraEnemyVec, enemy_->GetObject3d()->GetWorldTransform().matWorld_);
+
+	finishCameraEnemyPos = enemy_->GetObject3d()->GetPosition() + finishCameraEnemyVec;
+
+	finishCameraEnemyTarget = enemy_->GetObject3d()->GetPosition();
 }
 

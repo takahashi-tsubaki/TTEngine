@@ -546,7 +546,7 @@ namespace MyMath
 
 	}
 
-	Vector3 bVelocity(Vector3& velocity, Matrix4& mat)
+	Vector3 bVelocity(const Vector3& velocity,const Matrix4& mat)
 	{
 		Vector3 result = { 0, 0, 0 };
 

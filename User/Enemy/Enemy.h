@@ -60,7 +60,7 @@ public:
 	/// worldTransformのゲット
 	/// </summary>
 	/// <returns></returns>
-	WorldTransform GetWorldTransform() {
+	const WorldTransform& GetWorldTransform() {
 		return wtf;
 	}
 
@@ -327,6 +327,8 @@ private:
 
 	float addblowSpeed = 2.0f;
 	float gravity = 0.3f;
+
+	Vector3 transNormal;
 
 #pragma endregion
 };

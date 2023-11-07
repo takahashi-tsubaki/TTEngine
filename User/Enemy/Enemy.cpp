@@ -66,7 +66,7 @@ void Enemy::Initialize(DirectXCommon* dxCommon, Player* player)
 		//coliderPosTest_[i]->Update();
 
 	}
-
+	SetHp(30);
 
 }
 
@@ -94,8 +94,6 @@ void Enemy::Update()
 	}
 
 
-
-
 	if (Hp_ <= 0)
 	{
 		isDead_ = true;
@@ -103,7 +101,12 @@ void Enemy::Update()
 	}
 	else
 	{
-		if (player_->GetisDead() == false)
+		
+		transNormal = {0, 0.5f, 5};
+
+		transNormal = MyMath::bVelocity(transNormal, enemyO_->worldTransform.matWorld_);
+		
+		if (player_->GetHp() > 0)
 		{
 			Attack();
 
@@ -296,7 +299,7 @@ void Enemy::isDeadAnime()
 	blowAwayCount++;
 
 	// 水平投射をしながら自機を下に落下させる
-	Affin::HorizontalProjection(enemyO_->worldTransform, {0, 0, 5}, 1.0f, blowAwayCount);
+	Affin::HorizontalProjection(enemyO_->worldTransform, transNormal, 1.0f, blowAwayCount);
 
 	enemyO_->SetPosition(enemyO_->worldTransform.translation_);
 }
@@ -637,6 +640,10 @@ void Enemy::Reset()
 	isHit_ = false;
 
 	particle_->Reset();
+
+	blowAwayCount = 0;
+
+	damageSize = 0;
 }
 
 void Enemy::ResetAttribute()

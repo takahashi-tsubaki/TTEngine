@@ -4,6 +4,31 @@
 /// <summary>
 /// ゲームプレイシーン
 /// </summary>
+///
+
+enum Number
+{
+	Zero = 0,
+	One = 1,
+	Two = 2,
+	Twenty = 20, 
+	Thirty = 30,
+	Fifty = 50,
+	Sixty = 60,
+	Ninety = 90,
+	HundredTwenty = 120,
+};
+
+enum Size {
+	OneTimes = 1,
+	TwoTimes = 2,
+
+	TenTimes = 10,
+
+
+};
+
+
 
 class PlayScene :
 	public IScene
@@ -24,6 +49,7 @@ protected:
 	Sprite* startSp_ = nullptr;//敵を倒せのスプライト
 	Sprite* finishSP_ = nullptr;//FINISHの文字
 
+	Sprite* transSP_ = nullptr;
 
 #pragma endregion スプライト関連
 
@@ -95,8 +121,11 @@ protected:
 	float addfinishSpeed = 0.0f;
 	Vector3 addRotation;
 
-	Vector3 finishCameraPos;
-	Vector3 finishCameraTarget;
+	Vector3 finishCameraPlayerPos;
+	Vector3 finishCameraPlayerTarget;
+
+	Vector3 finishCameraEnemyPos;
+	Vector3 finishCameraEnemyTarget;
 
 	float transObjAlpha = 0.0f;
 	float addAlpha = 0.018f;
@@ -142,6 +171,10 @@ public:
 	void gameOverAnimetion();
 
 	void gameClearAnimetion();
+
+	void finishPlayerCamera();
+
+	void finishEnemyCamera();
 
 	//void Pause(Input* input);
 };
