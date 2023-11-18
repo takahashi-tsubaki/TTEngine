@@ -18,6 +18,9 @@ private:
 	float frameTime = 1 / 60.0f;
 	//FPS値
 	float fps;
+	// 経過時間
+	float elapsedFrame_;
+
 public:
 	/// <summary>
 	/// FPS制御初期化
@@ -40,6 +43,18 @@ public:
 	/// </summary>
 	/// <returns>フレームレート</returns>
 	float GetFrameRate();
+
+	//経過時間を取得
+	float GetElapsedFrame();
+
+	//経過時間を設定
+	void SetElapsedFrame(float elapsedFrame);
+
+		/// <summary>
+	/// シングルトン
+	/// </summary>
+	/// <returns></returns>
+	static FPS* GetInstance();
 };
 
 

@@ -115,6 +115,12 @@
     <Filter Include="ヘッダー ファイル\Loader">
       <UniqueIdentifier>{1f4edc20-a9db-449e-b50e-d9e31b198a8b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\PlayerState">
+      <UniqueIdentifier>{24488870-ce75-462c-9913-d1753a16bfea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\PlayerState">
+      <UniqueIdentifier>{7b90b689-9076-4e5a-bd53-f825c43fe804}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -275,6 +281,21 @@
     </ClCompile>
     <ClCompile Include="Scene\StageSelectScene.cpp">
       <Filter>ソース ファイル\scene\SceneManager</Filter>
+    </ClCompile>
+    <ClCompile Include="User\PlayerState\StatePattern.cpp">
+      <Filter>ソース ファイル\PlayerState</Filter>
+    </ClCompile>
+    <ClCompile Include="User\PlayerState\StateManager.cpp">
+      <Filter>ソース ファイル\PlayerState</Filter>
+    </ClCompile>
+    <ClCompile Include="User\PlayerState\PlayerState.cpp">
+      <Filter>ソース ファイル\PlayerState</Filter>
+    </ClCompile>
+    <ClCompile Include="User\PlayerState\Player2.cpp">
+      <Filter>ソース ファイル\PlayerState</Filter>
+    </ClCompile>
+    <ClCompile Include="User\PlayerState\StandBy.cpp">
+      <Filter>ソース ファイル\PlayerState</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -460,6 +481,21 @@
     </ClInclude>
     <ClInclude Include="Scene\StageSelectScene.h">
       <Filter>ヘッダー ファイル\scene\SceneManager</Filter>
+    </ClInclude>
+    <ClInclude Include="User\PlayerState\StatePattern.h">
+      <Filter>ヘッダー ファイル\PlayerState</Filter>
+    </ClInclude>
+    <ClInclude Include="User\PlayerState\StateManager.h">
+      <Filter>ヘッダー ファイル\PlayerState</Filter>
+    </ClInclude>
+    <ClInclude Include="User\PlayerState\PlayerState.h">
+      <Filter>ヘッダー ファイル\PlayerState</Filter>
+    </ClInclude>
+    <ClInclude Include="User\PlayerState\Player2.h">
+      <Filter>ヘッダー ファイル\PlayerState</Filter>
+    </ClInclude>
+    <ClInclude Include="User\PlayerState\StandBy.h">
+      <Filter>ヘッダー ファイル\PlayerState</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

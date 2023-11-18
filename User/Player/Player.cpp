@@ -3,6 +3,7 @@
 #include "ImguiManager.h"
 #include "Affin.h"
 #include "Ease.h"
+#include "MyMath.h"
 void Player::Initialize(DirectXCommon* dxCommon, Enemy* enemy)
 {
 	dxCommon_ = dxCommon;
@@ -19,6 +20,19 @@ void Player::Initialize(DirectXCommon* dxCommon, Enemy* enemy)
 	//playerFbxO_->Initialize();
 	//playerFbxO_->SetModel(playerFbxM_.get());
 
+	fbxPlayerM_.reset(FbxLoader::GetInstance()->LoadModelFromFile("humanFbx"));
+
+	fbxPlayerO_ = std::make_unique<FbxObject3d>();
+	fbxPlayerO_->SetModel(fbxPlayerM_.get());
+	fbxPlayerO_->Initialize();
+	fbxPlayerO_->SetScale({0.01f,0.01f,0.01f});
+	fbxPlayerO_->SetPosition({0,0,-50});
+
+	fbxPlayerO_->SetIsBonesWorldMatCalc(true); // ボーンワールド行列計算あり
+	fbxPlayerO_->Update();
+
+
+
 	playerO_ = Object3d::Create();
 
 	playerM_ = Model::CreateFromOBJ("human");
@@ -33,6 +47,8 @@ void Player::Initialize(DirectXCommon* dxCommon, Enemy* enemy)
 	bulletM_ = Model::CreateFromOBJ("cube");
 	//playerFbxO_->SetPosition(player_.translation_);
 
+	
+
 	enemy_ = enemy;
 
 	//パーティクル
@@ -41,28 +57,32 @@ void Player::Initialize(DirectXCommon* dxCommon, Enemy* enemy)
 	particle_->LoadTexture("sprite/particle.png");
 	particle_->Update();
 
+
+	//SPHERE_COLISSION_NUM = fbxPlayerO_->GetBonesMatPtr()->size();
+	//sphere.resize(SPHERE_COLISSION_NUM);
+	//spherePos.resize(SPHERE_COLISSION_NUM);
+	//fbxPlayerO_.get()->isBonesWorldMatCalc = true; // ボーンの行列を取得するか
+
 	////FBX当たり判定初期化
 	//for (int i = 0; i < SPHERE_COLISSION_NUM; i++)
 	//{
 	//	sphere[i] = new SphereCollider;
 	//	CollisionManager::GetInstance()->AddCollider(sphere[i]);
-	//	spherePos[i] = playerFbxO_.get()->bonesMat[i].GetWorldPos();
+	//	spherePos[i] = fbxPlayerO_->bonesMat[i].GetWorldPos();
 	//	sphere[i]->SetBasisPos(&spherePos[i]);
 	//	sphere[i]->SetRadius(1.0f);
-	//	sphere[i]->SetAttribute(COLLISION_ATTR_ALLIES);
+	//	sphere[i]->SetAttribute(COLLISION_ATTR_PLAYERS);
 	//	sphere[i]->Update();
-	//	//test
-	//	coliderPosTest_[i] = Object3d::Create();
-	//	coliderPosTest_[i]->SetModel(hpModel_.get());
-	//	coliderPosTest_[i]->SetPosition(sphere[i]->center);
-	//	coliderPosTest_[i]->SetScale({ sphere[i]->GetRadius(),sphere[i]->GetRadius() ,sphere[i]->GetRadius() });
-	//	coliderPosTest_[i]->SetRotate({ 0,0,0 });
-	//	coliderPosTest_[i]->Update();
+	//	////test
+	//	//coliderPosTest_[i] = Object3d::Create();
+	//	//coliderPosTest_[i]->SetModel(hpModel_.get());
+	//	//coliderPosTest_[i]->SetPosition(sphere[i]->center);
+	//	//coliderPosTest_[i]->SetScale({ sphere[i]->GetRadius(),sphere[i]->GetRadius() ,sphere[i]->GetRadius() });
+	//	//coliderPosTest_[i]->SetRotate({ 0,0,0 });
+	//	//coliderPosTest_[i]->Update();
 
 	//}
-	sphere.resize(SPHERE_COLISSION_NUM);
-	spherePos.resize(SPHERE_COLISSION_NUM);
-
+	
 	for (int i = 0; i < SPHERE_COLISSION_NUM; i++)
 	{
 		sphere[i] = new SphereCollider;
@@ -136,7 +156,8 @@ void Player::Update(Input* input, GamePad* gamePad)
 	//playerO_->UpdateMatrix();
 
 	particle_->Update();
-
+	//fbxPlayerO_->PlayAnimetion(0);
+	fbxPlayerO_->Update();
 
 	CheckHitCollision();
 	
@@ -185,10 +206,11 @@ void Player::Draw()
 		}
 		
 
-		/*playerFbxO_->Draw(dxCommon_->GetCommandList());*/
+		/*fbxPlayerO_->Draw(dxCommon_->GetCommandList());*/
 	}
 	if ( blowAwayCount <90)
 	{
+		/*fbxPlayerO_->Draw(dxCommon_->GetCommandList());*/
 		if (scale_.x > 0.2)
 		{
 			playerO_->Draw();
@@ -247,6 +269,19 @@ void Player::Move(Input* input, GamePad* gamePad)
 
 	playerO_->worldTransform.translation_ += velocity_;
 
+	playerO_->SetPosition(playerO_->worldTransform.translation_);
+
+	//if (GetisDead() == false) {
+	//	fbxPlayerO_->worldTransform.rotation_ = cameraAngle;
+	//}
+
+	//fbxPlayerO_->worldTransform.UpdateMatWorld();
+
+	//velocity_ = MyMath::MatVector(velocity_, fbxPlayerO_->worldTransform.matWorld_);
+
+	//fbxPlayerO_->worldTransform.translation_ += velocity_;
+
+	//fbxPlayerO_->SetPosition(fbxPlayerO_->worldTransform.translation_);
 
 	//ImGui::Begin("playerPos");
 
@@ -284,6 +319,7 @@ void Player::Shot(Input* input, GamePad* gamePad)
 	Vector3 distance;
 
 
+	/*playerPos = fbxPlayerO_->worldTransform.translation_;*/
 	playerPos = playerO_->worldTransform.translation_;
 
 	enemyPos = enemy_->GetObject3d()->GetWorldTransform().translation_;
@@ -357,7 +393,9 @@ void Player::Shot(Input* input, GamePad* gamePad)
 					bulletSize++;
 					// 弾を生成し初期化
 					std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
-					newBullet->Initialize(bulletM_, playerO_->worldTransform.translation_, distance);
+					newBullet->Initialize( bulletM_, playerO_->worldTransform.translation_, distance);
+					//newBullet->Initialize(
+					//    bulletM_, fbxPlayerO_->worldTransform.translation_, distance);
 
 					if (bulletType == PlayerBulletType::OneShot)
 					{
@@ -410,6 +448,12 @@ void Player::Shot(Input* input, GamePad* gamePad)
 
 void Player::Vanish(Input* input, GamePad* gamePad)
 {
+	Vector3 offSet = {5,0,5};
+	offSet = MyMath::bVelocity(offSet, enemy_->GetObject3d() ->GetWorldTransform().matWorld_);
+
+	VanishPos = enemy_->GetObject3d()->GetPosition() + offSet;
+
+	/*playerPos_ = fbxPlayerO_->GetPosition();*/
 	playerPos_ = playerO_->GetPosition();
 	//敵が攻撃をしてきたとき
 	if (enemy_->GetisShot() == true)
@@ -434,7 +478,8 @@ void Player::Vanish(Input* input, GamePad* gamePad)
 					if (isVanising == false)
 					{
 						VanishGauge = 0.0f;
-						VanishPos = { playerPos_.x , playerPos_.y, playerPos_.z *-1 };
+						VanishPos = enemy_->GetObject3d()->GetPosition() + offSet;
+						/*fbxPlayerO_->SetPosition(VanishPos);*/
 						playerO_->SetPosition(VanishPos);
 						isVanising = true;
 					}
@@ -677,7 +722,7 @@ void Player::Reset()
 	for ( int i = 0; i < SPHERE_COLISSION_NUM; i++ )
 	{
 
-		CollisionManager::GetInstance()->RemoveCollider(sphere[ i ]);
+		CollisionManager::GetInstance()->RemoveCollider(sphere[i]);
 		//こいつはいらない
 		/*sphere[i]->GetCollisionInfo().collider->RemoveAttribute(COLLISION_ATTR_PLAYERBULLETS);*/
 	}
@@ -687,6 +732,10 @@ void Player::Reset()
 
 	playerO_->SetPosition({0,0,-50});
 	playerO_->SetRotation({0,0,0});
+
+	fbxPlayerO_->SetScale({0.01f, 0.01f, 0.01f});
+	fbxPlayerO_->SetPosition({0, 0, -50});
+
 	oldPos = { 0,0,0 };
 	playerPos_ = { 0,0,0 };
 	enemyPos_ = { 0,0,0 };
@@ -757,5 +806,24 @@ void Player::ResetAttribute()
 		//coliderPosTest_[i]->Update();
 
 	}
+
+	//// FBX当たり判定初期化
+	//for (int i = 0; i < SPHERE_COLISSION_NUM; i++) {
+	//	sphere[i] = new SphereCollider;
+	//	CollisionManager::GetInstance()->AddCollider(sphere[i]);
+	//	spherePos[i] = fbxPlayerO_.get()->bonesMat[i].GetWorldPos();
+	//	sphere[i]->SetBasisPos(&spherePos[i]);
+	//	sphere[i]->SetRadius(1.0f);
+	//	sphere[i]->SetAttribute(COLLISION_ATTR_ALLIES);
+	//	sphere[i]->Update();
+	//	////test
+	//	// coliderPosTest_[i] = Object3d::Create();
+	//	// coliderPosTest_[i]->SetModel(hpModel_.get());
+	//	// coliderPosTest_[i]->SetPosition(sphere[i]->center);
+	//	// coliderPosTest_[i]->SetScale({ sphere[i]->GetRadius(),sphere[i]->GetRadius()
+	//	// ,sphere[i]->GetRadius() }); coliderPosTest_[i]->SetRotate({ 0,0,0 });
+	//	// coliderPosTest_[i]->Update();
+	//}
+
 }
 

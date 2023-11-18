@@ -142,8 +142,13 @@ void PlayScene::Update(Input* input, GamePad* gamePad)
 		}
 		if ( isFinish == false )
 		{
+
+
+			//controller_->GetGameCamera()->SetFollowerPos(
+			//player_->GetFbxObject3d()->GetWorldTransformPtr()); // カメラの座標の設定
+
 			controller_->GetGameCamera()->SetFollowerPos(
-			    player_->GetObject3d()->GetWorldTransformPtr());//カメラの座標の設定
+			player_->GetObject3d()->GetWorldTransformPtr()); // カメラの座標の設定
 
 			controller_->GetGameCamera()->SetTargetPos(
 			    enemy_->GetObject3d()->GetWorldTransformPtr());//カメラの注視点の設定
@@ -196,12 +201,11 @@ void PlayScene::Update(Input* input, GamePad* gamePad)
 	transSP_->SetSize({(float)Size::TenTimes * 275.0f,(float) Size::TenTimes* 183.0f});
 	//fbxObject->Update();
 
-	/*ImGui::Begin("cameraPos");
+	ImGui::Begin("PlayerPos");
 	ImGui::SetWindowPos({ 200 , 200 });
 	ImGui::SetWindowSize({ 500,100 });
-	ImGui::InputFloat3("eye", &finishCameraEnemyPos.x);
-	ImGui::InputFloat3("target", &finishCameraEnemyTarget.x);
-	ImGui::End();*/
+	ImGui::InputFloat3("Pos", &player_->GetFbxObject3d()->worldTransform.translation_.x);
+	ImGui::End();
 
 
 	sceneObj_->skydomeO_->SetPosition({ sceneObj_->skydomeO_->GetPosition().x + player_->GetPosition().x,sceneObj_->skydomeO_->GetPosition().y,sceneObj_->skydomeO_->GetPosition().z });
@@ -345,7 +349,7 @@ void PlayScene::Draw()
 	finishSP_->Draw();
 
 
-	if ( isFinishSpCount > Number::Sixty )
+	if ( isFinishSpCount > Number::Ninety )
 	{
 		transSP_->Draw();
 	}
@@ -359,10 +363,10 @@ void PlayScene::Draw()
 	//// 3Dオブジェクト描画前処理
 	Object3d::PreDraw(controller_->dxCommon_->GetCommandList());
 
-	if (isFinishSpCount > Number::Sixty)
-	{
-		sceneObj_->transitionO_->Draw();
-	}
+	//if (isFinishSpCount > Number::Sixty)
+	//{
+	//	sceneObj_->transitionO_->Draw();
+	//}
 
 	//// 3Dオブジェクト描画後処理
 	Object3d::PostDraw();
@@ -449,6 +453,8 @@ void PlayScene::SetCamera()
 	}
 	else
 	{
+		//controller_->GetGameCamera()->SetFollowerPos(
+		//    player_->GetFbxObject3d()->GetWorldTransformPtr());
 		controller_->GetGameCamera()->SetFollowerPos(player_->GetObject3d()->GetWorldTransformPtr());
 		controller_->GetGameCamera()->SetTargetPos(enemy_->GetObject3d()->GetWorldTransformPtr());
 		controller_->GetGameCamera()->MoveCamera();
@@ -505,14 +511,13 @@ void PlayScene::ResetParam()
 
 void PlayScene::gameOverAnimetion() {
 
-	sceneObj_->transitionO_->SetPosition({finishCameraPlayerTarget.x, finishCameraPlayerTarget.y, finishCameraPlayerTarget.z});
 	isFinishSpCount++;
-	if (isFinishSpCount > Number::Sixty)
+	if (isFinishSpCount > Number::Ninety)
 	{
 		transObjAlpha += addAlpha;
 	}
 
-	float addRota = /*0.0075f*/0.5f;
+	float addRota = 0.0075f;
 
 	addRotation.x += addRota;
 	//addRotation.y += addRota;
@@ -523,10 +528,10 @@ void PlayScene::gameOverAnimetion() {
 	{
 		transObjAlpha =(float) Size::OneTimes;
 	}
-	sceneObj_->transitionO_->SetColor({1, 1, 1, transObjAlpha});
-	sceneObj_->transitionO_->Update();
 
-	if (isFinishSpCount > Number::Thirty && isFinishSpCount < Number::Ninety) {
+	//transSP_->SetColor({1, 1, 1, transObjAlpha});
+
+	if (isFinishSpCount >28 && isFinishSpCount < Number::Ninety) {
 		finishSP_->SetPosition(finishSpPos);
 	} else {
 		finishSpPos.x -= addfinishSpeed;
@@ -560,7 +565,7 @@ void PlayScene::gameClearAnimetion()
 	transSP_->SetColor({1, 1, 1, transObjAlpha});
 
 	isFinishSpCount++;
-	if (isFinishSpCount > Number::Sixty) {
+	if (isFinishSpCount > Number::Ninety) {
 		transObjAlpha += addAlpha;
 	}
 	float addRota = 0.075f;
@@ -572,10 +577,11 @@ void PlayScene::gameClearAnimetion()
 	if (transObjAlpha >= (float)Size::OneTimes) {
 		transObjAlpha = (float)Size::OneTimes;
 	}
-	sceneObj_->transitionO_->SetColor({1, 1, 1, transObjAlpha});
-	sceneObj_->transitionO_->Update();
+	//sceneObj_->transitionO_->SetColor({1, 1, 1, transObjAlpha});
+	//sceneObj_->transitionO_->Update();
+	//transSP_->SetColor({1, 1, 1, transObjAlpha});
 
-	if (isFinishSpCount > Number ::Thirty && isFinishSpCount < Number::Ninety) {
+	if (isFinishSpCount > 28 && isFinishSpCount < Number::Ninety) {
 		finishSP_->SetPosition(finishSpPos);
 	} else {
 		finishSpPos.x -= addfinishSpeed;
@@ -609,6 +615,12 @@ void PlayScene::finishPlayerCamera() {
 	finishCameraPlayerVec = {5, 0, 20}; // オフセット座標の設定
 
 	// finishCameraVec = {0, 0, 20};
+	//finishCameraPlayerVec = MyMath::bVelocity(
+	//    finishCameraPlayerVec, player_->GetFbxObject3d()->GetWorldTransform().matWorld_);
+
+	//finishCameraPlayerPos = player_->GetFbxObject3d()->GetPosition() + finishCameraPlayerVec;
+
+		// finishCameraVec = {0, 0, 20};
 	finishCameraPlayerVec = MyMath::bVelocity(
 	    finishCameraPlayerVec, player_->GetObject3d()->GetWorldTransform().matWorld_);
 
