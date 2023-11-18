@@ -51,6 +51,7 @@ void SceneObjects::Initialize(SceneManager* controller)
 
 	fbxObject->SetPosition({ 0,-10,10 });
 
+
 	player_ = new Player();
 	enemy_ = new Enemy();
 

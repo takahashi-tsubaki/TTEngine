@@ -1,4 +1,4 @@
-﻿#include "FPS.h"
+#include "FPS.h"
 
 void FPS::FpsControlBegin()
 {
@@ -13,19 +13,19 @@ void FPS::FpsControlEnd()
 	//今の時間を取得
 	QueryPerformanceCounter(&timeEnd);
 	//経過時間
-	float elapsedFrame = static_cast<float>(timeEnd.QuadPart - timeStart.QuadPart) / static_cast<float>(cpuClock.QuadPart);
+	elapsedFrame_ = static_cast<float>(timeEnd.QuadPart - timeStart.QuadPart) / static_cast<float>(cpuClock.QuadPart);
 	//余裕があるときは待つ
-	if (elapsedFrame < frameTime)
+	if (elapsedFrame_ < frameTime)
 	{
 		//sleep時間
-		DWORD sleepTime = static_cast<DWORD>((frameTime - elapsedFrame) * 1000.0f);
+		DWORD sleepTime = static_cast<DWORD>((frameTime - elapsedFrame_) * 1000.0f);
 		timeBeginPeriod(1);
 		//寝る
 		Sleep(sleepTime);
 		timeEndPeriod(1);
 	}
 
-	fps = 1 / elapsedFrame;
+	fps = 1 / elapsedFrame_;
 }
 
 void FPS::SetFrameRate(float fps_)
@@ -36,5 +36,19 @@ void FPS::SetFrameRate(float fps_)
 float FPS::GetFrameRate()
 {
 	return fps;
+}
+
+float FPS::GetElapsedFrame()
+{
+	return elapsedFrame_;
+}
+
+void FPS::SetElapsedFrame(float elapsedFrame)
+{
+	elapsedFrame_ = elapsedFrame; }
+
+FPS* FPS::GetInstance() {
+	static FPS instance;
+	return &instance;
 }
 

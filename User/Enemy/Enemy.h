@@ -21,6 +21,13 @@
 
 class Player;
 
+enum EnemyAction
+{
+	Idle = 0,
+	Move = 1,
+	Attack = 2,
+};
+
 enum EnemyBulletType
 {
 	NONE,
@@ -316,6 +323,12 @@ private:
 	bool isDebugMode = false;
 
 	std::unique_ptr<ParticleManager> particle_;
+
+	int actionRand;
+
+	int actionCoolTimer = 0;
+
+	int attackCoolTimer = 180;
 
 #pragma region 演出関連
 

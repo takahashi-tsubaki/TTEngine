@@ -263,9 +263,18 @@ void Affin::HorizontalProjection(
 	// 速度を計算(鉛直投げ上げ)
 	speed.y = startSpeed.y - G * (static_cast<float>(flame) / 60.0f);
 
+	if ( flame <= 15 )
+	{
+		// translationにspeedを加算する
+		worldTransform.translation_ += speed * (FPS::GetInstance()->GetElapsedFrame() * 1.0f);
+	}
+	else
+	{
+		// translationにspeedを加算する
+		worldTransform.translation_ += speed *( FPS::GetInstance()->GetElapsedFrame() * 120.0f);
+	}
 	
-	// translationにspeedを加算する
-	worldTransform.translation_ += speed;
+	
 
 	//// アフィン変換用の行列
 	//Matrix4 affinMat;

@@ -1,8 +1,8 @@
-﻿#include "Framework.h"
+#include "Framework.h"
 
 void Framework::Initialize()
 {
-	fps = new FPS();
+	fps = FPS::GetInstance();
 	fps->SetFrameRate(60);
 
 	winApp = new WinApp();
@@ -37,7 +37,6 @@ void Framework::Finalize()
 	delete input;
 	delete winApp;
 	delete dxCommon_;
-	delete fps;
 }
 
 void Framework::Update()

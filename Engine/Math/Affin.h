@@ -6,6 +6,9 @@
 
 #include "WorldTransform.h"
 
+#include "Fps.h"
+
+
 /// <summary>
 /// アフィン行列 （角度指定：度数法）
 /// </summary>

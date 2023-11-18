@@ -2,6 +2,8 @@
 #include "DirectXCommon.h"
 #include "Input.h"
 #include "GamePad.h"
+#include "Fps.h"
+
 
 #include "Sprite.h"
 
@@ -185,6 +187,15 @@ public:
 		return vanishTimer;
 	}
 
+	bool GetIsShot() {
+		return isShot;
+	}
+
+	FbxObject3d* GetFbxObject3d()
+	{
+		return fbxPlayerO_.get();
+	}
+
 private:
 
 	WorldTransform wtf;
@@ -280,12 +291,12 @@ private:
 	Model* bulletM_ = nullptr;
 
 	//プレイヤーのFBXモデル
-	std::unique_ptr<FbxObject3d> playerFbxO_;
-	std::unique_ptr<FbxModel> playerFbxM_;
+	std::unique_ptr<FbxObject3d> fbxPlayerO_;
+	std::unique_ptr<FbxModel> fbxPlayerM_;
 
 	Enemy* enemy_ = nullptr;
 
-	int SPHERE_COLISSION_NUM = 1;	//コライダー（スフィア）の数
+	size_t SPHERE_COLISSION_NUM;	//コライダー（スフィア）の数
 	std::vector<Matrix4>* collisionBonesMat;	//当たり判定用のボーンのワールド行列
 	std::vector<SphereCollider*> sphere;
 	std::vector<Vector3> spherePos = {};

@@ -117,6 +117,13 @@ public://メンバ関数
 	void SetPosition(Vector3 position) {
 		worldTransform.translation_ = position;
 	}
+
+	/// <summary>
+	/// 回転角のセット
+	/// </summary>
+	/// <param name="rotation"></param>
+	void SetRotation(Vector3 rotation) { worldTransform.rotation_ = rotation; }
+
 /// <summary>
 /// ボーン用
 /// </summary>
@@ -145,6 +152,9 @@ public://メンバ関数
 		color_ = color;
 	}
 
+	WorldTransform GetWorldTransform() { return worldTransform; }
+	WorldTransform* GetWorldTransformPtr() { return &worldTransform; }
+
 public:
 	//定数バッファ
 	ComPtr<ID3D12Resource> constBuffTransform;
@@ -157,7 +167,7 @@ public:
 	// ローカルスケール
 	Vector3 scale_ = { 1,1,1 };
 	// X,Y,Z軸回りのローカル回転角
-	Vector3 rotation = { 0,0,0 };
+	Vector3 rotation_ = { 0,0,0 };
 	// ローカル座標
 	Vector3 position_ = { 0,0,0 };
 	// ローカルワールド変換行列

@@ -108,9 +108,58 @@ void Enemy::Update()
 		
 		if (player_->GetHp() > 0)
 		{
-			Attack();
+			actionCoolTimer--;
+			srand((unsigned int)time(nullptr));
 
-			//Move();
+			actionRand = rand() % 100 + 1;
+
+			//プレイヤーが攻撃してきたときの行動をランダム化
+			if ( player_->GetIsShot() == true )
+			{
+				
+				if (actionRand <= 45)
+				{
+					if ( actionCoolTimer <= 0 )
+					{
+						Attack();
+					}
+					
+				}
+				else if (actionRand > 45 && actionRand <= 90)
+				{
+					Move();
+				}
+				else
+				{
+
+				}
+				
+			}
+			else
+			{
+				attackCoolTimer--;
+				if ( attackCoolTimer <= 0 )
+				{
+					Attack();
+				}
+				if (actionRand <= 50)
+				{
+					Move();
+				}
+				else if (actionRand > 50 && actionRand <= 90)
+				{
+	
+					if (actionCoolTimer <= 0) {
+						Attack();
+					}
+				}
+				else
+				{
+
+				}
+				
+			}
+
 		}
 
 	}
@@ -459,6 +508,8 @@ void Enemy::Attack()
 			coolTimer = 300.0f;
 			pressTimer = 0.0f;
 			isShot = false;
+			actionCoolTimer = 60;
+			attackCoolTimer = 180;
 		}
 	}
 	else
@@ -473,82 +524,70 @@ void Enemy::Vanish()
 
 void Enemy::Move()
 {
-
-	velocity_ = { 0 , 0 , 0 };
-
-	//１秒に一回実行する1
-	MoveflameCount++;
-	if (MoveflameCount < 120)
+	if ( isShot == false )
 	{
-		srand((unsigned int)time(nullptr));
-		moveActionNum = rand() % 2+1;
-		MoveflameCount = 0;
+		velocity_ = {0, 0, 0};
+
+		// １秒に一回実行する1
+		MoveflameCount++;
+		if (MoveflameCount < 120) {
+			srand((unsigned int)time(nullptr));
+			moveActionNum = rand() % 2 + 1;
+			MoveflameCount = 0;
+		}
+
+		if (moveActionNum == 1) {
+			velocity_ += {moveSpeed * -1, 0, 0};
+			/*isLeft = true;
+			isRight = false;
+			isApproach = false;*/
+		} else if (moveActionNum == 2) {
+			velocity_ += {moveSpeed, 0, 0};
+
+			/*isLeft = false;
+			isRight = true;
+			isApproach = false;*/
+		} else if (moveActionNum == 3) {
+			velocity_ += {0, 0, moveSpeed * -1};
+
+			/*isLeft = false;
+			isRight = false;
+			isApproach = true;*/
+		} else if (moveActionNum == 4) {
+			velocity_ += {0, 0, moveSpeed};
+		} else {
+			/*isLeft = false;
+			isRight = false;
+			isApproach = false;*/
+		}
+		if (GetisDead() == false) {
+			enemyO_->worldTransform.rotation_ = cameraAngle;
+		}
+
+		enemyO_->worldTransform.UpdateMatWorld();
+
+		velocity_ = MyMath::MatVector(velocity_, enemyO_->worldTransform.matWorld_);
+
+		enemyO_->worldTransform.translation_ += velocity_;
+
+		if (isLeft == true) {
+			wtf.translation_.x -= 0.5f;
+			enemyO_->SetPosition(wtf.translation_);
+		}
+		if (isRight == true) {
+			wtf.translation_.x += 0.5f;
+			enemyO_->SetPosition(wtf.translation_);
+		}
+		if (isApproach == true) {
+			enemyPos_ = enemyO_->GetPosition();
+			distance_ = player_->GetPosition() - enemyO_->GetPosition();
+			distance_.nomalize();
+			distance_ *= 0.5f;
+			wtf.translation_ += distance_;
+			enemyO_->SetPosition(wtf.translation_);
+		}
 	}
 	
-	if (moveActionNum == 1)
-	{
-		velocity_ += { moveSpeed * -1, 0, 0  };
-		/*isLeft = true;
-		isRight = false;
-		isApproach = false;*/
-	}
-	else if(moveActionNum == 2)
-	{
-		velocity_ += {moveSpeed, 0, 0 };
-
-		/*isLeft = false;
-		isRight = true;
-		isApproach = false;*/
-	}
-	else if(moveActionNum == 3)
-	{
-		velocity_ += { 0, 0, moveSpeed*-1 };
-
-		/*isLeft = false;
-		isRight = false;
-		isApproach = true;*/
-	}
-	else if (moveActionNum == 4)
-	{
-		velocity_ += { 0, 0, moveSpeed };
-	}
-	else
-	{
-		/*isLeft = false;
-		isRight = false;
-		isApproach = false;*/
-	}
-	if ( GetisDead() == false )
-	{
-		enemyO_->worldTransform.rotation_ = cameraAngle;
-	}
-
-
-	enemyO_->worldTransform.UpdateMatWorld();
-
-	velocity_ = MyMath::MatVector(velocity_, enemyO_->worldTransform.matWorld_);
-
-	enemyO_->worldTransform.translation_ += velocity_;
-
-	if (isLeft == true)
-	{
-		wtf.translation_.x -= 0.5f;
-		enemyO_->SetPosition(wtf.translation_);
-	}
-	if (isRight == true)
-	{
-		wtf.translation_.x += 0.5f;
-		enemyO_->SetPosition(wtf.translation_);
-	}
-	if (isApproach == true)
-	{
-		enemyPos_ = enemyO_->GetPosition();
-		distance_ = player_->GetPosition()-enemyO_->GetPosition()  ;
-		distance_.nomalize();
-		distance_ *= 0.5f;
-		wtf.translation_ += distance_;
-		enemyO_->SetPosition(wtf.translation_);
-	}
 }
 
 void Enemy::Step()

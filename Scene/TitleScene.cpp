@@ -47,7 +47,11 @@ void TitleScene::Initialize()
 	enemy_->Initialize(controller_->dxCommon_,player_);
 
 	//カメラの座標と注視点をセット
-	controller_->camera_->SetEye({ player_->GetObject3d()->GetPosition().x,player_->GetObject3d()->GetPosition().y,player_->GetObject3d()->GetPosition().z -50 });
+	//controller_->camera_->SetEye({player_->GetFbxObject3d()->GetPosition().x, player_->GetFbxObject3d()->GetPosition().y,player_->GetFbxObject3d()->GetPosition().z - 50});
+
+	controller_->camera_->SetEye(
+	    {player_->GetObject3d()->GetPosition().x, player_->GetObject3d()->GetPosition().y,
+	     player_->GetObject3d()->GetPosition().z - 50});
 	controller_->camera_->SetTarget(enemy_->GetObject3d()->GetPosition());
 
 	sceneObj_->transitionO_->SetScale({ 400,400,60 });
@@ -67,7 +71,9 @@ void TitleScene::Update(Input* input, GamePad* gamePad)
 	sceneObj_->transitionO_->Update();
 
 	//player_->TitleAnime();
+
 	player_->GetObject3d()->Update();
+	//player_->GetFbxObject3d()->Update();
 	enemy_->GetObject3d()->Update();
 
 	/*player_->Update(input,gamePad);
@@ -78,7 +84,7 @@ void TitleScene::Update(Input* input, GamePad* gamePad)
 	//ボタンを押したらシーン遷移を行う
 	if (input->TriggerKey(DIK_SPACE) || gamePad->ButtonTrigger(X))
 	{
-		/*isTransition = true;*/
+	/*	isTransition = true;*/
 
 		controller_->ChangeSceneNum(S_SELECT);
 
@@ -140,6 +146,7 @@ void TitleScene::Draw()
 	// スプライト描画後処理
 	Sprite::PostDraw();
 #pragma endregion
+
 
 #pragma region 
 	//// 3Dオブジェクト描画前処理

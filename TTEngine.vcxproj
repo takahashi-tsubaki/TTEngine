@@ -59,7 +59,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Engine\Base;$(SolutionDir)Engine\2D;$(SolutionDir)Engine\3D;$(SolutionDir)Scene;$(SolutionDir)Engine\Math;$(SolutionDir)Engine\Particle;$(SolutionDir)Engine\FBX;$(SolutionDir)External\DirectXTex;$(SolutionDir)External\fbx_sdk\include;$(SolutionDir)Engine\FrameWork;$(SolutionDir)External\imgui;$(SolutionDir)Engine\Camera;$(SolutionDir)Engine\Light;$(SolutionDir)User\Enemy;$(SolutionDir)User\Player;$(SolutionDir)User\Bullet;$(SolutionDir)Engine\Collider;$(SolutionDir)External\json</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Engine\Base;$(SolutionDir)Engine\2D;$(SolutionDir)Engine\3D;$(SolutionDir)Scene;$(SolutionDir)Engine\Math;$(SolutionDir)Engine\Particle;$(SolutionDir)Engine\FBX;$(SolutionDir)External\DirectXTex;$(SolutionDir)External\fbx_sdk\include;$(SolutionDir)Engine\FrameWork;$(SolutionDir)External\imgui;$(SolutionDir)Engine\Camera;$(SolutionDir)Engine\Light;$(SolutionDir)User\Enemy;$(SolutionDir)User\Player;$(SolutionDir)User\Bullet;$(SolutionDir)Engine\Collider;$(SolutionDir)External\json;$(SolutionDir)User\PlayerState</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <TreatWarningAsError>true</TreatWarningAsError>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
@@ -84,7 +84,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Engine\Base;$(SolutionDir)Engine\2D;$(SolutionDir)Engine\3D;$(SolutionDir)Scene;$(SolutionDir)Engine\Math;$(SolutionDir)Engine\Particle;$(SolutionDir)Engine\FBX;$(SolutionDir)External\DirectXTex;$(SolutionDir)External\fbx_sdk\include;$(SolutionDir)Engine\FrameWork;$(SolutionDir)External\imgui;$(SolutionDir)Engine\Camera;$(SolutionDir)Engine\Light;$(SolutionDir)User\Enemy;$(SolutionDir)User\Player;$(SolutionDir)User\Bullet;$(SolutionDir)Engine\Collider;$(SolutionDir)External\json</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Engine\Base;$(SolutionDir)Engine\2D;$(SolutionDir)Engine\3D;$(SolutionDir)Scene;$(SolutionDir)Engine\Math;$(SolutionDir)Engine\Particle;$(SolutionDir)Engine\FBX;$(SolutionDir)External\DirectXTex;$(SolutionDir)External\fbx_sdk\include;$(SolutionDir)Engine\FrameWork;$(SolutionDir)External\imgui;$(SolutionDir)Engine\Camera;$(SolutionDir)Engine\Light;$(SolutionDir)User\Enemy;$(SolutionDir)User\Player;$(SolutionDir)User\Bullet;$(SolutionDir)Engine\Collider;$(SolutionDir)External\json;$(SolutionDir)User\PlayerState</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <LanguageStandard>stdcpp20</LanguageStandard>
@@ -155,6 +155,11 @@
     <ClCompile Include="User\Bullet\EnemyBullet.cpp" />
     <ClCompile Include="User\Bullet\PlayerBullet.cpp" />
     <ClCompile Include="User\Enemy\Enemy.cpp" />
+    <ClCompile Include="User\PlayerState\Player2.cpp" />
+    <ClCompile Include="User\PlayerState\PlayerState.cpp" />
+    <ClCompile Include="User\PlayerState\StandBy.cpp" />
+    <ClCompile Include="User\PlayerState\StateManager.cpp" />
+    <ClCompile Include="User\PlayerState\StatePattern.cpp" />
     <ClCompile Include="User\Player\Player.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -218,6 +223,11 @@
     <ClInclude Include="User\Bullet\EnemyBullet.h" />
     <ClInclude Include="User\Bullet\PlayerBullet.h" />
     <ClInclude Include="User\Enemy\Enemy.h" />
+    <ClInclude Include="User\PlayerState\Player2.h" />
+    <ClInclude Include="User\PlayerState\PlayerState.h" />
+    <ClInclude Include="User\PlayerState\StandBy.h" />
+    <ClInclude Include="User\PlayerState\StateManager.h" />
+    <ClInclude Include="User\PlayerState\StatePattern.h" />
     <ClInclude Include="User\Player\Player.h" />
   </ItemGroup>
   <ItemGroup>
