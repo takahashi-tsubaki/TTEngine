@@ -274,9 +274,9 @@ void Object3d::Update() {
 	/*const XMMATRIX& matViewProjection = sCamera_->GetViewProjectionMatrix();
 	const XMFLOAT3& cameraPos = sCamera_->GetEye();*/
 
-	XMVECTOR CameraVec = { 10000.0f,10000.0f,10000.0f/*camera_->GetEye().x - worldTransform.translation_.x + 2.0f,camera_->GetEye().x - worldTransform.translation_.y + 2.0f,camera_->GetEye().x - worldTransform.translation_.z*/ };
+	//XMVECTOR CameraVec = { 10000.0f,10000.0f,10000.0f/*camera_->GetEye().x - worldTransform.translation_.x + 2.0f,camera_->GetEye().x - worldTransform.translation_.y + 2.0f,camera_->GetEye().x - worldTransform.translation_.z*/ };
 
-	CameraVec = XMVector3Normalize(CameraVec);
+	//CameraVec = XMVector3Normalize(CameraVec);
 
 
 	

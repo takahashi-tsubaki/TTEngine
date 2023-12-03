@@ -30,6 +30,7 @@ void PlayScene::Initialize()
 {
 	
 #pragma region スプライト関連の初期化
+
 	sprite_ = Sprite::Create(1, { WinApp::window_width,WinApp::window_height });
 	enemyHpSprite_ = Sprite::Create(3,{ 200,10 },{ 1,1,1,1 },{0.0f,0.5f});
 	enemyHpSprite_->Initialize();
@@ -58,10 +59,15 @@ void PlayScene::Initialize()
 
 	finishSP_ = Sprite::Create(16, finishSpPos);
 	finishSP_->Initialize();
+
+	pauseSP_ = Sprite::Create(17,{30,30});
+	pauseSP_->Initialize();
+
 #pragma endregion
 
 	player_ = sceneObj_->player_;
 	enemy_ = sceneObj_->enemy_;
+
 	player_->GetObject3d()->SetScale({1,1,1});
 	enemy_->GetObject3d()->SetScale({ 1,1,1 });
 
@@ -99,7 +105,7 @@ void PlayScene::Update(Input* input, GamePad* gamePad)
 	if ( isFight == false )
 	{
 		controller_->GetGameCamera()->Update();
-		StartSign(input);
+		StartSign(input,gamePad);
 
 	}
 	if ( isFight == true )
@@ -139,6 +145,17 @@ void PlayScene::Update(Input* input, GamePad* gamePad)
 			player_->Update(input, gamePad);
 			enemy_->Update();
 
+			if ( player_->GetVanish() == true )
+			{
+				controller_->GetGameCamera()->SetEye(player_->GetOldPos());
+				controller_->GetGameCamera()->eye_.lerp(controller_->GetGameCamera()->eye_, player_->GetPosition(),30.0f);
+			}
+			if ( enemy_->GetVanish() == true )
+			{
+				controller_->GetGameCamera()->SetEye(enemy_->GetOldPos());
+				controller_->GetGameCamera()->eye_.lerp(controller_->GetGameCamera()->eye_, enemy_->GetPosition(), 30.0f);
+			}
+			controller_->GetGameCamera()->eye_.lerp( controller_->GetGameCamera()->eye_, player_->GetPosition(), 30.0f);
 		}
 		if ( isFinish == false )
 		{
@@ -183,6 +200,7 @@ void PlayScene::Update(Input* input, GamePad* gamePad)
 
 
 	player_->GetObject3d()->Update();
+	player_->GetFbxObject3d()->Update();
 	enemy_->GetObject3d()->Update();
 	/*player_ = sceneObj_->player_;*/
 	
@@ -201,16 +219,18 @@ void PlayScene::Update(Input* input, GamePad* gamePad)
 	transSP_->SetSize({(float)Size::TenTimes * 275.0f,(float) Size::TenTimes* 183.0f});
 	//fbxObject->Update();
 
-	ImGui::Begin("PlayerPos");
+#ifdef _DEBUG
+	/*ImGui::Begin("PlayerPos");
 	ImGui::SetWindowPos({ 200 , 200 });
 	ImGui::SetWindowSize({ 500,100 });
 	ImGui::InputFloat3("Pos", &player_->GetFbxObject3d()->worldTransform.translation_.x);
-	ImGui::End();
-
+	ImGui::End();*/
+#endif
 
 	sceneObj_->skydomeO_->SetPosition({ sceneObj_->skydomeO_->GetPosition().x + player_->GetPosition().x,sceneObj_->skydomeO_->GetPosition().y,sceneObj_->skydomeO_->GetPosition().z });
 	sceneObj_->skydomeO_->Update();
 	sceneObj_->transitionO_->Update();
+
 	//if (sceneObj_->transitionO_->worldTransform.scale_.x <= 0 || sceneObj_->transitionO_->worldTransform.scale_.z <= 0)
 	//{
 	//	isTransition = false;
@@ -330,10 +350,11 @@ void PlayScene::Draw()
 		enemyHpSprite_->Draw();
 
 		damageSP_->Draw();
+		
 	}
 
 
-	if (player_->GetHp() > 0 && player_->GetVanishTimer() > 0)
+	if (player_->GetHp() > 0 && enemy_->GetisShot() ==true)
 	{
 		alart->Draw();
 	}
@@ -341,6 +362,8 @@ void PlayScene::Draw()
 	if ( isFight == true )
 	{
 		isFightSP_->Draw();
+		pauseSP_->Draw();
+
 	}
 	if (startSignCount >= Number::HundredTwenty && startSpSize > 0.0f)
 	{
@@ -353,6 +376,8 @@ void PlayScene::Draw()
 	{
 		transSP_->Draw();
 	}
+
+
 
 	//
 	// スプライト描画後処理
@@ -379,7 +404,7 @@ void PlayScene::SceneTransition()
 	sceneObj_->transitionO_->Update();
 }
 
-void PlayScene::StartSign(Input* input)
+void PlayScene::StartSign(Input* input,GamePad*gamepad)
 {
 	Vector3 StartPos = { 2,50,50 };
 
@@ -414,7 +439,7 @@ void PlayScene::StartSign(Input* input)
 			{
 				startSpSize += addSize * 2.0f;
 			}
-			if (input->TriggerKey(DIK_SPACE) )
+			if (input->TriggerKey(DIK_SPACE) || gamepad->ButtonInput(A))
 			{
 				
 				isReady = true;
@@ -441,6 +466,7 @@ void PlayScene::StartSign(Input* input)
 			isFight = true;
 			isReady = false;
 			readyCount = 0;
+
 		}
 	}
 }

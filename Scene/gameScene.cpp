@@ -46,10 +46,11 @@ void GameScene::Initalize(DirectXCommon* dxCommon, Input* input, GamePad* gamePa
 
 	//デバイスをセット
 	FbxObject3d::SetDevice(dxCommon_->GetDevice());
-	//カメラをセット
-	FbxObject3d::SetCamera(gameCamera);
 	//グラフィックスパイプライン生成
 	FbxObject3d::CreateGraphicsPipeline();
+	//カメラをセット
+	FbxObject3d::SetCamera(gameCamera);
+
 	ParticleManager::SetCamera(gameCamera);
 
 	colMan = CollisionManager::GetInstance();

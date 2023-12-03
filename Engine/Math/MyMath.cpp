@@ -619,7 +619,18 @@ namespace MyMath
 			m.m[3][0], m.m[3][1], m.m[3][2], m.m[3][3]);
 
 		return result;
-	}
+    }
+
+    DirectX::XMVECTOR Vec4ToXMVEC(Vector4 Vec4)
+	{
+	    DirectX::XMVECTOR result;
+	    result.m128_f32[0] = Vec4.x;
+	    result.m128_f32[1] = Vec4.y;
+	    result.m128_f32[2] = Vec4.z;
+	    result.m128_f32[3] = Vec4.w;
+
+	    return result;
+    }
 
 	Matrix4 MakeInverse(const Matrix4* mat)
 	{

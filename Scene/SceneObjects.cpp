@@ -16,9 +16,13 @@ void SceneObjects::Initialize(SceneManager* controller)
 
 	Sprite::LoadTexture(12,L"Resources/sprite/Fight.png");//Fight
 	Sprite::LoadTexture(13,L"Resources/sprite/StartSign.png");//敵を倒せ
-	Sprite::LoadTexture(14, L"Resources/sprite/Win.png"); // 敵を倒せ
-	Sprite::LoadTexture(15, L"Resources/sprite/Lose.png"); // 敵を倒せ
-	Sprite::LoadTexture(16, L"Resources/sprite/Finish.png"); // 敵を倒せ
+	Sprite::LoadTexture(14, L"Resources/sprite/Win.png"); // WIN
+	Sprite::LoadTexture(15, L"Resources/sprite/Lose.png"); // LOSE
+	Sprite::LoadTexture(16, L"Resources/sprite/Finish.png"); // FINISH
+
+	Sprite::LoadTexture(17, L"Resources/sprite/Pause.png"); // || マーク
+	Sprite::LoadTexture(18, L"Resources/sprite/Operation.png"); // ポーズ中のスプライト
+
 
 	selectSp_ = Sprite::Create(10,{100,100});
 	spaceButton_ = Sprite::Create(9,{ 525,500 });

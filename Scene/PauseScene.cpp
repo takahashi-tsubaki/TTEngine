@@ -4,9 +4,14 @@ PauseScene::PauseScene(SceneManager* controller, SceneObjects* sceneObj)
 {
 	controller_ = controller;
 	sceneObj_ = sceneObj;
+
 	player_ = sceneObj_->player_;
 	enemy_ = sceneObj_->enemy_;
+
+	operationSP_ = Sprite::Create(18, {400, 100});
+	operationSP_->Initialize();
 }
+
 
 PauseScene::~PauseScene()
 {
@@ -16,13 +21,13 @@ PauseScene::~PauseScene()
 void PauseScene::Initialize()
 {
 
-}
+}	
 
 void PauseScene::Update(Input* input, GamePad* gamePad)
 {
 
 	gamePad->Update();
-	if (input->TriggerKey(DIK_RETURN) || gamePad->ButtonTrigger(X))
+	if (input->TriggerKey(DIK_ESCAPE) || gamePad->ButtonTrigger(X))
 	{
 		player_->Reset();
 		enemy_->Reset();
@@ -63,7 +68,7 @@ void PauseScene::Draw()
 
 	/*fbxObject->Draw(dxCommon_->GetCommandList());*/
 
-	//sceneObj_->skydomeO_->Draw();
+	sceneObj_->skydomeO_->Draw();
 	enemy_->Draw();
 	player_->Draw();
 	//player_->Draw();
@@ -115,6 +120,7 @@ void PauseScene::Draw()
 	// 前景スプライト描画前処理
 	Sprite::PreDraw(controller_->dxCommon_->GetCommandList());
 
+	operationSP_->Draw();
 	//sprite_->Draw();
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる

@@ -232,7 +232,9 @@ Matrix4& Matrix4::operator*=(const Matrix4& m2)
 
 Matrix4 Matrix4::operator*(const Matrix4& m1)
 {
-	return *this *= m1;
+	Matrix4 mat;
+	mat = *this;
+	return mat *= m1;
 }
 
 const Matrix4 operator*(const Matrix4& m1, const Matrix4& m2)

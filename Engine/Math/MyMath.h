@@ -140,6 +140,8 @@ namespace MyMath
 	Matrix4 ConvertXMMATtoMat4(DirectX::XMMATRIX XMMatrix);
 	DirectX::XMMATRIX ConvertMat4toXMMat(Matrix4 m);
 
+	DirectX::XMVECTOR Vec4ToXMVEC(Vector4 Vec4); // Vector4からXMVECTORの変換
+
 	/// <summary>
 	/// 逆行列の生成
 	/// </summary>

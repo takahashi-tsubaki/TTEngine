@@ -1,4 +1,4 @@
-﻿#include "PlayerBullet.h"
+#include "PlayerBullet.h"
 #include "Enemy.h"
 #include "ImguiManager.h"
 void PlayerBullet::Initialize(Model* model, const Vector3& position, const Vector3& velocity)

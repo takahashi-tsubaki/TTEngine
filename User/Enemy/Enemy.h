@@ -34,6 +34,13 @@ enum EnemyBulletType
 	ONESHOT,
 	RAPIDSHOT,
 };
+
+enum MoveDirection
+{
+	LEFT = 1,
+	RIGHT = 2,
+};
+
 /// <summary>
 /// 敵
 /// </summary>
@@ -211,6 +218,10 @@ public:
 	/// </summary>
 	void moveAngle();
 
+
+	Vector3 GetOldPos() { return oldPos; }
+
+	bool GetVanish() { return isVanising; }
 #pragma endregion
 
 
@@ -238,6 +249,8 @@ private:
 
 	bool isDead_ = false;
 	bool isDamage = false;
+
+	int moveDirection = 0;//動いている方向
 
 	/// <summary>
 	/// 移動関連系
@@ -295,6 +308,33 @@ private:
 	bool isCharge = false;
 
 #pragma endregion
+
+#pragma region 回避関連
+
+	float VanishGauge = 3.0f;
+	bool isVanising = false;
+	Vector3 VanishPos;
+
+	Vector3 VanishDis;
+	// 回避できる時間
+	float vanishTimer = 0.0f;
+
+	bool isTimerSet = false;
+
+	bool isSideStep = false;
+
+	int vanisingTimes = 0;
+
+	Vector3 objScale = {1,1,1};
+	float reduction = 0.1f; // 縮小
+	float expansion = 0.1f; // 拡大
+
+	bool addScaleX = false;
+	bool subScaleX = true;
+
+#pragma endregion
+
+
 
 	bool isHit_ = false;
 	DirectXCommon* dxCommon_ = nullptr;

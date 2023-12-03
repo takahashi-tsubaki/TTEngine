@@ -17,6 +17,7 @@ protected:
 
 	Sprite* sprite_ = nullptr;
 	Sprite* sprite2_ = nullptr;
+	Sprite* operationSP_ = nullptr;
 
 	Model* model = nullptr;
 	Object3d* object = nullptr;
