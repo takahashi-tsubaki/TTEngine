@@ -82,10 +82,10 @@ void TitleScene::Update(Input* input, GamePad* gamePad)
 
 
 	//ボタンを押したらシーン遷移を行う
-	if (input->TriggerKey(DIK_SPACE) || gamePad->ButtonTrigger(X))
+	if (input->TriggerKey(DIK_SPACE) || gamePad->ButtonTrigger(A))
 	{
 	/*	isTransition = true;*/
-
+		ParamReset();
 		controller_->ChangeSceneNum(S_SELECT);
 
 	}
@@ -213,9 +213,9 @@ void TitleScene::ParamReset()
 	controller_->camera_->SetTarget(enemy_->GetObject3d()->GetPosition());
 	player_->GetObject3d()->SetScale({ 1,1,1 });
 	player_->GetObject3d()->SetPosition({ 0,0,-50 });
-	sceneObj_->transitionO_->SetScale({1,1,1});
-	sceneObj_->transitionO_->SetPosition({ 0,0,0 });
-
+	sceneObj_->transitionO_->SetScale({400, 400, 60});
+	sceneObj_->transitionO_->SetPosition({ 0,-600,0 });
+	player_->RemoveAttribute();
 	transScale_ = { 1,1,1 };
 	cameraRise = false;
 }

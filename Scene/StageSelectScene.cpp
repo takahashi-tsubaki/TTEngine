@@ -23,8 +23,6 @@ void StageSelectScene::Initialize()
 	player_ = sceneObj_->player_;
 	enemy_ = sceneObj_->enemy_;
 
-
-
 	controller_->camera_->SetFollowerPos(&followPos);
 
 	controller_->camera_->SetTargetPos(&targetPos);
@@ -45,7 +43,7 @@ void StageSelectScene::Update(Input* input, GamePad* gamePad)
 	player_->GetObject3d()->Update();
 	enemy_->GetObject3d()->Update();
 	//ボタンを押したらシーン遷移を行う
-	if (input->TriggerKey(DIK_SPACE) || gamePad->ButtonTrigger(X))
+	if (input->TriggerKey(DIK_SPACE) || gamePad->ButtonTrigger(A))
 	{
 
 		isTransition = true;
@@ -221,6 +219,9 @@ void StageSelectScene::ParamReset()
 	player_->GetObject3d()->SetPosition({ 0,0,-50 });
 	sceneObj_->transitionO_->SetScale({ 1,1,1 });
 	sceneObj_->transitionO_->SetPosition({ 0,0,0 });
+
+	sceneObj_->transitionO_->SetScale({400, 400, 60});
+	sceneObj_->transitionO_->SetPosition({transPos});
 
 	transScale_ = { 1,1,1 };
 }

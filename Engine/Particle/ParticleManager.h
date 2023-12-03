@@ -50,7 +50,7 @@ public: // サブクラス
 	struct Particle
 	{
 
-//座標
+		//座標
 		Vector3 position = {};
 		//速度
 		Vector3 velocity = {};

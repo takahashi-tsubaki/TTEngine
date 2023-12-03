@@ -5,8 +5,9 @@
 void Enemy::Initialize(DirectXCommon* dxCommon, Player* player)
 {
 
+	//DXCommonのセット
 	dxCommon_ = dxCommon;
-
+	//Playerのセット
 	player_ = player;
 
 	
@@ -105,63 +106,120 @@ void Enemy::Update()
 		transNormal = {0, 0.5f, 5};
 
 		transNormal = MyMath::bVelocity(transNormal, enemyO_->worldTransform.matWorld_);
-		
-		if (player_->GetHp() > 0)
-		{
-			actionCoolTimer--;
-			srand((unsigned int)time(nullptr));
 
-			actionRand = rand() % 100 + 1;
+		Attack();
 
-			//プレイヤーが攻撃してきたときの行動をランダム化
-			if ( player_->GetIsShot() == true )
-			{
-				
-				if (actionRand <= 45)
-				{
-					if ( actionCoolTimer <= 0 )
-					{
-						Attack();
-					}
-					
-				}
-				else if (actionRand > 45 && actionRand <= 90)
-				{
-					Move();
-				}
-				else
-				{
+		//if (player_->GetHp() > 0)
+		//{
+		//	actionCoolTimer--;
+		//	srand((unsigned int)time(nullptr));
 
-				}
-				
-			}
-			else
-			{
-				attackCoolTimer--;
-				if ( attackCoolTimer <= 0 )
-				{
-					Attack();
-				}
-				if (actionRand <= 50)
-				{
-					Move();
-				}
-				else if (actionRand > 50 && actionRand <= 90)
-				{
+		//	actionRand = rand() % 100 + 1;
+
+		//	#ifdef DEBUG
+		//	 //プレイヤーが攻撃してきたときの行動をランダム化
+		//	if (player_->GetIsShot() == true) {
+
+		//		if (isVanising == false)
+		//		{
+		//		    if (GetisShot() == false)
+		//			{
+
+		//		        if (isVanising == false)
+		//				{
+		//		            VanishGauge = 0.0f;
+		//		            vanisingTimes = 0;
+		//		            subScaleX = true;
+		//		            isVanising = true;
+		//		        }
+		//		    }
+		//		}
+		//	}
+		//	#endif
+
+		//	//プレイヤーが攻撃してきたときの行動をランダム化
+		//	if ( player_->GetIsShot() == true )
+		//	{
+
+		//		if ( isVanising == false )
+		//		{
+		//			if ( GetisShot() == false )
+		//			{
+		//				if (VanishGauge == 3.0f)
+		//				{
+		//					if (actionRand <= 80)
+		//					{
+		//						Vanish();
+		//					}
+		//					else if (actionRand > 90)
+		//					{
+		//						Attack();
+		//					}
+		//					else
+		//					{
+
+		//					}
+		//				}
+		//			}
+		//			
+		//		}
+
+		//		if (actionRand <= 45)
+		//		{
+		//			if ( actionCoolTimer <= 0 )
+		//			{
+		//				Attack();
+		//			}
+		//			
+		//		}
+		//		else if (actionRand > 45 && actionRand <= 90)
+		//		{
+		//			if ( GetisRapidShot() == false )
+		//			{
+		//				Move();
+		//			}
+
+		//		}
+		//		else
+		//		{
+
+		//		}
+		//		
+		//	}
+		//	else
+		//	{
+		//		attackCoolTimer--;
+		//		if ( attackCoolTimer <= 0 )
+		//		{
+		//			Attack();
+		//		}
+		//		if (actionRand <= 50)
+		//		{
+		//			if (GetisRapidShot() == false) {
+		//				Move();
+		//			}
+		//		}
+		//		else if (actionRand > 50 && actionRand <= 90)
+		//		{
 	
-					if (actionCoolTimer <= 0) {
-						Attack();
-					}
-				}
-				else
-				{
+		//			if (actionCoolTimer <= 0) {
+		//				Attack();
+		//			}
+		//		}
+		//		else
+		//		{
 
-				}
-				
-			}
+		//		}
+		//		
+		//	}
 
-		}
+		//}
 
+	}
+
+	if ( isVanising == true )
+	{
+		Vanish();
 	}
 
 	bullets_.remove_if([](std::unique_ptr<EnemyBullet>& bullet) { return bullet->GetIsDead(); });
@@ -358,7 +416,7 @@ void Enemy::Attack()
 	Vector3 playerPos;
 	Vector3 enemyPos;
 	Vector3 distance;
-	float speed = 0.5f;
+	float speed = 1.0f;
 	
 	enemyPos = enemyO_->worldTransform.translation_;
 
@@ -409,7 +467,7 @@ void Enemy::Attack()
 		}
 		else if (bulletType == EnemyBulletType::ONESHOT)
 		{
-			ShotflameCount = 30.0f;
+			ShotflameCount = 15.0f;
 		}
 		else
 		{
@@ -422,7 +480,7 @@ void Enemy::Attack()
 		//弾の最大値を決定
 		if (isDebugMode == false)
 		{
-			MAX_BULLET = rand() % 20 + 1;
+			MAX_BULLET = rand() % 15 + 7;
 		}
 		
 		rapidShot = true;
@@ -482,7 +540,7 @@ void Enemy::Attack()
 					}
 					else if (bulletType == EnemyBulletType::RAPIDSHOT)
 					{
-						bulletTimer = 5.0f;
+						bulletTimer = 4.0f;
 					}
 
 					//
@@ -520,6 +578,94 @@ void Enemy::Attack()
 
 void Enemy::Vanish()
 {
+	Vector3 offSet = {5, 0, -5};
+	offSet = MyMath::bVelocity(offSet, player_->GetObject3d()->GetWorldTransform().matWorld_);
+
+	VanishPos = player_->GetObject3d()->GetPosition() + offSet;
+
+	/*playerPos_ = fbxPlayerO_->GetPosition();*/
+	playerPos_ = enemyO_->GetPosition();
+
+	VanishDis = VanishPos - playerPos_;
+	// VanishDis.nomalize();
+	// 敵が攻撃をしてきたとき
+
+
+
+
+	// 回避したら
+	if (isVanising == true)
+	{
+		//if ( objScale.x <= 0.0f )
+		//{
+		//	VanishGauge += 0.05f;
+		//	if (VanishGauge <= 0.3f) {
+		//		oldPos = enemyO_->worldTransform.translation_;
+		//		VanishDis *= 0.2f;
+		//		/*fbxPlayerO_->SetPosition(VanishPos);*/
+		//		enemyO_->worldTransform.translation_ += VanishDis;
+		//	}
+		//	
+		//}
+
+		VanishGauge += 0.05f;
+		if (VanishGauge <= 0.3f) {
+			oldPos = enemyO_->worldTransform.translation_;
+			VanishDis *= 0.2f;
+			/*fbxPlayerO_->SetPosition(VanishPos);*/
+			enemyO_->worldTransform.translation_ += VanishDis;
+		}
+		
+		
+		if (VanishGauge >= 3.0f)
+		{
+			VanishGauge = 3.0f;
+			vanisingTimes = 1;
+		}
+	}
+
+	// 回避ゲージが満タンなら
+	if (VanishGauge == 3.0f) {
+		// 回避が可能になる
+		if (isVanising == true) {
+    			isVanising = false;
+		}
+	}
+
+
+	/*if (VanishGauge >= 0.3f) {
+		addScaleX = true;
+	}
+	if (subScaleX == true)
+	{
+		objScale.x -= reduction;
+		objScale.y += expansion;
+		addScaleX = false;
+	}
+
+	if ( addScaleX == true )
+	{
+		objScale.x += reduction;
+		objScale.y -= expansion;
+		subScaleX = false;
+	}
+
+	if (objScale.x < 0.0f)
+	{
+		objScale.x = 0.0f;
+	}
+	if (objScale.y < 1.0f) {
+		objScale.y = 1.0f;
+	}
+	if (objScale.x > 1.0f) {
+		objScale.x = 1.0f;
+	}
+	if (objScale.y > 1.0f) {
+		objScale.y = 1.0f;
+	}
+	
+	enemyO_->SetScale(objScale);*/
+
 }
 
 void Enemy::Move()
@@ -530,7 +676,7 @@ void Enemy::Move()
 
 		// １秒に一回実行する1
 		MoveflameCount++;
-		if (MoveflameCount < 120) {
+		if (MoveflameCount < 240) {
 			srand((unsigned int)time(nullptr));
 			moveActionNum = rand() % 2 + 1;
 			MoveflameCount = 0;

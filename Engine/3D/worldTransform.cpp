@@ -31,7 +31,7 @@ void WorldTransform::UpdateMatWorld()
 
 	//ワールド変換行列にスケーリング,回転,平行移動の行列を合成
 	matScale = MyMath::Scale(scale_);
-	matRot = MyMath::Rotate(rotation_, 6);//6は全部の軸を適用
+	matRot = MyMath::Rotate(rotation_,6);//6は全部の軸を適用
 	matTrans = MyMath::Move(translation_);
 	//ワールド行列に単位行列を代入
 	matWorld_.identity();

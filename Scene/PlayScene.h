@@ -52,6 +52,8 @@ protected:
 
 	Sprite* transSP_ = nullptr;
 
+	Sprite* pauseSP_ = nullptr;
+
 #pragma endregion スプライト関連
 
 	Model* model = nullptr;
@@ -131,6 +133,9 @@ protected:
 	float transObjAlpha = 0.0f;
 	float addAlpha = 0.018f;
 #pragma endregion
+
+std::list<std::unique_ptr<PlayerBullet>> bullets_;
+
 public:
 	//コンストラクタとデストラクタ
 	PlayScene(SceneManager* controller,SceneObjects* sceneObj);
@@ -161,7 +166,7 @@ public:
 	/// <summary>
 	/// スタート演出
 	/// </summary>
-	void StartSign(Input* input);
+	void StartSign(Input* input,GamePad* gamepad);
 
 	//カメラのセット
 	void SetCamera();

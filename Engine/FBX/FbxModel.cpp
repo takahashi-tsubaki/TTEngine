@@ -1,4 +1,4 @@
-﻿#include "FbxModel.h"
+#include "FbxModel.h"
 
 FbxModel::~FbxModel()
 {
@@ -58,7 +58,9 @@ void FbxModel::CreateBuffers(ID3D12Device* device)
 	{
 		std::copy(indices.begin(), indices.end(), indexMap);
 		indexBuff->Unmap(0, nullptr);
-	}//インデックスバッファビューの生成
+	}
+
+	//インデックスバッファビューの生成
 	ibView.BufferLocation = indexBuff->GetGPUVirtualAddress();
 	ibView.Format = DXGI_FORMAT_R16_UINT;
 	ibView.SizeInBytes = sizeIB;

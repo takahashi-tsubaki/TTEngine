@@ -3,7 +3,6 @@ cbuffer cbuff0 : register(b0)
 	matrix viewproj;//ビュープロジェクション行列
 	matrix world;//ワールド行列
 	float3 cameraPos;//カメラ座標
-    float4 color;
 };
 
 //バーテックスバッファの入力
@@ -25,7 +24,7 @@ struct VSOutput
 };
 
 //ボーンの最大数
-static const int MAX_BONES = 1000;
+static const int MAX_BONES = 32;
 
 cbuffer skinning :  register(b3)//ボーンのスキニング行列が入る
 {

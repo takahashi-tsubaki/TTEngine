@@ -63,6 +63,14 @@ public:
 	/// <param name="input"></param>
 	/// <param name="gamePad"></param>
 	void Move(Input* input,GamePad* gamePad);
+
+	/// <summary>
+	/// ステップ移動
+	/// </summary>
+	/// <param name="input"></param>
+	/// <param name="gamePad"></param>
+	void Step(Input* input, GamePad* gamePad);
+
 	/// <summary>
 	/// 射撃
 	/// </summary>
@@ -133,6 +141,10 @@ public:
 	/// <returns></returns>
 	WorldTransform GetWorldTransform() {
 		return wtf;
+	}
+
+	Vector3 GetOldPos() {
+		return oldPos;
 	}
 
 	/// <summary>
@@ -208,6 +220,7 @@ private:
 	Vector3 playerPos_;
 	Vector3 enemyPos_;
 	Vector3 distance_;
+	Vector3 stepVel_;
 
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
@@ -216,11 +229,21 @@ private:
 	int Hp_ = 10;
 	bool isDead_ = false;
 	bool isDamage = false;
+	bool isStep = false;
+
 	//自機の向き
 	Vector3 faceAngle_ = { 0 , 0 , 0 };
+
+	//fbxの大きさ
+	float fbxScale_;
+
 	//カメラの角度
 	Vector3 cameraAngle;
 	Vector3 velocity_ = { 0,0,0 };
+	Vector3 fbxVelocity_ = {0, 0, 0};
+
+
+	Vector3 StepVelocity_ = {0, 0, 0};
 
 	const float moveSpeed = 0.5;
 	//旋回速度
@@ -263,6 +286,7 @@ private:
 	bool isVanising = false;
 	Vector3 VanishPos;
 
+	Vector3 VanishDis;
 	//回避できる時間
 	float vanishTimer = 0.0f;
 
