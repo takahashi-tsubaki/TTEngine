@@ -115,7 +115,8 @@ void TitleScene::Draw()
 	if ( transScale_.x >= 0 )
 	{
 		enemy_->Draw();
-		player_->Draw();
+		//player_->Draw();
+		player_->GetObject3d()->Draw();
 	}
 	
 

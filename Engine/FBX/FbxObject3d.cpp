@@ -325,8 +325,6 @@ void FbxObject3d::AnimIsRotateChange() {
 	}
 }
 
-Camera FbxObject3d::GetCamera() { return *this->camera_; }
-
 FbxTime FbxObject3d::GetCurrentTimer() { return currentTime; }
 
 FbxTime FbxObject3d::GetEndTime() { return endTime; }

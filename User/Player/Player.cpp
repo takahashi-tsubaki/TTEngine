@@ -21,7 +21,7 @@ void Player::Initialize(DirectXCommon* dxCommon, Enemy* enemy)
 	//playerFbxO_->Initialize();
 	//playerFbxO_->SetModel(playerFbxM_.get());
 
-	fbxPlayerM_.reset(FbxLoader::GetInstance()->LoadModelFromFile("humanFbx"));
+	fbxPlayerM_.reset(FbxLoader::GetInstance()->LoadModelFromFile("HumanFbx1"));
 
 	//fbxPlayerO_ = std::make_unique<FbxObject3d>();
 	fbxPlayerO_ = FbxObject3d::Create();
@@ -116,6 +116,13 @@ void Player::Update(Input* input, GamePad* gamePad)
 	//カメラの角度の更新
 	moveAngle();
 
+	if ( isStep == false )
+	{
+		fbxPlayerO_->PlayAnimation(0);
+	}
+
+	/*fbxPlayerO_->PlayAnimation(0);*/
+
 	if (Hp_ <= 0)
 	{
 		SetisDead(true);
@@ -149,18 +156,28 @@ void Player::Update(Input* input, GamePad* gamePad)
 		}
 	}
 
-	if (bulletType != PlayerBulletType::RapidShot && GetVanish()==false)
+	if (bulletType != PlayerBulletType::RapidShot )
 	{
-		Move(input, gamePad);
+		if (isStep == false && GetVanish() == false)
+		{
+			Move(input, gamePad);//連射攻撃、ステップ移動、回避をしていない時に移動できる
+		}
+		if ( bulletType != PlayerBulletType::OneShot )
+		{
+			Step(input, gamePad);//弾を打っていない時
+		}
+		
 	}
 
 	Shot(input, gamePad);
-	Vanish(input, gamePad);
+
+
+	Vanish();
 	////行列の更新など
 	//playerO_->UpdateMatrix();
 
 	particle_->Update();
-	//fbxPlayerO_->PlayAnimetion(0);
+	
 	fbxPlayerO_->Update();
 
 	
@@ -186,16 +203,6 @@ void Player::Update(Input* input, GamePad* gamePad)
 	ImGui::End();*/
 
 
-	/*ImGui::Begin("Camera");
-
-	ImGui::SetWindowPos({ 200 , 200 });
-	ImGui::SetWindowSize({ 500,100 });
-
-	ImGui::SliderFloat("eye:x", &playerO_->worldTransform.translation_.x, -400.0f, 400.0f);
-	ImGui::SliderFloat("eye:z", &playerO_->worldTransform.translation_.z, -400.0f, 400.0f);
-
-	ImGui::End();*/
-
 	CheckHitCollision();
 	playerO_->Update();
 	/*playerFbxO_->Update();*/
@@ -215,29 +222,21 @@ void Player::Draw()
 	}
 	if ( blowAwayCount <90)
 	{
-		/*fbxPlayerO_->Draw(dxCommon_->GetCommandList());*/
-		if (scale_.x > 0.2)
-		{
-			playerO_->Draw();
-		}
+		fbxPlayerO_->Draw(dxCommon_->GetCommandList());
+		//if (scale_.x > 0.2)
+		//{
+		//	playerO_->Draw();
+		//}
 	}
 }
 
 void Player::Move(Input* input, GamePad* gamePad)
 {
-	isStep = false;
 	velocity_ = {0, 0, 0};
 	fbxVelocity_ = {0, 0, 0};
 
 	if (gamePad->StickInput(L_UP) || input->PushKey(DIK_W))
 	{
-		//enemyPos = enemy_->GetPosition();
-		//distance = enemy_->GetPosition() - playerO_->GetPosition();
-		//distance.nomalize();
-		//distance *= 0.5f;
-		//wtf.translation_ += distance;
-		//wtf.translation_.z += 0.5f;
-		//playerO_->SetPosition(wtf.translation_);
 
 		velocity_ += { 0 , 0 , moveSpeed };
 
@@ -246,8 +245,7 @@ void Player::Move(Input* input, GamePad* gamePad)
 
 	if (gamePad->StickInput(L_DOWN)|| input->PushKey(DIK_S))
 	{
-		//wtf.translation_.z -= 0.5f;
-		//playerO_->SetPosition(wtf.translation_);
+
 		velocity_ += { 0 , 0 , moveSpeed * -1 };
 
 		fbxVelocity_ += {0, 0, (moveSpeed / fbxScale_) * -1};
@@ -255,17 +253,13 @@ void Player::Move(Input* input, GamePad* gamePad)
 	}
 	if (gamePad->StickInput(L_LEFT) || input->PushKey(DIK_A))
 	{
-		//wtf.translation_.x -= 0.5f;
-		//playerO_->SetPosition(wtf.translation_);
+
 		velocity_ += { moveSpeed * -1 , 0 , 0 };
 		fbxVelocity_ += {(moveSpeed / fbxScale_) *-1, 0, 0};
 	}
 
 	if (gamePad->StickInput(L_RIGHT) || input->PushKey(DIK_D))
 	{
-		//wtf.translation_.x += 0.5f;
-		//playerO_->SetPosition(wtf.translation_);
-
 		velocity_ += { moveSpeed , 0 , 0 };
 		fbxVelocity_ += {(moveSpeed / fbxScale_), 0, 0};
 	}
@@ -306,11 +300,12 @@ void Player::Move(Input* input, GamePad* gamePad)
 	ImGui::Begin("playerPos");
 
 	ImGui::SetWindowPos({ 600 , 200 });
-	ImGui::SetWindowSize({ 200,100 });
+	ImGui::SetWindowSize({ 400,200 });
 	ImGui::InputFloat3("vanish", &VanishDis.x);
 
 	ImGui::InputFloat3("objPos", &playerO_->worldTransform.translation_.x);
 	ImGui::InputFloat3("fbxPos", &fbxPlayerO_->worldTransform.translation_.x);
+	/*ImGui::InputInt("fbxPos", );*/
 
 	ImGui::End();
 #endif
@@ -320,49 +315,92 @@ void Player::Move(Input* input, GamePad* gamePad)
 //ステップ移動(横移動だけ)
 void Player::Step(Input* input, GamePad* gamePad)
 {
-	isStep = false;
+
 	velocity_ = {0, 0, 0};
+	fbxVelocity_ = {0, 0, 0};
 
 	// 左スティックを弾いたとき
-	if (gamePad->StickOffTrigger(L_LEFT) || input->PushKey(DIK_LEFT)) {
+	if (gamePad->StickOffTrigger(L_LEFT) || input->TriggerKey(DIK_LEFT)) {
 		// wtf.translation_.x -= 0.5f;
 		// playerO_->SetPosition(wtf.translation_);
-		velocity_ += {moveSpeed * -1, 0, 0};
+		if (isStep == false)
+		{
+			fbxPlayerO_->PlayAnimation(1);
+			stepFlameCount = 30;
+			stepDirection = StepDirection::Left;
+			StepSpeed = 2.0f * -1;
+			isStep = true;
+		}
 	}
 
 	//右スティックを弾いたとき
-	if (gamePad->StickOffTrigger(L_RIGHT) || input->PushKey(DIK_RIGHT)) {
+	if (gamePad->StickOffTrigger(L_RIGHT) || input->TriggerKey(DIK_RIGHT)) {
 		// wtf.translation_.x += 0.5f;
 		// playerO_->SetPosition(wtf.translation_);
-
-		velocity_ += {moveSpeed, 0, 0};
-		fbxVelocity_ += {moveSpeed, 0, 0};
+		
+		if (isStep == false)
+		{
+			fbxPlayerO_->PlayAnimation(2);
+			stepFlameCount = 30;
+			stepDirection = StepDirection::Right;
+			StepSpeed = 2.0f;
+			isStep = true;
+		}
+		
+		
 	}
 
-	// OBJの移動処理
+
+	if (isStep == true)
+	{
+		fbxVelocity_ += {(StepSpeed / fbxScale_), 0, 0};
+		//velocity_ += {StepSpeed, 0, 0};
+		stepFlameCount--;
+	}
+
+	if ( stepDirection == StepDirection::Left )
+	{
+		StepSpeed += 0.1f;
+
+		if (StepSpeed >= 0.0f)
+		{
+			StepSpeed = 0.0f;
+		}
+		if (stepFlameCount <= 0)
+		{
+			isStep = false;
+		}
+	}
+	if (stepDirection == StepDirection::Right)
+	{
+		StepSpeed -= 0.1f;
+		if (StepSpeed <= 0.0f)
+		{
+			StepSpeed = 0.0f;
+		}
+		if (stepFlameCount <= 0)
+		{
+			isStep = false;
+		}
+	}
+
+	// FBXの移動処理
 	if (GetisDead() == false) {
-		playerO_->worldTransform.rotation_ = cameraAngle;
+		fbxPlayerO_->worldTransform.rotation_ = cameraAngle;
 	}
-	playerO_->worldTransform.UpdateMatWorld();
 
-	velocity_ = MyMath::MatVector(velocity_, playerO_->worldTransform.matWorld_);
+	fbxPlayerO_->worldTransform.UpdateMatWorld();
 
-	playerO_->worldTransform.translation_ += velocity_;
+	fbxVelocity_ = MyMath::MatVector(fbxVelocity_, fbxPlayerO_->worldTransform.matWorld_);
+
+	fbxPlayerO_->worldTransform.translation_ += fbxVelocity_;
+
+	fbxPlayerO_->SetPosition(fbxPlayerO_->worldTransform.translation_);
+
+	playerO_->worldTransform.translation_ += fbxVelocity_;
 
 	playerO_->SetPosition(playerO_->worldTransform.translation_);
 
-	//// FBXの移動処理
-	//if (GetisDead() == false) {
-	//	fbxPlayerO_->worldTransform.rotation_ = cameraAngle;
-	//}
-
-	//fbxPlayerO_->worldTransform.UpdateMatWorld();
-
-	//fbxVelocity_ = MyMath::MatVector(fbxVelocity_, fbxPlayerO_->worldTransform.matWorld_);
-
-	//fbxPlayerO_->worldTransform.translation_ += fbxVelocity_;
-
-	//fbxPlayerO_->SetPosition(fbxPlayerO_->worldTransform.translation_);
 }
 
 void Player::Shot(Input* input, GamePad* gamePad)
@@ -391,8 +429,8 @@ void Player::Shot(Input* input, GamePad* gamePad)
 	Vector3 distance;
 
 
-	/*playerPos = fbxPlayerO_->worldTransform.translation_;*/
-	playerPos = playerO_->worldTransform.translation_;
+	playerPos = fbxPlayerO_->worldTransform.translation_;
+	//playerPos = playerO_->worldTransform.translation_;
 
 	enemyPos = enemy_->GetObject3d()->GetWorldTransform().translation_;
 
@@ -465,7 +503,7 @@ void Player::Shot(Input* input, GamePad* gamePad)
 					bulletSize++;
 					// 弾を生成し初期化
 					std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
-					newBullet->Initialize( bulletM_, playerO_->worldTransform.translation_, distance);
+					newBullet->Initialize( bulletM_, fbxPlayerO_->worldTransform.translation_, distance);
 					//newBullet->Initialize(
 					//    bulletM_, fbxPlayerO_->worldTransform.translation_, distance);
 
@@ -521,36 +559,45 @@ void Player::Shot(Input* input, GamePad* gamePad)
 
 }
 
-void Player::Vanish(Input* input, GamePad* gamePad)
+void Player::Vanish()
 {
+
+	// カメラの角度の更新
+	moveAngle();
+
 	Vector3 offSet = {10,0,25};
 	offSet = MyMath::bVelocity(offSet, enemy_->GetObject3d() ->GetWorldTransform().matWorld_);
 
 	VanishPos = enemy_->GetObject3d()->GetPosition() + offSet;
 
-	/*playerPos_ = fbxPlayerO_->GetPosition();*/
-	playerPos_ = playerO_->GetPosition();
+	playerPos_ = fbxPlayerO_->GetPosition();
+	//playerPos_ = playerO_->GetPosition();
 
 	VanishDis = VanishPos - playerPos_;
+
+	if (GetisDead() == false) {
+		fbxPlayerO_->worldTransform.rotation_ = cameraAngle;
+	}
+	fbxPlayerO_->worldTransform.UpdateMatWorld();
 	//VanishDis.nomalize();
 	//敵が攻撃をしてきたとき
-	if (enemy_->GetisShot() == true)
-	{
-		if (isTimerSet == false)
-		{
-			//回避できるタイマーをセット
-			vanishTimer = 60.0f;
-			isTimerSet = true;
-		}
-		
-		
-	}
+	//if (enemy_->GetisShot() == true)
+	//{
+	//	if (isTimerSet == false)
+	//	{
+	//		//回避できるタイマーをセット
+	//		vanishTimer = 60.0f;
+	//		isTimerSet = true;
+	//	}
+	//	
+	//	
+	//}
 	// タイマーが0以上の時
-	if (isTimerSet == true && vanishTimer > 0) {
+	if (enemy_->GetVanishTimer() > 0) {
 		// 特定の操作をしたら
-		if (gamePad->ButtonOffTrigger(B) || input->TriggerKey(DIK_P)) {
+		if (isStep == true && stepFlameCount > 15) {
 			// 回避ゲージが満タンの時
-			if (VanishGauge == 3.0f) {
+			if (VanishGauge == MAX_VANISHCOUNT) {
 				// 回避していなかったとき
 				if (isVanising == false) {
 					VanishGauge = 0.0f;
@@ -573,23 +620,25 @@ void Player::Vanish(Input* input, GamePad* gamePad)
 	//回避したら
 	if (isVanising == true)
 	{
+		
 		if ( VanishGauge <= 0.3f )
 		{
-			oldPos = playerO_->worldTransform.translation_;
+
+			oldPos = fbxPlayerO_->worldTransform.translation_;
 			VanishDis *= 0.5f;
-			/*fbxPlayerO_->SetPosition(VanishPos);*/
+			fbxPlayerO_->worldTransform.translation_ += VanishDis;
 			playerO_->worldTransform.translation_ += VanishDis;
 		}
 		
 
 		VanishGauge += 0.1f;
-		if (VanishGauge >= 3.0f)
+		if (VanishGauge >= MAX_VANISHCOUNT)
 		{
-			VanishGauge = 3.0f;
+			VanishGauge = MAX_VANISHCOUNT;
 		}
 	}
 	//回避ゲージが満タンなら
-	if (VanishGauge == 3.0f)
+	if (VanishGauge == MAX_VANISHCOUNT)
 	{
 		//回避が可能になる
 		if (isVanising == true)
@@ -661,15 +710,12 @@ void Player::TitleAnime()
 
 void Player::GameOverAnime()
 {
-
-
-
 	blowAwayCount++;
 	
 	//水平投射をしながら自機を下に落下させる
-	Affin::HorizontalProjection(playerO_->worldTransform, transNormal, 1.0f, blowAwayCount);
+	Affin::HorizontalProjection(fbxPlayerO_->worldTransform, transNormal, 1.0f, blowAwayCount);
 
-	playerO_->SetPosition(playerO_->worldTransform.translation_);
+	fbxPlayerO_->SetPosition(fbxPlayerO_->worldTransform.translation_);
 
 }
 
@@ -758,8 +804,8 @@ void Player::CheckHitCollision()
 			//当たったものの属性が敵の弾だった時
 			if (sphere[i]->GetCollisionInfo().collider_->GetAttribute() == COLLISION_ATTR_ENEMYBULLETS)
 			{
-				/*Hp_ -= 1;
-				hitDeley = 3;*/
+				Hp_ -= 1;
+				hitDeley = 3;
 				particle_->RandParticle(sphere[i]->GetCollisionInfo().inter_);
 				//SetIsHit(true);
 
@@ -787,8 +833,9 @@ void Player::CheckHitCollision()
 void Player::moveAngle()
 {
 	cameraAngle.y = 
-		atan2(playerO_->GetCamera()->GetTarget().x - playerO_->GetCamera()->GetEye().x,
-			  playerO_->GetCamera()->GetTarget().z - playerO_->GetCamera()->GetEye().z);
+		atan2(
+	    fbxPlayerO_->GetCamera()->GetTarget().x - fbxPlayerO_->GetCamera()->GetEye().x,
+	    fbxPlayerO_->GetCamera()->GetTarget().z - fbxPlayerO_->GetCamera()->GetEye().z);
 }
 
 void Player::Reset()
@@ -817,6 +864,7 @@ void Player::Reset()
 	playerO_->SetRotation({0,0,0});
 
 	fbxPlayerO_->SetScale({0.01f, 0.01f, 0.01f});
+	fbxPlayerO_->SetRotate({0,0,0});
 	fbxPlayerO_->SetPosition({0, 0, -50});
 
 	oldPos = { 0,0,0 };
@@ -832,9 +880,13 @@ void Player::Reset()
 
 	hitDeley = 0;
 
-	VanishGauge = 3.0f;
+	VanishGauge = MAX_VANISHCOUNT;
 	isVanising = false;
 	VanishPos;
+
+	stepFlameCount = 0;
+	isStep = false;
+	VanishDis = {0, 0, 0};
 
 	isShot = false;
 	//単発
@@ -865,7 +917,7 @@ void Player::Reset()
 
 	particle_->Reset();
 	blowAwayCount = 0;
-	blowAwayPos = playerO_->GetPosition();
+	blowAwayPos = fbxPlayerO_->GetPosition();
 
 }
 
