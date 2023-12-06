@@ -97,6 +97,8 @@ public: // メンバ関数
 	/// <param name="m_Pos">座標</param>
 	void SetPosition(const Vector3& position) { worldTransform.translation_ = position; }
 
+	Vector3 GetPosition() { return worldTransform.translation_; }
+
 	/// <summary>
 	/// 回転の設定
 	/// </summary>
@@ -126,7 +128,7 @@ public: // メンバ関数
 	/// カメラのゲッター
 	/// </summary>
 	/// <returns></returns>
-	Camera GetCamera();
+	Camera* GetCamera() { return camera_; }
 
 	/// <summary>
 	/// アニメーションタイムゲッター

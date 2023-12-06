@@ -31,6 +31,12 @@ enum PlayerBulletType
 	RapidShot,
 };
 
+enum StepDirection
+{
+	Left = 1,
+	Right= 2,
+};
+
 
 /// <summary>
 /// 自機
@@ -82,7 +88,7 @@ public:
 	/// </summary>
 	/// <param name="input"></param>
 	/// <param name="gamePad"></param>
-	void Vanish(Input* input,GamePad* gamePad);
+	void Vanish();
 
 	/// <summary>
 	/// ダメージ
@@ -208,6 +214,8 @@ public:
 		return fbxPlayerO_.get();
 	}
 
+
+
 private:
 
 	WorldTransform wtf;
@@ -246,6 +254,11 @@ private:
 	Vector3 StepVelocity_ = {0, 0, 0};
 
 	const float moveSpeed = 0.5;
+
+	float StepSpeed;
+	int stepDirection;
+
+	int stepFlameCount;
 	//旋回速度
 	const float kTurnSpeed_ = MyMath::Dig2Rad(10);
 
@@ -282,7 +295,9 @@ private:
 
 #pragma region 回避関連
 
-	float VanishGauge = 3.0f;
+	const float MAX_VANISHCOUNT = 6.0f;
+
+	float VanishGauge = MAX_VANISHCOUNT;
 	bool isVanising = false;
 	Vector3 VanishPos;
 
@@ -291,6 +306,8 @@ private:
 	float vanishTimer = 0.0f;
 
 	bool isTimerSet = false;
+
+
 
 #pragma endregion
 

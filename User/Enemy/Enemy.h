@@ -222,6 +222,9 @@ public:
 	Vector3 GetOldPos() { return oldPos; }
 
 	bool GetVanish() { return isVanising; }
+
+	float GetVanishTimer() { return playerVanishTimer; }
+
 #pragma endregion
 
 
@@ -317,7 +320,7 @@ private:
 
 	Vector3 VanishDis;
 	// 回避できる時間
-	float vanishTimer = 0.0f;
+	float playerVanishTimer = 0.0f;
 
 	bool isTimerSet = false;
 

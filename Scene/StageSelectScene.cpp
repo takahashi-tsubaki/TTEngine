@@ -79,7 +79,7 @@ void StageSelectScene::Draw()
 	sceneObj_->selectSkydomeO_->Draw();
 
 	enemy_->Draw();
-	player_->Draw();
+	player_->GetObject3d()->Draw();
 
 	//skydomeO_->Draw();
 

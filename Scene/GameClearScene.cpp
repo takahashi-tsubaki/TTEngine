@@ -13,19 +13,19 @@ GameClearScene::~GameClearScene()
 	ResetParam();
 }
 
-void GameClearScene::Initialize()
-{
+void GameClearScene::Initialize() {
 	//                      num    pos         color       anchorpoint
 	winSP_ = Sprite::Create(14, {645, 360}, {1, 1, 1, 1}, {0.5f, 0.5f});
 	winSP_->Initialize();
 
-	
 	// シーン遷移時のスプライト
-	transSP_ = Sprite::Create(8, {WinApp::window_width / 2, WinApp::window_height / 2}, {1, 1, 1, 1}, {0.5f, 0.5f});
+	transSP_ = Sprite::Create(
+	    8, {WinApp::window_width / 2, WinApp::window_height / 2}, {1, 1, 1, 1}, {0.5f, 0.5f});
 	transSP_->Initialize();
-	transSP_->SetSize({10.0f * 275.0f, 10.0f *183.0f});
+	transSP_->SetSize({10.0f * 275.0f, 10.0f * 183.0f});
 
 	player_ = sceneObj_->player_;
+	player_->GetFbxObject3d()->SetRotate({0, 0, 0});
 	sceneObj_->spaceButton_->SetPosition({545, 575});
 	playerPos = {0, 50, 0};
 	sprite_ = Sprite::Create(4, { 310,200 });
@@ -37,6 +37,7 @@ void GameClearScene::Update(Input* input, GamePad* gamePad)
 {
 	gamePad->Update();
 	//sceneObj_->transitionO_->Update();
+	player_->GetFbxObject3d()->Update();
 	player_->GetObject3d()->Update();
 	GameClearAnime();
 	if (input->TriggerKey(DIK_SPACE) || gamePad->ButtonTrigger(X))
@@ -99,8 +100,8 @@ void GameClearScene::GameClearAnime()
 		playerPos.y = 0;
 	}
 
-	player_->GetObject3d()->SetPosition(playerPos);
-	player_->GetObject3d()->UpdateMatrix();
+	player_->GetFbxObject3d()->SetPosition(playerPos);
+	player_->GetFbxObject3d()->Update();
 
 
 	winSP_->SetSize({spSize * 320.0f, spSize * 128.0f});
