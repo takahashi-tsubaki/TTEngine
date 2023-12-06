@@ -96,13 +96,7 @@ void Player::Initialize(DirectXCommon* dxCommon, Enemy* enemy)
 		sphere[i]->SetRadius(1.0f);
 		sphere[i]->SetAttribute(COLLISION_ATTR_PLAYERS);
 		sphere[i]->Update();
-		////test
-		//coliderPosTest_[i] = Object3d::Create();
-		//coliderPosTest_[i]->SetModel(hpModel_.get());
-		//coliderPosTest_[i]->SetPosition(sphere[i]->center);
-		//coliderPosTest_[i]->SetScale({ sphere[i]->GetRadius(),sphere[i]->GetRadius() ,sphere[i]->GetRadius() });
-		//coliderPosTest_[i]->SetRotate({ 0,0,0 });
-		//coliderPosTest_[i]->Update();
+		
 
 	}
 	startCount = clock() / 1000;
@@ -575,10 +569,10 @@ void Player::Vanish()
 
 	VanishDis = VanishPos - playerPos_;
 
-	if (GetisDead() == false) {
-		fbxPlayerO_->worldTransform.rotation_ = cameraAngle;
-	}
-	fbxPlayerO_->worldTransform.UpdateMatWorld();
+	//if (GetisDead() == false) {
+	//	fbxPlayerO_->worldTransform.rotation_ = cameraAngle;
+	//}
+	//fbxPlayerO_->worldTransform.UpdateMatWorld();
 	//VanishDis.nomalize();
 	//敵が攻撃をしてきたとき
 	//if (enemy_->GetisShot() == true)
@@ -625,10 +619,15 @@ void Player::Vanish()
 		{
 
 			oldPos = fbxPlayerO_->worldTransform.translation_;
-			VanishDis *= 0.5f;
+			/*VanishDis *= 0.05f;*/
 			fbxPlayerO_->worldTransform.translation_ += VanishDis;
 			playerO_->worldTransform.translation_ += VanishDis;
 		}
+
+		//oldPos = fbxPlayerO_->worldTransform.translation_;
+		////VanishDis *= 0.05f;
+		//fbxPlayerO_->worldTransform.translation_ += VanishDis;
+		//playerO_->worldTransform.translation_ += VanishDis;
 		
 
 		VanishGauge += 0.1f;
