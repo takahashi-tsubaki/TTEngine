@@ -121,6 +121,12 @@
     <Filter Include="ヘッダー ファイル\PlayerState">
       <UniqueIdentifier>{7b90b689-9076-4e5a-bd53-f825c43fe804}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Effect">
+      <UniqueIdentifier>{6848845e-65cb-42cb-b08b-9c5972cf997c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Effect">
+      <UniqueIdentifier>{c26b6b52-587a-42ea-bbbf-f551ad05664d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -296,6 +302,18 @@
     </ClCompile>
     <ClCompile Include="User\PlayerState\StandBy.cpp">
       <Filter>ソース ファイル\PlayerState</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Effect\EffectMaterial.cpp">
+      <Filter>ソース ファイル\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Effect\EffectMesh.cpp">
+      <Filter>ソース ファイル\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Effect\EffectModel.cpp">
+      <Filter>ソース ファイル\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Effect\EffectObject3d.cpp">
+      <Filter>ソース ファイル\Effect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -497,6 +515,18 @@
     <ClInclude Include="User\PlayerState\StandBy.h">
       <Filter>ヘッダー ファイル\PlayerState</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Effect\EffectMaterial.h">
+      <Filter>ヘッダー ファイル\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Effect\EffectMesh.h">
+      <Filter>ヘッダー ファイル\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Effect\EffectModel.h">
+      <Filter>ヘッダー ファイル\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Effect\EffectObject3d.h">
+      <Filter>ヘッダー ファイル\Effect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\shaders\OBJPixelShader.hlsl">
@@ -530,6 +560,9 @@
       <Filter>シェーダーファイル</Filter>
     </FxCompile>
     <FxCompile Include="Resources\shaders\ParticlePS.hlsl">
+      <Filter>シェーダーファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\OBJGeometryShader.hlsl">
       <Filter>シェーダーファイル</Filter>
     </FxCompile>
   </ItemGroup>

@@ -239,6 +239,7 @@ private:
 	bool isDamage = false;
 	bool isStep = false;
 
+
 	//自機の向き
 	Vector3 faceAngle_ = { 0 , 0 , 0 };
 
@@ -306,7 +307,7 @@ private:
 	float vanishTimer = 0.0f;
 
 	bool isTimerSet = false;
-
+	float vanishBeforeCount ;
 
 
 #pragma endregion

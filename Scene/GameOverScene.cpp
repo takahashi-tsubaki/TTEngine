@@ -13,9 +13,9 @@ GameOverScene::~GameOverScene()
 }
 
 void GameOverScene::Initialize() {
-	sprite_ = Sprite::Create(5, {400, 200});
+	sprite_ = Sprite::Create(SpriteNumber::SPACE, {400, 200});
 
-	loseSP_ = Sprite::Create(15, {645, 360}, {1, 1, 1, 1}, {0.5f, 0.5f});
+	loseSP_ = Sprite::Create(SpriteNumber::LOSE, {645, 360}, {1, 1, 1, 1}, {0.5f, 0.5f});
 	loseSP_->Initialize();
 
 	enemy_ = sceneObj_->enemy_;
@@ -29,6 +29,7 @@ void GameOverScene::Update(Input* input, GamePad* gamePad)
 	sceneObj_->transitionO_->Update();
 	GameOverAnime();
 	enemy_->GetObject3d()->Update();
+	enemy_->GetFbxObject3d()->Update();
 	if (input->TriggerKey(DIK_SPACE) || gamePad->ButtonTrigger(X))
 	{
 		ResetParam();
@@ -94,7 +95,13 @@ void GameOverScene::GameOverAnime() {
 	}
 
 	enemy_->GetObject3d()->SetPosition(enemyPos);
+
 	enemy_->GetObject3d()->UpdateMatrix();
+	enemy_->GetFbxObject3d()->SetPosition(enemyPos);
+	enemy_->GetFbxObject3d()->SetRotate({0, 0, 0});
+	enemy_->GetFbxObject3d()->PlayAnimation(0);
+	enemy_->GetFbxObject3d()->Update();
+
 	if (gameOverAnimeCount > 90)
 	{
 		loseSpSize += 0.025f;

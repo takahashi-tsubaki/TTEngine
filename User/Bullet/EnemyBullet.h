@@ -43,7 +43,7 @@ public:
 private:
 
 
-	float livingTimer = 540.0f;
+	float livingTimer;
 
 	Vector3 velocity_;
 

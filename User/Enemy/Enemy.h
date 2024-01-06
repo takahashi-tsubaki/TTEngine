@@ -195,6 +195,8 @@ public:
 	/// </summary>
 	void ResetAttribute();
 
+	void RemoveAttribute();
+
 	/// <summary>
 	/// デバックモードのフラグのセット
 	/// </summary>
@@ -225,6 +227,8 @@ public:
 
 	float GetVanishTimer() { return playerVanishTimer; }
 
+	FbxObject3d* GetFbxObject3d() { return enemyFbxO_.get(); }
+
 #pragma endregion
 
 
@@ -246,6 +250,10 @@ private:
 	Vector3 cameraAngle;
 
 	Vector3 velocity_;
+
+	Vector3 fbxVelocity_ = {0, 0, 0};
+	float fbxScale_;
+
 	float moveSpeed = 0.5f;
 
 	float angle;
@@ -266,6 +274,13 @@ private:
 	bool isLeft = false;
 	bool isRight = false;
 	bool isApproach = false;
+
+	//各行動時のアニメーションのフラグ
+	bool isMoveAnime = false;
+	bool isShotAnime = false;
+
+	float animetionCount = 0.0f;
+
 
 	//行動パターンの格納変数
 	int actionNum = 0;
@@ -314,7 +329,7 @@ private:
 
 #pragma region 回避関連
 
-	float VanishGauge = 3.0f;
+	float VanishGauge = 6.0f;
 	bool isVanising = false;
 	Vector3 VanishPos;
 
@@ -327,6 +342,8 @@ private:
 	bool isSideStep = false;
 
 	int vanisingTimes = 0;
+
+	float vanishBeforeCount = 30.0f;
 
 	Vector3 objScale = {1,1,1};
 	float reduction = 0.1f; // 縮小
@@ -344,6 +361,7 @@ private:
 	//仮置き敵のモデル
 	Object3d* enemyO_ = nullptr;
 	Model* enemyM_ = nullptr;
+
 
 
 	//敵の弾モデル関連
@@ -368,6 +386,7 @@ private:
 	std::unique_ptr<ParticleManager> particle_;
 
 	int actionRand;
+	bool Vaction = false;
 
 	int actionCoolTimer = 0;
 

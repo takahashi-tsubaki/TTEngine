@@ -74,7 +74,7 @@ public:
 
 private:
 
-	float livingTimer = 540.0f;
+	float livingTimer;
 
 	bool isDead_ = false;
 

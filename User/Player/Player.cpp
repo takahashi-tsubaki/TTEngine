@@ -96,19 +96,15 @@ void Player::Initialize(DirectXCommon* dxCommon, Enemy* enemy)
 		sphere[i]->SetRadius(1.0f);
 		sphere[i]->SetAttribute(COLLISION_ATTR_PLAYERS);
 		sphere[i]->Update();
-		////test
-		//coliderPosTest_[i] = Object3d::Create();
-		//coliderPosTest_[i]->SetModel(hpModel_.get());
-		//coliderPosTest_[i]->SetPosition(sphere[i]->center);
-		//coliderPosTest_[i]->SetScale({ sphere[i]->GetRadius(),sphere[i]->GetRadius() ,sphere[i]->GetRadius() });
-		//coliderPosTest_[i]->SetRotate({ 0,0,0 });
-		//coliderPosTest_[i]->Update();
+		
 
 	}
 	startCount = clock() / 1000;
 
 	blowAwayPos = playerO_->GetPosition();
 	//playerO_->SetRotation({180, 0, 0});
+
+	vanishBeforeCount = 30.0f;
 }
 
 void Player::Update(Input* input, GamePad* gamePad)
@@ -142,6 +138,7 @@ void Player::Update(Input* input, GamePad* gamePad)
 
 	//デスフラグが立った球を削除
 	bullets_.remove_if([](std::unique_ptr<PlayerBullet>& bullet) { return bullet->GetIsDead(); });
+
 
 	for (std::unique_ptr<PlayerBullet>& bullet : bullets_)
 	{
@@ -405,12 +402,12 @@ void Player::Step(Input* input, GamePad* gamePad)
 
 void Player::Shot(Input* input, GamePad* gamePad)
 {
-	nowCount++;
+	//nowCount++;
 
-	elapsedCount = nowCount - startCount;
-	float elapsedTime = static_cast<float> (elapsedCount) / 1000000.0f;
+	//elapsedCount = nowCount - startCount;
+	//float elapsedTime = static_cast<float> (elapsedCount) / 1000000.0f;
 
-	timeRate = min(elapsedTime / maxTime, 1.0f);
+	//timeRate = min(elapsedTime / maxTime, 1.0f);
 
 #pragma region 弾の移動処理
 	float speed = 0.5f;
@@ -432,7 +429,7 @@ void Player::Shot(Input* input, GamePad* gamePad)
 	playerPos = fbxPlayerO_->worldTransform.translation_;
 	//playerPos = playerO_->worldTransform.translation_;
 
-	enemyPos = enemy_->GetObject3d()->GetWorldTransform().translation_;
+	enemyPos = enemy_->GetFbxObject3d()->GetWorldTransform().translation_;
 
 	distance = enemyPos - playerPos;
 
@@ -566,19 +563,19 @@ void Player::Vanish()
 	moveAngle();
 
 	Vector3 offSet = {10,0,25};
-	offSet = MyMath::bVelocity(offSet, enemy_->GetObject3d() ->GetWorldTransform().matWorld_);
+	offSet = MyMath::bVelocity(offSet, enemy_->GetFbxObject3d() ->GetWorldTransform().matWorld_);
 
-	VanishPos = enemy_->GetObject3d()->GetPosition() + offSet;
+	VanishPos = enemy_->GetFbxObject3d()->GetPosition() + offSet;
 
 	playerPos_ = fbxPlayerO_->GetPosition();
 	//playerPos_ = playerO_->GetPosition();
 
 	VanishDis = VanishPos - playerPos_;
 
-	if (GetisDead() == false) {
-		fbxPlayerO_->worldTransform.rotation_ = cameraAngle;
-	}
-	fbxPlayerO_->worldTransform.UpdateMatWorld();
+	//if (GetisDead() == false) {
+	//	fbxPlayerO_->worldTransform.rotation_ = cameraAngle;
+	//}
+	//fbxPlayerO_->worldTransform.UpdateMatWorld();
 	//VanishDis.nomalize();
 	//敵が攻撃をしてきたとき
 	//if (enemy_->GetisShot() == true)
@@ -625,10 +622,15 @@ void Player::Vanish()
 		{
 
 			oldPos = fbxPlayerO_->worldTransform.translation_;
-			VanishDis *= 0.5f;
+			/*VanishDis *= 0.05f;*/
 			fbxPlayerO_->worldTransform.translation_ += VanishDis;
 			playerO_->worldTransform.translation_ += VanishDis;
 		}
+
+		//oldPos = fbxPlayerO_->worldTransform.translation_;
+		////VanishDis *= 0.05f;
+		//fbxPlayerO_->worldTransform.translation_ += VanishDis;
+		//playerO_->worldTransform.translation_ += VanishDis;
 		
 
 		VanishGauge += 0.1f;
