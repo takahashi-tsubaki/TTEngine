@@ -126,6 +126,10 @@
     <ClCompile Include="Engine\Collider\MeshCollider.cpp" />
     <ClCompile Include="Engine\Collider\QueryCallback.cpp" />
     <ClCompile Include="Engine\Collider\SphereCollider.cpp" />
+    <ClCompile Include="Engine\Effect\EffectMaterial.cpp" />
+    <ClCompile Include="Engine\Effect\EffectMesh.cpp" />
+    <ClCompile Include="Engine\Effect\EffectModel.cpp" />
+    <ClCompile Include="Engine\Effect\EffectObject3d.cpp" />
     <ClCompile Include="Engine\FBX\FbxLoader.cpp" />
     <ClCompile Include="Engine\FBX\FbxModel.cpp" />
     <ClCompile Include="Engine\FBX\FbxObject3d.cpp" />
@@ -194,6 +198,10 @@
     <ClInclude Include="Engine\Collider\QueryCallback.h" />
     <ClInclude Include="Engine\Collider\RaycastHit.h" />
     <ClInclude Include="Engine\Collider\SphereCollider.h" />
+    <ClInclude Include="Engine\Effect\EffectMaterial.h" />
+    <ClInclude Include="Engine\Effect\EffectMesh.h" />
+    <ClInclude Include="Engine\Effect\EffectModel.h" />
+    <ClInclude Include="Engine\Effect\EffectObject3d.h" />
     <ClInclude Include="Engine\FBX\FbxLoader.h" />
     <ClInclude Include="Engine\FBX\FbxModel.h" />
     <ClInclude Include="Engine\FBX\FbxObject3d.h" />

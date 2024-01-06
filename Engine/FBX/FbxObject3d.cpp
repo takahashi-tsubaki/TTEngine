@@ -191,7 +191,7 @@ bool FbxObject3d::Initialize() {
 	    IID_PPV_ARGS(&constBuffSkin));
 
 	// 1フレーム分の時間を60FPSで設定
-	frameTime.SetTime(0, 0, 0, 1, 0, FbxTime::EMode::eFrames30);
+	frameTime.SetTime(0, 0, 0, 1, 0, FbxTime::EMode::eFrames60);
 
 	return true;
 }

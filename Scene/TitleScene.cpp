@@ -32,7 +32,7 @@ void TitleScene::Initialize()
 
 	controller_->camera_->SetTargetPos(&targetPos);
 
-	sprite_ = Sprite::Create(6, { 350,100 });
+	sprite_ = Sprite::Create(SpriteNumber::TITLE, {350, 100});
 
 
 
@@ -114,7 +114,7 @@ void TitleScene::Draw()
 	sceneObj_->skydomeO_->Draw();
 	if ( transScale_.x >= 0 )
 	{
-		enemy_->Draw();
+		enemy_->GetObject3d()->Draw();
 		//player_->Draw();
 		player_->GetObject3d()->Draw();
 	}
@@ -217,6 +217,7 @@ void TitleScene::ParamReset()
 	sceneObj_->transitionO_->SetScale({400, 400, 60});
 	sceneObj_->transitionO_->SetPosition({ 0,-600,0 });
 	player_->RemoveAttribute();
+	enemy_->RemoveAttribute();
 	transScale_ = { 1,1,1 };
 	cameraRise = false;
 }

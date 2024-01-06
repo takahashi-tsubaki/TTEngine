@@ -18,6 +18,30 @@
 #include "Player.h"
 #include "Enemy.h"
 
+
+enum SpriteNumber
+{
+
+	TITLE = 1,
+	STAGESELECT,
+	SCENETRANS,
+	SPACE,
+
+	FIGHT = 11,
+	STARTSIGN,
+
+	HPBAR = 21,
+	DAMAGEBAR,
+	ALART,
+	PAUSE,
+	OPERATION,
+
+	WIN = 31,
+	LOSE,
+	FINISH,
+
+};
+
 class SceneManager;
 /// <summary>
 /// シーンオブジェクト

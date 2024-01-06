@@ -2,30 +2,45 @@
 #include "SceneManager.h"
 void SceneObjects::Initialize(SceneManager* controller)
 {
-	Sprite::LoadTexture(1, L"Resources/kuribo-.jpg");
-	Sprite::LoadTexture(2, L"Resources/mario.jpg");
-	Sprite::LoadTexture(3, L"Resources/sprite/hp.png");//hpバー
-	Sprite::LoadTexture(4, L"Resources/sprite/clear.png");
-	Sprite::LoadTexture(5, L"Resources/sprite/over.png");
-	Sprite::LoadTexture(6,L"Resources/sprite/title2.png");//タイトル
-	Sprite::LoadTexture(7, L"Resources/sprite/alart2.png");// !マーク
-	Sprite::LoadTexture(8, L"Resources/black.jpg");
-	Sprite::LoadTexture(9,L"Resources/sprite/Space2.png");//space
-	Sprite::LoadTexture(10,L"Resources/sprite/stageSelect.png");//stage select
-	Sprite::LoadTexture(11,L"Resources/sprite/damageRed.png");//hp減少バー
 
-	Sprite::LoadTexture(12,L"Resources/sprite/Fight.png");//Fight
-	Sprite::LoadTexture(13,L"Resources/sprite/StartSign.png");//敵を倒せ
-	Sprite::LoadTexture(14, L"Resources/sprite/Win.png"); // WIN
-	Sprite::LoadTexture(15, L"Resources/sprite/Lose.png"); // LOSE
-	Sprite::LoadTexture(16, L"Resources/sprite/Finish.png"); // FINISH
+#pragma region ゲーム前シーン関連
+	Sprite::LoadTexture(SpriteNumber::TITLE, L"Resources/sprite/title2.png"); // タイトル
+	Sprite::LoadTexture(SpriteNumber::STAGESELECT, L"Resources/sprite/stageSelect.png");  // stage select
 
-	Sprite::LoadTexture(17, L"Resources/sprite/Pause.png"); // || マーク
-	Sprite::LoadTexture(18, L"Resources/sprite/Operation.png"); // ポーズ中のスプライト
+	Sprite::LoadTexture(SpriteNumber::SCENETRANS, L"Resources/black.jpg");
+	Sprite::LoadTexture(SpriteNumber::SPACE, L"Resources/sprite/Space2.png"); // space
+
+#pragma endregion 
+
+#pragma region
+
+	Sprite::LoadTexture(SpriteNumber::FIGHT, L"Resources/sprite/Fight.png"); // Fight
+	Sprite::LoadTexture(SpriteNumber::STARTSIGN, L"Resources/sprite/StartSign.png");   // 敵を倒せ
+
+#pragma endregion
+
+#pragma region 戦闘中のスプライト
+
+	Sprite::LoadTexture(SpriteNumber::HPBAR, L"Resources/sprite/hp.png"); // hpバー
+	Sprite::LoadTexture(SpriteNumber::DAMAGEBAR, L"Resources/sprite/damageRed.png"); // hp減少バー
+
+	Sprite::LoadTexture(SpriteNumber::ALART, L"Resources/sprite/alart2.png"); // !マーク
+	Sprite::LoadTexture(SpriteNumber::PAUSE, L"Resources/sprite/Pause.png");        // ポーズ マーク
+	Sprite::LoadTexture(SpriteNumber::OPERATION, L"Resources/sprite/Operation.png"); // ポーズ中のスプライト
+
+#pragma endregion
+
+#pragma region リザルト関連
+
+	Sprite::LoadTexture(SpriteNumber::WIN, L"Resources/sprite/Win.png"); // WIN
+	Sprite::LoadTexture(SpriteNumber::LOSE, L"Resources/sprite/Lose.png");    // LOSE
+	Sprite::LoadTexture(SpriteNumber::FINISH, L"Resources/sprite/Finish.png");    // FINISH
+
+#pragma endregion
 
 
-	selectSp_ = Sprite::Create(10,{100,100});
-	spaceButton_ = Sprite::Create(9,{ 525,500 });
+	selectSp_ = Sprite::Create(SpriteNumber::STAGESELECT, {100, 100});
+	spaceButton_ = Sprite::Create(SpriteNumber::SPACE, {525, 500});
 
 	controller_ = controller;
 

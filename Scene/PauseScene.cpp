@@ -8,7 +8,7 @@ PauseScene::PauseScene(SceneManager* controller, SceneObjects* sceneObj)
 	player_ = sceneObj_->player_;
 	enemy_ = sceneObj_->enemy_;
 
-	operationSP_ = Sprite::Create(18, {400, 100});
+	operationSP_ = Sprite::Create(SpriteNumber::OPERATION, {400, 100});
 	operationSP_->Initialize();
 }
 

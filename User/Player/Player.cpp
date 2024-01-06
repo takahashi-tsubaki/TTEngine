@@ -103,6 +103,8 @@ void Player::Initialize(DirectXCommon* dxCommon, Enemy* enemy)
 
 	blowAwayPos = playerO_->GetPosition();
 	//playerO_->SetRotation({180, 0, 0});
+
+	vanishBeforeCount = 30.0f;
 }
 
 void Player::Update(Input* input, GamePad* gamePad)
@@ -136,6 +138,7 @@ void Player::Update(Input* input, GamePad* gamePad)
 
 	//デスフラグが立った球を削除
 	bullets_.remove_if([](std::unique_ptr<PlayerBullet>& bullet) { return bullet->GetIsDead(); });
+
 
 	for (std::unique_ptr<PlayerBullet>& bullet : bullets_)
 	{
@@ -399,12 +402,12 @@ void Player::Step(Input* input, GamePad* gamePad)
 
 void Player::Shot(Input* input, GamePad* gamePad)
 {
-	nowCount++;
+	//nowCount++;
 
-	elapsedCount = nowCount - startCount;
-	float elapsedTime = static_cast<float> (elapsedCount) / 1000000.0f;
+	//elapsedCount = nowCount - startCount;
+	//float elapsedTime = static_cast<float> (elapsedCount) / 1000000.0f;
 
-	timeRate = min(elapsedTime / maxTime, 1.0f);
+	//timeRate = min(elapsedTime / maxTime, 1.0f);
 
 #pragma region 弾の移動処理
 	float speed = 0.5f;
@@ -426,7 +429,7 @@ void Player::Shot(Input* input, GamePad* gamePad)
 	playerPos = fbxPlayerO_->worldTransform.translation_;
 	//playerPos = playerO_->worldTransform.translation_;
 
-	enemyPos = enemy_->GetObject3d()->GetWorldTransform().translation_;
+	enemyPos = enemy_->GetFbxObject3d()->GetWorldTransform().translation_;
 
 	distance = enemyPos - playerPos;
 
@@ -560,9 +563,9 @@ void Player::Vanish()
 	moveAngle();
 
 	Vector3 offSet = {10,0,25};
-	offSet = MyMath::bVelocity(offSet, enemy_->GetObject3d() ->GetWorldTransform().matWorld_);
+	offSet = MyMath::bVelocity(offSet, enemy_->GetFbxObject3d() ->GetWorldTransform().matWorld_);
 
-	VanishPos = enemy_->GetObject3d()->GetPosition() + offSet;
+	VanishPos = enemy_->GetFbxObject3d()->GetPosition() + offSet;
 
 	playerPos_ = fbxPlayerO_->GetPosition();
 	//playerPos_ = playerO_->GetPosition();

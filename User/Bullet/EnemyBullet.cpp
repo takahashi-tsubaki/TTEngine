@@ -30,6 +30,9 @@ void EnemyBullet::Initialize(Model* model, const Vector3& position, const Vector
 		sphere[i]->Update();
 
 	}
+
+	
+	livingTimer = 120.0f;
 }
 
 void EnemyBullet::Update()
@@ -47,6 +50,7 @@ void EnemyBullet::Update()
 	ImGui::SetWindowSize({ 500,100 });
 	ImGui::DragFloat3("enemyPos", &bulletO_->worldTransform.translation_.x);
 	ImGui::End();*/
+
 }
 
 void EnemyBullet::Draw()
@@ -60,7 +64,7 @@ void EnemyBullet::Shot()
 	if (livingTimer <= 0)
 	{
 		SetisDead(true);
-		livingTimer = 540.0f;
+		livingTimer = 120.0f;
 
 	}
 	bulletO_->worldTransform.translation_ += velocity_;
@@ -80,14 +84,14 @@ void EnemyBullet::CheckCollision()
 			if (sphere[i]->GetCollisionInfo().collider_->GetAttribute() == COLLISION_ATTR_PLAYERS)
 			{
 				isDead_ = true;
-				livingTimer = 540.0f;
+				livingTimer = 120.0f;
 				hitDeley = 4;
 				break;
 			}
 			if (sphere[i]->GetCollisionInfo().collider_->GetAttribute() == COLLISION_ATTR_PLAYERBULLETS)
 			{
 				isDead_ = true;
-				livingTimer = 540.0f;
+				livingTimer = 120.0f;
 				hitDeley = 4;
 				break;
 			}
@@ -123,20 +127,14 @@ void EnemyBullet::CheckCollision()
 void EnemyBullet::Reset()
 {
 	isDead_ = true;
-	livingTimer = 540.0f;
+	livingTimer = 120.0f;
 
-	for (int i = 0; i < SPHERE_COLISSION_NUM; i++)
-	{
-
-		CollisionManager::GetInstance()->RemoveCollider(sphere[i]);
-		//こいつはいらない
-		/*sphere[i]->GetCollisionInfo().collider->RemoveAttribute(COLLISION_ATTR_PLAYERBULLETS);*/
-
-	}
-	for ( int i = 0; i < SPHERE_COLISSION_NUM; i++ )
-	{
-		spherePos[ i ] = bulletO_->GetPosition();
-		sphere[ i ]->Update();
+	if (isDead_ == true) {
+		for (int i = 0; i < SPHERE_COLISSION_NUM; i++) {
+			CollisionManager::GetInstance()->RemoveCollider(sphere[i]);
+			// こいつはいらない
+			/*sphere[i]->GetCollisionInfo().collider->RemoveAttribute(COLLISION_ATTR_PLAYERBULLETS);*/
+		}
 	}
 	
 }

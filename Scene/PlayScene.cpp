@@ -31,36 +31,38 @@ void PlayScene::Initialize()
 	
 #pragma region スプライト関連の初期化
 
-	sprite_ = Sprite::Create(1, { WinApp::window_width,WinApp::window_height });
-	enemyHpSprite_ = Sprite::Create(3,{ 200,10 },{ 1,1,1,1 },{0.0f,0.5f});
+	enemyHpSprite_ = Sprite::Create(SpriteNumber::HPBAR,{ 200,10 },{ 1,1,1,1 },{0.0f,0.5f});
 	enemyHpSprite_->Initialize();
 
-	playerHpSprite_ = Sprite::Create(3,{100,600},{ 1,1,1,1 },{ 0.0f,0.5f });
+	playerHpSprite_ = Sprite::Create(SpriteNumber::HPBAR, {100, 600}, {1, 1, 1, 1}, {0.0f, 0.5f});
 	playerHpSprite_->Initialize();
 
 	alart = Sprite::Create(7, { 400,200 });
 	alart->Initialize();
 
 	//Fightの文字のスプライト
-	isFightSP_ = Sprite::Create(12,{ WinApp::window_width / 2,WinApp::window_height / 2 },{1,1,1,1},{0.5f,0.5f});
+	isFightSP_ = Sprite::Create(SpriteNumber::FIGHT, {WinApp::window_width / 2, WinApp::window_height / 2}, {1, 1, 1, 1},
+	    {0.5f, 0.5f});
 	isFightSP_->Initialize();
 
 	//敵を倒せ　のスプライト
-	startSp_ = Sprite::Create(13,{ WinApp::window_width / 2,WinApp::window_height / 2 },{1,1,1,1},{0.5f,0.5f} );
+	startSp_ = Sprite::Create(SpriteNumber::STARTSIGN, {WinApp::window_width / 2, WinApp::window_height / 2}, {1, 1, 1, 1},
+	    {0.5f, 0.5f});
 	startSp_->Initialize();
 
 	//シーン遷移時のスプライト
-	transSP_ = Sprite::Create(8, {WinApp::window_width / 2, WinApp::window_height / 2}, {1, 1, 1, 1}, {0.5f, 0.5f});
+	transSP_ = Sprite::Create(SpriteNumber::SCENETRANS, {WinApp::window_width / 2, WinApp::window_height / 2}, {1, 1, 1, 1},
+	    {0.5f, 0.5f});
 	transSP_->Initialize();
 
 	//Hp減少バーのスプライト
-	damageSP_ = Sprite::Create(11, {1160, 10});
+	damageSP_ = Sprite::Create(SpriteNumber::DAMAGEBAR, {1160, 10});
 	damageSP_->SetIsFlipX(true);
 
-	finishSP_ = Sprite::Create(16, finishSpPos);
+	finishSP_ = Sprite::Create(SpriteNumber::FINISH, finishSpPos);
 	finishSP_->Initialize();
 
-	pauseSP_ = Sprite::Create(17,{30,30});
+	pauseSP_ = Sprite::Create(SpriteNumber::PAUSE, {30, 30});
 	pauseSP_->Initialize();
 
 #pragma endregion
@@ -155,7 +157,7 @@ void PlayScene::Update(Input* input, GamePad* gamePad)
 			if (enemy_->GetVanish() == true) {
 				controller_->GetGameCamera()->SetEye(enemy_->GetOldPos());
 				controller_->GetGameCamera()->eye_.lerp(
-				    controller_->GetGameCamera()->eye_, enemy_->GetPosition(), 30.0f);
+				    controller_->GetGameCamera()->eye_, enemy_->GetPosition(), 10.0f);
 			}
 			controller_->GetGameCamera()->eye_.lerp(
 			    controller_->GetGameCamera()->eye_, player_->GetPosition(), 30.0f);
@@ -174,7 +176,7 @@ void PlayScene::Update(Input* input, GamePad* gamePad)
 			//player_->GetObject3d()->GetWorldTransformPtr()); // カメラの座標の設定
 
 			controller_->GetGameCamera()->SetTargetPos(
-			    enemy_->GetObject3d()->GetWorldTransformPtr());//カメラの注視点の設定
+			    enemy_->GetFbxObject3d()->GetWorldTransformPtr());//カメラの注視点の設定
 
 			controller_->GetGameCamera()->MoveCamera();
 		}
@@ -200,6 +202,7 @@ void PlayScene::Update(Input* input, GamePad* gamePad)
 	player_->GetObject3d()->Update();
 	player_->GetFbxObject3d()->Update();
 	enemy_->GetObject3d()->Update();
+	enemy_->GetFbxObject3d()->Update();
 
 
 	//スプライトの大きさを設定
@@ -401,7 +404,7 @@ void PlayScene::StartSign(Input* input,GamePad*gamepad)
 
 	controller_->GetGameCamera()->GetEye() = cameraDis;
 	controller_->GetGameCamera()->SetEye(controller_->camera_->eye_);
-	controller_->GetGameCamera()->SetTarget(enemy_->GetObject3d()->GetPosition());
+	controller_->GetGameCamera()->SetTarget(enemy_->GetFbxObject3d()->GetPosition());
 
 	startSignCount++;
 	if (startSignCount >= Number::HundredTwenty)
@@ -457,7 +460,7 @@ void PlayScene::SetCamera()
 		controller_->GetGameCamera()->SetFollowerPos(
 		    player_->GetFbxObject3d()->GetWorldTransformPtr());
 		//controller_->GetGameCamera()->SetFollowerPos(player_->GetObject3d()->GetWorldTransformPtr());
-		controller_->GetGameCamera()->SetTargetPos(enemy_->GetObject3d()->GetWorldTransformPtr());
+		controller_->GetGameCamera()->SetTargetPos(enemy_->GetFbxObject3d()->GetWorldTransformPtr());
 		controller_->GetGameCamera()->MoveCamera();
 	}
 }
@@ -469,7 +472,7 @@ void PlayScene::ResetParam()
 	sceneObj_->player_ = player_;
 	sceneObj_->enemy_ = enemy_;
 	controller_->GetGameCamera()->SetFollowerPos(player_->GetFbxObject3d()->GetWorldTransformPtr());
-	controller_->GetGameCamera()->SetTargetPos(enemy_->GetObject3d()->GetWorldTransformPtr());
+	controller_->GetGameCamera()->SetTargetPos(enemy_->GetFbxObject3d()->GetWorldTransformPtr());
 
 	isStartSign = true;
 	isReady = false;
@@ -574,7 +577,7 @@ void PlayScene::gameClearAnimetion()
 
 	addRotation.x += addRota;
 	addRotation.z = shiftRotate;
-	enemy_->GetObject3d()->SetRotation(addRotation);
+	enemy_->GetFbxObject3d()->SetRotate(addRotation);
 
 	if (transObjAlpha >= (float)Size::OneTimes) {
 		transObjAlpha = (float)Size::OneTimes;
@@ -641,10 +644,10 @@ void PlayScene::finishEnemyCamera() {
 
 	//平行移動だけを取り除いた回転行列の計算
 	finishCameraEnemyVec = MyMath::bVelocity(
-	    finishCameraEnemyVec, enemy_->GetObject3d()->GetWorldTransform().matWorld_);
+	    finishCameraEnemyVec, enemy_->GetFbxObject3d()->GetWorldTransform().matWorld_);
 
-	finishCameraEnemyPos = enemy_->GetObject3d()->GetPosition() + finishCameraEnemyVec;
+	finishCameraEnemyPos = enemy_->GetFbxObject3d()->GetPosition() + finishCameraEnemyVec;
 
-	finishCameraEnemyTarget = enemy_->GetObject3d()->GetPosition();
+	finishCameraEnemyTarget = enemy_->GetFbxObject3d()->GetPosition();
 }
 

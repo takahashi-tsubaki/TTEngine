@@ -15,12 +15,11 @@ GameClearScene::~GameClearScene()
 
 void GameClearScene::Initialize() {
 	//                      num    pos         color       anchorpoint
-	winSP_ = Sprite::Create(14, {645, 360}, {1, 1, 1, 1}, {0.5f, 0.5f});
+	winSP_ = Sprite::Create(SpriteNumber::WIN, {645, 360}, {1, 1, 1, 1}, {0.5f, 0.5f});
 	winSP_->Initialize();
 
 	// シーン遷移時のスプライト
-	transSP_ = Sprite::Create(
-	    8, {WinApp::window_width / 2, WinApp::window_height / 2}, {1, 1, 1, 1}, {0.5f, 0.5f});
+	transSP_ = Sprite::Create(SpriteNumber::SCENETRANS, {WinApp::window_width / 2, WinApp::window_height / 2}, {1, 1, 1, 1},{0.5f, 0.5f});
 	transSP_->Initialize();
 	transSP_->SetSize({10.0f * 275.0f, 10.0f * 183.0f});
 
@@ -28,7 +27,7 @@ void GameClearScene::Initialize() {
 	player_->GetFbxObject3d()->SetRotate({0, 0, 0});
 	sceneObj_->spaceButton_->SetPosition({545, 575});
 	playerPos = {0, 50, 0};
-	sprite_ = Sprite::Create(4, { 310,200 });
+	sprite_ = Sprite::Create(SpriteNumber::SPACE, {310, 200});
 
 	spSize = 5.0f;
 }
