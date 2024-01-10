@@ -53,7 +53,7 @@ public:
 	/// </summary>
 	/// <param name="dxCommon"></param>
 	/// <param name="player"></param>
-	void Initialize(DirectXCommon* dxCommon,Player* player);
+	void Initialize(TTEngine::DirectXCommon* dxCommon, Player* player);
 	/// <summary>
 	/// 更新
 	/// </summary>
@@ -357,7 +357,7 @@ private:
 
 
 	bool isHit_ = false;
-	DirectXCommon* dxCommon_ = nullptr;
+	TTEngine::DirectXCommon* dxCommon_ = nullptr;
 	//仮置き敵のモデル
 	Object3d* enemyO_ = nullptr;
 	Model* enemyM_ = nullptr;

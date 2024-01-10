@@ -1,7 +1,6 @@
 #include "DirectXCommon.h"
 
-void DirectXCommon::Initialize(WinApp* winApp)
-{
+void TTEngine::DirectXCommon::Initialize(WinApp* winApp) {
 	assert(winApp);
 	winApp_ = winApp;
 
@@ -20,8 +19,7 @@ void DirectXCommon::Initialize(WinApp* winApp)
 
 }
 
-void DirectXCommon::InitializeDevice()
-{
+void TTEngine::DirectXCommon::InitializeDevice() {
 #ifdef _DEBUG
 	//デバックレイヤーをオンに
 	ID3D12Debug1* debugController;
@@ -105,8 +103,7 @@ void DirectXCommon::InitializeDevice()
 
 
 }
-void DirectXCommon::InitializeCommand()
-{
+void TTEngine::DirectXCommon::InitializeCommand() {
 	//コマンドアロケータを生成
 	result = dev->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&cmdAllocator));
 	assert(SUCCEEDED(result));
@@ -121,8 +118,7 @@ void DirectXCommon::InitializeCommand()
 	assert(SUCCEEDED(result));
 }
 
-void DirectXCommon::InitializeSwapChain()
-{
+void TTEngine::DirectXCommon::InitializeSwapChain() {
 	
 	swapChainDesc.Width = WinApp::window_width;
 	swapChainDesc.Height = WinApp::window_height;
@@ -145,8 +141,7 @@ void DirectXCommon::InitializeSwapChain()
 	swapChain1.As(&swapChain);
 }
 
-void DirectXCommon::InitializeRenderTargetView()
-{
+void TTEngine::DirectXCommon::InitializeRenderTargetView() {
 	//デスクリプタヒープの設定
 	rtvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;//レンダーターゲットビュー
 	rtvHeapDesc.NumDescriptors = swapChainDesc.BufferCount;//表裏の2つ
@@ -175,8 +170,7 @@ void DirectXCommon::InitializeRenderTargetView()
 	}
 }
 
-void DirectXCommon::InitializeDeaphBuffer()
-{
+void TTEngine::DirectXCommon::InitializeDeaphBuffer() {
 	//深度バッファのリソース設定
 	//リソース設定
 	D3D12_RESOURCE_DESC depthResourceDesc{};
@@ -221,14 +215,12 @@ void DirectXCommon::InitializeDeaphBuffer()
 		dsvHeap->GetCPUDescriptorHandleForHeapStart());
 }
 
-void DirectXCommon::InitializeFence()
-{
+void TTEngine::DirectXCommon::InitializeFence() {
 	
 	result = dev->CreateFence(fenceVal, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence));
 }
 
-void DirectXCommon::preDraw()
-{
+void TTEngine::DirectXCommon::preDraw() {
 	//バックバッファの番号を解除
 	UINT bbIndex = swapChain->GetCurrentBackBufferIndex();
 
@@ -280,8 +272,7 @@ void DirectXCommon::preDraw()
 
 }
 
-void DirectXCommon::postDraw()
-{
+void TTEngine::DirectXCommon::postDraw() {
 	//　５．リソースバリアを戻す
 	barrierDesc.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET;//描画状態から
 	barrierDesc.Transition.StateAfter = D3D12_RESOURCE_STATE_PRESENT;//表示状態へ
@@ -320,7 +311,7 @@ void DirectXCommon::postDraw()
 
 }
 
-DirectXCommon* DirectXCommon::GetInstance() {
+TTEngine::DirectXCommon* TTEngine::DirectXCommon::GetInstance() {
 	static DirectXCommon instance;
 	return &instance;
 }

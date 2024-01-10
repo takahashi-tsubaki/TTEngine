@@ -8,7 +8,7 @@ ALICE_SUPPRESS_WARNINGS_BEGIN
 ALICE_SUPPRESS_WARNINGS_END
 #pragma comment (lib,"xaudio2.lib")
 
-void Audio::Initialize(const std::string& directoryPath)
+void TTEngine::Audio::Initialize(const std::string& directoryPath)
 {
 
 	directoryPath_ = directoryPath;
@@ -27,8 +27,7 @@ void Audio::Initialize(const std::string& directoryPath)
 
 }
 
-void Audio::Finalize()
-{
+void TTEngine::Audio::Finalize() {
 	//XAudio2解放
 	xAudio2_.Reset();
 	//音声データ解放
@@ -42,8 +41,7 @@ void Audio::Finalize()
 
 }
 
-void Audio::LoadWave(const std::string& filename)
-{
+void TTEngine::Audio::LoadWave(const std::string& filename) {
 	if (soundDates_.find(filename) != soundDates_.end()) {
 
 		return;
@@ -128,8 +126,7 @@ void Audio::LoadWave(const std::string& filename)
 
 }
 
-void Audio::Unload(SoundData* soundData)
-{
+void TTEngine::Audio::Unload(SoundData* soundData) {
 	//バッファのメモリを解放
 	delete[] soundData->pBuffer;
 
@@ -138,8 +135,7 @@ void Audio::Unload(SoundData* soundData)
 	soundData->wfex = {};
 }
 
-IXAudio2SourceVoice* Audio::PlayWave(const std::string& filename)
-{
+IXAudio2SourceVoice* TTEngine::Audio::PlayWave(const std::string& filename) {
 	HRESULT result;
 
 	std::map<std::string, SoundData>::iterator it = soundDates_.find(filename);
@@ -165,7 +161,7 @@ IXAudio2SourceVoice* Audio::PlayWave(const std::string& filename)
 
 }
 
-void Audio::StopWave(IXAudio2SourceVoice* pSourceVoice) {
+void TTEngine::Audio::StopWave(IXAudio2SourceVoice* pSourceVoice) {
 
 	assert(pSourceVoice);
 	HRESULT result;

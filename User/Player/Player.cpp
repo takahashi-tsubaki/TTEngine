@@ -4,8 +4,7 @@
 #include "Affin.h"
 #include "Ease.h"
 #include "MyMath.h"
-void Player::Initialize(DirectXCommon* dxCommon, Enemy* enemy)
-{
+void Player::Initialize(TTEngine::DirectXCommon* dxCommon, Enemy* enemy) {
 	dxCommon_ = dxCommon;
 
 	fbxScale_ = 0.01f;
@@ -21,7 +20,7 @@ void Player::Initialize(DirectXCommon* dxCommon, Enemy* enemy)
 	//playerFbxO_->Initialize();
 	//playerFbxO_->SetModel(playerFbxM_.get());
 
-	fbxPlayerM_.reset(FbxLoader::GetInstance()->LoadModelFromFile("HumanFbx1"));
+	fbxPlayerM_.reset(FbxLoader::GetInstance()->LoadModelFromFile("player"));
 
 	//fbxPlayerO_ = std::make_unique<FbxObject3d>();
 	fbxPlayerO_ = FbxObject3d::Create();
@@ -114,7 +113,7 @@ void Player::Update(Input* input, GamePad* gamePad)
 
 	if ( isStep == false )
 	{
-		fbxPlayerO_->PlayAnimation(0);
+		fbxPlayerO_->PlayAnimation(0,true);
 	}
 
 	/*fbxPlayerO_->PlayAnimation(0);*/
@@ -131,6 +130,7 @@ void Player::Update(Input* input, GamePad* gamePad)
 		transNormal = {0, 0.5f, -5};
 
 		transNormal = MyMath::bVelocity(transNormal, playerO_->worldTransform.matWorld_);
+		//transNormal = MyMath::bVelocity(transNormal, fbxPlayerO_->worldTransform.matWorld_);
 	}
 	
 	oldPos = wtf.translation_;
@@ -238,6 +238,7 @@ void Player::Move(Input* input, GamePad* gamePad)
 		velocity_ += { 0 , 0 , moveSpeed };
 
 		fbxVelocity_ += {0, 0, (moveSpeed / fbxScale_)};
+
 	}
 
 	if (gamePad->StickInput(L_DOWN)|| input->PushKey(DIK_S))
@@ -253,12 +254,14 @@ void Player::Move(Input* input, GamePad* gamePad)
 
 		velocity_ += { moveSpeed * -1 , 0 , 0 };
 		fbxVelocity_ += {(moveSpeed / fbxScale_) *-1, 0, 0};
+		fbxPlayerO_->PlayAnimation(3,false);
 	}
 
 	if (gamePad->StickInput(L_RIGHT) || input->PushKey(DIK_D))
 	{
 		velocity_ += { moveSpeed , 0 , 0 };
 		fbxVelocity_ += {(moveSpeed / fbxScale_), 0, 0};
+		fbxPlayerO_->PlayAnimation(4,false);
 	}
 
 	
@@ -322,7 +325,7 @@ void Player::Step(Input* input, GamePad* gamePad)
 		// playerO_->SetPosition(wtf.translation_);
 		if (isStep == false)
 		{
-			fbxPlayerO_->PlayAnimation(1);
+			fbxPlayerO_->PlayAnimation(3,false);
 			stepFlameCount = 30;
 			stepDirection = StepDirection::Left;
 			StepSpeed = 2.0f * -1;
@@ -337,7 +340,7 @@ void Player::Step(Input* input, GamePad* gamePad)
 		
 		if (isStep == false)
 		{
-			fbxPlayerO_->PlayAnimation(2);
+			fbxPlayerO_->PlayAnimation(4,false);
 			stepFlameCount = 30;
 			stepDirection = StepDirection::Right;
 			StepSpeed = 2.0f;
@@ -489,6 +492,7 @@ void Player::Shot(Input* input, GamePad* gamePad)
 	if (isShot == true)
 	{
 		bulletTimer--;
+		fbxPlayerO_->PlayAnimation(5, false);
 
 		//弾が最大個数以下だった時
 		if (bulletSize < MAX_BULLET)
@@ -809,6 +813,7 @@ void Player::CheckHitCollision()
 				Hp_ -= 1;
 				hitDeley = 3;
 				particle_->RandParticle(sphere[i]->GetCollisionInfo().inter_);
+				
 				//SetIsHit(true);
 
 				break;
@@ -830,6 +835,7 @@ void Player::CheckHitCollision()
 		spherePos[i] = playerO_->GetPosition();
 		sphere[i]->Update();
 	}
+
 }
 
 void Player::moveAngle()

@@ -160,7 +160,7 @@ public: // メンバ関数
 	/// <summary>
 	/// アニメーション開始
 	/// </summary>
-	void PlayAnimation(uint32_t animationNum);
+	void PlayAnimation(uint32_t animationNum, bool isAnimeRot);
 
 	// 補間アニメーションカウント
 	void AnimFlameInter(FbxTime nowCount, FbxTime maxCount);

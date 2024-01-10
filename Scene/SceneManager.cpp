@@ -4,8 +4,7 @@
 
 #include <cassert>
 
-SceneManager::SceneManager(DirectXCommon* dxCommon,GameCamera* camera, SceneObjects* sceneObjects)
-{
+SceneManager::SceneManager(TTEngine::DirectXCommon* dxCommon, GameCamera* camera, SceneObjects* sceneObjects) {
 	dxCommon_ = dxCommon;
 	sceneObjects_ = sceneObjects;
 	_scene.emplace(new TitleScene(&*this, sceneObjects_));

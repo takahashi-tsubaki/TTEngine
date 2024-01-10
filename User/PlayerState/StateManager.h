@@ -20,17 +20,17 @@ class StateManager
 
 protected:
 
-	DirectXCommon* dxCommon_;
+	TTEngine::DirectXCommon* dxCommon_;
 	
 	Player2* player_;
 	std::stack<std::shared_ptr<StatePattern>>_state;
 
 public:
 	// コンストラクタとデストラクタ
-	StateManager(DirectXCommon* dxCommon, Player2* player);
+	StateManager(TTEngine::DirectXCommon* dxCommon, Player2* player);
 	~StateManager();
 
-	DirectXCommon* GetDxCommon() { return dxCommon_; }
+	TTEngine::DirectXCommon* GetDxCommon() { return dxCommon_; }
 
 	// 各シーンのInitializeを呼び出す
 	void StateInitialize();

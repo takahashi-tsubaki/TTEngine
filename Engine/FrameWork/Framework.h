@@ -51,11 +51,11 @@ public:
 
 protected:
 	//FPS
-	FPS* fps = new FPS;
+	TTEngine::FPS* fps = new TTEngine::FPS;
 	WinApp* winApp = nullptr;
 	Input* input = nullptr;
 	GamePad* gamePad_ = nullptr;
-	DirectXCommon* dxCommon_ = nullptr;
+	TTEngine::DirectXCommon* dxCommon_ = nullptr;
 	ImguiManager* imgui = nullptr;
 	bool endRequest_ = false;
 };

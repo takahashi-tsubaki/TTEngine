@@ -20,7 +20,7 @@ class Input;
 class SceneManager
 {
 public:
-	DirectXCommon* dxCommon_;
+	TTEngine::DirectXCommon* dxCommon_;
 	GameCamera* camera_;
 
 	Input* input_ = nullptr;
@@ -34,10 +34,10 @@ protected:
 
 public:
 	//コンストラクタとデストラクタ
-	SceneManager(DirectXCommon* dxCommon,GameCamera* camera,SceneObjects* sceneObjects);
+	SceneManager(TTEngine::DirectXCommon* dxCommon, GameCamera* camera, SceneObjects* sceneObjects);
 	~SceneManager();
 
-	DirectXCommon* GetDxCommon() {
+	TTEngine::DirectXCommon* GetDxCommon() {
 		return dxCommon_;
 	}
 

@@ -50,7 +50,7 @@ public:
 	/// </summary>
 	/// <param name="dxCommon"></param>
 	/// <param name="enemy"></param>
-	void Initialize(DirectXCommon* dxCommon,Enemy* enemy);
+	void Initialize(TTEngine::DirectXCommon* dxCommon, Enemy* enemy);
 
 	/// <summary>
 	/// 更新
@@ -230,7 +230,7 @@ private:
 	Vector3 distance_;
 	Vector3 stepVel_;
 
-	DirectXCommon* dxCommon_ = nullptr;
+	TTEngine::DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
 	GamePad* gamePad_ = nullptr;
 

@@ -65,6 +65,9 @@ void PlayScene::Initialize()
 	pauseSP_ = Sprite::Create(SpriteNumber::PAUSE, {30, 30});
 	pauseSP_->Initialize();
 
+	sousaSP_ = Sprite::Create(SpriteNumber::SOUSA,{960,300});
+	sousaSP_->Initialize();
+
 #pragma endregion
 
 	player_ = sceneObj_->player_;
@@ -160,7 +163,8 @@ void PlayScene::Update(Input* input, GamePad* gamePad)
 				    controller_->GetGameCamera()->eye_, enemy_->GetPosition(), 10.0f);
 			}
 			controller_->GetGameCamera()->eye_.lerp(
-			    controller_->GetGameCamera()->eye_, player_->GetPosition(), 30.0f);
+			    controller_->GetGameCamera()->eye_, player_->GetFbxObject3d()->GetPosition(),
+			    30.0f);
 
 		}
 
@@ -325,7 +329,7 @@ void PlayScene::Draw()
 		enemyHpSprite_->Draw();
 
 		damageSP_->Draw();
-		
+
 	}
 
 
@@ -338,7 +342,7 @@ void PlayScene::Draw()
 	{
 		isFightSP_->Draw();
 		pauseSP_->Draw();
-
+		sousaSP_->Draw();
 	}
 	if (startSignCount >= Number::HundredTwenty && startSpSize > 0.0f)
 	{
@@ -610,7 +614,9 @@ void PlayScene::gameClearAnimetion()
 		
 
 	controller_->GetGameCamera()->SetEye(finishCameraEnemyPos);
+
 	controller_->GetGameCamera()->SetTarget(finishCameraEnemyTarget);
+
 	controller_->GetGameCamera()->Update();
 }
 

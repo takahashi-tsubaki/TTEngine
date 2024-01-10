@@ -99,7 +99,7 @@ void GameOverScene::GameOverAnime() {
 	enemy_->GetObject3d()->UpdateMatrix();
 	enemy_->GetFbxObject3d()->SetPosition(enemyPos);
 	enemy_->GetFbxObject3d()->SetRotate({0, 0, 0});
-	enemy_->GetFbxObject3d()->PlayAnimation(0);
+	enemy_->GetFbxObject3d()->PlayAnimation(0,false);
 	enemy_->GetFbxObject3d()->Update();
 
 	if (gameOverAnimeCount > 90)
