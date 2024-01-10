@@ -2,8 +2,7 @@
 #include "ImguiManager.h"
 #include "Player.h"
 #include "Affin.h"
-void Enemy::Initialize(DirectXCommon* dxCommon, Player* player)
-{
+void Enemy::Initialize(TTEngine::DirectXCommon* dxCommon, Player* player) {
 
 	//DXCommonのセット
 	dxCommon_ = dxCommon;
@@ -18,7 +17,7 @@ void Enemy::Initialize(DirectXCommon* dxCommon, Player* player)
 	FbxObject3d::CreateGraphicsPipeline();
 
 	//敵のFbx読み込み
-	enemyFbxM_.reset(FbxLoader::GetInstance()->LoadModelFromFile("enemyFbx"));
+	enemyFbxM_.reset(FbxLoader::GetInstance()->LoadModelFromFile("enemy2"));
 
 	enemyFbxO_ = std::make_unique<FbxObject3d>();
 	enemyFbxO_->Initialize();
@@ -115,9 +114,9 @@ void Enemy::Update()
 		
 		transNormal = {0, 0.5f, 5};
 
-		//transNormal = MyMath::bVelocity(transNormal, enemyO_->worldTransform.matWorld_);
+		transNormal = MyMath::bVelocity(transNormal, enemyO_->worldTransform.matWorld_);
 
-		transNormal = MyMath::bVelocity(transNormal, enemyFbxO_->worldTransform.matWorld_);
+		//transNormal = MyMath::bVelocity(transNormal, enemyFbxO_->worldTransform.matWorld_);
 
 		//if ( player_->GetHp() > 0 )
 		//{
@@ -180,13 +179,13 @@ void Enemy::Update()
 					}
 				}
 
-				if (actionRand <= 45) {
+				if (actionRand <= 60) {
 					if (actionCoolTimer <= 0) {
 						animetionCount = 0.0f;
 						Attack();
 					}
 
-				} else if (actionRand > 45 && actionRand <= 90) {
+				} else if (actionRand > 60 && actionRand <= 90) {
 					if (GetisRapidShot() == false) {
 						animetionCount = 0.0f;
 						Move();
@@ -200,12 +199,12 @@ void Enemy::Update()
 				//if (attackCoolTimer <= 0) {
 				//	Attack();
 				//}
-				if (actionRand <= 50) {
+				if (actionRand <= 40) {
 					if (GetisRapidShot() == false) {
 						animetionCount = 0.0f;
 						Move();
 					}
-				} else if (actionRand > 50 && actionRand <= 90) {
+				} else if (actionRand > 40 && actionRand <= 90) {
 
 					if (actionCoolTimer <= 0) {
 						animetionCount = 0.0f;
@@ -436,8 +435,8 @@ void Enemy::Attack()
 
 	animetionCount++;
 
-	if (animetionCount < 60.0f) {
-		enemyFbxO_->PlayAnimation(5);
+	if (animetionCount < 30.0f) {
+		enemyFbxO_->PlayAnimation(5,false);
 	}
 
 	/*Vector3 begieP1 = {0,10,-30};
@@ -717,7 +716,7 @@ void Enemy::Move()
 			animetionCount++;
 
 			if (animetionCount < 60.0f) {
-				enemyFbxO_->PlayAnimation(4);
+				enemyFbxO_->PlayAnimation(4,false);
 			}
 
 			velocity_ += {moveSpeed * -1, 0, 0};
@@ -731,7 +730,7 @@ void Enemy::Move()
 			animetionCount++;
 
 			if (animetionCount < 60.0f) {
-				enemyFbxO_->PlayAnimation(3);
+				enemyFbxO_->PlayAnimation(3,false);
 			}
 
 			velocity_ += {moveSpeed, 0, 0};
@@ -837,7 +836,7 @@ void Enemy::Reset()
 
 	enemyFbxO_->SetPosition({0, 0, 0});
 	enemyFbxO_->SetRotate({0, 0, 0});
-	enemyFbxO_->PlayAnimation(0);
+	enemyFbxO_->PlayAnimation(0,false);
 	animetionCount = 0.0f;
 
 	playerPos_ = { 0,0,0 };

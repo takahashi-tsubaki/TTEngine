@@ -17,7 +17,7 @@ GameScene::~GameScene() {
 	safe_delete(fbxModel);*/
 }
 
-void GameScene::Initalize(DirectXCommon* dxCommon, Input* input, GamePad* gamePad)
+void GameScene::Initalize(TTEngine::DirectXCommon* dxCommon, Input* input, GamePad* gamePad)
 {
 	dxCommon_ = dxCommon;
 	input_ = input;

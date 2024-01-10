@@ -36,7 +36,7 @@ public:
 	/// <param name="dxCommon"></param>
 	/// <param name="input"></param>
 	/// <param name="gamePad"></param>
-	void Initalize(DirectXCommon* dxCommon,Input* input,GamePad* gamePad);
+	void Initalize(TTEngine::DirectXCommon* dxCommon, Input* input, GamePad* gamePad);
 
 	/// <summary>
 	/// 更新
@@ -51,7 +51,7 @@ public:
 
 
 private:
-	DirectXCommon* dxCommon_ = nullptr;
+	TTEngine::DirectXCommon* dxCommon_ = nullptr;
 
 	Input* input_ = nullptr;
 	GamePad* gamePad_ = nullptr;

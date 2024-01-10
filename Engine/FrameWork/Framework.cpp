@@ -2,7 +2,7 @@
 
 void Framework::Initialize()
 {
-	fps = FPS::GetInstance();
+	fps = TTEngine::FPS::GetInstance();
 	fps->SetFrameRate(60);
 
 	winApp = new WinApp();
@@ -13,7 +13,7 @@ void Framework::Initialize()
 
 	gamePad_ = new GamePad();
 
-	dxCommon_ = new DirectXCommon();
+	dxCommon_ = new TTEngine::DirectXCommon();
 	dxCommon_->Initialize(winApp);
 
 	imgui = new ImguiManager();

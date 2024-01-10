@@ -236,9 +236,13 @@ void FbxObject3d::Update() {
 		currentTime += frameTime;
 		// 最後まで進めたら先頭に戻る
 		if (currentTime > endTime) {
-			currentTime = startTime;
-			if (animRot == true) {
+			
+			if (animRot == false) {
 				currentTime = endTime;
+			}
+			else
+			{
+				currentTime = startTime;
 			}
 		}
 	}
@@ -348,7 +352,11 @@ std::vector<Matrix4>* FbxObject3d::GetBonesMatPtr() { return &bonesMat; }
 
 void FbxObject3d::SetIsBonesWorldMatCalc(bool isCalc) { isBonesWorldMatCalc = isCalc; }
 
-void FbxObject3d::PlayAnimation(uint32_t animationNum) {
+void FbxObject3d::PlayAnimation(uint32_t animationNum,bool isAnimeRot) {
+
+	animRot = true;
+	
+
 	FbxScene* fbxScene = fbxmodel_->GetFbxScene();
 	// 0番のアニメーションを取得
 	FbxAnimStack* animstack = fbxScene->GetSrcObject<FbxAnimStack>(animationNum);
@@ -363,10 +371,15 @@ void FbxObject3d::PlayAnimation(uint32_t animationNum) {
 	startTime = takeinfo->mLocalTimeSpan.GetStart();
 	// 終了時間取得
 	endTime = takeinfo->mLocalTimeSpan.GetStop();
-	// 開始時間に合わせる
-	currentTime = startTime;
+	//// 開始時間に合わせる
+
+
+	//アニメーションを繰り返すかどうか
+	animRot = isAnimeRot;
+
 	// 再生中にする
 	isPlay = true;
+
 }
 
 void FbxObject3d::AnimFlameInter(FbxTime nowCount, FbxTime maxCount) {

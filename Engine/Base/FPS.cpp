@@ -1,6 +1,6 @@
 #include "FPS.h"
 
-void FPS::FpsControlBegin()
+void TTEngine::FPS::FpsControlBegin()
 {
 	//周波数取得
 	QueryPerformanceFrequency(&cpuClock);
@@ -8,8 +8,7 @@ void FPS::FpsControlBegin()
 	QueryPerformanceCounter(&timeStart);
 }
 
-void FPS::FpsControlEnd()
-{
+void TTEngine::FPS::FpsControlEnd() {
 	//今の時間を取得
 	QueryPerformanceCounter(&timeEnd);
 	//経過時間
@@ -28,26 +27,24 @@ void FPS::FpsControlEnd()
 	fps = 1 / elapsedFrame_;
 }
 
-void FPS::SetFrameRate(float fps_)
-{
+void TTEngine::FPS::SetFrameRate(float fps_) {
 	frameTime = 1.0f / fps_;
 }
 
-float FPS::GetFrameRate()
-{
+float TTEngine::FPS::GetFrameRate() {
 	return fps;
 }
 
-float FPS::GetElapsedFrame()
-{
+float TTEngine::FPS::GetElapsedFrame() {
 	return elapsedFrame_;
 }
 
-void FPS::SetElapsedFrame(float elapsedFrame)
+void TTEngine::FPS::SetElapsedFrame(float elapsedFrame)
 {
-	elapsedFrame_ = elapsedFrame; }
+	elapsedFrame_ = elapsedFrame;
+}
 
-FPS* FPS::GetInstance() {
+TTEngine::FPS* TTEngine::FPS::GetInstance() {
 	static FPS instance;
 	return &instance;
 }

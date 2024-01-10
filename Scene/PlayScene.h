@@ -54,6 +54,8 @@ protected:
 
 	Sprite* pauseSP_ = nullptr;
 
+	Sprite* sousaSP_ = nullptr;
+
 #pragma endregion スプライト関連
 
 	Model* model = nullptr;

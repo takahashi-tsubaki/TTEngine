@@ -1,7 +1,7 @@
 #include "StateManager.h"
 
 
-StateManager::StateManager(DirectXCommon* dxCommon, Player2* player) {
+StateManager::StateManager(TTEngine::DirectXCommon* dxCommon, Player2* player) {
 	dxCommon_ = dxCommon;
 	player_ = player;
 }

@@ -35,6 +35,7 @@ enum SpriteNumber
 	ALART,
 	PAUSE,
 	OPERATION,
+	SOUSA,
 
 	WIN = 31,
 	LOSE,

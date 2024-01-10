@@ -266,12 +266,14 @@ void Affin::HorizontalProjection(
 	if ( flame <= 15 )
 	{
 		// translationにspeedを加算する
-		worldTransform.translation_ += speed * (FPS::GetInstance()->GetElapsedFrame() * 1.0f);
+		worldTransform.translation_ +=
+		    speed * (TTEngine::FPS::GetInstance()->GetElapsedFrame() * 1.0f);
 	}
 	else
 	{
 		// translationにspeedを加算する
-		worldTransform.translation_ += speed *( FPS::GetInstance()->GetElapsedFrame() * 120.0f);
+		worldTransform.translation_ +=
+		    speed * (TTEngine::FPS::GetInstance()->GetElapsedFrame() * 120.0f);
 	}
 	
 	

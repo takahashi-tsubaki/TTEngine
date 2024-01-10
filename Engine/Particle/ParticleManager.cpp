@@ -509,6 +509,7 @@ void ParticleManager::Update()
 			return x.frame >= x.num_frame;
 		}
 	);
+
 	//全パーティクル更新
 	for (std::forward_list<Particle>::iterator it = particles.begin();
 		it != particles.end();
@@ -525,6 +526,7 @@ void ParticleManager::Update()
 		//スケールの線形補完
 		it->scale = (it->e_scale - it->s_scale) * f;
 		it->scale += it->s_scale;
+
 		//色
 		constMapMaterial->color = it->color;
 	}
@@ -561,8 +563,9 @@ void ParticleManager::Update()
 	wtf_.UpdateMatWorld();
 
 	constMap->mat = (camera_->GetViewProjectionMatrix());
+	constMap->matBillboard = (camera_->GetBillboardMatrix()); // 行列の合成
+	constMap->color = constMapMaterial->color; 
 
-	constMap->matBillboard = (camera_->GetBillboardMatrix());	// 行列の合成
 	constBuff->Unmap(0, nullptr);
 
 
@@ -644,8 +647,8 @@ void ParticleManager::Draw(ID3D12GraphicsCommandList* cmdList)
 //	}
 //}
 
-void ParticleManager::Add(int life, Vector3 position, Vector3 velociy, Vector3 accel, float start_scale, float end_scale)
-{
+void ParticleManager::Add(
+    int life, Vector3 position, Vector3 velociy, Vector3 accel, float start_scale,float end_scale,float color) {
 	float sScale = start_scale;
 	float eScale = end_scale;
 	if ( sScale )
@@ -666,6 +669,13 @@ void ParticleManager::Add(int life, Vector3 position, Vector3 velociy, Vector3 a
 	p.velocity = velociy;
 	p.accel = accel;
 	p.num_frame = life;
+	p.s_scale = start_scale;
+	p.e_scale = end_scale;
+
+	color_.x -= color;
+
+	p.color = color_;
+	//subColor(0.1f,p);
 }
 
 void ParticleManager::RandParticle(Vector3 pos)
@@ -699,17 +709,36 @@ void ParticleManager::RandParticle(Vector3 pos)
 		// 追加
 		wtf_.translation_ = pos;
 		wtf_.UpdateMatWorld();
-		Add(30, wtf_.translation_,
+		Add(120, wtf_.translation_,
 			{ static_cast<float>((rand() % 20 - 10) / 10.0f),
 			static_cast<float>((rand() % 20 - 10) / 10.0f) ,
 			static_cast<float>((rand() % 20 - 10) / 10.0f) },
 			{ static_cast<float>((rand() % 20 - 10) / 100.0f),
 			static_cast<float>((rand() % 20 - 10) / 100.0f) - 0.3f ,
-			static_cast<float>((rand() % 20 - 10) / 100.0f) }, 0.4f, 0.0f);
+			static_cast<float>((rand() % 20 - 10) / 100.0f) }, 2.0f, 0.0f,0.1f);
+
+
+		/*Add(120, wtf_.translation_,{0, 0, 0},{ 0, 0, 0 },10.0f, 0.0f,0.1f);*/
+
+
 	}
+
+	/*wtf_.translation_ = pos;
+	wtf_.UpdateMatWorld();
+	Add(120, wtf_.translation_, {0, 0, 0}, {0, 0, 0}, 10.0f, 0.0f, 0.1f);*/
 }
 
 void ParticleManager::Reset()
 {
 	particles.clear();
+}
+void ParticleManager::subColor(float subcolor, Particle& p) {
+
+	//// 追加した要素の参照
+	//p = particles.front();
+
+	p.color.x -= subcolor;
+	p.color.y -= subcolor;
+	p.color.z -= subcolor;
+	p.color.w -= subcolor;
 }

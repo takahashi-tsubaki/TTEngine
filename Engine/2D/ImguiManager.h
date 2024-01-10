@@ -20,7 +20,7 @@ public:
 	/// </summary>
 	/// <param name="winApp"></param>
 	/// <param name="dxCommon"></param>
-	void Initialize(WinApp* winApp,DirectXCommon* dxCommon);
+	void Initialize(WinApp* winApp, TTEngine::DirectXCommon* dxCommon);
 
 	/// <summary>
 	/// 解放処理
@@ -50,7 +50,7 @@ public:
 
 private:
 
-	DirectXCommon* dxCommon_ = nullptr;
+	TTEngine::DirectXCommon* dxCommon_ = nullptr;
 
 	// SRV用デスクリプタヒープ
 	ComPtr<ID3D12DescriptorHeap> srvHeap_;

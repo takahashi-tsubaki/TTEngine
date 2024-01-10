@@ -44,6 +44,7 @@ public: // サブクラス
 	{
 		Matrix4 mat;
 		Matrix4 matBillboard;	// ビルボード行列
+		Vector4 color;        // 色 (RGBA)
 	};
 
 	//パーティクル一粒
@@ -190,7 +191,8 @@ public: // メンバ関数
 	///	<param name="position">初期座標</param>
 	///	<param name="velocity">速度</param>
 	///	<param name="accel">加速度</param>
-	void Add(int life,Vector3 position,Vector3 velociy,Vector3 accel,float start_scale,float end_scale);
+	/// <param name="color">色/param>
+	void Add(int life,Vector3 position,Vector3 velociy,Vector3 accel,float start_scale,float end_scale,float color);
 
 	/// <summary>
 	/// カメラのセット
@@ -232,10 +234,16 @@ public: // メンバ関数
 		return wtf_;
 	};
 
+	void SetColor(Vector4 color) { color_ = color; }
+
+
+	void subColor(float subcolor,Particle& p);
+
 private: // メンバ変数
 	static Camera* camera_;
 	// ローカルスケール
 	WorldTransform wtf_;
 	Matrix4 bill;
+	Vector4 color_ = {1,1,1,1};
 
 };

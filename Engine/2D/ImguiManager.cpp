@@ -1,6 +1,5 @@
-﻿#include "ImguiManager.h"
-void ImguiManager::Initialize(WinApp* winApp, DirectXCommon* dxCommon)
-{
+#include "ImguiManager.h"
+void ImguiManager::Initialize(WinApp* winApp, TTEngine::DirectXCommon* dxCommon) {
 
 	HRESULT result;
 	dxCommon_ = dxCommon;
