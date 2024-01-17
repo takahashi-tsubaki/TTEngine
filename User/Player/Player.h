@@ -37,6 +37,17 @@ enum StepDirection
 	Right= 2,
 };
 
+enum FbxAnimetion
+{
+	IDEL = 0,
+	LEFTMOVE,
+	RIGHTMOVE,
+	LEFTSTEP,
+	RIGHTSTEP,
+	SHOT,
+	HIT,
+};
+
 
 /// <summary>
 /// 自機
@@ -239,6 +250,10 @@ private:
 	bool isDamage = false;
 	bool isStep = false;
 
+	float hitCountTime = 60;
+
+	bool isStandBy = false;
+
 
 	//自機の向き
 	Vector3 faceAngle_ = { 0 , 0 , 0 };
@@ -251,6 +266,7 @@ private:
 	Vector3 velocity_ = { 0,0,0 };
 	Vector3 fbxVelocity_ = {0, 0, 0};
 
+	Vector3 Distance_ = {0, 0, 0};
 
 	Vector3 StepVelocity_ = {0, 0, 0};
 
