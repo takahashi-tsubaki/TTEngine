@@ -37,7 +37,7 @@ void PlayScene::Initialize()
 	playerHpSprite_ = Sprite::Create(SpriteNumber::HPBAR, {100, 600}, {1, 1, 1, 1}, {0.0f, 0.5f});
 	playerHpSprite_->Initialize();
 
-	alart = Sprite::Create(7, { 400,200 });
+	alart = Sprite::Create(SpriteNumber::ALART, {400, 200});
 	alart->Initialize();
 
 	//Fightの文字のスプライト
@@ -153,14 +153,11 @@ void PlayScene::Update(Input* input, GamePad* gamePad)
 			enemy_->Update();
 			if (player_->GetVanish() == true) {
 				controller_->GetGameCamera()->SetEye(player_->GetOldPos());
-				controller_->GetGameCamera()->eye_.lerp(
-				    controller_->GetGameCamera()->eye_, player_->GetFbxObject3d()->GetPosition(),
-				    30.0f);
+				controller_->GetGameCamera()->eye_.lerp(controller_->GetGameCamera()->eye_, player_->GetFbxObject3d()->GetPosition(),30.0f);
 			}
 			if (enemy_->GetVanish() == true) {
 				controller_->GetGameCamera()->SetEye(enemy_->GetOldPos());
-				controller_->GetGameCamera()->eye_.lerp(
-				    controller_->GetGameCamera()->eye_, enemy_->GetPosition(), 10.0f);
+				controller_->GetGameCamera()->eye_.lerp(controller_->GetGameCamera()->eye_, enemy_->GetPosition(), 10.0f);
 			}
 			controller_->GetGameCamera()->eye_.lerp(
 			    controller_->GetGameCamera()->eye_, player_->GetFbxObject3d()->GetPosition(),
@@ -217,14 +214,14 @@ void PlayScene::Update(Input* input, GamePad* gamePad)
 	transSP_->SetSize({(float)Size::TenTimes * 275.0f,(float) Size::TenTimes* 183.0f});
 	//fbxObject->Update();
 
-#ifdef _DEBUG
-	ImGui::Begin("Player");
-	ImGui::SetWindowPos({ 200 , 200 });
-	ImGui::SetWindowSize({ 500,100 });
-	ImGui::InputFloat3("Pos", &player_->GetFbxObject3d()->worldTransform.translation_.x);
-	ImGui::InputFloat3("Rotate", &player_->GetFbxObject3d()->worldTransform.rotation_.x);
-	ImGui::End();
-#endif
+//#ifdef _DEBUG
+//	ImGui::Begin("Player");
+//	ImGui::SetWindowPos({ 200 , 200 });
+//	ImGui::SetWindowSize({ 500,100 });
+//	ImGui::InputFloat3("Pos", &player_->GetFbxObject3d()->worldTransform.translation_.x);
+//	ImGui::InputFloat3("Rotate", &player_->GetFbxObject3d()->worldTransform.rotation_.x);
+//	ImGui::End();
+//#endif
 
 	sceneObj_->skydomeO_->SetPosition({ sceneObj_->skydomeO_->GetPosition().x + player_->GetPosition().x,sceneObj_->skydomeO_->GetPosition().y,sceneObj_->skydomeO_->GetPosition().z });
 	sceneObj_->skydomeO_->Update();
@@ -570,7 +567,7 @@ void PlayScene::gameOverAnimetion() {
 
 void PlayScene::gameClearAnimetion()
 {
-	const float shiftRotate = 2.0f;
+	//const float shiftRotate = 2.0f;
 	transSP_->SetColor({1, 1, 1, transObjAlpha});
 
 	isFinishSpCount++;
@@ -579,8 +576,8 @@ void PlayScene::gameClearAnimetion()
 	}
 	float addRota = 0.075f;
 
-	addRotation.x += addRota;
-	addRotation.z = shiftRotate;
+	addRotation.y += addRota;
+	//addRotation.z = shiftRotate;
 	enemy_->GetFbxObject3d()->SetRotate(addRotation);
 
 	if (transObjAlpha >= (float)Size::OneTimes) {

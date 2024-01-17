@@ -20,7 +20,7 @@ void Player::Initialize(TTEngine::DirectXCommon* dxCommon, Enemy* enemy) {
 	//playerFbxO_->Initialize();
 	//playerFbxO_->SetModel(playerFbxM_.get());
 
-	fbxPlayerM_.reset(FbxLoader::GetInstance()->LoadModelFromFile("player"));
+	fbxPlayerM_.reset(FbxLoader::GetInstance()->LoadModelFromFile("player2"));
 
 	//fbxPlayerO_ = std::make_unique<FbxObject3d>();
 	fbxPlayerO_ = FbxObject3d::Create();
@@ -90,7 +90,7 @@ void Player::Initialize(TTEngine::DirectXCommon* dxCommon, Enemy* enemy) {
 	{
 		sphere[i] = new SphereCollider;
 		CollisionManager::GetInstance()->AddCollider(sphere[i]);
-		spherePos[i] = playerO_->GetPosition();
+		spherePos[i] = fbxPlayerO_->GetPosition();
 		sphere[i]->SetBasisPos(&spherePos[i]);
 		sphere[i]->SetRadius(1.0f);
 		sphere[i]->SetAttribute(COLLISION_ATTR_PLAYERS);
@@ -100,10 +100,12 @@ void Player::Initialize(TTEngine::DirectXCommon* dxCommon, Enemy* enemy) {
 	}
 	startCount = clock() / 1000;
 
-	blowAwayPos = playerO_->GetPosition();
+	blowAwayPos = fbxPlayerO_->GetPosition();
 	//playerO_->SetRotation({180, 0, 0});
 
 	vanishBeforeCount = 30.0f;
+
+	Distance_.z = fbxPlayerO_->GetPosition().z - 50;
 }
 
 void Player::Update(Input* input, GamePad* gamePad)
@@ -111,9 +113,15 @@ void Player::Update(Input* input, GamePad* gamePad)
 	//カメラの角度の更新
 	moveAngle();
 
-	if ( isStep == false )
+	if ( isStep == false && isShot == false)
 	{
-		fbxPlayerO_->PlayAnimation(0,true);
+		isStandBy = true;
+	}
+
+	if ( isStandBy == true )
+	{
+		//	スタンバイアニメーションの再生
+		fbxPlayerO_->PlayAnimation(FbxAnimetion::IDEL, true);
 	}
 
 	/*fbxPlayerO_->PlayAnimation(0);*/
@@ -201,7 +209,7 @@ void Player::Update(Input* input, GamePad* gamePad)
 
 
 	CheckHitCollision();
-	playerO_->Update();
+	//playerO_->Update();
 	/*playerFbxO_->Update();*/
 }
 
@@ -232,6 +240,12 @@ void Player::Move(Input* input, GamePad* gamePad)
 	velocity_ = {0, 0, 0};
 	fbxVelocity_ = {0, 0, 0};
 
+	Vector3 enemyPos = enemy_->GetFbxObject3d()->GetWorldTransform().translation_;
+
+	Distance_ = MyMath::bVelocity(Distance_, fbxPlayerO_->worldTransform.matWorld_);
+
+	if (fbxPlayerO_->worldTransform.translation_.z < Distance_.z)
+
 	if (gamePad->StickInput(L_UP) || input->PushKey(DIK_W))
 	{
 
@@ -240,44 +254,47 @@ void Player::Move(Input* input, GamePad* gamePad)
 		fbxVelocity_ += {0, 0, (moveSpeed / fbxScale_)};
 
 	}
-
-	if (gamePad->StickInput(L_DOWN)|| input->PushKey(DIK_S))
+	if ( fbxPlayerO_->worldTransform.translation_.z < Distance_.z )
 	{
+		if (gamePad->StickInput(L_DOWN) || input->PushKey(DIK_S)) {
 
-		velocity_ += { 0 , 0 , moveSpeed * -1 };
+			velocity_ += {0, 0, moveSpeed * -1};
 
-		fbxVelocity_ += {0, 0, (moveSpeed / fbxScale_) * -1};
-
+			fbxVelocity_ += {0, 0, (moveSpeed / fbxScale_) * -1};
+		}
 	}
+	
 	if (gamePad->StickInput(L_LEFT) || input->PushKey(DIK_A))
 	{
 
 		velocity_ += { moveSpeed * -1 , 0 , 0 };
 		fbxVelocity_ += {(moveSpeed / fbxScale_) *-1, 0, 0};
-		fbxPlayerO_->PlayAnimation(3,false);
+
+		//	左移動のアニメーションの再生
+		fbxPlayerO_->PlayAnimation(FbxAnimetion::LEFTMOVE, false);
 	}
 
 	if (gamePad->StickInput(L_RIGHT) || input->PushKey(DIK_D))
 	{
 		velocity_ += { moveSpeed , 0 , 0 };
 		fbxVelocity_ += {(moveSpeed / fbxScale_), 0, 0};
-		fbxPlayerO_->PlayAnimation(4,false);
+		fbxPlayerO_->PlayAnimation(FbxAnimetion::RIGHTMOVE, false);
 	}
 
 	
 	
-	// OBJの移動処理
-	if (GetisDead()==false)
-	{
-		playerO_->worldTransform.rotation_ = cameraAngle;
-	}
-	playerO_->worldTransform.UpdateMatWorld();
+	//// OBJの移動処理
+	//if (GetisDead()==false)
+	//{
+	//	playerO_->worldTransform.rotation_ = cameraAngle;
+	//}
+	//playerO_->worldTransform.UpdateMatWorld();
 
-	velocity_ = MyMath::MatVector(velocity_, playerO_->worldTransform.matWorld_);
+	//velocity_ = MyMath::MatVector(velocity_, playerO_->worldTransform.matWorld_);
 
-	playerO_->worldTransform.translation_ += velocity_;
+	//playerO_->worldTransform.translation_ += velocity_;
 
-	playerO_->SetPosition(playerO_->worldTransform.translation_);
+	//playerO_->SetPosition(playerO_->worldTransform.translation_);
 
 	
 
@@ -296,19 +313,19 @@ void Player::Move(Input* input, GamePad* gamePad)
 	fbxPlayerO_->SetPosition(fbxPlayerO_->worldTransform.translation_);
 
 
-#ifdef _DEBUG
-	ImGui::Begin("playerPos");
-
-	ImGui::SetWindowPos({ 600 , 200 });
-	ImGui::SetWindowSize({ 400,200 });
-	ImGui::InputFloat3("vanish", &VanishDis.x);
-
-	ImGui::InputFloat3("objPos", &playerO_->worldTransform.translation_.x);
-	ImGui::InputFloat3("fbxPos", &fbxPlayerO_->worldTransform.translation_.x);
-	/*ImGui::InputInt("fbxPos", );*/
-
-	ImGui::End();
-#endif
+//#ifdef _DEBUG
+//	ImGui::Begin("playerPos");
+//
+//	ImGui::SetWindowPos({ 600 , 200 });
+//	ImGui::SetWindowSize({ 400,200 });
+//	ImGui::InputFloat3("Distance_", &Distance_.x);
+//
+//	ImGui::InputFloat3("objPos", &playerO_->worldTransform.translation_.x);
+//	ImGui::InputFloat3("fbxPos", &fbxPlayerO_->worldTransform.translation_.x);
+//	/*ImGui::InputInt("fbxPos", );*/
+//
+//	ImGui::End();
+//#endif
 }
 
 
@@ -325,7 +342,8 @@ void Player::Step(Input* input, GamePad* gamePad)
 		// playerO_->SetPosition(wtf.translation_);
 		if (isStep == false)
 		{
-			fbxPlayerO_->PlayAnimation(3,false);
+			fbxPlayerO_->SetCurrentTimer(0);
+			fbxPlayerO_->PlayAnimation(FbxAnimetion::LEFTSTEP, false);
 			stepFlameCount = 30;
 			stepDirection = StepDirection::Left;
 			StepSpeed = 2.0f * -1;
@@ -340,7 +358,8 @@ void Player::Step(Input* input, GamePad* gamePad)
 		
 		if (isStep == false)
 		{
-			fbxPlayerO_->PlayAnimation(4,false);
+			fbxPlayerO_->SetCurrentTimer(0);
+			fbxPlayerO_->PlayAnimation(FbxAnimetion::RIGHTSTEP, false);
 			stepFlameCount = 30;
 			stepDirection = StepDirection::Right;
 			StepSpeed = 2.0f;
@@ -353,6 +372,7 @@ void Player::Step(Input* input, GamePad* gamePad)
 
 	if (isStep == true)
 	{
+		isStandBy = false;
 		fbxVelocity_ += {(StepSpeed / fbxScale_), 0, 0};
 		//velocity_ += {StepSpeed, 0, 0};
 		stepFlameCount--;
@@ -397,9 +417,9 @@ void Player::Step(Input* input, GamePad* gamePad)
 
 	fbxPlayerO_->SetPosition(fbxPlayerO_->worldTransform.translation_);
 
-	playerO_->worldTransform.translation_ += fbxVelocity_;
+	//playerO_->worldTransform.translation_ += fbxVelocity_;
 
-	playerO_->SetPosition(playerO_->worldTransform.translation_);
+	//playerO_->SetPosition(playerO_->worldTransform.translation_);
 
 }
 
@@ -492,7 +512,10 @@ void Player::Shot(Input* input, GamePad* gamePad)
 	if (isShot == true)
 	{
 		bulletTimer--;
-		fbxPlayerO_->PlayAnimation(5, false);
+
+		isStandBy = false;
+		// 射撃アニメーションの再生
+		fbxPlayerO_->PlayAnimation(FbxAnimetion::SHOT, false);
 
 		//弾が最大個数以下だった時
 		if (bulletSize < MAX_BULLET)
@@ -628,7 +651,7 @@ void Player::Vanish()
 			oldPos = fbxPlayerO_->worldTransform.translation_;
 			/*VanishDis *= 0.05f;*/
 			fbxPlayerO_->worldTransform.translation_ += VanishDis;
-			playerO_->worldTransform.translation_ += VanishDis;
+			//playerO_->worldTransform.translation_ += VanishDis;
 		}
 
 		//oldPos = fbxPlayerO_->worldTransform.translation_;
@@ -711,7 +734,6 @@ void Player::TitleAnime()
 		
 	}
 
-	playerO_->Update();
 }
 
 void Player::GameOverAnime()
@@ -794,12 +816,12 @@ void Player::CheckHitCollision()
 	Vector3 distance;
 
 	if (hitDeley > 0) {	//毎フレームヒットを防止
-		playerO_->SetColor({ 0,0,1,1 });
+		//playerO_->SetColor({ 0,0,1,1 });
 		hitDeley--;
 	}
 	else
 	{
-		playerO_->SetColor({ 1,1,1,1 });
+		//playerO_->SetColor({ 1,1,1,1 });
 	}
 
 	//当たり判定の処理
@@ -810,11 +832,23 @@ void Player::CheckHitCollision()
 			//当たったものの属性が敵の弾だった時
 			if (sphere[i]->GetCollisionInfo().collider_->GetAttribute() == COLLISION_ATTR_ENEMYBULLETS)
 			{
-				Hp_ -= 1;
-				hitDeley = 3;
-				particle_->RandParticle(sphere[i]->GetCollisionInfo().inter_);
+
+				isDamage = false;
+				hitCountTime = 60;
+				if ( isDamage == false )
+				{
+					// Hp_ -= 1;
+					hitDeley = 3;
+					particle_->RandParticle(sphere[i]->GetCollisionInfo().inter_);
+					//	被弾時のアニメーションの再生
+					fbxPlayerO_->SetCurrentTimer(0);
+					fbxPlayerO_->PlayAnimation(FbxAnimetion::HIT, false);
+					isDamage = true;
+				}
 				
-				//SetIsHit(true);
+				
+
+				
 
 				break;
 			}
@@ -832,9 +866,19 @@ void Player::CheckHitCollision()
 	}
 	for (int i = 0; i < SPHERE_COLISSION_NUM; i++) {
 
-		spherePos[i] = playerO_->GetPosition();
+		spherePos[i] = fbxPlayerO_->GetPosition();
 		sphere[i]->Update();
 	}
+	if ( isDamage == true )
+	{
+		hitCountTime--;
+	}
+
+	if ( hitCountTime <= 0 )
+	{
+		isDamage = false;
+	}
+
 
 }
 
@@ -866,10 +910,10 @@ void Player::Reset()
 	}
 	ResetAttribute();
 
- 	playerO_->SetColor({1, 1, 1, 1});
+ //	playerO_->SetColor({1, 1, 1, 1});
 
-	playerO_->SetPosition({0,0,-50});
-	playerO_->SetRotation({0,0,0});
+	//playerO_->SetPosition({0,0,-50});
+	//playerO_->SetRotation({0,0,0});
 
 	fbxPlayerO_->SetScale({0.01f, 0.01f, 0.01f});
 	fbxPlayerO_->SetRotate({0,0,0});
@@ -882,6 +926,7 @@ void Player::Reset()
 
 	Hp_ = 10;
 	isDead_ = false;
+	isDamage = false;
 	faceAngle_ = { 0 , 0 , 0 };
 	cameraAngle = { 0,0,0 };
 	velocity_ = { 0,0,0 };
@@ -935,7 +980,7 @@ void Player::ResetAttribute()
 	{
 		sphere[i] = new SphereCollider;
 		CollisionManager::GetInstance()->AddCollider(sphere[i]);
-		spherePos[i] = playerO_->GetPosition();
+		spherePos[i] = fbxPlayerO_->GetPosition();
 		sphere[i]->SetBasisPos(&spherePos[i]);
 		sphere[i]->SetRadius(1.0f);
 		sphere[i]->SetAttribute(COLLISION_ATTR_PLAYERS);

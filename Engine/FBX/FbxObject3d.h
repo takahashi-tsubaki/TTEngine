@@ -139,6 +139,8 @@ public: // メンバ関数
 	bool GetIsAnimRot();
 	uint32_t ConvertFbxTimeToInt(FbxTime time); // FbxTime型変数をintに変換
 
+	void SetCurrentTimer(FbxTime timer) { currentTime = timer; }
+
 	/// <summary>
 	/// ワールドトランスフォーム取得
 	/// </summary>

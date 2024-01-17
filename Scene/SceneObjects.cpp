@@ -61,7 +61,7 @@ void SceneObjects::Initialize(SceneManager* controller)
 	transitionO_->SetModel(transitionM_);
 	transitionO_->SetScale({ 1,1,1 });
 
-	fbxModel = FbxLoader::GetInstance()->LoadModelFromFile("boss_prot4");
+	//fbxModel = FbxLoader::GetInstance()->LoadModelFromFile("boss_prot4");
 
 	fbxObject = new FbxObject3d();
 	fbxObject->Initialize();

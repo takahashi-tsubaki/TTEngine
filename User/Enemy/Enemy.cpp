@@ -53,7 +53,7 @@ void Enemy::Initialize(TTEngine::DirectXCommon* dxCommon, Player* player) {
 	{
 		sphere[i] = new SphereCollider;
 		CollisionManager::GetInstance()->AddCollider(sphere[i]);
-		spherePos[i] = enemyO_->GetPosition();
+		spherePos[i] = enemyFbxO_->GetPosition();
 		sphere[i]->SetBasisPos(&spherePos[i]);
 		sphere[i]->SetRadius(1.0f);
 		sphere[i]->SetAttribute(COLLISION_ATTR_ENEMYS);
@@ -76,8 +76,6 @@ void Enemy::Update()
 	moveAngle();
 
 	GetDebugMode();
-
-	/*wtf = enemyO_->GetWorldTransform();*/
 
 	GetHp();
 
@@ -118,104 +116,104 @@ void Enemy::Update()
 
 		//transNormal = MyMath::bVelocity(transNormal, enemyFbxO_->worldTransform.matWorld_);
 
-		//if ( player_->GetHp() > 0 )
-		//{
-		//	Attack();
-		//}
+		if ( player_->GetHp() > 0 )
+		{
+			Attack();
+		}
 
 		//srand((unsigned int)time(nullptr));
 
 		
 		
 
-		if (player_->GetHp() > 0) {
-			actionCoolTimer--;
-			
-			actionRand = rand() % 100 + 1;
-		
-
-
-//				// プレイヤーが攻撃してきたときの行動をランダム化
-//				if (player_->GetIsShot() == true) {
+//		if (player_->GetHp() > 0) {
+//			actionCoolTimer--;
+//			
+//			actionRand = rand() % 100 + 1;
+//		
 //
-//					if (isVanising == false) {
-//						if (GetisShot() == false) {
 //
-//							if (isVanising == false) {
-//								VanishGauge = 0.0f;
-//								vanisingTimes = 0;
-//								subScaleX = true;
-//								isVanising = true;
-//							}
+////				// プレイヤーが攻撃してきたときの行動をランダム化
+////				if (player_->GetIsShot() == true) {
+////
+////					if (isVanising == false) {
+////						if (GetisShot() == false) {
+////
+////							if (isVanising == false) {
+////								VanishGauge = 0.0f;
+////								vanisingTimes = 0;
+////								subScaleX = true;
+////								isVanising = true;
+////							}
+////						}
+////					}
+////				}
+//
+//
+//			// プレイヤーが攻撃してきたときの行動をランダム化
+//			if (player_->GetIsShot() == true) {
+//
+//				if (isVanising == false) {
+//					if (GetisShot() == false) {
+//						//if (VanishGauge == 6.0f) {
+//						//	actionRand = rand() % 100 + 1;
+//						//	if (actionRand <= 90) {
+//						//		isVanising = true;
+//						//		//Vanish();
+//						//	} else if (actionRand > 90) {
+//						//		Attack();
+//						//	} else {
+//						//	}
+//						//}
+//						if (VanishGauge == 6.0f) {
+//
+//							animetionCount = 0.0f;
+//
+//							VanishGauge = 0.0f;
+//							vanisingTimes = 0;
+////							subScaleX = true;
+//							isVanising = true;
 //						}
 //					}
 //				}
-
-
-			// プレイヤーが攻撃してきたときの行動をランダム化
-			if (player_->GetIsShot() == true) {
-
-				if (isVanising == false) {
-					if (GetisShot() == false) {
-						//if (VanishGauge == 6.0f) {
-						//	actionRand = rand() % 100 + 1;
-						//	if (actionRand <= 90) {
-						//		isVanising = true;
-						//		//Vanish();
-						//	} else if (actionRand > 90) {
-						//		Attack();
-						//	} else {
-						//	}
-						//}
-						if (VanishGauge == 6.0f) {
-
-							animetionCount = 0.0f;
-
-							VanishGauge = 0.0f;
-							vanisingTimes = 0;
-//							subScaleX = true;
-							isVanising = true;
-						}
-					}
-				}
-
-				if (actionRand <= 60) {
-					if (actionCoolTimer <= 0) {
-						animetionCount = 0.0f;
-						Attack();
-					}
-
-				} else if (actionRand > 60 && actionRand <= 90) {
-					if (GetisRapidShot() == false) {
-						animetionCount = 0.0f;
-						Move();
-					}
-
-				} else {
-				}
-
-			} else {
-				attackCoolTimer--;
-				//if (attackCoolTimer <= 0) {
-				//	Attack();
-				//}
-				if (actionRand <= 40) {
-					if (GetisRapidShot() == false) {
-						animetionCount = 0.0f;
-						Move();
-					}
-				} else if (actionRand > 40 && actionRand <= 90) {
-
-					if (actionCoolTimer <= 0) {
-						animetionCount = 0.0f;
-						Attack();
-					}
-				} else {
-				}
-			}
-		}
-		
-
+//
+//				if (actionRand <= 60) {
+//					if (actionCoolTimer <= 0) {
+//						animetionCount = 0.0f;
+//						Attack();
+//					}
+//
+//				} else if (actionRand > 60 && actionRand <= 90) {
+//					if (GetisRapidShot() == false) {
+//						animetionCount = 0.0f;
+//						Move();
+//					}
+//
+//				} else {
+//				}
+//
+//			} else {
+//				attackCoolTimer--;
+//				//if (attackCoolTimer <= 0) {
+//				//	Attack();
+//				//}
+//				if (actionRand <= 40) {
+//					if (GetisRapidShot() == false) {
+//						animetionCount = 0.0f;
+//						Move();
+//					}
+//				} else if (actionRand > 40 && actionRand <= 90) {
+//
+//					if (actionCoolTimer <= 0) {
+//						animetionCount = 0.0f;
+//						Attack();
+//					}
+//				} else {
+//				}
+//			}
+//		}
+//		
+//
 	}
 
 	/*if (Vaction == true) {
@@ -245,7 +243,6 @@ void Enemy::Update()
 	
 	CheckHitCollision();
 
-	enemyO_->Update();
 	enemyFbxO_->Update();
 
 	particle_->Update();
@@ -362,13 +359,13 @@ void Enemy::CheckHitCollision()
 	}
 
 	if (hitDeley > 0) {	//毎フレームヒットを防止
-		enemyO_->SetColor({ 0,0,1,1 });
+		//enemyO_->SetColor({ 0,0,1,1 });
 		hitDeley--;
 	}
 	else
 	{
 		
-		enemyO_->SetColor({ 1,1,1,1 });
+		//enemyO_->SetColor({ 1,1,1,1 });
 	}
 
 	for (int i = 0; i < SPHERE_COLISSION_NUM; i++)
@@ -401,7 +398,7 @@ void Enemy::CheckHitCollision()
 	for (int i = 0; i < SPHERE_COLISSION_NUM; i++)
 	{
 
-		spherePos[i] = enemyO_->GetPosition();
+		spherePos[i] = enemyFbxO_->GetPosition();
 		sphere[i]->Update();
 	}
 }
@@ -899,7 +896,7 @@ void Enemy::ResetAttribute()
 	{
 		sphere[i] = new SphereCollider;
 		CollisionManager::GetInstance()->AddCollider(sphere[i]);
-		spherePos[i] = enemyO_->GetPosition();
+		spherePos[i] = enemyFbxO_->GetPosition();
 		sphere[i]->SetBasisPos(&spherePos[i]);
 		sphere[i]->SetRadius(1.0f);
 		sphere[i]->SetAttribute(COLLISION_ATTR_ENEMYS);
