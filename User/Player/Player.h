@@ -3,7 +3,7 @@
 #include "Input.h"
 #include "GamePad.h"
 #include "Fps.h"
-
+#include "Audio.h"
 
 #include "Sprite.h"
 
@@ -246,14 +246,18 @@ private:
 	GamePad* gamePad_ = nullptr;
 
 	int Hp_ = 10;
-	bool isDead_ = false;
-	bool isDamage = false;
-	bool isStep = false;
-
-	float hitCountTime = 60;
-
+#pragma region フラグ関連
+	bool isDead_ = false;//自機が倒れたかどうか
+	bool isDamage = false;//自機がダメージを受けているかどうか
+	bool isStep = false;//自機がステップ移動をしているかどうか
 	bool isStandBy = false;
 
+	bool isBack = false;//自機が後ろ方向に動いているかどうか
+
+#pragma endregion 
+
+	
+	float hitCountTime = 60;
 
 	//自機の向き
 	Vector3 faceAngle_ = { 0 , 0 , 0 };
@@ -266,11 +270,19 @@ private:
 	Vector3 velocity_ = { 0,0,0 };
 	Vector3 fbxVelocity_ = {0, 0, 0};
 
+	Vector3 farthest_ = {0, 0, 0};
 	Vector3 Distance_ = {0, 0, 0};
+
+	Vector3 maxVec;
 
 	Vector3 StepVelocity_ = {0, 0, 0};
 
 	const float moveSpeed = 0.5;
+	float backSpeed = 0.5;
+
+	Vector3 posDistance = {0, 0, 0};
+
+	const float MAX_POSITION = 100;
 
 	float StepSpeed;
 	int stepDirection;
@@ -375,6 +387,19 @@ private:
 	float gravity = 0.3f;
 
 	Vector3 transNormal;
-#pragma endregion 
+#pragma endregion
+
+#pragma region 音関連
+
+	// 音関係まとめ
+
+	TTEngine::Audio* audio = nullptr;
+
+	// 音を止める関数
+	IXAudio2SourceVoice* pSourceVoice[10] = {0};
+
+	int soundCheckFlag = 0;
+#pragma endregion
+
 };
 

@@ -18,6 +18,8 @@ protected:
 	Sprite* sprite_ = nullptr;
 	Sprite* sprite2_ = nullptr;
 	Sprite* operationSP_ = nullptr;
+	Sprite* fCheckSP_ = nullptr;
+
 
 	Model* model = nullptr;
 	Object3d* object = nullptr;
@@ -52,6 +54,9 @@ protected:
 	//プレイヤーの弾モデル関連
 	std::list <std::unique_ptr<PlayerBullet>> pBullets_;
 	std::list <std::unique_ptr<EnemyBullet>> eBullets_;
+
+	bool finalCheck = false;
+	int checkNum = 0;
 
 public:
 	//コンストラクタとデストラクタ
