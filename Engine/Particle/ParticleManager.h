@@ -194,6 +194,9 @@ public: // メンバ関数
 	/// <param name="color">色/param>
 	void Add(int life,Vector3 position,Vector3 velociy,Vector3 accel,float start_scale,float end_scale,float color);
 
+
+	void Barrier(Vector3 pos);
+
 	/// <summary>
 	/// カメラのセット
 	/// </summary>

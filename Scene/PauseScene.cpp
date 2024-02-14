@@ -10,6 +10,9 @@ PauseScene::PauseScene(SceneManager* controller, SceneObjects* sceneObj)
 
 	operationSP_ = Sprite::Create(SpriteNumber::OPERATION, {400, 100});
 	operationSP_->Initialize();
+
+	fCheckSP_ = Sprite::Create(SpriteNumber::FINALCHECK, {760, 300});
+	fCheckSP_->Initialize();
 }
 
 
@@ -20,26 +23,43 @@ PauseScene::~PauseScene()
 
 void PauseScene::Initialize()
 {
-
-}	
+	finalCheck = false;
+	checkNum = 0;
+}
 
 void PauseScene::Update(Input* input, GamePad* gamePad)
 {
-
 	gamePad->Update();
-	if (input->TriggerKey(DIK_ESCAPE) || gamePad->ButtonTrigger(X))
+	if (checkNum == 0)
 	{
-		player_->Reset();
-		enemy_->Reset();
-		controller_->ChangeSceneNum(S_TITLE);
+		if (input->TriggerKey(DIK_ESCAPE) || gamePad->ButtonTrigger(X)) {
+			checkNum = 1;
+		}
+		if (input->TriggerKey(DIK_TAB) || gamePad->ButtonTrigger(START)) {
+			sceneObj_->player_ = player_;
+			sceneObj_->enemy_ = enemy_;
+			checkNum = 0;
+			controller_->PopScene();
+		}
 	}
-	if (input->TriggerKey(DIK_TAB) || gamePad->ButtonTrigger(START))
-	{
-		sceneObj_->player_ = player_;
-		sceneObj_->enemy_ = enemy_;
-		controller_->PopScene();
+	
 
+	if (checkNum == 1)
+	{
+		if (input->TriggerKey(DIK_ESCAPE) || gamePad->ButtonTrigger(X)) {
+			player_->Reset();
+			enemy_->Reset();
+			checkNum = 2;
+			controller_->ChangeSceneNum(S_TITLE);
+		}
+		if (input->TriggerKey(DIK_TAB) || gamePad->ButtonTrigger(START)) {
+			sceneObj_->player_ = player_;
+			sceneObj_->enemy_ = enemy_;
+			checkNum = 0;
+			controller_->PopScene();
+		}
 	}
+
 	//player_->Update(input, gamePad);
 	//enemy_->Update();
 }
@@ -120,7 +140,15 @@ void PauseScene::Draw()
 	// 前景スプライト描画前処理
 	Sprite::PreDraw(controller_->dxCommon_->GetCommandList());
 
-	operationSP_->Draw();
+
+	if (checkNum == 1)
+	{
+		fCheckSP_->Draw();
+	}
+	else if (checkNum == 0)
+	{
+		operationSP_->Draw();
+	}
 	//sprite_->Draw();
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる

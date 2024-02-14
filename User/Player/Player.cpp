@@ -15,10 +15,6 @@ void Player::Initialize(TTEngine::DirectXCommon* dxCommon, Enemy* enemy) {
 	FbxObject3d::CreateGraphicsPipeline();
 
 	////敵のFbx読み込み
-	//playerFbxM_.reset(FbxLoader::GetInstance()->LoadModelFromFile("boss_prot4"));
-	//playerFbxO_ = std::make_unique<FbxObject3d>();
-	//playerFbxO_->Initialize();
-	//playerFbxO_->SetModel(playerFbxM_.get());
 
 	fbxPlayerM_.reset(FbxLoader::GetInstance()->LoadModelFromFile("player2"));
 
@@ -30,8 +26,6 @@ void Player::Initialize(TTEngine::DirectXCommon* dxCommon, Enemy* enemy) {
 	//fbxPlayerO_->SetIsBonesWorldMatCalc(true); // ボーンワールド行列計算あり
 	fbxPlayerO_->Update();
 
-
-
 	playerO_ = Object3d::Create();
 
 	playerM_ = Model::CreateFromOBJ("human");
@@ -39,14 +33,11 @@ void Player::Initialize(TTEngine::DirectXCommon* dxCommon, Enemy* enemy) {
 	playerO_->SetModel(playerM_);
 
 	wtf.translation_ = { 0,0,-50 };
-	//playerO_->SetScale({ 2,2,2 });
+
 	playerO_->SetPosition(wtf.translation_);
-	//playerO_->SetColor({1,0,0,1});
 
-	bulletM_ = Model::CreateFromOBJ("cube");
-	//playerFbxO_->SetPosition(player_.translation_);
+	bulletM_ = Model::CreateFromOBJ("bullet");
 
-	
 	enemy_ = enemy;
 
 
@@ -56,6 +47,14 @@ void Player::Initialize(TTEngine::DirectXCommon* dxCommon, Enemy* enemy) {
 	particle_->LoadTexture("sprite/particle.png");
 	particle_->GetWorldTransform().scale_ = {30, 30, 30};
 	particle_->Update();
+
+		// パーティクル
+	stageBarriarParticle_ = std::make_unique<ParticleManager>();
+	stageBarriarParticle_->Initialize();
+	stageBarriarParticle_->LoadTexture("sprite/barrier.png");
+	stageBarriarParticle_->GetWorldTransform().scale_ = {30, 30, 30};
+	stageBarriarParticle_->Update();
+
 
 	//SPHERE_COLISSION_NUM = fbxPlayerO_->GetBonesMatPtr()->size();
 	//sphere.resize(SPHERE_COLISSION_NUM);
@@ -106,12 +105,27 @@ void Player::Initialize(TTEngine::DirectXCommon* dxCommon, Enemy* enemy) {
 	vanishBeforeCount = 30.0f;
 
 	Distance_.z = fbxPlayerO_->GetPosition().z - 50;
+
+	//音声データの初期化と読み取り
+	audio = new TTEngine::Audio();
+	audio->Initialize();
+
+	audio->LoadWave("bullet.wav");
 }
 
 void Player::Update(Input* input, GamePad* gamePad)
 {
 	//カメラの角度の更新
 	moveAngle();
+
+	Vector3 d = {
+	    enemy_->GetFbxObject3d()->GetPosition().x - fbxPlayerO_->GetPosition().x,
+	    enemy_->GetFbxObject3d()->GetPosition().y - fbxPlayerO_->GetPosition().y,
+	    enemy_->GetFbxObject3d()->GetPosition().z - fbxPlayerO_->GetPosition().z};
+
+	posDistance.z = sqrtf(pow(d.x, 2.0f) + pow(d.z, 2.0f));
+
+
 
 	if ( isStep == false && isShot == false)
 	{
@@ -182,6 +196,7 @@ void Player::Update(Input* input, GamePad* gamePad)
 	//playerO_->UpdateMatrix();
 
 	particle_->Update();
+	stageBarriarParticle_->Update();
 	
 	fbxPlayerO_->Update();
 
@@ -209,8 +224,6 @@ void Player::Update(Input* input, GamePad* gamePad)
 
 
 	CheckHitCollision();
-	//playerO_->Update();
-	/*playerFbxO_->Update();*/
 }
 
 void Player::Draw()
@@ -240,11 +253,6 @@ void Player::Move(Input* input, GamePad* gamePad)
 	velocity_ = {0, 0, 0};
 	fbxVelocity_ = {0, 0, 0};
 
-	Vector3 enemyPos = enemy_->GetFbxObject3d()->GetWorldTransform().translation_;
-
-	Distance_ = MyMath::bVelocity(Distance_, fbxPlayerO_->worldTransform.matWorld_);
-
-	if (fbxPlayerO_->worldTransform.translation_.z < Distance_.z)
 
 	if (gamePad->StickInput(L_UP) || input->PushKey(DIK_W))
 	{
@@ -254,15 +262,34 @@ void Player::Move(Input* input, GamePad* gamePad)
 		fbxVelocity_ += {0, 0, (moveSpeed / fbxScale_)};
 
 	}
-	if ( fbxPlayerO_->worldTransform.translation_.z < Distance_.z )
-	{
-		if (gamePad->StickInput(L_DOWN) || input->PushKey(DIK_S)) {
 
-			velocity_ += {0, 0, moveSpeed * -1};
 
-			fbxVelocity_ += {0, 0, (moveSpeed / fbxScale_) * -1};
+	if (gamePad->StickInput(L_DOWN) || input->PushKey(DIK_S)) {
+
+		velocity_ += {0, 0, backSpeed * -1};
+
+		//敵との距離で移動制限の実装
+		//上限に達していない時
+		if (posDistance.z <= MAX_POSITION) {
+			backSpeed = 0.5f;
+			isMoveLimit = false;
 		}
+		else//達しているとき
+		{
+			backSpeed = MAX_POSITION - posDistance.z;
+			isMoveLimit = true;
+
+			stageBarriarParticle_->Barrier(fbxPlayerO_->worldTransform.translation_);
+			
+
+		}
+		//上記のうちどちらか小さい値の方をspeedに代入
+		backSpeed = min((MAX_POSITION - posDistance.z), 0.5f);
+		//speedを加算
+		fbxVelocity_ += {0, 0, (backSpeed / fbxScale_) * -1};
+
 	}
+
 	
 	if (gamePad->StickInput(L_LEFT) || input->PushKey(DIK_A))
 	{
@@ -313,19 +340,17 @@ void Player::Move(Input* input, GamePad* gamePad)
 	fbxPlayerO_->SetPosition(fbxPlayerO_->worldTransform.translation_);
 
 
-//#ifdef _DEBUG
-//	ImGui::Begin("playerPos");
-//
-//	ImGui::SetWindowPos({ 600 , 200 });
-//	ImGui::SetWindowSize({ 400,200 });
-//	ImGui::InputFloat3("Distance_", &Distance_.x);
-//
-//	ImGui::InputFloat3("objPos", &playerO_->worldTransform.translation_.x);
-//	ImGui::InputFloat3("fbxPos", &fbxPlayerO_->worldTransform.translation_.x);
-//	/*ImGui::InputInt("fbxPos", );*/
-//
-//	ImGui::End();
-//#endif
+#ifdef _DEBUG
+	ImGui::Begin("playerPos");
+
+	ImGui::SetWindowPos({ 600 , 200 });
+	ImGui::SetWindowSize({ 400,200 });
+	ImGui::InputFloat3("Distance_", &posDistance.x);
+
+	ImGui::InputFloat3("fbxPos", &fbxPlayerO_->worldTransform.translation_.x);
+
+	ImGui::End();
+#endif
 }
 
 
@@ -544,6 +569,22 @@ void Player::Shot(Input* input, GamePad* gamePad)
 					newBullet->SetEnemy(enemy_);
 
 					bullets_.push_back(std::move(newBullet));
+					// 音声再生
+					//if (soundCheckFlag == 0) {
+					//	// 音声再生
+
+					//	pSourceVoice[0] = audio->PlayWave("oto.wav");
+					//	pSourceVoice[0]->SetVolume(0.5f);
+					//	soundCheckFlag = 1;
+					//}
+
+					// 音声再生
+					
+
+
+					pSourceVoice[0] = audio->PlayWave("bullet.wav");
+					pSourceVoice[0]->SetVolume(0.2f);
+					
 				}
 
 			}

@@ -67,6 +67,7 @@ void PlayScene::Initialize()
 
 	sousaSP_ = Sprite::Create(SpriteNumber::SOUSA,{960,300});
 	sousaSP_->Initialize();
+	sceneObj_->fieldRock_->LoadFile("field");
 
 #pragma endregion
 
@@ -76,7 +77,10 @@ void PlayScene::Initialize()
 	player_->GetObject3d()->SetScale({1,1,1});
 	enemy_->GetObject3d()->SetScale({ 1,1,1 });
 
-
+	RockO_ = Object3d::Create();
+	RockM_ = Model::CreateFromOBJ("bume");
+	RockO_->SetModel(RockM_);
+	RockO_->SetPosition({-50,0,-50});
 
 	addRotation = {45, 0, 0};
 
@@ -89,6 +93,15 @@ void PlayScene::Initialize()
 	//controller_->camera_->Update();
 
 	sceneObj_->transitionO_->SetScale({100,100,1});
+
+
+
+
+	// 音声データの初期化と読み取り
+	audio = new TTEngine::Audio();
+	audio->Initialize();
+
+	audio->LoadWave("oto.wav");
 }
 
 void PlayScene::Update(Input* input, GamePad* gamePad)
@@ -97,7 +110,19 @@ void PlayScene::Update(Input* input, GamePad* gamePad)
 	assert(input);
 	gamePad->Update();
 
-	//プレイヤー(エネミー)座標でのカメラの計算
+	// 音声再生
+	 if (soundCheckFlag == 0) {
+		// 音声再生
+
+		pSourceVoice[0] = audio->PlayWave("oto.wav");
+		pSourceVoice[0]->SetVolume(0.05f);
+		soundCheckFlag = 1;
+	}
+
+
+
+
+	//プレイヤー(エネミーも)座標でのカメラの計算
 	if ( isFinish == false )
 	{
 		finishPlayerCamera();
@@ -113,6 +138,7 @@ void PlayScene::Update(Input* input, GamePad* gamePad)
 		StartSign(input,gamePad);
 
 	}
+#pragma region 戦闘中
 	if ( isFight == true )
 	{
 			//シーンチェンジ
@@ -153,12 +179,15 @@ void PlayScene::Update(Input* input, GamePad* gamePad)
 			enemy_->Update();
 			if (player_->GetVanish() == true) {
 				controller_->GetGameCamera()->SetEye(player_->GetOldPos());
+				//カメラ補間
 				controller_->GetGameCamera()->eye_.lerp(controller_->GetGameCamera()->eye_, player_->GetFbxObject3d()->GetPosition(),30.0f);
 			}
 			if (enemy_->GetVanish() == true) {
 				controller_->GetGameCamera()->SetEye(enemy_->GetOldPos());
+				// カメラ補間
 				controller_->GetGameCamera()->eye_.lerp(controller_->GetGameCamera()->eye_, enemy_->GetPosition(), 10.0f);
 			}
+			// カメラ補間
 			controller_->GetGameCamera()->eye_.lerp(
 			    controller_->GetGameCamera()->eye_, player_->GetFbxObject3d()->GetPosition(),
 			    30.0f);
@@ -197,14 +226,16 @@ void PlayScene::Update(Input* input, GamePad* gamePad)
 				SpSize += addSize;
 			}
 		}
-	}
 
+	}
+#pragma endregion
 
 	player_->GetObject3d()->Update();
 	player_->GetFbxObject3d()->Update();
 	enemy_->GetObject3d()->Update();
 	enemy_->GetFbxObject3d()->Update();
-
+	RockO_->Update();
+	//パーティクル
 
 	//スプライトの大きさを設定
 	enemyHpSprite_->SetSize({ enemy_->GetHp() * 32.0f, hpSpSize *  32.0f });
@@ -269,7 +300,7 @@ void PlayScene::Draw()
 
 	enemy_->Draw();
 	player_->Draw();
-
+	RockO_->Draw();
 	///// <summary>
 	///// ここに3Dオブジェクトの描画処理を追加できる
 	///// </summary>
@@ -302,6 +333,10 @@ void PlayScene::Draw()
 	player_->GetParticle()->Draw(controller_->dxCommon_->GetCommandList());
 	enemy_->GetParticle()->Draw(controller_->dxCommon_->GetCommandList());
 
+	if ( player_->GetIsMoveLimit() == true )
+	{
+		player_->GetBarriarParticle()->Draw(controller_->dxCommon_->GetCommandList());
+	}
 	///// <summary>
 	///// ここに3Dオブジェクトの描画処理を追加できる
 	///// </summary>
@@ -547,6 +582,7 @@ void PlayScene::gameOverAnimetion() {
 		if (player_->GetHp() <= Number::Zero) {
 			
 			ResetParam();
+			audio->StopWave(pSourceVoice[0]);
 			controller_->ChangeSceneNum(S_OVER);
 
 		
@@ -598,7 +634,8 @@ void PlayScene::gameClearAnimetion()
 	{
 		if (enemy_->GetHp() <= Number::Zero)
 		{
-
+			ResetParam();
+			audio->StopWave(pSourceVoice[0]);
 			controller_->ChangeSceneNum(S_CLEAR);
 			
 		}
@@ -641,7 +678,7 @@ void PlayScene::finishPlayerCamera() {
 void PlayScene::finishEnemyCamera() {
 	Vector3 finishCameraEnemyVec;
 
-	finishCameraEnemyVec = {5, 0, -20}; // オフセット座標の設定
+	finishCameraEnemyVec = {-5, 0, -20}; // オフセット座標の設定
 
 	// finishCameraVec = {0, 0, 20};
 

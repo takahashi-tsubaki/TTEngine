@@ -60,7 +60,7 @@ namespace TTEngine
 		/// <summary>
 		/// 初期化
 		/// </summary>
-		void Initialize(const std::string& directoryPath = "Resources/");
+		void Initialize(const std::string& directoryPath = "Resources/audio/");
 
 		/// <summary>
 		/// 終了処理

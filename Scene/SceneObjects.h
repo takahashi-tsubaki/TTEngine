@@ -17,6 +17,7 @@
 #include "FbxObject3d.h"
 #include "Player.h"
 #include "Enemy.h"
+#include "LevelLoader.h"
 
 
 enum SpriteNumber
@@ -36,6 +37,7 @@ enum SpriteNumber
 	PAUSE,
 	OPERATION,
 	SOUSA,
+	FINALCHECK,
 
 	WIN = 31,
 	LOSE,
@@ -108,5 +110,7 @@ public:
 	Enemy* enemy_ = nullptr;
 
 	SceneManager* controller_;
+
+	LevelLoader* fieldRock_;
 };
 

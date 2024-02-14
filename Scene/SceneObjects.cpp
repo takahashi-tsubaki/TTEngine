@@ -28,6 +28,7 @@ void SceneObjects::Initialize(SceneManager* controller)
 	Sprite::LoadTexture(SpriteNumber::PAUSE, L"Resources/sprite/Pause.png");        // ポーズ マーク
 	Sprite::LoadTexture(SpriteNumber::OPERATION, L"Resources/sprite/Operation.png"); // ポーズ中のスプライト
 	Sprite::LoadTexture(SpriteNumber::SOUSA, L"Resources/sprite/sousa.png"); // 操作説明のスプライト
+	Sprite::LoadTexture(SpriteNumber::FINALCHECK, L"Resources/sprite/finalCheck.png");//最終確認用のスプライト
 
 #pragma endregion
 

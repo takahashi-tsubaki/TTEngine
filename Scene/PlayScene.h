@@ -56,6 +56,8 @@ protected:
 
 	Sprite* sousaSP_ = nullptr;
 
+
+
 #pragma endregion スプライト関連
 
 	Model* model = nullptr;
@@ -75,6 +77,9 @@ protected:
 	Object3d* skydomeO_ = nullptr;
 	Model* skydomeM_ = nullptr;
 
+	Object3d* RockO_ = nullptr;
+	Model* RockM_ = nullptr;
+
 
 	Player* player_ = nullptr;
 	Enemy* enemy_ = nullptr;
@@ -87,6 +92,7 @@ protected:
 	Sprite* enemyHpSprite_ = nullptr;
 
 	Vector3 nowEye;
+
 
 
 #pragma region 演出面で必要なもの
@@ -134,6 +140,18 @@ protected:
 
 	float transObjAlpha = 0.0f;
 	float addAlpha = 0.018f;
+#pragma endregion
+
+#pragma region 音関連
+
+	// 音関係まとめ
+
+	TTEngine::Audio* audio = nullptr;
+
+	// 音を止める関数
+	IXAudio2SourceVoice* pSourceVoice[10] = {0};
+
+	int soundCheckFlag = 0;
 #pragma endregion
 
 std::list<std::unique_ptr<PlayerBullet>> bullets_;
