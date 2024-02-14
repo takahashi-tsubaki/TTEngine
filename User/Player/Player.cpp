@@ -48,6 +48,14 @@ void Player::Initialize(TTEngine::DirectXCommon* dxCommon, Enemy* enemy) {
 	particle_->GetWorldTransform().scale_ = {30, 30, 30};
 	particle_->Update();
 
+		// パーティクル
+	stageBarriarParticle_ = std::make_unique<ParticleManager>();
+	stageBarriarParticle_->Initialize();
+	stageBarriarParticle_->LoadTexture("sprite/barrier.png");
+	stageBarriarParticle_->GetWorldTransform().scale_ = {30, 30, 30};
+	stageBarriarParticle_->Update();
+
+
 	//SPHERE_COLISSION_NUM = fbxPlayerO_->GetBonesMatPtr()->size();
 	//sphere.resize(SPHERE_COLISSION_NUM);
 	//spherePos.resize(SPHERE_COLISSION_NUM);
@@ -188,6 +196,7 @@ void Player::Update(Input* input, GamePad* gamePad)
 	//playerO_->UpdateMatrix();
 
 	particle_->Update();
+	stageBarriarParticle_->Update();
 	
 	fbxPlayerO_->Update();
 
@@ -215,8 +224,6 @@ void Player::Update(Input* input, GamePad* gamePad)
 
 
 	CheckHitCollision();
-	//playerO_->Update();
-	/*playerFbxO_->Update();*/
 }
 
 void Player::Draw()
@@ -260,14 +267,26 @@ void Player::Move(Input* input, GamePad* gamePad)
 	if (gamePad->StickInput(L_DOWN) || input->PushKey(DIK_S)) {
 
 		velocity_ += {0, 0, backSpeed * -1};
+
+		//敵との距離で移動制限の実装
+		//上限に達していない時
 		if (posDistance.z <= MAX_POSITION) {
 			backSpeed = 0.5f;
-		} else {
-			backSpeed = MAX_POSITION - posDistance.z;
+			isMoveLimit = false;
 		}
+		else//達しているとき
+		{
+			backSpeed = MAX_POSITION - posDistance.z;
+			isMoveLimit = true;
+
+			stageBarriarParticle_->Barrier(fbxPlayerO_->worldTransform.translation_);
+			
+
+		}
+		//上記のうちどちらか小さい値の方をspeedに代入
 		backSpeed = min((MAX_POSITION - posDistance.z), 0.5f);
+		//speedを加算
 		fbxVelocity_ += {0, 0, (backSpeed / fbxScale_) * -1};
-		
 
 	}
 
@@ -329,7 +348,6 @@ void Player::Move(Input* input, GamePad* gamePad)
 	ImGui::InputFloat3("Distance_", &posDistance.x);
 
 	ImGui::InputFloat3("fbxPos", &fbxPlayerO_->worldTransform.translation_.x);
-	/*ImGui::InputInt("fbxPos", );*/
 
 	ImGui::End();
 #endif

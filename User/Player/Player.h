@@ -184,6 +184,9 @@ public:
 	ParticleManager* GetParticle() {
 		return particle_.get();
 	}
+
+	ParticleManager* GetBarriarParticle() { return stageBarriarParticle_.get(); }
+
 	/// <summary>
 	/// リセット
 	/// </summary>
@@ -220,6 +223,12 @@ public:
 		return isShot;
 	}
 
+	//移動限界フラグのゲッター
+	bool GetIsMoveLimit()
+	{
+		return isMoveLimit;
+	}
+
 	FbxObject3d* GetFbxObject3d()
 	{
 		return fbxPlayerO_.get();
@@ -253,6 +262,8 @@ private:
 	bool isStandBy = false;
 
 	bool isBack = false;//自機が後ろ方向に動いているかどうか
+
+	bool isMoveLimit = false;//移動限界に達しているかどうか
 
 #pragma endregion 
 
@@ -374,6 +385,7 @@ private:
 	int hitDeley = 0;	//何フレーム連続で当たるか
 
 	std::unique_ptr<ParticleManager> particle_;
+	std::unique_ptr<ParticleManager> stageBarriarParticle_; // 移動限界時のパーティクル
 
 #pragma region 演出関連
 

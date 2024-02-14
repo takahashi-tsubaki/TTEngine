@@ -186,11 +186,12 @@ void ParticleManager::InitializeGraphicsPipeline()
 	gpipeline.SampleMask = D3D12_DEFAULT_SAMPLE_MASK; // 標準設定
 	// ラスタライザステート
 	gpipeline.RasterizerState = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
-	//gpipeline.RasterizerState.CullMode = D3D12_CULL_MODE_NONE;
+	gpipeline.RasterizerState.CullMode = D3D12_CULL_MODE_NONE;
 	//gpipeline.RasterizerState.FillMode = D3D12_FILL_MODE_WIREFRAME;
 	// デプスステンシルステート
 	gpipeline.DepthStencilState = CD3DX12_DEPTH_STENCIL_DESC(D3D12_DEFAULT);
-
+	gpipeline.DepthStencilState.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ZERO;
+	gpipeline.DepthStencilState.DepthFunc = D3D12_COMPARISON_FUNC_ALWAYS; // 常に上書きルール
 	// レンダーターゲットのブレンド設定
 	D3D12_RENDER_TARGET_BLEND_DESC blenddesc{};
 	blenddesc.RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;	// RBGA全てのチャンネルを描画
@@ -672,10 +673,24 @@ void ParticleManager::Add(
 	p.s_scale = start_scale;
 	p.e_scale = end_scale;
 
-	color_.x -= color;
+	color_.w -= color;
 
 	p.color = color_;
 	//subColor(0.1f,p);
+}
+
+void ParticleManager::Barrier(Vector3 pos)
+{
+	for ( int i = 0; i < 20; i++ )
+	{
+		// 追加
+		wtf_.translation_ = pos;
+		wtf_.UpdateMatWorld();
+
+		Add(120, wtf_.translation_, {0, 0, 0}, {0, 0, 0}, 10.0f, 0.0f, 0.1f);
+	}
+	
+
 }
 
 void ParticleManager::RandParticle(Vector3 pos)
@@ -706,7 +721,7 @@ void ParticleManager::RandParticle(Vector3 pos)
 		//col.y = (float)rand() / RAND_MAX * rnd_col;
 		//col.z = (float)rand() / RAND_MAX * rnd_col;
 
-		// 追加
+		//// 追加
 		wtf_.translation_ = pos;
 		wtf_.UpdateMatWorld();
 		Add(120, wtf_.translation_,
@@ -717,8 +732,8 @@ void ParticleManager::RandParticle(Vector3 pos)
 			static_cast<float>((rand() % 20 - 10) / 100.0f) - 0.3f ,
 			static_cast<float>((rand() % 20 - 10) / 100.0f) }, 2.0f, 0.0f,0.1f);
 
-
-		/*Add(120, wtf_.translation_,{0, 0, 0},{ 0, 0, 0 },10.0f, 0.0f,0.1f);*/
+		
+		//Add(120, wtf_.translation_, {0, 0, 0}, {0, 0, 0}, 10.0f, 0.0f, 0.1f);
 
 
 	}

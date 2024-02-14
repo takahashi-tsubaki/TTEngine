@@ -94,7 +94,9 @@ void PlayScene::Initialize()
 
 	sceneObj_->transitionO_->SetScale({100,100,1});
 
-		
+
+
+
 	// 音声データの初期化と読み取り
 	audio = new TTEngine::Audio();
 	audio->Initialize();
@@ -136,6 +138,7 @@ void PlayScene::Update(Input* input, GamePad* gamePad)
 		StartSign(input,gamePad);
 
 	}
+#pragma region 戦闘中
 	if ( isFight == true )
 	{
 			//シーンチェンジ
@@ -223,15 +226,16 @@ void PlayScene::Update(Input* input, GamePad* gamePad)
 				SpSize += addSize;
 			}
 		}
-	}
 
+	}
+#pragma endregion
 
 	player_->GetObject3d()->Update();
 	player_->GetFbxObject3d()->Update();
 	enemy_->GetObject3d()->Update();
 	enemy_->GetFbxObject3d()->Update();
 	RockO_->Update();
-
+	//パーティクル
 
 	//スプライトの大きさを設定
 	enemyHpSprite_->SetSize({ enemy_->GetHp() * 32.0f, hpSpSize *  32.0f });
@@ -329,6 +333,10 @@ void PlayScene::Draw()
 	player_->GetParticle()->Draw(controller_->dxCommon_->GetCommandList());
 	enemy_->GetParticle()->Draw(controller_->dxCommon_->GetCommandList());
 
+	if ( player_->GetIsMoveLimit() == true )
+	{
+		player_->GetBarriarParticle()->Draw(controller_->dxCommon_->GetCommandList());
+	}
 	///// <summary>
 	///// ここに3Dオブジェクトの描画処理を追加できる
 	///// </summary>
