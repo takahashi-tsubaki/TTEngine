@@ -20,6 +20,7 @@
 
 #include "Player.h"
 #include "Enemy.h"
+#include "Character.h"
 class IScene
 {
 

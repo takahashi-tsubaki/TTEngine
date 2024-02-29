@@ -127,6 +127,30 @@
     <Filter Include="ヘッダー ファイル\Effect">
       <UniqueIdentifier>{c26b6b52-587a-42ea-bbbf-f551ad05664d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\character">
+      <UniqueIdentifier>{6dd4a5b1-a9be-498e-bf2c-01047b72fc88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\character">
+      <UniqueIdentifier>{fab7f429-9b45-4102-b0c5-7a3c899f8a88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Action">
+      <UniqueIdentifier>{6906c66e-5871-4dce-a2bf-070f7613ed19}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Action">
+      <UniqueIdentifier>{696d8deb-ae69-4c88-b3b4-54966c2bb136}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Action\Enemy">
+      <UniqueIdentifier>{3ce5589d-43ea-4224-8515-83c4c0fd09bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Action\Player">
+      <UniqueIdentifier>{79413d87-b4e2-4d26-a3f3-d3e7da7032a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Action\Enemy">
+      <UniqueIdentifier>{f78beb38-d81c-4276-974e-3df9350ce53c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Action\Player">
+      <UniqueIdentifier>{97e23d14-7370-441d-a2e1-a8d36039e3cd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -314,6 +338,39 @@
     </ClCompile>
     <ClCompile Include="Engine\Effect\EffectObject3d.cpp">
       <Filter>ソース ファイル\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Character\Character.cpp">
+      <Filter>ソース ファイル\character</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Character\PlayerCharacter.cpp">
+      <Filter>ソース ファイル\character</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Character\EnemyCharacter.cpp">
+      <Filter>ソース ファイル\character</Filter>
+    </ClCompile>
+    <ClCompile Include="User\ActionManager\Player\PlayerActionManager.cpp">
+      <Filter>ソース ファイル\Action\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="User\ActionManager\Player\Move.cpp">
+      <Filter>ソース ファイル\Action\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="User\ActionManager\Player\Idle.cpp">
+      <Filter>ソース ファイル\Action\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="User\ActionManager\Player\Action.cpp">
+      <Filter>ソース ファイル\Action\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="User\ActionManager\Enemy\EnemyActionManager.cpp">
+      <Filter>ソース ファイル\Action\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="User\ActionManager\Enemy\EnemyAction.cpp">
+      <Filter>ソース ファイル\Action\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="User\ActionManager\Enemy\EnemyIdle.cpp">
+      <Filter>ソース ファイル\Action\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="User\ActionManager\Enemy\EnemyMove.cpp">
+      <Filter>ソース ファイル\Action\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -526,6 +583,39 @@
     </ClInclude>
     <ClInclude Include="Engine\Effect\EffectObject3d.h">
       <Filter>ヘッダー ファイル\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Character\Character.h">
+      <Filter>ヘッダー ファイル\character</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Character\PlayerCharacter.h">
+      <Filter>ヘッダー ファイル\character</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Character\EnemyCharacter.h">
+      <Filter>ヘッダー ファイル\character</Filter>
+    </ClInclude>
+    <ClInclude Include="User\ActionManager\Player\PlayerActionManager.h">
+      <Filter>ヘッダー ファイル\Action\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="User\ActionManager\Player\Move.h">
+      <Filter>ヘッダー ファイル\Action\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="User\ActionManager\Player\Idle.h">
+      <Filter>ヘッダー ファイル\Action\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="User\ActionManager\Player\Action.h">
+      <Filter>ヘッダー ファイル\Action\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="User\ActionManager\Enemy\EnemyAction.h">
+      <Filter>ヘッダー ファイル\Action\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="User\ActionManager\Enemy\EnemyActionManager.h">
+      <Filter>ヘッダー ファイル\Action\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="User\ActionManager\Enemy\EnemyIdle.h">
+      <Filter>ヘッダー ファイル\Action\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="User\ActionManager\Enemy\EnemyMove.h">
+      <Filter>ヘッダー ファイル\Action\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

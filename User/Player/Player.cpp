@@ -878,7 +878,7 @@ void Player::CheckHitCollision()
 				hitCountTime = 60;
 				if ( isDamage == false )
 				{
-					// Hp_ -= 1;
+					 Hp_ -= 1;
 					hitDeley = 3;
 					particle_->RandParticle(sphere[i]->GetCollisionInfo().inter_);
 					//	被弾時のアニメーションの再生

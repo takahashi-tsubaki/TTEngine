@@ -94,6 +94,11 @@ protected:
 	Vector3 nowEye;
 
 
+	/*Character* Player_ = nullptr;
+	Character* Enemy_ = nullptr;*/
+
+	PlayerCharacter* player = nullptr;
+	EnemyCharacter* enemy = nullptr;
 
 #pragma region 演出面で必要なもの
 

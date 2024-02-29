@@ -59,7 +59,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Engine\Base;$(SolutionDir)Engine\2D;$(SolutionDir)Engine\3D;$(SolutionDir)Scene;$(SolutionDir)Engine\Math;$(SolutionDir)Engine\Particle;$(SolutionDir)Engine\FBX;$(SolutionDir)External\DirectXTex;$(SolutionDir)External\fbx_sdk\include;$(SolutionDir)Engine\FrameWork;$(SolutionDir)External\imgui;$(SolutionDir)Engine\Camera;$(SolutionDir)Engine\Light;$(SolutionDir)User\Enemy;$(SolutionDir)User\Player;$(SolutionDir)User\Bullet;$(SolutionDir)Engine\Collider;$(SolutionDir)External\json;$(SolutionDir)User\PlayerState</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Engine\Base;$(SolutionDir)Engine\2D;$(SolutionDir)Engine\3D;$(SolutionDir)Scene;$(SolutionDir)Engine\Math;$(SolutionDir)Engine\Particle;$(SolutionDir)Engine\FBX;$(SolutionDir)External\DirectXTex;$(SolutionDir)External\fbx_sdk\include;$(SolutionDir)Engine\FrameWork;$(SolutionDir)External\imgui;$(SolutionDir)Engine\Camera;$(SolutionDir)Engine\Light;$(SolutionDir)User\Enemy;$(SolutionDir)User\Player;$(SolutionDir)User\Bullet;$(SolutionDir)Engine\Collider;$(SolutionDir)External\json;$(SolutionDir)User\PlayerState;$(SolutionDir)Engine\Character;$(SolutionDir)User\ActionManager;$(SolutionDir)User\ActionManager\Player;$(SolutionDir)User\ActionManager\Enemy</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <TreatWarningAsError>true</TreatWarningAsError>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
@@ -84,7 +84,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Engine\Base;$(SolutionDir)Engine\2D;$(SolutionDir)Engine\3D;$(SolutionDir)Scene;$(SolutionDir)Engine\Math;$(SolutionDir)Engine\Particle;$(SolutionDir)Engine\FBX;$(SolutionDir)External\DirectXTex;$(SolutionDir)External\fbx_sdk\include;$(SolutionDir)Engine\FrameWork;$(SolutionDir)External\imgui;$(SolutionDir)Engine\Camera;$(SolutionDir)Engine\Light;$(SolutionDir)User\Enemy;$(SolutionDir)User\Player;$(SolutionDir)User\Bullet;$(SolutionDir)Engine\Collider;$(SolutionDir)External\json;$(SolutionDir)User\PlayerState</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Engine\Base;$(SolutionDir)Engine\2D;$(SolutionDir)Engine\3D;$(SolutionDir)Scene;$(SolutionDir)Engine\Math;$(SolutionDir)Engine\Particle;$(SolutionDir)Engine\FBX;$(SolutionDir)External\DirectXTex;$(SolutionDir)External\fbx_sdk\include;$(SolutionDir)Engine\FrameWork;$(SolutionDir)External\imgui;$(SolutionDir)Engine\Camera;$(SolutionDir)Engine\Light;$(SolutionDir)User\Enemy;$(SolutionDir)User\Player;$(SolutionDir)User\Bullet;$(SolutionDir)Engine\Collider;$(SolutionDir)External\json;$(SolutionDir)User\PlayerState;$(SolutionDir)Engine\Character;$(SolutionDir)User\ActionManager;$(SolutionDir)User\ActionManager\Player;$(SolutionDir)User\ActionManager\Enemy</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <LanguageStandard>stdcpp20</LanguageStandard>
@@ -120,6 +120,9 @@
     <ClCompile Include="Engine\Base\WinApp.cpp" />
     <ClCompile Include="Engine\Camera\Camera.cpp" />
     <ClCompile Include="Engine\Camera\GameCamera.cpp" />
+    <ClCompile Include="Engine\Character\Character.cpp" />
+    <ClCompile Include="Engine\Character\EnemyCharacter.cpp" />
+    <ClCompile Include="Engine\Character\PlayerCharacter.cpp" />
     <ClCompile Include="Engine\Collider\Collision.cpp" />
     <ClCompile Include="Engine\Collider\CollisionManager.cpp" />
     <ClCompile Include="Engine\Collider\CollisionPrimitive.cpp" />
@@ -156,6 +159,14 @@
     <ClCompile Include="Scene\SceneObjects.cpp" />
     <ClCompile Include="Scene\StageSelectScene.cpp" />
     <ClCompile Include="Scene\TitleScene.cpp" />
+    <ClCompile Include="User\ActionManager\Enemy\EnemyAction.cpp" />
+    <ClCompile Include="User\ActionManager\Enemy\EnemyActionManager.cpp" />
+    <ClCompile Include="User\ActionManager\Enemy\EnemyIdle.cpp" />
+    <ClCompile Include="User\ActionManager\Enemy\EnemyMove.cpp" />
+    <ClCompile Include="User\ActionManager\Player\Action.cpp" />
+    <ClCompile Include="User\ActionManager\Player\Idle.cpp" />
+    <ClCompile Include="User\ActionManager\Player\Move.cpp" />
+    <ClCompile Include="User\ActionManager\Player\PlayerActionManager.cpp" />
     <ClCompile Include="User\Bullet\EnemyBullet.cpp" />
     <ClCompile Include="User\Bullet\PlayerBullet.cpp" />
     <ClCompile Include="User\Enemy\Enemy.cpp" />
@@ -187,6 +198,9 @@
     <ClInclude Include="Engine\Base\WinApp.h" />
     <ClInclude Include="Engine\Camera\Camera.h" />
     <ClInclude Include="Engine\Camera\GameCamera.h" />
+    <ClInclude Include="Engine\Character\Character.h" />
+    <ClInclude Include="Engine\Character\EnemyCharacter.h" />
+    <ClInclude Include="Engine\Character\PlayerCharacter.h" />
     <ClInclude Include="Engine\Collider\BaseCollider.h" />
     <ClInclude Include="Engine\Collider\Collision.h" />
     <ClInclude Include="Engine\Collider\CollisionAttribute.h" />
@@ -228,6 +242,14 @@
     <ClInclude Include="Scene\SceneObjects.h" />
     <ClInclude Include="Scene\StageSelectScene.h" />
     <ClInclude Include="Scene\TitleScene.h" />
+    <ClInclude Include="User\ActionManager\Enemy\EnemyAction.h" />
+    <ClInclude Include="User\ActionManager\Enemy\EnemyActionManager.h" />
+    <ClInclude Include="User\ActionManager\Enemy\EnemyIdle.h" />
+    <ClInclude Include="User\ActionManager\Enemy\EnemyMove.h" />
+    <ClInclude Include="User\ActionManager\Player\Action.h" />
+    <ClInclude Include="User\ActionManager\Player\Idle.h" />
+    <ClInclude Include="User\ActionManager\Player\Move.h" />
+    <ClInclude Include="User\ActionManager\Player\PlayerActionManager.h" />
     <ClInclude Include="User\Bullet\EnemyBullet.h" />
     <ClInclude Include="User\Bullet\PlayerBullet.h" />
     <ClInclude Include="User\Enemy\Enemy.h" />
