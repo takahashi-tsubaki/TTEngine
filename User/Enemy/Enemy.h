@@ -21,7 +21,7 @@
 
 class Player;
 
-enum EnemyAction
+enum EnemyACTION
 {
 	Idle = 0,
 	Move = 1,

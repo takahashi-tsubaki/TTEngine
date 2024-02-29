@@ -17,6 +17,9 @@
 #include "FbxObject3d.h"
 #include "Player.h"
 #include "Enemy.h"
+
+#include "PlayerCharacter.h"
+#include "EnemyCharacter.h"
 #include "LevelLoader.h"
 
 
@@ -109,8 +112,13 @@ public:
 	Player* player_ = nullptr;
 	Enemy* enemy_ = nullptr;
 
+	//Character* Player_ = nullptr;
+	//Character* Enemy_ = nullptr;
+
 	SceneManager* controller_;
 
 	LevelLoader* fieldRock_;
+	PlayerCharacter* player = nullptr;
+	EnemyCharacter* enemy = nullptr;
 };
 

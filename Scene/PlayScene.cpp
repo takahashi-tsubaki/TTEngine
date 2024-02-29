@@ -74,6 +74,12 @@ void PlayScene::Initialize()
 	player_ = sceneObj_->player_;
 	enemy_ = sceneObj_->enemy_;
 
+
+	player = sceneObj_->player;
+	enemy = sceneObj_->enemy;
+	//Player_ = sceneObj_->Player_;
+	//Enemy_ = sceneObj_->Enemy_;
+
 	player_->GetObject3d()->SetScale({1,1,1});
 	enemy_->GetObject3d()->SetScale({ 1,1,1 });
 
@@ -200,13 +206,13 @@ void PlayScene::Update(Input* input, GamePad* gamePad)
 
 
 			controller_->GetGameCamera()->SetFollowerPos(
-			player_->GetFbxObject3d()->GetWorldTransformPtr()); // カメラの座標の設定
+			player->GetFbxObject3d()->GetWorldTransformPtr()); // カメラの座標の設定
 
 			//controller_->GetGameCamera()->SetFollowerPos(
 			//player_->GetObject3d()->GetWorldTransformPtr()); // カメラの座標の設定
 
 			controller_->GetGameCamera()->SetTargetPos(
-			    enemy_->GetFbxObject3d()->GetWorldTransformPtr());//カメラの注視点の設定
+			    enemy->GetFbxObject3d()->GetWorldTransformPtr());//カメラの注視点の設定
 
 			controller_->GetGameCamera()->MoveCamera();
 		}
@@ -228,6 +234,11 @@ void PlayScene::Update(Input* input, GamePad* gamePad)
 		}
 
 	}
+	player->Update(input, gamePad);
+	player_->GetFbxObject3d()->Update();
+	enemy->Update();
+	//Player_->Update();
+	//Enemy_->Update();
 #pragma endregion
 
 	player_->GetObject3d()->Update();
@@ -298,9 +309,16 @@ void PlayScene::Draw()
 	sceneObj_->skydomeO_->Draw();
 
 
-	enemy_->Draw();
-	player_->Draw();
-	RockO_->Draw();
+	/*enemy_->Draw();
+	player_->Draw();*/
+
+	player->Draw();
+	enemy->Draw();
+	//Player_->Draw();
+
+	//Enemy_->Draw();
+
+	//RockO_->Draw();
 	///// <summary>
 	///// ここに3Dオブジェクトの描画処理を追加できる
 	///// </summary>
@@ -335,7 +353,7 @@ void PlayScene::Draw()
 
 	if ( player_->GetIsMoveLimit() == true )
 	{
-		player_->GetBarriarParticle()->Draw(controller_->dxCommon_->GetCommandList());
+		/*player_->GetBarriarParticle()->Draw(controller_->dxCommon_->GetCommandList());*/
 	}
 	///// <summary>
 	///// ここに3Dオブジェクトの描画処理を追加できる
