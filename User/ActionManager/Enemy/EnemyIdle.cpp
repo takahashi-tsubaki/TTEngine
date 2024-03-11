@@ -4,7 +4,10 @@ EnemyIdle::EnemyIdle(EnemyActionManager* ActionManager) { ActionManager_ = Actio
 
 EnemyIdle::~EnemyIdle() {}
 
-void EnemyIdle::Initialize(FbxObject3d* object) { object_ = object; }
+void EnemyIdle::Initialize(FbxObject3d* object, PlayerCharacter* player) {
+	object_ = object;
+	player_ = player;
+}
 
 void EnemyIdle::Update() {
 	

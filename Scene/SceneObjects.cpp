@@ -62,6 +62,10 @@ void SceneObjects::Initialize(SceneManager* controller)
 	transitionO_->SetModel(transitionM_);
 	transitionO_->SetScale({ 1,1,1 });
 
+	//弾モデルの生成
+	bulletM_ = Model::CreateFromOBJ("bullet");
+	Bullet::SetModel(bulletM_);
+
 	//fbxModel = FbxLoader::GetInstance()->LoadModelFromFile("boss_prot4");
 
 	fbxObject = new FbxObject3d();

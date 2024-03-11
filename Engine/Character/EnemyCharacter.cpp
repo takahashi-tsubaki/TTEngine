@@ -1,5 +1,7 @@
 #include "EnemyCharacter.h"
 
+
+
 void EnemyCharacter::Initialize(
     TTEngine::DirectXCommon* dxCommon, Vector3 position, PlayerCharacter* player) {
 	dxCommon_ = dxCommon;
@@ -36,10 +38,21 @@ void EnemyCharacter::Initialize(
 		sphere[i]->SetAttribute(COLLISION_ATTR_ENEMYS);
 		sphere[i]->Update();
 	}
+	// 行動マネージャー
+	ActManager_ = std::make_unique<EnemyActionManager>();
+	// pActManager_->ColliderInitialize(&sphere, SPHERE_COLISSION_NUM);
+	ActManager_->ActionInitialize(fbxObject_.get(), player_);
 }
 
 void EnemyCharacter::Update() {
 
+	moveAngle();
+	if (GetisDead() == false) {
+		fbxObject_->worldTransform.rotation_ = cameraAngle;
+	}
+
+	distance_ = distance;
+	ActManager_->ActionUpdate();
 	fbxObject_->Update();
 }
 

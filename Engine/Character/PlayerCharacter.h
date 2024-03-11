@@ -1,6 +1,7 @@
 #pragma once
 #include "Character.h"
 #include "PlayerActionManager.h"
+#include "PlayerBullet.h"
 
 class EnemyCharacter;
 
@@ -21,12 +22,17 @@ public:
 
 	Vector3 GetDistance() { return distance_; }
 
+
+
 private:
 
 	Vector3 distance_;
 
 	std::unique_ptr<PlayerActionManager> ActManager_;
 	EnemyCharacter* enemy_ = nullptr;
+
+	//// プレイヤーの弾モデル関連
+	//std::list<std::unique_ptr<PlayerBullet>> bullets_;
 
 	size_t SPHERE_COLISSION_NUM;             // コライダー（スフィア）の数
 	std::vector<Matrix4>* collisionBonesMat; // 当たり判定用のボーンのワールド行列

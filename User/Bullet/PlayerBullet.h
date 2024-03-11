@@ -9,13 +9,15 @@
 #include"CollisionManager.h"
 #include"CollisionAttribute.h"
 
-class Enemy;
+class EnemyCharacter;
 /// <summary>
 /// 自機の弾
 /// </summary>
 class PlayerBullet
 {
 public:
+	PlayerBullet();
+	~PlayerBullet();
 
 	/// <summary>
 	/// 初期化
@@ -23,7 +25,7 @@ public:
 	/// <param name="model"></param>
 	/// <param name="position"></param>
 	/// <param name="velocity"></param>
-	void Initialize(Model* model,const Vector3& position,const Vector3& velocity);
+	void Initialize(const Vector3& position,const Vector3& velocity);
 
 	/// <summary>
 	/// 更新
@@ -63,7 +65,7 @@ public:
 	/// 敵のセット
 	/// </summary>
 	/// <param name="enemy"></param>
-	void SetEnemy(Enemy* enemy) {
+	void SetEnemy(EnemyCharacter* enemy) {
 		enemy_ = enemy;
 	}
 
@@ -81,8 +83,8 @@ private:
 	Vector3 velocity_;
 
 	Object3d* bulletO_ = nullptr;
-
-	Enemy* enemy_ = nullptr;
+	Model* bulletM_ = nullptr;
+	EnemyCharacter* enemy_ = nullptr;
 
 	int SPHERE_COLISSION_NUM = 1;	//コライダー（スフィア）の数
 	std::vector<SphereCollider*> sphere;

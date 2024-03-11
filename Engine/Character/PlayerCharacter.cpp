@@ -1,5 +1,8 @@
 #include "PlayerCharacter.h"
 #include "EnemyCharacter.h"
+
+#include "Shot.h"
+
 void PlayerCharacter::Initialize(
     TTEngine::DirectXCommon* dxCommon, Vector3 position,EnemyCharacter* enemy) {
 	dxCommon_ = dxCommon;
@@ -44,11 +47,16 @@ void PlayerCharacter::Initialize(
 	ActManager_ = std::make_unique<PlayerActionManager>();
 	// pActManager_->ColliderInitialize(&sphere, SPHERE_COLISSION_NUM);
 	ActManager_->ActionInitialize(fbxObject_.get(),enemy_);
+
+	//PlayerBullet::StaticInitialize();
 }
 
 void PlayerCharacter::Update(Input* input, GamePad* gamePad) {
 
+	//// デスフラグが立った球を削除
+	//bullets_.remove_if([](std::unique_ptr<PlayerBullet>& bullet) { return bullet->GetIsDead(); });
 
+	//bullets_ = ActManager_->GetBullets();
 	moveAngle();
 	if (GetisDead() == false) {
 		fbxObject_->worldTransform.rotation_ = cameraAngle;

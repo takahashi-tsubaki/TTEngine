@@ -1,7 +1,7 @@
 #pragma once
 #include "IScene.h"
 #include "SceneInc.h"
-
+#include "BulletManager.h"
 /// <summary>
 /// ゲームプレイシーン
 /// </summary>
@@ -99,7 +99,6 @@ protected:
 
 	PlayerCharacter* player = nullptr;
 	EnemyCharacter* enemy = nullptr;
-
 #pragma region 演出面で必要なもの
 
 	bool isTransition = true;

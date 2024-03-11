@@ -7,6 +7,8 @@
 #include "PlayerCharacter.h"
 #include "EnemyCharacter.h"
 
+#include "BulletManager.h"
+
 class Action {
 
 public:

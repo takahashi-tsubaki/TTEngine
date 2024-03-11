@@ -167,6 +167,9 @@
     <ClCompile Include="User\ActionManager\Player\Idle.cpp" />
     <ClCompile Include="User\ActionManager\Player\Move.cpp" />
     <ClCompile Include="User\ActionManager\Player\PlayerActionManager.cpp" />
+    <ClCompile Include="User\ActionManager\Player\Shot.cpp" />
+    <ClCompile Include="User\Bullet\Bullet.cpp" />
+    <ClCompile Include="User\Bullet\BulletManager.cpp" />
     <ClCompile Include="User\Bullet\EnemyBullet.cpp" />
     <ClCompile Include="User\Bullet\PlayerBullet.cpp" />
     <ClCompile Include="User\Enemy\Enemy.cpp" />
@@ -250,6 +253,9 @@
     <ClInclude Include="User\ActionManager\Player\Idle.h" />
     <ClInclude Include="User\ActionManager\Player\Move.h" />
     <ClInclude Include="User\ActionManager\Player\PlayerActionManager.h" />
+    <ClInclude Include="User\ActionManager\Player\Shot.h" />
+    <ClInclude Include="User\Bullet\Bullet.h" />
+    <ClInclude Include="User\Bullet\BulletManager.h" />
     <ClInclude Include="User\Bullet\EnemyBullet.h" />
     <ClInclude Include="User\Bullet\PlayerBullet.h" />
     <ClInclude Include="User\Enemy\Enemy.h" />

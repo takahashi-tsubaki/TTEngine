@@ -22,6 +22,7 @@
 #include "EnemyCharacter.h"
 #include "LevelLoader.h"
 
+#include "BulletManager.h"
 
 enum SpriteNumber
 {
@@ -108,6 +109,7 @@ public:
 	Model* transitionM_ = nullptr;
 	Object3d* transitionO_ = nullptr;
 
+	Model* bulletM_ = nullptr;
 
 	Player* player_ = nullptr;
 	Enemy* enemy_ = nullptr;
