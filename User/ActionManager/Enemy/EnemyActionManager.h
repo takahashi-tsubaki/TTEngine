@@ -5,7 +5,14 @@
 #include <memory>
 #include <stack>
 
+#include <random>
+
+// クラスの前方宣言
+class PlayerCharacter;
+class EnemyCharacter;
 class EnemyAction;
+class EnemyShot;
+
 
 class EnemyActionManager
 {
@@ -19,13 +26,15 @@ public:
 	// デストラクタ
 	~EnemyActionManager();
 
-	void ActionInitialize(FbxObject3d* object);
+	void ActionInitialize(FbxObject3d* object, PlayerCharacter*player);
 
 	void ActionUpdate();
 
 	void ActionDraw();
 	// シーンを変更する
 	void ChangeAction(EnemyAction* Action);
+
+	int generateRandomAction(int min, int max);
 
 public:
 	void SetActionNum(int actionNum) { actionNum_ = actionNum; }
@@ -34,5 +43,14 @@ public:
 
 private:
 	FbxObject3d* object_;
+	PlayerCharacter* player_;
 	int actionNum_ = 0;
+
+	float moveDirectTimer = 0;
+	int moveDirect_;
+
+	
+	// ランダム生成器の初期化
+	std::random_device random;
+
 };

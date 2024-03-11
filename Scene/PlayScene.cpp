@@ -203,7 +203,7 @@ void PlayScene::Update(Input* input, GamePad* gamePad)
 
 		if ( isFinish == false )
 		{
-
+			player->Update(input, gamePad);
 
 			controller_->GetGameCamera()->SetFollowerPos(
 			player->GetFbxObject3d()->GetWorldTransformPtr()); // カメラの座標の設定
@@ -234,9 +234,11 @@ void PlayScene::Update(Input* input, GamePad* gamePad)
 		}
 
 	}
-	player->Update(input, gamePad);
-	player_->GetFbxObject3d()->Update();
+
+	player->GetFbxObject3d()->Update();
 	enemy->Update();
+
+	BulletManager::GetInstance()->Update();
 	//Player_->Update();
 	//Enemy_->Update();
 #pragma endregion
@@ -313,7 +315,10 @@ void PlayScene::Draw()
 	player_->Draw();*/
 
 	player->Draw();
+	
 	enemy->Draw();
+
+	BulletManager::GetInstance()->Draw();
 	//Player_->Draw();
 
 	//Enemy_->Draw();

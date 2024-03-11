@@ -552,7 +552,7 @@ void Player::Shot(Input* input, GamePad* gamePad)
 					bulletSize++;
 					// 弾を生成し初期化
 					std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
-					newBullet->Initialize( bulletM_, fbxPlayerO_->worldTransform.translation_, distance);
+					newBullet->Initialize(fbxPlayerO_->worldTransform.translation_, distance);
 					//newBullet->Initialize(
 					//    bulletM_, fbxPlayerO_->worldTransform.translation_, distance);
 
@@ -566,7 +566,7 @@ void Player::Shot(Input* input, GamePad* gamePad)
 					}
 					
 					//
-					newBullet->SetEnemy(enemy_);
+					//newBullet->SetEnemy(enemy_);
 
 					bullets_.push_back(std::move(newBullet));
 					// 音声再生
@@ -878,7 +878,7 @@ void Player::CheckHitCollision()
 				hitCountTime = 60;
 				if ( isDamage == false )
 				{
-					 Hp_ -= 1;
+					 //Hp_ -= 1;
 					hitDeley = 3;
 					particle_->RandParticle(sphere[i]->GetCollisionInfo().inter_);
 					//	被弾時のアニメーションの再生

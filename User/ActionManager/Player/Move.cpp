@@ -21,19 +21,17 @@ void Move::Initialize(FbxObject3d* object, EnemyCharacter* enemy) {
 
 void Move::Update(Input* input, GamePad* gamePad) {
 
-	//enemy_ = player_->GetEnemy();
-	//Distance = enemy_->GetFbxObject3d()->GetPosition() - object_->GetPosition();
-
-	//2点間の距離(この書き方気持ち悪い)
+	//2点間の距離
 	DistanceTwoPoints(object_->GetPosition(), enemy_->GetFbxObject3d()->GetPosition());
 
 
-	
+	//前移動
 	if (input->PushKey(DIK_W) || gamePad->StickInput(L_UP)) {
 
 		velocity_ += {0, 0, (speed_ / scale_)};
 		
 	}
+	//左移動
 	if (input->PushKey(DIK_A) || gamePad->StickInput(L_LEFT)) {
 
 		velocity_ += {(speed_ / scale_)*-1, 0, 0};
@@ -42,6 +40,7 @@ void Move::Update(Input* input, GamePad* gamePad) {
 
 	}
 	if (input->PushKey(DIK_S) || gamePad->StickInput(L_DOWN)) {
+		//移動限界に達していない時
 		if (Distance_.z <= MAX_POSITION)
 		{
 			backSpeed = 0.5f;
@@ -57,6 +56,7 @@ void Move::Update(Input* input, GamePad* gamePad) {
 		// speedを加算
 		velocity_ += {0, 0, (backSpeed / scale_) * -1};
 	}
+	//右移動
 	if (input->PushKey(DIK_D) || gamePad->StickInput(L_RIGHT)) {
 		velocity_ += {(speed_ / scale_), 0,0};
 		//	左移動のアニメーションの再生

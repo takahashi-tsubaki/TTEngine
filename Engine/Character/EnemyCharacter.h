@@ -2,6 +2,7 @@
 #include "Character.h"
 #include "EnemyActionManager.h"
 
+
 class PlayerCharacter;
 class EnemyCharacter : public Character
 {
@@ -18,15 +19,15 @@ public:
 		// Fbxオブジェクトの取得
 	FbxObject3d* GetFbxObject3d() { return fbxObject_.get(); }
 
+	PlayerCharacter* GetPlayer() { return player_; }
+
 private:
 	std::unique_ptr<EnemyActionManager> ActManager_;
 	PlayerCharacter* player_ = nullptr;
-	TTEngine::DirectXCommon* dxCommon_ = nullptr;
 
+	Vector3 distance_;
 
 	// プレイヤーのFBXモデル
-	std::unique_ptr<FbxObject3d> fbxObject_;
-	std::unique_ptr<FbxModel> fbxModel_;
 	// fbxの大きさ
 	float fbxScale_;
 

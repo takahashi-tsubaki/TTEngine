@@ -1,6 +1,7 @@
 #include "Action.h"
 #include "Idle.h"
 #include "Move.h"
+#include "Shot.h"
 #include "PlayerActionManager.h"
 #include "EnemyCharacter.h"
 
@@ -17,10 +18,15 @@ void PlayerActionManager::ActionInitialize(
 
 void PlayerActionManager::ActionUpdate(Input* input, GamePad* gamePad)
 {
-
+	//移動
 	if (KeyPushWASD(input) == true || isAnyLStick(gamePad)==true)
 	{
 		ChangeAction(new Move(&*this));
+	}
+	//射撃
+	if ( input->TriggerKey(DIK_SPACE) || gamePad->ButtonTrigger(A) )
+	{
+		ChangeAction(new Shot(&*this));
 	}
 
 	action_.get()->Update(input, gamePad);

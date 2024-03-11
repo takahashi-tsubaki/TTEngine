@@ -26,7 +26,6 @@ private:
 
 	FbxObject3d* object_;
 	Vector3 velocity_{0, 0, 0};
-	PlayerCharacter* player_ = nullptr;
 	EnemyCharacter* enemy_ = nullptr;
 	Vector3 Distance_{0,0,0};
 	

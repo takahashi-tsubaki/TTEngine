@@ -1,11 +1,15 @@
 #include "PlayerBullet.h"
-#include "Enemy.h"
+#include "EnemyCharacter.h"
 #include "ImguiManager.h"
-void PlayerBullet::Initialize(Model* model, const Vector3& position, const Vector3& velocity)
-{
+
+PlayerBullet::PlayerBullet() { bulletM_ = Model::CreateFromOBJ("bullet"); }
+
+PlayerBullet::~PlayerBullet() {}
+
+void PlayerBullet::Initialize(const Vector3& position, const Vector3& velocity) {
 	isDead_ = false;
 	bulletO_ = Object3d::Create();
-	bulletO_->SetModel(model);
+	bulletO_->SetModel(bulletM_);
 
 	bulletO_->worldTransform.translation_ = position;
 
