@@ -3,13 +3,14 @@
 #include "Object3d.h"
 #include "Model.h"
 
-
+#include "ParticleManager.h"
 
 #include"SphereCollider.h"
 #include"CollisionManager.h"
 #include"CollisionAttribute.h"
 
-class EnemyCharacter;
+class Enemy;
+
 /// <summary>
 /// 自機の弾
 /// </summary>
@@ -25,7 +26,7 @@ public:
 	/// <param name="model"></param>
 	/// <param name="position"></param>
 	/// <param name="velocity"></param>
-	void Initialize(const Vector3& position,const Vector3& velocity);
+	void Initialize(Model* model,const Vector3& position,const Vector3& velocity);
 
 	/// <summary>
 	/// 更新
@@ -36,6 +37,7 @@ public:
 	/// 描画
 	/// </summary>
 	void Draw();
+
 
 	/// <summary>
 	/// 射撃
@@ -65,31 +67,41 @@ public:
 	/// 敵のセット
 	/// </summary>
 	/// <param name="enemy"></param>
-	void SetEnemy(EnemyCharacter* enemy) {
+	void SetEnemy(Enemy* enemy) {
 		enemy_ = enemy;
 	}
+
+	
+	// 弾衝突時のパーティクル
+	ParticleManager* BulletParticle() { return BulletParticle_.get(); }
 
 	/// <summary>
 	/// リセット処理
 	/// </summary>
 	void Reset();
 
+	//hフラグのゲッター
+	bool GetIsBulletHit() { return isBulletHit; }
+
 private:
 
 	float livingTimer;
 
 	bool isDead_ = false;
+	bool isBulletHit = false; // 弾なにかしらに当たったかどうか
 
 	Vector3 velocity_;
 
 	Object3d* bulletO_ = nullptr;
 	Model* bulletM_ = nullptr;
-	EnemyCharacter* enemy_ = nullptr;
+	Enemy* enemy_ = nullptr;
 
 	int SPHERE_COLISSION_NUM = 1;	//コライダー（スフィア）の数
 	std::vector<SphereCollider*> sphere;
 	std::vector<Vector3> spherePos = {};
 	//std::vector<Matrix4>* collisionBonesMat;	//当たり判定用のボーンのワールド行列
+
+	std::unique_ptr<ParticleManager> BulletParticle_;
 
 	int hitDeley = 0;	//何フレーム連続で当たるか
 

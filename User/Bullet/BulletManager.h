@@ -38,6 +38,8 @@ public:
 
 	void Draw();
 
+	void ParticleDraw(ID3D12GraphicsCommandList* cmdList);
+
 private:
 
 	// プレイヤーの弾モデル関連

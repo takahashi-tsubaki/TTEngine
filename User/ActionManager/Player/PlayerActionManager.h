@@ -11,6 +11,7 @@
 //クラスの前方宣言
 class PlayerCharacter;
 class EnemyCharacter;
+class SceneObjects;
 class Action;
 
 class Shot;
@@ -29,7 +30,7 @@ public:
 	//std::list<std::unique_ptr<PlayerBullet>> GetBullets() { return bullets_; }
 	//void SetBullets(std::list<std::unique_ptr<PlayerBullet>> bullet) { bullets_ = bullet; }
 
-	void ActionInitialize(FbxObject3d* object, EnemyCharacter* enemy);
+	void ActionInitialize(FbxObject3d* object, EnemyCharacter* enemy, SceneObjects* sceneObj);
 
 	void ActionUpdate(Input* input, GamePad* gamePad);
 
@@ -47,17 +48,27 @@ public:
 
 	bool isAnyLStick(GamePad* gamePad);
 
+	bool KeyTriggerArrow(Input* input);
+
+	bool isAnyLStickOffTrigger(GamePad* gamePad);
+
 private:
 	FbxObject3d* object_;
 
 	PlayerCharacter* player_;
 	EnemyCharacter* enemy_;
 
+	SceneObjects* sceneObj_;
+
 	//// プレイヤーの弾モデル関連
 	//std::list<std::unique_ptr<PlayerBullet>> bullets_;
 
 	int actionNum_ = 0;
+	int stepDirect;
+	int isNowAction = 0;
 
 	bool pushWASD_ = false;
 	bool padLStick_ = false;
+
+
 };

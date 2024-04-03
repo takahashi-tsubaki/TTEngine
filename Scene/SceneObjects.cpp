@@ -62,7 +62,7 @@ void SceneObjects::Initialize(SceneManager* controller)
 	transitionO_->SetModel(transitionM_);
 	transitionO_->SetScale({ 1,1,1 });
 
-	//弾モデルの生成
+	////弾モデルの生成
 	bulletM_ = Model::CreateFromOBJ("bullet");
 	Bullet::SetModel(bulletM_);
 
@@ -80,14 +80,28 @@ void SceneObjects::Initialize(SceneManager* controller)
 	player_ = new Player();
 	enemy_ = new Enemy();
 
-	player = new PlayerCharacter();
-	enemy = new EnemyCharacter();
+
 
 	player_->Initialize(controller_->dxCommon_, enemy_);
 	enemy_->Initialize(controller_->dxCommon_,player_);
 
-	player->Initialize(controller_->dxCommon_, {0,0,-50},enemy);
-	enemy->Initialize(controller_->dxCommon_, {0, 0, 0},player);
+	particle_ = std::make_unique<ParticleManager>();
+	particle_->SetDrawBlendMode(1);
+	particle_->Initialize();
+	particle_->LoadTexture("sprite/particle.png");
+	particle_->Update();
+
+
+	// 音声データの初期化と読み取り
+	 audio_ = new TTEngine::Audio();
+	 audio_->Initialize();
+
+	 audio_->LoadWave("bullet.wav");
+
+	 effectO_ = Object3d::Create();
+	 effectM_ = Model::CreateFromOBJ("tyaji2");
+	 effectO_->SetModel(effectM_);
+	 effectO_->SetScale({4, 4, 4});
 
 }
 
@@ -97,10 +111,15 @@ void SceneObjects::Delete()
 	delete skydomeM_;
 	delete selectSkydomeO_;
 	delete selectSkydomeM_;
+	delete effectM_;
+	delete effectO_;
 	delete fbxObject;
 	delete fbxModel;
 	delete player_;
 	delete enemy_;
+
+	delete player;
+	delete enemy;
 }
 
 void SceneObjects::Reset()

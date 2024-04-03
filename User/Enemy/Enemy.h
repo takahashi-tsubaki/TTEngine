@@ -21,6 +21,7 @@
 
 class Player;
 
+//敵の行動パターン
 enum EnemyACTION
 {
 	Idle = 0,
@@ -28,18 +29,21 @@ enum EnemyACTION
 	Attack = 2,
 };
 
-enum EnemyBulletType
-{
-	NONE,
-	ONESHOT,
-	RAPIDSHOT,
-};
+////射撃の攻撃の種類
+//enum EnemyBulletType
+//{
+//	NONE,
+//	ONESHOT,
+//	RAPIDSHOT,
+//};
 
+//移動の方向
 enum MoveDirection
 {
 	LEFT = 1,
 	RIGHT = 2,
 };
+
 
 /// <summary>
 /// 敵
@@ -163,13 +167,13 @@ public:
 	bool GetisRapidShot() {
 		return rapidShot;
 	}
-	/// <summary>
-	/// パーティクルのゲット
-	/// </summary>
-	/// <returns></returns>
-	ParticleManager* GetParticle() {
-		return particle_.get();
-	}
+	///// <summary>
+	///// パーティクルのゲット
+	///// </summary>
+	///// <returns></returns>
+	//ParticleManager* GetParticle() {
+	//	return particle_.get();
+	//}
 #pragma region 
 
 	//敵の攻撃関数
@@ -307,7 +311,7 @@ private:
 	//現在の弾の個数
 	int bulletSize = 0;
 	//弾のタイプ
-	int bulletType = EnemyBulletType::NONE;
+	//int bulletType = EnemyBulletType::NONE;
 	//弾と弾の間隔時間
 	float bulletTimer = 0.0f;
 	//連射制限のためのクールタイム
@@ -383,7 +387,7 @@ private:
 
 	bool isDebugMode = false;
 
-	std::unique_ptr<ParticleManager> particle_;
+	//std::unique_ptr<ParticleManager> particle_;
 
 	int actionRand;
 	bool Vaction = false;

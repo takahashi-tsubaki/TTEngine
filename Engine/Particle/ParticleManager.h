@@ -15,6 +15,15 @@ ALICE_SUPPRESS_WARNINGS_END
 
 #include "MyMath.h"
 #include "GameCamera.h"
+
+
+enum SetBlendMode
+{
+	NOBLEND = 0,//無し
+	ADD,//加算
+	SUB,//減算
+};
+
 /// <summary>
 /// パーティクルマネージャー
 /// </summary>
@@ -44,7 +53,10 @@ public: // サブクラス
 	{
 		Matrix4 mat;
 		Matrix4 matBillboard;	// ビルボード行列
-		Vector4 color;        // 色 (RGBA)
+		//float pad1;
+		Vector4 color; // 色 (RGBA)
+
+
 	};
 
 	//パーティクル一粒
@@ -91,6 +103,8 @@ public: // 静的メンバ関数
 	/// <returns>成否</returns>
 	static void InitializeGraphicsPipeline();
 
+	void SetDrawBlendMode(int SetBlendMode);
+
 private: // 静的メンバ変数
 
 	// デバイス
@@ -101,6 +115,9 @@ private: // 静的メンバ変数
 	static ComPtr<ID3D12RootSignature> rootsignature;
 	// パイプラインステートオブジェクト
 	static ComPtr<ID3D12PipelineState> pipelinestate;
+
+
+
 
 private: // メンバ変数
 	// デスクリプタサイズ
@@ -123,10 +140,15 @@ private: // メンバ変数
 	// 定数バッファ
 	ComPtr<ID3D12Resource> constBuff;
 
+
+
 	//パーティクル配列
 	std::forward_list<Particle>particles;
 
-	ConstBufferDataMaterial* constMapMaterial = nullptr;
+		// 定数バッファへデータ転送
+	ConstBufferData* constMap = nullptr;
+
+	//ConstBufferDataMaterial* constMapMaterial = nullptr;
 private:// メンバ関数
 
 	/// <summary>

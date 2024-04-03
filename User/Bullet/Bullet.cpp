@@ -8,7 +8,8 @@ Bullet::Bullet() {  }
 
 Bullet::~Bullet() {}
 
-void Bullet::Initialize(const Vector3& position, const Vector3& velocity) {
+void Bullet::Initialize(
+    const Vector3& position, const Vector3& velocity, const unsigned short attribute) {
 
 
 	isDead_ = false;
@@ -21,9 +22,10 @@ void Bullet::Initialize(const Vector3& position, const Vector3& velocity) {
 
 	velocity_ = velocity;
 
-	angle_ = (atan2(position.x, position.z) + MyMath::PI / 2);
+	angle_ = (atan2(velocity.x, velocity.z) + MyMath::PI / 2);
 	bulletO_->worldTransform.rotation_.y = (angle_ + MyMath::PI / 2);
 
+	SPHERE_COLISSION_NUM = 1;
 	sphere.resize(SPHERE_COLISSION_NUM);
 	spherePos.resize(SPHERE_COLISSION_NUM);
 	// 当たり判定の初期化
@@ -33,7 +35,7 @@ void Bullet::Initialize(const Vector3& position, const Vector3& velocity) {
 		spherePos[i] = bulletO_->GetPosition();
 		sphere[i]->SetBasisPos(&spherePos[i]);
 		sphere[i]->SetRadius(1.0f);
-		sphere[i]->SetAttribute(COLLISION_ATTR_PLAYERBULLETS);
+		sphere[i]->SetAttribute(attribute);
 		sphere[i]->Update();
 		////test
 		// coliderPosTest_[i] = Object3d::Create();
@@ -43,7 +45,14 @@ void Bullet::Initialize(const Vector3& position, const Vector3& velocity) {
 		// ,sphere[i]->GetRadius() }); coliderPosTest_[i]->SetRotate({ 0,0,0 });
 		// coliderPosTest_[i]->Update();
 	}
-	livingTimer = 120.0f;
+
+	//particle_ = std::make_unique<ParticleManager>();
+	//particle_->SetDrawBlendMode(1);
+	//particle_->Initialize();
+	//particle_->LoadTexture("sprite/particle.png");
+	//particle_->Update();
+
+	livingTimer = 150.0f;
 }
 
 void Bullet::Update() {
@@ -51,7 +60,7 @@ void Bullet::Update() {
 	Shot();
 	CheckCollision();
 	bulletO_->Update();
-
+	//particle_->Update();
 	if (isDead_ == true) {
 		for (int i = 0; i < SPHERE_COLISSION_NUM; i++) {
 
@@ -61,7 +70,7 @@ void Bullet::Update() {
 		}
 	}
 
-	bulletO_->worldTransform.UpdateMatWorld();
+ 	bulletO_->worldTransform.UpdateMatWorld();
 }
 
 void Bullet::Draw() { bulletO_->Draw(); }
@@ -71,7 +80,7 @@ void Bullet::Shot() {
 	livingTimer--;
 	if (livingTimer <= 0) {
 		isDead_ = true;
-		livingTimer = 120.0f;
+		livingTimer = 150.0f;
 	}
 
 	bulletO_->worldTransform.translation_ += velocity_;
@@ -84,17 +93,50 @@ void Bullet::CheckCollision() {
 	}
 
 	for (int i = 0; i < SPHERE_COLISSION_NUM; i++) {
+
 		if (hitDeley <= 0 && sphere[i]->GetIsHit() == true) {
-			if (sphere[i]->GetCollisionInfo().collider_->GetAttribute() == COLLISION_ATTR_ENEMYS) {
+			//弾の属性が自機の弾で当たった対象が敵だった時
+			if (sphere[i]->GetAttribute() ==COLLISION_ATTR_PLAYERBULLETS
+				&& sphere[i]->GetCollisionInfo().collider_->GetAttribute() ==COLLISION_ATTR_ENEMYS)
+			{
 				isDead_ = true;
 				livingTimer = 120.0f;
+				//particle_->RandParticle(sphere[i]->GetCollisionInfo().inter_);
 				hitDeley = 4;
 				break;
 			}
-			if (sphere[i]->GetCollisionInfo().collider_->GetAttribute() ==
-			    COLLISION_ATTR_ENEMYBULLETS) {
+			// 弾の属性が自機の弾で当たった対象が敵の弾だった時
+			if (sphere[i]->GetAttribute() ==COLLISION_ATTR_PLAYERBULLETS&&
+				sphere[i]->GetCollisionInfo().collider_->GetAttribute() ==COLLISION_ATTR_ENEMYBULLETS)
+			{
 				isDead_ = true;
 				livingTimer = 120.0f;
+				//particle_->RandParticle(sphere[i]->GetCollisionInfo().inter_);
+				hitDeley = 4;
+				break;
+			}
+		}
+	}
+	for (int i = 0; i < SPHERE_COLISSION_NUM; i++) {
+		if (hitDeley <= 0 && sphere[i]->GetIsHit() == true)
+		{
+			// 弾の属性が敵の弾で当たった対象が自機だった時
+			if (sphere[i]->GetAttribute() == COLLISION_ATTR_ENEMYBULLETS
+				&&sphere[i]->GetCollisionInfo().collider_->GetAttribute() == COLLISION_ATTR_PLAYERS)
+			{
+				isDead_ = true;
+				livingTimer = 120.0f;
+				//particle_->RandParticle(sphere[i]->GetCollisionInfo().inter_);
+				hitDeley = 4;
+				break;
+			}
+			// 弾の属性が敵の弾で当たった対象が自機の弾だった時
+			if (sphere[i]->GetAttribute() == COLLISION_ATTR_ENEMYBULLETS
+				&& sphere[i]->GetCollisionInfo().collider_->GetAttribute() ==COLLISION_ATTR_PLAYERBULLETS)
+			{
+				isDead_ = true;
+				livingTimer = 120.0f;
+				//particle_->RandParticle(sphere[i]->GetCollisionInfo().inter_);
 				hitDeley = 4;
 				break;
 			}

@@ -1,6 +1,7 @@
 #include "EnemyAction.h"
 #include "EnemyIdle.h"
 #include "EnemyMove.h"
+#include "EnemyShot.h"
 #include "EnemyActionManager.h"
 
 #include "ImguiManager.h"
@@ -17,25 +18,45 @@ void EnemyActionManager::ActionInitialize(FbxObject3d* object, PlayerCharacter* 
 
 }
 
-void EnemyActionManager::ActionUpdate() {
-	moveDirectTimer--;
-	
-	if ( moveDirectTimer < 0 )
+void EnemyActionManager::ActionUpdate()
+{
+	//敵がアクションを起こすためのタイマー
+	if (action_->GetIsNowShot() == false)
 	{
-		moveDirectTimer = 120;
-		
-		actionNum_ = generateRandomAction(1, 5);
-		
+		moveDirectTimer--;
+	}
+	
+
+	//2点間の距離
+	DistanceTwoPoints();
+
+	if ( distance_.z <= crossRange )
+	{
+		rangepattern = RangePattern::CROSSRange;
+	}
+	else if ( distance_.z > crossRange || distance_.z <= middleRange )
+	{
+		rangepattern = RangePattern::MIDDLERange;
+	}
+	else if (distance_.z > middleRange)
+	{
+		rangepattern = RangePattern::LONGRange;
 	}
 
-	if ( actionNum_ == 1 )
+	if ( rangepattern == RangePattern::CROSSRange )
 	{
-		ChangeAction(new EnemyIdle(&*this));
+		crossRangePattern();
 	}
-	else
+	else if (rangepattern == RangePattern::MIDDLERange)
 	{
-		ChangeAction(new EnemyMove(&*this, actionNum_));
+		middleRangePattern();
 	}
+	else if (rangepattern == RangePattern::LONGRange)
+	{
+		longRangePattern();
+	}
+
+
 
 	action_.get()->Update();
 #ifdef _DEBUG
@@ -62,4 +83,95 @@ int EnemyActionManager::generateRandomAction(int min, int max)
 	std::mt19937 gen(random());
 	std::uniform_int_distribution<> distrib(min, max);
 	return distrib(gen);
+}
+
+void EnemyActionManager::DistanceTwoPoints() {
+	distance_;
+	distance_ = player_->GetFbxObject3d()->GetPosition() - object_->GetPosition();
+	distance_.z = sqrtf(pow(distance_.x, 2.0f) + pow(distance_.z, 2.0f));
+}
+
+void EnemyActionManager::crossRangePattern() {
+	if (moveDirectTimer < 0)
+	{
+		moveDirectTimer = 180;
+
+		actionNum_ = generateRandomAction(1, 8);
+
+			
+		if (actionNum_ == 1)
+		{
+			ChangeAction(new EnemyIdle(&*this));
+
+		}else if (actionNum_ >= 2 && actionNum_ < 4)
+		{
+			if (action_->GetIsNowShot() == false) {
+				ChangeAction(new EnemyMove(&*this, actionNum_));
+			}
+		}
+		else
+		{
+			if (action_->GetIsNowShot() == false) {
+				action_->SetIsNowShot(true);
+			}
+			ChangeAction(new EnemyShot(&*this, actionNum_));
+		}
+	};
+}
+
+void EnemyActionManager::middleRangePattern()
+{
+	if (moveDirectTimer < 0)
+	{
+		moveDirectTimer = 180;
+
+		actionNum_ = generateRandomAction(1, 9);
+
+		if (actionNum_ == 1) {
+			ChangeAction(new EnemyIdle(&*this));
+		} 
+		else if (actionNum_ >= 2 && actionNum_ < 4)
+		{
+			if (action_->GetIsNowShot() == false) {
+				ChangeAction(new EnemyMove(&*this, actionNum_));
+			}
+		}
+		else
+		{
+			if (action_->GetIsNowShot() == false) {
+				action_->SetIsNowShot(true);
+			}
+			ChangeAction(new EnemyShot(&*this, actionNum_));
+		}
+	};
+}
+
+void EnemyActionManager::longRangePattern()
+{
+	if (moveDirectTimer < 0)
+	{
+		moveDirectTimer = 180;
+
+		actionNum_ = generateRandomAction(1, 10);
+
+		if (actionNum_ == 1) {
+			ChangeAction(new EnemyIdle(&*this));
+		}
+		else if (actionNum_ == 3 || actionNum_ == 4)//後ろ以外の方向への移動
+		{
+			if ( action_->GetIsNowShot() == false )
+			{
+				ChangeAction(new EnemyMove(&*this, actionNum_));
+
+			}
+		}
+		else
+		{
+			if (action_->GetIsNowShot() == false)
+			{
+				action_->SetIsNowShot(true);
+			}
+			ChangeAction(new EnemyShot(&*this, actionNum_));
+		}
+	};
 }

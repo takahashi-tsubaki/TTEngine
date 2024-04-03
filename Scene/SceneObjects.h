@@ -109,6 +109,9 @@ public:
 	Model* transitionM_ = nullptr;
 	Object3d* transitionO_ = nullptr;
 
+	Model* effectM_ = nullptr;
+	Object3d* effectO_ = nullptr;
+
 	Model* bulletM_ = nullptr;
 
 	Player* player_ = nullptr;
@@ -122,5 +125,23 @@ public:
 	LevelLoader* fieldRock_;
 	PlayerCharacter* player = nullptr;
 	EnemyCharacter* enemy = nullptr;
+
+	std::unique_ptr<ParticleManager> particle_;
+
+
+#pragma region 音関連
+
+	// 音関係まとめ
+
+	TTEngine::Audio* audio_ = nullptr;
+
+	// 音を止める関数
+	IXAudio2SourceVoice* pSourceVoice[10] = {0};
+
+	int soundCheckFlag = 0;
+
+#pragma endregion
+
+
 };
 

@@ -1,15 +1,15 @@
 #include "PlayerBullet.h"
-#include "EnemyCharacter.h"
+#include "Enemy.h"
 #include "ImguiManager.h"
 
-PlayerBullet::PlayerBullet() { bulletM_ = Model::CreateFromOBJ("bullet"); }
+PlayerBullet::PlayerBullet() { /*bulletM_ = Model::CreateFromOBJ("bullet");*/ }
 
 PlayerBullet::~PlayerBullet() {}
 
-void PlayerBullet::Initialize(const Vector3& position, const Vector3& velocity) {
+void PlayerBullet::Initialize(Model* model, const Vector3& position, const Vector3& velocity) {
 	isDead_ = false;
 	bulletO_ = Object3d::Create();
-	bulletO_->SetModel(bulletM_);
+	bulletO_->SetModel(model);
 
 	bulletO_->worldTransform.translation_ = position;
 
@@ -19,6 +19,15 @@ void PlayerBullet::Initialize(const Vector3& position, const Vector3& velocity) 
 
 	angle_ = (atan2(position.x, position.z) + MyMath::PI / 2);
 	bulletO_->worldTransform.rotation_.y = (angle_ + MyMath::PI / 2);
+
+
+	BulletParticle_ = std::make_unique<ParticleManager>();
+	BulletParticle_->SetDrawBlendMode(2);
+	BulletParticle_->Initialize();
+	BulletParticle_->LoadTexture("sprite/particle.png");
+	BulletParticle_->GetWorldTransform().scale_ = {30, 30, 30};
+	BulletParticle_->Update();
+
 
 	sphere.resize(SPHERE_COLISSION_NUM);
 	spherePos.resize(SPHERE_COLISSION_NUM);
@@ -52,6 +61,9 @@ void PlayerBullet::Update()
 	Shot();
 	CheckCollision();
 	bulletO_->Update();
+
+
+	
 
 	if (isDead_ == true)
 	{
@@ -107,6 +119,11 @@ void PlayerBullet::CheckCollision()
 			if (sphere[i]->GetCollisionInfo().collider_->GetAttribute() == COLLISION_ATTR_ENEMYS)
 			{
 				isDead_ = true;
+				isBulletHit = true;
+				if (isBulletHit == true) {
+					BulletParticle_->RandParticle(sphere[i]->GetCollisionInfo().inter_);
+				}
+
 				livingTimer = 120.0f;
 				hitDeley = 4;
 				break;
@@ -114,6 +131,11 @@ void PlayerBullet::CheckCollision()
 			if (sphere[i]->GetCollisionInfo().collider_->GetAttribute() == COLLISION_ATTR_ENEMYBULLETS)
 			{
 				isDead_ = true;
+				isBulletHit = true;
+				if (isBulletHit == true) {
+					BulletParticle_->RandParticle(sphere[i]->GetCollisionInfo().inter_);
+				}
+
 				livingTimer = 120.0f;
 				hitDeley = 4;
 				break;
@@ -143,6 +165,7 @@ void PlayerBullet::CheckCollision()
 void PlayerBullet::Reset()
 {
 	livingTimer = 120.0f;
+	isBulletHit = false;
 
 	isDead_ = true;
 	if (isDead_ == true)

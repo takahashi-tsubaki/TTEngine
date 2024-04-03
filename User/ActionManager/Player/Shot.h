@@ -23,7 +23,7 @@ public:
 
 	void StaticInitialize();
 
-	void Initialize(FbxObject3d* object, EnemyCharacter* enemy) override;
+	void Initialize(FbxObject3d* object, EnemyCharacter* enemy, SceneObjects* sceneObj) override;
 	void Update(Input* input, GamePad* gamePad) override;
 	void Draw() override;
 
@@ -38,6 +38,9 @@ public:
 
 private:
 	FbxObject3d* object_;
+
+	SceneObjects* sceneObj_;
+
 	Vector3 velocity_{0, 0, 0};
 	PlayerCharacter* player_ = nullptr;
 	EnemyCharacter* enemy_ = nullptr;
@@ -56,7 +59,14 @@ private:
 	float keyPressTimer_;
 	float bulletSizeUpTimer_;
 	float bulletCoolTimer_;
+	float koutyokuTimer_ = 120.0f;
 
 	bool isShot = false;
+
+	bool isEffect = false;
+	bool isSubColor = false;
+
+	// 音を止める関数
+	IXAudio2SourceVoice* pSourceVoice[10] = {0};
 
 };

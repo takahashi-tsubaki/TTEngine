@@ -39,11 +39,11 @@ void Enemy::Initialize(TTEngine::DirectXCommon* dxCommon, Player* player) {
 	//弾のモデルをセット
 	bulletM_ = Model::CreateFromOBJ("bullet");
 
-	//パーティクル
-	particle_ = std::make_unique<ParticleManager>();
-	particle_->Initialize();
-	particle_->LoadTexture("sprite/particle.png");
-	particle_->Update();
+	////パーティクル
+	//particle_ = std::make_unique<ParticleManager>();
+	//particle_->Initialize();
+	//particle_->LoadTexture("sprite/particle.png");
+	//particle_->Update();
 
 
 	sphere.resize(SPHERE_COLISSION_NUM);
@@ -244,11 +244,11 @@ void Enemy::Update()
 	//enemyO_->UpdateMatrix();
 
 	
-	CheckHitCollision();
+	//CheckHitCollision();
 
 	enemyFbxO_->Update();
 
-	particle_->Update();
+	//particle_->Update();
 
 	/*ImGui::Begin("enemyRotate");
 
@@ -380,7 +380,7 @@ void Enemy::CheckHitCollision()
 				Damage();
 				
 				hitDeley = 5;
-				particle_->RandParticle(sphere[i]->GetCollisionInfo().inter_);
+				//particle_->RandParticle(sphere[i]->GetCollisionInfo().inter_);
 				SetIsHit(true);
 
 				break;
@@ -417,186 +417,186 @@ void Enemy::isDeadAnime()
 }
 
 void Enemy::Attack() {
-	Vector3 playerPos;
-	Vector3 enemyPos;
-	Vector3 distance;
-	Vector3 bulletRotate;
-	//弾の角度の設定
-	bulletRotate = {enemyFbxO_->worldTransform.rotation_.x + 180,enemyFbxO_->worldTransform.rotation_.y, enemyFbxO_->worldTransform.rotation_.z};
-
-	float speed = 1.0f;
-	
-	//enemyPos = enemyO_->worldTransform.translation_;
-
-	enemyPos = enemyFbxO_->worldTransform.translation_;
-
-	distance = bulletPlayerPos - enemyPos;
-
-	distance.nomalize();
-
-	distance *= speed;
-
-	animetionCount++;
-
-	if (animetionCount < 30.0f) {
-		enemyFbxO_->PlayAnimation(5,false);
-	}
-
-	/*Vector3 begieP1 = {0,10,-30};
-	Vector3 begieP2 = { 0,-30,-10 };
-
-	Vector3 a = a.lerp(playerPos,begieP1, timeRate);
-	Vector3 b = b.lerp(begieP1, begieP2, timeRate);
-	Vector3 c = c.lerp(begieP2, enemyPos, timeRate);
-
-	Vector3 d = d.lerp(a, b, timeRate);
-	Vector3 e = e.lerp(b, c, timeRate);
-
-	distance = distance.lerp(d,e, timeRate);*/
-
-
-#pragma endregion
-
-#pragma region 
-	//srand((unsigned int)time(nullptr));
-
-
-	//１秒に１回の間隔で抽選を行う
-	ShotflameCount++;
-	if (ShotflameCount > 120)
-	{
-		
-		//射撃していないなら
-		if (isShot == false)
-		{
-			if (isDebugMode == false)
-			{
-				bulletType = rand() % 2 + 1;
-			}
-			
-			playerVanishTimer = 30.0f;
-			isShot = true;
-
-		}
-		if (bulletType == EnemyBulletType::RAPIDSHOT)
-		{
-			ShotflameCount = 0.0f;
-		}
-		else if (bulletType == EnemyBulletType::ONESHOT)
-		{
-			ShotflameCount = 15.0f;
-		}
-		else
-		{
-			isShot = false;
-		}
-	}
-
-	if (bulletType == EnemyBulletType::RAPIDSHOT)
-	{
-		//弾の最大値を決定
-		if (isDebugMode == false)
-		{
-			MAX_BULLET = rand() % 15 + 7;
-		}
-		
-		rapidShot = true;
-
-	}
-	else if(bulletType == EnemyBulletType::ONESHOT)
-	{
-		if (isDebugMode == false)
-		{
-			MAX_BULLET = 1;
-		}
-		oneShot = true;
-		
-	}
-
-	playerVanishTimer--;
-
-	if (oneShot == true)
-	{
-		rapidShot = false;
-		//弾の最大個数
-		/*MAX_BULLET = 1;*/
-		pushTimer = 15.0f;//押してる時間
-		pressTimer = 0.0f;//連射用の時間
-
-		oneShot = false;
-	}
-	else if (rapidShot == true)
-	{
-		oneShot = false;
-		if (pressTimer < 0)
-		{
-			//チャージしている弾の個数がMAX以下だった場合
-			if (rapidCount < MAX_BULLET )
-			{
-				rapidCount++;
-			}
-			pressTimer = 6.0f;
-		}
-	}
-	if (isShot == true)
-	{
-		bulletTimer--;
-
-		//弾が最大個数以下だった時
-		if (bulletSize < MAX_BULLET)
-		{
-			if (bulletTimer <= 0)
-			{
-				if (isShot == true)
-				{
-					bulletSize++;
-					// 弾を生成し初期化
-					std::unique_ptr<EnemyBullet> newBullet = std::make_unique<EnemyBullet>();
-					newBullet->Initialize(
-					    bulletM_, enemyPos, distance,bulletRotate);
-
-					if (bulletType == EnemyBulletType::ONESHOT)
-					{
-						bulletTimer = 15.0f;
-					}
-					else if (bulletType == EnemyBulletType::RAPIDSHOT)
-					{
-						bulletTimer = 4.0f;
-					}
-
-					//
-					newBullet->SetPlayer(player_);
-
-					bullets_.push_back(std::move(newBullet));
-				}
-
-			}
-		}
-		
-		if (bulletSize >= MAX_BULLET)
-		{
-			if (isDebugMode == false)
-			{
-				MAX_BULLET = 0;
-				bulletType = EnemyBulletType::NONE;
-			}
-			
-			bulletSize = 0;
-			rapidCount = 0;
-			
-			coolTimer = 300.0f;
-			pressTimer = 0.0f;
-			isShot = false;
-			actionCoolTimer = 60;
-			attackCoolTimer = 180;
-		}
-	}
-	else
-	{
-		//bulletPlayerPos = player_->GetObject3d()->GetWorldTransform().translation_;
-
-		bulletPlayerPos = player_->GetFbxObject3d()->GetWorldTransform().translation_;
-	}
+//	Vector3 playerPos;
+//	Vector3 enemyPos;
+//	Vector3 distance;
+//	Vector3 bulletRotate;
+//	//弾の角度の設定
+//	bulletRotate = {enemyFbxO_->worldTransform.rotation_.x + 180,enemyFbxO_->worldTransform.rotation_.y, enemyFbxO_->worldTransform.rotation_.z};
+//
+//	float speed = 1.0f;
+//	
+//	//enemyPos = enemyO_->worldTransform.translation_;
+//
+//	enemyPos = enemyFbxO_->worldTransform.translation_;
+//
+//	distance = bulletPlayerPos - enemyPos;
+//
+//	distance.nomalize();
+//
+//	distance *= speed;
+//
+//	animetionCount++;
+//
+//	if (animetionCount < 30.0f) {
+//		enemyFbxO_->PlayAnimation(5,false);
+//	}
+//
+//	/*Vector3 begieP1 = {0,10,-30};
+//	Vector3 begieP2 = { 0,-30,-10 };
+//
+//	Vector3 a = a.lerp(playerPos,begieP1, timeRate);
+//	Vector3 b = b.lerp(begieP1, begieP2, timeRate);
+//	Vector3 c = c.lerp(begieP2, enemyPos, timeRate);
+//
+//	Vector3 d = d.lerp(a, b, timeRate);
+//	Vector3 e = e.lerp(b, c, timeRate);
+//
+//	distance = distance.lerp(d,e, timeRate);*/
+//
+//
+//#pragma endregion
+//
+//#pragma region 
+//	//srand((unsigned int)time(nullptr));
+//
+//
+//	//１秒に１回の間隔で抽選を行う
+//	ShotflameCount++;
+//	if (ShotflameCount > 120)
+//	{
+//		
+//		//射撃していないなら
+//		if (isShot == false)
+//		{
+//			if (isDebugMode == false)
+//			{
+//				bulletType = rand() % 2 + 1;
+//			}
+//			
+//			playerVanishTimer = 30.0f;
+//			isShot = true;
+//
+//		}
+//		if (bulletType == EnemyBulletType::RAPIDSHOT)
+//		{
+//			ShotflameCount = 0.0f;
+//		}
+//		else if (bulletType == EnemyBulletType::ONESHOT)
+//		{
+//			ShotflameCount = 15.0f;
+//		}
+//		else
+//		{
+//			isShot = false;
+//		}
+//	}
+//
+//	if (bulletType == EnemyBulletType::RAPIDSHOT)
+//	{
+//		//弾の最大値を決定
+//		if (isDebugMode == false)
+//		{
+//			MAX_BULLET = rand() % 15 + 7;
+//		}
+//		
+//		rapidShot = true;
+//
+//	}
+//	else if(bulletType == EnemyBulletType::ONESHOT)
+//	{
+//		if (isDebugMode == false)
+//		{
+//			MAX_BULLET = 1;
+//		}
+//		oneShot = true;
+//		
+//	}
+//
+//	playerVanishTimer--;
+//
+//	if (oneShot == true)
+//	{
+//		rapidShot = false;
+//		//弾の最大個数
+//		/*MAX_BULLET = 1;*/
+//		pushTimer = 15.0f;//押してる時間
+//		pressTimer = 0.0f;//連射用の時間
+//
+//		oneShot = false;
+//	}
+//	else if (rapidShot == true)
+//	{
+//		oneShot = false;
+//		if (pressTimer < 0)
+//		{
+//			//チャージしている弾の個数がMAX以下だった場合
+//			if (rapidCount < MAX_BULLET )
+//			{
+//				rapidCount++;
+//			}
+//			pressTimer = 6.0f;
+//		}
+//	}
+//	if (isShot == true)
+//	{
+//		bulletTimer--;
+//
+//		//弾が最大個数以下だった時
+//		if (bulletSize < MAX_BULLET)
+//		{
+//			if (bulletTimer <= 0)
+//			{
+//				if (isShot == true)
+//				{
+//					bulletSize++;
+//					// 弾を生成し初期化
+//					std::unique_ptr<EnemyBullet> newBullet = std::make_unique<EnemyBullet>();
+//					newBullet->Initialize(
+//					    bulletM_, enemyPos, distance,bulletRotate);
+//
+//					if (bulletType == EnemyBulletType::ONESHOT)
+//					{
+//						bulletTimer = 15.0f;
+//					}
+//					else if (bulletType == EnemyBulletType::RAPIDSHOT)
+//					{
+//						bulletTimer = 4.0f;
+//					}
+//
+//					//
+//					newBullet->SetPlayer(player_);
+//
+//					bullets_.push_back(std::move(newBullet));
+//				}
+//
+//			}
+//		}
+//		
+//		if (bulletSize >= MAX_BULLET)
+//		{
+//			if (isDebugMode == false)
+//			{
+//				MAX_BULLET = 0;
+//				bulletType = EnemyBulletType::NONE;
+//			}
+//			
+//			bulletSize = 0;
+//			rapidCount = 0;
+//			
+//			coolTimer = 300.0f;
+//			pressTimer = 0.0f;
+//			isShot = false;
+//			actionCoolTimer = 60;
+//			attackCoolTimer = 180;
+//		}
+//	}
+//	else
+//	{
+//		//bulletPlayerPos = player_->GetObject3d()->GetWorldTransform().translation_;
+//
+//		bulletPlayerPos = player_->GetFbxObject3d()->GetWorldTransform().translation_;
+//	}
 }
 
 void Enemy::Vanish()
@@ -868,7 +868,7 @@ void Enemy::Reset()
 
 	MAX_BULLET = 0;
 	bulletSize = 0;
-	bulletType = EnemyBulletType::NONE;
+	//bulletType = EnemyBulletType::NONE;
 
 	bulletTimer = 0.0f;
 	//連射制限のためのクールタイム
@@ -890,7 +890,7 @@ void Enemy::Reset()
 
 	isHit_ = false;
 
-	particle_->Reset();
+	//particle_->Reset();
 
 	blowAwayCount = 0;
 
