@@ -29,10 +29,13 @@ private:
 
 	
 	float speed_ = 0.5f;
+	float backSpeed = 0.5f;
+	const float MAX_POSITION = 100;
+
 	float scale_ = 0.01f;
 
 	int moveDirect_ = 0;
 
-	bool pushWASD_ = false;
-	bool padLStick_ = false;
+	//移動限界
+	bool isMoveLimit = false;
 };

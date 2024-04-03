@@ -163,11 +163,13 @@
     <ClCompile Include="User\ActionManager\Enemy\EnemyActionManager.cpp" />
     <ClCompile Include="User\ActionManager\Enemy\EnemyIdle.cpp" />
     <ClCompile Include="User\ActionManager\Enemy\EnemyMove.cpp" />
+    <ClCompile Include="User\ActionManager\Enemy\EnemyShot.cpp" />
     <ClCompile Include="User\ActionManager\Player\Action.cpp" />
     <ClCompile Include="User\ActionManager\Player\Idle.cpp" />
     <ClCompile Include="User\ActionManager\Player\Move.cpp" />
     <ClCompile Include="User\ActionManager\Player\PlayerActionManager.cpp" />
     <ClCompile Include="User\ActionManager\Player\Shot.cpp" />
+    <ClCompile Include="User\ActionManager\Player\Step.cpp" />
     <ClCompile Include="User\Bullet\Bullet.cpp" />
     <ClCompile Include="User\Bullet\BulletManager.cpp" />
     <ClCompile Include="User\Bullet\EnemyBullet.cpp" />
@@ -249,11 +251,13 @@
     <ClInclude Include="User\ActionManager\Enemy\EnemyActionManager.h" />
     <ClInclude Include="User\ActionManager\Enemy\EnemyIdle.h" />
     <ClInclude Include="User\ActionManager\Enemy\EnemyMove.h" />
+    <ClInclude Include="User\ActionManager\Enemy\EnemyShot.h" />
     <ClInclude Include="User\ActionManager\Player\Action.h" />
     <ClInclude Include="User\ActionManager\Player\Idle.h" />
     <ClInclude Include="User\ActionManager\Player\Move.h" />
     <ClInclude Include="User\ActionManager\Player\PlayerActionManager.h" />
     <ClInclude Include="User\ActionManager\Player\Shot.h" />
+    <ClInclude Include="User\ActionManager\Player\Step.h" />
     <ClInclude Include="User\Bullet\Bullet.h" />
     <ClInclude Include="User\Bullet\BulletManager.h" />
     <ClInclude Include="User\Bullet\EnemyBullet.h" />

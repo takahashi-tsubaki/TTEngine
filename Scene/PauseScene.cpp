@@ -109,8 +109,8 @@ void PauseScene::Draw()
 
 	/*fbxObject->Draw(dxCommon_->GetCommandList());*/
 
-	player_->GetParticle()->Draw(controller_->dxCommon_->GetCommandList());
-	enemy_->GetParticle()->Draw(controller_->dxCommon_->GetCommandList());
+	//player_->GetParticle()->Draw(controller_->dxCommon_->GetCommandList());
+	//enemy_->GetParticle()->Draw(controller_->dxCommon_->GetCommandList());
 
 	///// <summary>
 	///// ここに3Dオブジェクトの描画処理を追加できる

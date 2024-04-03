@@ -1,4 +1,4 @@
-﻿#include "Input.h"
+#include "Input.h"
 
 void Input::Initialize(WinApp* winApp)
 {
@@ -18,7 +18,7 @@ void Input::Initialize(WinApp* winApp)
 	assert(SUCCEEDED(result));
 
 	//排他制御レベルのセット
-	result = keyboard->SetCooperativeLevel(winapp_->Gethwnd(), DISCL_FOREGROUND | DISCL_NONEXCLUSIVE | DISCL_NOWINKEY);
+	result = keyboard->SetCooperativeLevel(winapp_->Gethwnd(), DISCL_FOREGROUND | DISCL_NONEXCLUSIVE/* | DISCL_NOWINKEY*/);
 	assert(SUCCEEDED(result));
 	//DISCL_FOREGROUND   画面が手前にある場合のみ入力を受け付ける
 	//DISCL_NONEXCLUSIVE デバイスをこのアプリだけで専有しない

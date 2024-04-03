@@ -13,7 +13,7 @@ public:
 	Move(PlayerActionManager* ActionManager);
 	~Move() override;
 
-	void Initialize(FbxObject3d* object, EnemyCharacter* enemy) override;
+	void Initialize(FbxObject3d* object, EnemyCharacter* enemy, SceneObjects* sceneObj) override;
 	void Update(Input* input, GamePad* gamePad) override;
 	void Draw() override;
 
@@ -25,6 +25,7 @@ public:
 private:
 
 	FbxObject3d* object_;
+	SceneObjects* sceneObj_;
 	Vector3 velocity_{0, 0, 0};
 	EnemyCharacter* enemy_ = nullptr;
 	Vector3 Distance_{0,0,0};

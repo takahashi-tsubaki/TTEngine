@@ -74,19 +74,24 @@ void PlayScene::Initialize()
 	player_ = sceneObj_->player_;
 	enemy_ = sceneObj_->enemy_;
 
+	player = new PlayerCharacter();
+	enemy = new EnemyCharacter();
 
-	player = sceneObj_->player;
-	enemy = sceneObj_->enemy;
-	//Player_ = sceneObj_->Player_;
-	//Enemy_ = sceneObj_->Enemy_;
+	player->Initialize(controller_->dxCommon_, {0, 0, -50}, enemy,sceneObj_);
+	enemy->Initialize(controller_->dxCommon_, {0, 0, 0}, player);
+
+	/*player = sceneObj_->player;
+	enemy = sceneObj_->enemy;*/
+
 
 	player_->GetObject3d()->SetScale({1,1,1});
 	enemy_->GetObject3d()->SetScale({ 1,1,1 });
 
-	RockO_ = Object3d::Create();
-	RockM_ = Model::CreateFromOBJ("bume");
-	RockO_->SetModel(RockM_);
-	RockO_->SetPosition({-50,0,-50});
+
+	//RockO_ = Object3d::Create();
+	//RockM_ = Model::CreateFromOBJ("bume");
+	//RockO_->SetModel(RockM_);
+	//RockO_->SetPosition({-50,0,-50});
 
 	addRotation = {45, 0, 0};
 
@@ -99,8 +104,8 @@ void PlayScene::Initialize()
 	//controller_->camera_->Update();
 
 	sceneObj_->transitionO_->SetScale({100,100,1});
-
-
+	//実験用
+	/*enemyHpSprite_->SetColor({1, 0, 0, 1});*/
 
 
 	// 音声データの初期化と読み取り
@@ -152,7 +157,8 @@ void PlayScene::Update(Input* input, GamePad* gamePad)
 		{
 
 			player_->Reset();
-			enemy_->Reset();
+			enemy->Reset();
+
 			ResetParam();
 			controller_->ChangeSceneNum(S_SELECT);
 		}
@@ -178,33 +184,73 @@ void PlayScene::Update(Input* input, GamePad* gamePad)
 		}
 
 
-		if ( player_->GetHp() >= 0 || enemy_->GetHp() >= 0 )
+		if (player->GetHp() >= 0 || enemy->GetHp() >= 0)
 		{
 
-			player_->Update(input, gamePad);
-			enemy_->Update();
-			if (player_->GetVanish() == true) {
-				controller_->GetGameCamera()->SetEye(player_->GetOldPos());
-				//カメラ補間
-				controller_->GetGameCamera()->eye_.lerp(controller_->GetGameCamera()->eye_, player_->GetFbxObject3d()->GetPosition(),30.0f);
-			}
-			if (enemy_->GetVanish() == true) {
-				controller_->GetGameCamera()->SetEye(enemy_->GetOldPos());
-				// カメラ補間
-				controller_->GetGameCamera()->eye_.lerp(controller_->GetGameCamera()->eye_, enemy_->GetPosition(), 10.0f);
-			}
-			// カメラ補間
-			controller_->GetGameCamera()->eye_.lerp(
-			    controller_->GetGameCamera()->eye_, player_->GetFbxObject3d()->GetPosition(),
-			    30.0f);
+			//player_->Update(input, gamePad);
+			//enemy_->Update();
+			//if (player_->GetVanish() == true) {
+			//	controller_->GetGameCamera()->SetEye(player_->GetOldPos());
+			//	//カメラ補間
+			//	controller_->GetGameCamera()->eye_.lerp(controller_->GetGameCamera()->eye_, player_->GetFbxObject3d()->GetPosition(),30.0f);
+			//}
+			//if (enemy_->GetVanish() == true) {
+			//	controller_->GetGameCamera()->SetEye(enemy_->GetOldPos());
+			//	// カメラ補間
+			//	controller_->GetGameCamera()->eye_.lerp(controller_->GetGameCamera()->eye_, enemy_->GetPosition(), 10.0f);
+			//}
+			//// カメラ補間
+			//controller_->GetGameCamera()->eye_.lerp(
+			//    controller_->GetGameCamera()->eye_, player_->GetFbxObject3d()->GetPosition(),
+			//    30.0f);
+
+
+
+			player->Update(input, gamePad);
+			enemy->Update();
+
+
+			//if (player_->GetVanish() == true) {
+			//	controller_->GetGameCamera()->SetEye(player->GetOldPos());
+			//	// カメラ補間
+			//	controller_->GetGameCamera()->eye_.lerp(
+			//	    controller_->GetGameCamera()->eye_, player->GetFbxObject3d()->GetPosition(),
+			//	    30.0f);
+			//}
+			//if (enemy_->GetVanish() == true) {
+			//	controller_->GetGameCamera()->SetEye(enemy->GetOldPos());
+			//	// カメラ補間
+			//	controller_->GetGameCamera()->eye_.lerp(
+			//	    controller_->GetGameCamera()->eye_, enemy->GetPosition(), 10.0f);
+			//}
+			//// カメラ補間
+			//controller_->GetGameCamera()->eye_.lerp(
+			//    controller_->GetGameCamera()->eye_, player->GetFbxObject3d()->GetPosition(),
+			//    30.0f);
+
 
 		}
 
 
 		if ( isFinish == false )
 		{
-			player->Update(input, gamePad);
+			//player_->Update(input, gamePad);
+			//enemy_->Update();
 
+			//controller_->GetGameCamera()->SetFollowerPos(
+			//    player_->GetFbxObject3d()->GetWorldTransformPtr()); // カメラの座標の設定
+
+			//// controller_->GetGameCamera()->SetFollowerPos(
+			//// player_->GetObject3d()->GetWorldTransformPtr()); // カメラの座標の設定
+
+			//controller_->GetGameCamera()->SetTargetPos(
+			//    enemy_->GetFbxObject3d()->GetWorldTransformPtr()); // カメラの注視点の設定
+
+
+			//継承したほうのやつ
+			
+			 player->Update(input, gamePad);
+			 enemy->Update();
 			controller_->GetGameCamera()->SetFollowerPos(
 			player->GetFbxObject3d()->GetWorldTransformPtr()); // カメラの座標の設定
 
@@ -235,25 +281,27 @@ void PlayScene::Update(Input* input, GamePad* gamePad)
 
 	}
 
-	player->GetFbxObject3d()->Update();
-	enemy->Update();
+
+	player->GetFbxObject3d()->Update(); //この2つはCharacterクラスを継承したほう
+	enemy->GetFbxObject3d()->Update();
 
 	BulletManager::GetInstance()->Update();
+
 	//Player_->Update();
 	//Enemy_->Update();
 #pragma endregion
 
-	player_->GetObject3d()->Update();
-	player_->GetFbxObject3d()->Update();
-	enemy_->GetObject3d()->Update();
-	enemy_->GetFbxObject3d()->Update();
-	RockO_->Update();
+	//player_->GetObject3d()->Update();
+	//player_->GetFbxObject3d()->Update();
+	//enemy_->GetObject3d()->Update();
+	//enemy_->GetFbxObject3d()->Update();
+	//RockO_->Update();
 	//パーティクル
 
 	//スプライトの大きさを設定
-	enemyHpSprite_->SetSize({ enemy_->GetHp() * 32.0f, hpSpSize *  32.0f });
-	playerHpSprite_->SetSize({ player_->GetHp() * 32.0f, hpSpSize * 32.0f});
-	damageSP_->SetSize({enemy_->GetDamageSize() * 32.0f, hpSpSize * 32.0f});
+	enemyHpSprite_->SetSize({ enemy->GetHp() * 32.0f, hpSpSize *  32.0f });
+	playerHpSprite_->SetSize({ player->GetHp() * 32.0f, hpSpSize * 32.0f});
+	damageSP_->SetSize({enemy->GetDamageSize() * 32.0f, hpSpSize * 32.0f});
 	startSp_->SetSize({ 1280.0f,startSpSize * 256.0f });
 	transSP_->SetSize({(float)Size::TenTimes * 275.0f,(float) Size::TenTimes* 183.0f});
 	//fbxObject->Update();
@@ -276,21 +324,21 @@ void PlayScene::Update(Input* input, GamePad* gamePad)
 	if (input->TriggerKey(DIK_R))
 	{
 		player_->Reset();
-		enemy_->Reset();
+		enemy->Reset();
 
 	}
 
-	if (player_->GetHp() <= Number::Zero || enemy_->GetHp() <= Number::Zero)
+	if (player->GetHp() <= Number::Zero || enemy->GetHp() <= Number::Zero)
 	{
 		isFinish = true;
 	}
 
-	if (isFinish == true && player_->GetHp() <= Number::Zero)
+	if (isFinish == true && player->GetHp() <= Number::Zero)
 	{
 		gameOverAnimetion();
 	}
 
-	if (isFinish == true && enemy_->GetHp() <= Number::Zero)
+	if (isFinish == true && enemy->GetHp() <= Number::Zero)
 	{
 		gameClearAnimetion();
 	}
@@ -311,14 +359,15 @@ void PlayScene::Draw()
 	sceneObj_->skydomeO_->Draw();
 
 
-	/*enemy_->Draw();
-	player_->Draw();*/
+	//enemy_->Draw();
+	//player_->Draw();
 
 	player->Draw();
 	
 	enemy->Draw();
 
 	BulletManager::GetInstance()->Draw();
+
 	//Player_->Draw();
 
 	//Enemy_->Draw();
@@ -353,8 +402,13 @@ void PlayScene::Draw()
 
 	/*fbxObject->Draw(dxCommon_->GetCommandList());*/
 
-	player_->GetParticle()->Draw(controller_->dxCommon_->GetCommandList());
-	enemy_->GetParticle()->Draw(controller_->dxCommon_->GetCommandList());
+	//BulletManager::GetInstance()->ParticleDraw(controller_->dxCommon_->GetCommandList());
+	if ( isFinish == false )
+	{
+		player->GetParticle()->Draw(controller_->dxCommon_->GetCommandList());
+		enemy->GetParticle()->Draw(controller_->dxCommon_->GetCommandList());
+	}
+
 
 	if ( player_->GetIsMoveLimit() == true )
 	{
@@ -446,8 +500,8 @@ void PlayScene::StartSign(Input* input,GamePad*gamepad)
 
 	//GoalPos = { player_->GetObject3d()->GetPosition().x,player_->GetObject3d()->GetPosition().y + 9 ,player_->GetObject3d()->GetPosition().z - 7 };
 	GoalPos = {
-	    player_->GetFbxObject3d()->GetPosition().x, player_->GetFbxObject3d()->GetPosition().y + 9,
-	    player_->GetFbxObject3d()->GetPosition().z - 7};
+	    player->GetFbxObject3d()->GetPosition().x, player->GetFbxObject3d()->GetPosition().y + 9,
+	    player->GetFbxObject3d()->GetPosition().z - 7};
 	cameraDis = StartPos  - GoalPos ;
 	addSpeed =  2.0f * (float)Ease::OutCubic(change,0,120,startSignCount);
 
@@ -463,7 +517,7 @@ void PlayScene::StartSign(Input* input,GamePad*gamepad)
 
 	controller_->GetGameCamera()->GetEye() = cameraDis;
 	controller_->GetGameCamera()->SetEye(controller_->camera_->eye_);
-	controller_->GetGameCamera()->SetTarget(enemy_->GetFbxObject3d()->GetPosition());
+	controller_->GetGameCamera()->SetTarget(enemy->GetFbxObject3d()->GetPosition());
 
 	startSignCount++;
 	if (startSignCount >= Number::HundredTwenty)
@@ -526,12 +580,12 @@ void PlayScene::SetCamera()
 
 void PlayScene::ResetParam()
 {
-	player_->Reset();
-	enemy_->Reset();
+	player->Reset();
+	enemy->Reset();
 	sceneObj_->player_ = player_;
 	sceneObj_->enemy_ = enemy_;
-	controller_->GetGameCamera()->SetFollowerPos(player_->GetFbxObject3d()->GetWorldTransformPtr());
-	controller_->GetGameCamera()->SetTargetPos(enemy_->GetFbxObject3d()->GetWorldTransformPtr());
+	controller_->GetGameCamera()->SetFollowerPos(player->GetFbxObject3d()->GetWorldTransformPtr());
+	controller_->GetGameCamera()->SetTargetPos(enemy->GetFbxObject3d()->GetWorldTransformPtr());
 
 	isStartSign = true;
 	isReady = false;
@@ -585,7 +639,7 @@ void PlayScene::gameOverAnimetion() {
 	addRotation.x += addRota;
 	//addRotation.y += addRota;
 	addRotation.z+= addRota;
-	player_->GetFbxObject3d()->SetRotate(addRotation);
+	player->GetFbxObject3d()->SetRotate(addRotation);
 
 	if ( transObjAlpha >= (float)Size::OneTimes )
 	{
@@ -602,14 +656,14 @@ void PlayScene::gameOverAnimetion() {
 	}
 
 	if (isFinishSpCount > Number::HundredTwenty) {
-		if (player_->GetHp() <= Number::Zero) {
+		if (player->GetHp() <= Number::Zero) {
 			
 			ResetParam();
 			audio->StopWave(pSourceVoice[0]);
 			controller_->ChangeSceneNum(S_OVER);
 
 		
-		} else if (enemy_->GetHp() <= Number::Zero && player_->GetHp() <= Number::Zero)
+		} else if (enemy->GetHp() <= Number::Zero && player->GetHp() <= Number::Zero)
 		{
 			// 後で追加
 		}
@@ -637,7 +691,7 @@ void PlayScene::gameClearAnimetion()
 
 	addRotation.y += addRota;
 	//addRotation.z = shiftRotate;
-	enemy_->GetFbxObject3d()->SetRotate(addRotation);
+	enemy->GetFbxObject3d()->SetRotate(addRotation);
 
 	if (transObjAlpha >= (float)Size::OneTimes) {
 		transObjAlpha = (float)Size::OneTimes;
@@ -655,14 +709,14 @@ void PlayScene::gameClearAnimetion()
 
 	if (isFinishSpCount > Number::HundredTwenty)
 	{
-		if (enemy_->GetHp() <= Number::Zero)
+		if (enemy->GetHp() <= Number::Zero)
 		{
 			ResetParam();
 			audio->StopWave(pSourceVoice[0]);
 			controller_->ChangeSceneNum(S_CLEAR);
 			
 		}
-		else if (enemy_->GetHp() <= Number::Zero && player_->GetHp() <= Number::Zero)
+		else if (enemy->GetHp() <= Number::Zero && player_->GetHp() <= Number::Zero)
 		{
 			// 後で追加
 		}
@@ -680,14 +734,14 @@ void PlayScene::gameClearAnimetion()
 void PlayScene::finishPlayerCamera() {
 	Vector3 finishCameraPlayerVec;
 
-	finishCameraPlayerVec = {-5, 0, 20}; // オフセット座標の設定
+	finishCameraPlayerVec = {0, 0, 20}; // オフセット座標の設定
 
 	// finishCameraVec = {0, 0, 20};
 	//座標の計算
 	finishCameraPlayerVec = MyMath::bVelocity(
-	    finishCameraPlayerVec, player_->GetFbxObject3d()->GetWorldTransform().matWorld_);
+	    finishCameraPlayerVec, player->GetFbxObject3d()->GetWorldTransform().matWorld_);
 
-	finishCameraPlayerPos = player_->GetFbxObject3d()->GetPosition() + finishCameraPlayerVec;
+	finishCameraPlayerPos = player->GetFbxObject3d()->GetPosition() + finishCameraPlayerVec;
 
 		// finishCameraVec = {0, 0, 20};
 	//finishCameraPlayerVec = MyMath::bVelocity(
@@ -695,7 +749,7 @@ void PlayScene::finishPlayerCamera() {
 
 	//finishCameraPlayerPos = player_->GetObject3d()->GetPosition() + finishCameraPlayerVec;
 
-	finishCameraPlayerTarget = player_->GetFbxObject3d()->GetPosition();
+	finishCameraPlayerTarget = player->GetFbxObject3d()->GetPosition();
 }
 
 void PlayScene::finishEnemyCamera() {
@@ -707,10 +761,10 @@ void PlayScene::finishEnemyCamera() {
 
 	//平行移動だけを取り除いた回転行列の計算
 	finishCameraEnemyVec = MyMath::bVelocity(
-	    finishCameraEnemyVec, enemy_->GetFbxObject3d()->GetWorldTransform().matWorld_);
+	    finishCameraEnemyVec, enemy->GetFbxObject3d()->GetWorldTransform().matWorld_);
 
-	finishCameraEnemyPos = enemy_->GetFbxObject3d()->GetPosition() + finishCameraEnemyVec;
+	finishCameraEnemyPos = enemy->GetFbxObject3d()->GetPosition() + finishCameraEnemyVec;
 
-	finishCameraEnemyTarget = enemy_->GetFbxObject3d()->GetPosition();
+	finishCameraEnemyTarget = enemy->GetFbxObject3d()->GetPosition();
 }
 

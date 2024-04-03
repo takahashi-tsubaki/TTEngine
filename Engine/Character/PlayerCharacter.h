@@ -3,6 +3,8 @@
 #include "PlayerActionManager.h"
 #include "PlayerBullet.h"
 
+class SceneObjects;
+
 class EnemyCharacter;
 
 class PlayerCharacter : public Character
@@ -10,7 +12,7 @@ class PlayerCharacter : public Character
 public:
 
 	//初期化
-	void Initialize(TTEngine::DirectXCommon* dxCommon, Vector3 position, EnemyCharacter* enemy);
+	void Initialize(TTEngine::DirectXCommon* dxCommon, Vector3 position, EnemyCharacter* enemy,SceneObjects* sceneObj);
 
 	//更新
 	void Update(Input* input, GamePad* gamePad);
@@ -22,11 +24,39 @@ public:
 
 	Vector3 GetDistance() { return distance_; }
 
+	// Hpのsetterとgetter
+	void SetHp(int Hp) { Hp_ = Hp; }
+	int GetHp() { return Hp_; }
 
+	// 生きているかのsetterとgetter
+	void SetisDead(bool isDead) { isDead_ = isDead; }
+	bool GetisDead() { return isDead_; }
+
+	Vector3 GetOldPos() { return oldPos; }
+
+	void Reset();
+
+	void ResetAttribute();
+	void RemoveAttribute();
+
+	void CheckHitCollision();
+
+	ParticleManager* GetParticle() { return particle_.get(); }
+
+	void GetSceneObj(SceneObjects* sceneObj) { sceneObj_ = sceneObj; }
 
 private:
 
+	int Hp_;
+	int hitDeley = 0; // 何フレーム連続で当たるか
+
+	float hitCountTime = 60;
+
+	bool isDead_;
+	bool isDamage = false; // 自機がダメージを受けているかどうか
+
 	Vector3 distance_;
+	Vector3 oldPos;
 
 	std::unique_ptr<PlayerActionManager> ActManager_;
 	EnemyCharacter* enemy_ = nullptr;
@@ -39,4 +69,8 @@ private:
 	std::vector<SphereCollider*> sphere;
 	std::vector<Vector3> spherePos = {};
 
+	std::unique_ptr<ParticleManager> particle_;
+
+
+	SceneObjects* sceneObj_;
 };

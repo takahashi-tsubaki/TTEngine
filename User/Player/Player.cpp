@@ -41,19 +41,22 @@ void Player::Initialize(TTEngine::DirectXCommon* dxCommon, Enemy* enemy) {
 	enemy_ = enemy;
 
 
-	//パーティクル
-	particle_ = std::make_unique<ParticleManager>();
-	particle_->Initialize();
-	particle_->LoadTexture("sprite/particle.png");
-	particle_->GetWorldTransform().scale_ = {30, 30, 30};
-	particle_->Update();
+	////パーティクル
+	//particle_ = std::make_unique<ParticleManager>();
+	//particle_->SetDrawBlendMode(2);
+	//particle_->Initialize();
+	//particle_->LoadTexture("sprite/particle.png");
+	//particle_->GetWorldTransform().scale_ = {30, 30, 30};
+	//particle_->Update();
 
-		// パーティクル
-	stageBarriarParticle_ = std::make_unique<ParticleManager>();
-	stageBarriarParticle_->Initialize();
-	stageBarriarParticle_->LoadTexture("sprite/barrier.png");
-	stageBarriarParticle_->GetWorldTransform().scale_ = {30, 30, 30};
-	stageBarriarParticle_->Update();
+
+
+	//	// パーティクル
+	//stageBarriarParticle_ = std::make_unique<ParticleManager>();
+	//stageBarriarParticle_->Initialize();
+	//stageBarriarParticle_->LoadTexture("sprite/barrier.png");
+	//stageBarriarParticle_->GetWorldTransform().scale_ = {30, 30, 30};
+	//stageBarriarParticle_->Update();
 
 
 	//SPHERE_COLISSION_NUM = fbxPlayerO_->GetBonesMatPtr()->size();
@@ -195,8 +198,9 @@ void Player::Update(Input* input, GamePad* gamePad)
 	////行列の更新など
 	//playerO_->UpdateMatrix();
 
-	particle_->Update();
-	stageBarriarParticle_->Update();
+	//particle_->Update();
+
+	//stageBarriarParticle_->Update();
 	
 	fbxPlayerO_->Update();
 
@@ -222,8 +226,14 @@ void Player::Update(Input* input, GamePad* gamePad)
 	ImGui::InputFloat("Timer", &vanishTimer);
 	ImGui::End();*/
 
+	//	// 当たり判定の処理
+	//for (int i = 0; i < SPHERE_COLISSION_NUM; i++) {
+	//	particle_->SetColor({0,1,0,1});
+	//	particle_->RandParticle(wtf.translation_);
+	//}
+	
 
-	CheckHitCollision();
+	//CheckHitCollision();
 }
 
 void Player::Draw()
@@ -279,7 +289,7 @@ void Player::Move(Input* input, GamePad* gamePad)
 			backSpeed = MAX_POSITION - posDistance.z;
 			isMoveLimit = true;
 
-			stageBarriarParticle_->Barrier(fbxPlayerO_->worldTransform.translation_);
+			//stageBarriarParticle_->Barrier(fbxPlayerO_->worldTransform.translation_);
 			
 
 		}
@@ -461,11 +471,11 @@ void Player::Shot(Input* input, GamePad* gamePad)
 	float speed = 0.5f;
 	if (bulletType == PlayerBulletType::OneShot)
 	{
-		speed = 1.0f;
+		speed = 0.5f;
 	}
 	else if (bulletType == PlayerBulletType::RapidShot)
 	{
-		speed = 3.0f;
+		speed = 1.0f;
 	}
 	
 
@@ -552,7 +562,7 @@ void Player::Shot(Input* input, GamePad* gamePad)
 					bulletSize++;
 					// 弾を生成し初期化
 					std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
-					newBullet->Initialize(fbxPlayerO_->worldTransform.translation_, distance);
+					newBullet->Initialize(bulletM_,fbxPlayerO_->worldTransform.translation_, distance);
 					//newBullet->Initialize(
 					//    bulletM_, fbxPlayerO_->worldTransform.translation_, distance);
 
@@ -566,9 +576,10 @@ void Player::Shot(Input* input, GamePad* gamePad)
 					}
 					
 					//
-					//newBullet->SetEnemy(enemy_);
+					newBullet->SetEnemy(enemy_);
 
 					bullets_.push_back(std::move(newBullet));
+
 					// 音声再生
 					//if (soundCheckFlag == 0) {
 					//	// 音声再生
@@ -630,7 +641,7 @@ void Player::Vanish()
 	// カメラの角度の更新
 	moveAngle();
 
-	Vector3 offSet = {10,0,25};
+	Vector3 offSet = {5, 0, -1000};
 	offSet = MyMath::bVelocity(offSet, enemy_->GetFbxObject3d() ->GetWorldTransform().matWorld_);
 
 	VanishPos = enemy_->GetFbxObject3d()->GetPosition() + offSet;
@@ -657,6 +668,7 @@ void Player::Vanish()
 	//	
 	//	
 	//}
+	
 	// タイマーが0以上の時
 	if (enemy_->GetVanishTimer() > 0) {
 		// 特定の操作をしたら
@@ -665,6 +677,7 @@ void Player::Vanish()
 			if (VanishGauge == MAX_VANISHCOUNT) {
 				// 回避していなかったとき
 				if (isVanising == false) {
+
 					VanishGauge = 0.0f;
 					/*VanishPos = enemy_->GetObject3d()->GetPosition() + offSet;*/
 				
@@ -689,9 +702,9 @@ void Player::Vanish()
 		if ( VanishGauge <= 0.3f )
 		{
 
-			oldPos = fbxPlayerO_->worldTransform.translation_;
+			//oldPos = fbxPlayerO_->worldTransform.translation_;
 			/*VanishDis *= 0.05f;*/
-			fbxPlayerO_->worldTransform.translation_ += VanishDis;
+			fbxPlayerO_->worldTransform.translation_ = VanishPos;
 			//playerO_->worldTransform.translation_ += VanishDis;
 		}
 
@@ -713,6 +726,7 @@ void Player::Vanish()
 		//回避が可能になる
 		if (isVanising == true)
 		{
+			VanishPos = {0, 0, 0};
 			isVanising = false;
 		}
 	}
@@ -842,9 +856,9 @@ void Player::CheckHitCollision()
 			//当たったものの属性が敵だった時
 			if (sphere[i]->GetCollisionInfo().collider_->GetAttribute() == COLLISION_ATTR_ENEMYS)
 			{
-				playerO_->worldTransform.translation_.x += callback.move.x;
-				playerO_->worldTransform.translation_.y += callback.move.y;
-				playerO_->worldTransform.translation_.z += callback.move.z;
+				fbxPlayerO_->worldTransform.translation_.x += callback.move.x;
+				fbxPlayerO_->worldTransform.translation_.y += callback.move.y;
+				fbxPlayerO_->worldTransform.translation_.z += callback.move.z;
 				break;
 			}
 		}
@@ -878,9 +892,10 @@ void Player::CheckHitCollision()
 				hitCountTime = 60;
 				if ( isDamage == false )
 				{
-					 //Hp_ -= 1;
+					 Hp_ -= 1;
 					hitDeley = 3;
-					particle_->RandParticle(sphere[i]->GetCollisionInfo().inter_);
+					//particle_->SetColor({0, 0, 1, 1});
+					//particle_->RandParticle(sphere[i]->GetCollisionInfo().inter_);
 					//	被弾時のアニメーションの再生
 					fbxPlayerO_->SetCurrentTimer(0);
 					fbxPlayerO_->PlayAnimation(FbxAnimetion::HIT, false);
@@ -1009,7 +1024,7 @@ void Player::Reset()
 	maxTime = 5.0f;				//全体時間[s]
 	timeRate;						//何％時間が進んだか
 
-	particle_->Reset();
+	//particle_->Reset();
 	blowAwayCount = 0;
 	blowAwayPos = fbxPlayerO_->GetPosition();
 
