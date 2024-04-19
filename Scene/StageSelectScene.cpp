@@ -14,11 +14,17 @@ StageSelectScene::~StageSelectScene()
 
 	//sceneObj_->Reset();
 	isTransition = false;
-	/*sceneObj_->Delete();*/
+	delete audio;
 }
 
 void StageSelectScene::Initialize()
 {
+	tutorialSP_ = Sprite::Create(SpriteNumber::TUTORIALTEXT,{ 400, 425 });
+	tutorialSP_->Initialize();
+
+	battleSP_ = Sprite::Create(SpriteNumber::BATTLETEXT,{ 375, 425 });
+	battleSP_->Initialize();
+
 
 	player_ = sceneObj_->player_;
 	enemy_ = sceneObj_->enemy_;
@@ -30,6 +36,13 @@ void StageSelectScene::Initialize()
 	sceneObj_->transitionO_->SetScale({ 400,400,60 });
 	sceneObj_->transitionO_->SetPosition({ transPos });
 
+	currentSceneNum_ = CurrentSelectScene::Tutorial;
+
+	// 音声データの初期化と読み取り
+	audio = new TTEngine::Audio();
+	audio->Initialize();
+
+	audio->LoadWave("select.wav");
 }
 
 void StageSelectScene::Update(Input* input, GamePad* gamePad)
@@ -41,7 +54,7 @@ void StageSelectScene::Update(Input* input, GamePad* gamePad)
 
 
 	player_->GetObject3d()->Update();
-	enemy_->GetObject3d()->Update();
+	//enemy_->GetObject3d()->Update();
 	//ボタンを押したらシーン遷移を行う
 	if (input->TriggerKey(DIK_SPACE) || gamePad->ButtonTrigger(A))
 	{
@@ -56,9 +69,26 @@ void StageSelectScene::Update(Input* input, GamePad* gamePad)
 	}
 	if ( easeTimer >= 120 )
 	{
-		ParamReset();
-		controller_->ChangeSceneNum(S_PLAY);
+		
+		if ( currentSceneNum_ == CurrentSelectScene::Tutorial )
+		{
+			ParamReset();
+			pSourceVoice[ 0 ] = audio->PlayWave("select.wav");
+	/*		pSourceVoice[ 0 ]->SetVolume(0.05f);*/
+			controller_->ChangeSceneNum(S_TUTORIAL);
+		}
+		if ( currentSceneNum_ == CurrentSelectScene::Battle )
+		{
+			ParamReset();
+			pSourceVoice[0] = audio->PlayWave("select.wav");
+			//pSourceVoice[ 0 ]->SetVolume(0.05f);
+			controller_->ChangeSceneNum(S_PLAY);
+		}
+
 	}
+	ChangeNextScene(input,gamePad);
+	
+
 	if ( isTransition == true )
 	{
 		SceneTransition();
@@ -78,7 +108,7 @@ void StageSelectScene::Draw()
 
 	sceneObj_->selectSkydomeO_->Draw();
 
-	enemy_->GetObject3d()->Draw();
+	//enemy_->GetObject3d()->Draw();
 	player_->GetObject3d()->Draw();
 
 	//skydomeO_->Draw();
@@ -97,9 +127,21 @@ void StageSelectScene::Draw()
 	if ( isTransition == false )
 	{
 		sceneObj_->spaceButton_->Draw();
+		sceneObj_->selectSp_->Draw();
+
+
+		if ( currentSceneNum_ == CurrentSelectScene::Tutorial )
+		{
+			tutorialSP_->Draw();
+		}
+		if ( currentSceneNum_ == CurrentSelectScene::Battle )
+		{
+			battleSP_->Draw();
+		}
 	}
 
-	sceneObj_->selectSp_->Draw();
+
+
 	/// <summary>
 	/// ここに背景スプライトの描画処理を追加できる
 	/// </summary>
@@ -178,14 +220,15 @@ void StageSelectScene::SceneTransition()
 		player_->GetObject3d()->SetScale({ 0,0,0 });
 		enemyScale.x -= reduction;
 		enemyScale.y += expansion;
-		enemy_->GetObject3d()->SetScale(enemyScale);
+		cameraDescent = true;
+		//enemy_->GetObject3d()->SetScale(enemyScale);
 	}
 
-	if ( enemy_->GetObject3d()->GetScale().x <= 0 )
-	{
-		enemy_->GetObject3d()->SetScale({ 0,0,0 });
-		cameraDescent = true;
-	}
+	//if ( enemy_->GetObject3d()->GetScale().x <= 0 )
+	//{
+	//	//enemy_->GetObject3d()->SetScale({ 0,0,0 });
+
+	//}
 
 	if ( cameraDescent == true )
 	{
@@ -214,14 +257,36 @@ void StageSelectScene::ParamReset()
 	//controller_->camera_->SetTargetPos(enemy_->GetObject3d()->GetWorldTransformPtr());
 
 	//controller_->camera_->MoveCamera();
-	enemy_->GetObject3d()->SetScale({ 1,1,1 });
+	//enemy_->GetObject3d()->SetScale({ 1,1,1 });
 	player_->GetObject3d()->SetScale({ 1,1,1 });
+
+	sceneObj_->player_->GetObject3d()->SetScale({1,1,1});
+	//sceneObj_->enemy_->GetObject3d()->SetScale({ 1,1,1 });
+
 	player_->GetObject3d()->SetPosition({ 0,0,-50 });
-	sceneObj_->transitionO_->SetScale({ 1,1,1 });
-	sceneObj_->transitionO_->SetPosition({ 0,0,0 });
 
 	sceneObj_->transitionO_->SetScale({400, 400, 60});
 	sceneObj_->transitionO_->SetPosition({transPos});
+	sceneObj_->transitionO_->Update();
+
 
 	transScale_ = { 1,1,1 };
+}
+
+void StageSelectScene::ChangeNextScene(Input* input,GamePad* gamePad)
+{
+	if ( currentSceneNum_ == CurrentSelectScene::Tutorial )
+	{
+		if ( input->TriggerKey(DIK_D) || input->TriggerKey(DIK_RIGHT) || gamePad->StickTrigger(L_RIGHT) )
+		{
+			currentSceneNum_ = CurrentSelectScene::Battle;
+		}
+	}
+	if ( currentSceneNum_ == CurrentSelectScene::Battle )
+	{
+		if ( input->TriggerKey(DIK_A) || input->TriggerKey(DIK_LEFT) || gamePad->StickTrigger(L_LEFT) )
+		{
+			currentSceneNum_ = CurrentSelectScene::Tutorial;
+		}
+	}
 }

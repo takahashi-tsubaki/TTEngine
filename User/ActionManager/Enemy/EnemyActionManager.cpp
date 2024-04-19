@@ -2,6 +2,7 @@
 #include "EnemyIdle.h"
 #include "EnemyMove.h"
 #include "EnemyShot.h"
+#include "EnemyHomingShot.h"
 #include "EnemyActionManager.h"
 
 #include "ImguiManager.h"
@@ -55,8 +56,6 @@ void EnemyActionManager::ActionUpdate()
 	{
 		longRangePattern();
 	}
-
-
 
 	action_.get()->Update();
 #ifdef _DEBUG
@@ -136,6 +135,14 @@ void EnemyActionManager::middleRangePattern()
 				ChangeAction(new EnemyMove(&*this, actionNum_));
 			}
 		}
+		else if ( actionNum_ >= 5 && actionNum_ <= 8 )//後ろ以外の方向への移動
+		{
+			if ( action_->GetIsNowShot() == false )
+			{
+				action_->SetIsNowShot(true);
+			}
+			ChangeAction(new EnemyHomingShot(&*this,actionNum_));
+		}
 		else
 		{
 			if (action_->GetIsNowShot() == false) {
@@ -164,6 +171,14 @@ void EnemyActionManager::longRangePattern()
 				ChangeAction(new EnemyMove(&*this, actionNum_));
 
 			}
+		}
+		else if ( actionNum_ == 7 || actionNum_ == 8 )//後ろ以外の方向への移動
+		{
+			if ( action_->GetIsNowShot() == false )
+			{
+				action_->SetIsNowShot(true);
+			}
+			ChangeAction(new EnemyHomingShot(&*this,actionNum_));
 		}
 		else
 		{

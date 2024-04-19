@@ -10,13 +10,16 @@ void SceneObjects::Initialize(SceneManager* controller)
 	Sprite::LoadTexture(SpriteNumber::SCENETRANS, L"Resources/black.jpg");
 	Sprite::LoadTexture(SpriteNumber::SPACE, L"Resources/sprite/Space2.png"); // space
 
+
 #pragma endregion 
 
 #pragma region
 
 	Sprite::LoadTexture(SpriteNumber::FIGHT, L"Resources/sprite/Fight.png"); // Fight
 	Sprite::LoadTexture(SpriteNumber::STARTSIGN, L"Resources/sprite/StartSign.png");   // 敵を倒せ
-
+	Sprite::LoadTexture(SpriteNumber::STARTTUTORIAL,L"Resources/sprite/StartTutorial.png"); // 操作を覚えよう
+	Sprite::LoadTexture(SpriteNumber::TUTORIALTEXT,L"Resources/sprite/Tutorial2.png"); // 操作を覚えよう
+	Sprite::LoadTexture(SpriteNumber::BATTLETEXT,L"Resources/sprite/Battle2.png"); // 操作を覚えよう
 #pragma endregion
 
 #pragma region 戦闘中のスプライト
@@ -39,10 +42,10 @@ void SceneObjects::Initialize(SceneManager* controller)
 	Sprite::LoadTexture(SpriteNumber::FINISH, L"Resources/sprite/Finish.png");    // FINISH
 
 #pragma endregion
-
+	 
 
 	selectSp_ = Sprite::Create(SpriteNumber::STAGESELECT, {100, 100});
-	spaceButton_ = Sprite::Create(SpriteNumber::SPACE, {525, 500});
+	spaceButton_ = Sprite::Create(SpriteNumber::SPACE, {550, 575});
 
 	controller_ = controller;
 
@@ -65,6 +68,8 @@ void SceneObjects::Initialize(SceneManager* controller)
 	////弾モデルの生成
 	bulletM_ = Model::CreateFromOBJ("bullet");
 	Bullet::SetModel(bulletM_);
+	homingBulletM_ = Model::CreateFromOBJ("bullet");
+	HomingBullet::SetModel(homingBulletM_);
 
 	//fbxModel = FbxLoader::GetInstance()->LoadModelFromFile("boss_prot4");
 
@@ -124,8 +129,11 @@ void SceneObjects::Delete()
 
 void SceneObjects::Reset()
 {
-	enemy_->Reset();
-	player_->Reset();
+	//enemy_->Reset();
+	//player_->Reset();
+	transitionO_->SetScale({ 400, 400, 60 });
+	transitionO_->SetPosition({ 0,-600,0 });
+
 }
 
 

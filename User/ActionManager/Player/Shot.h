@@ -26,6 +26,7 @@ public:
 	void Initialize(FbxObject3d* object, EnemyCharacter* enemy, SceneObjects* sceneObj) override;
 	void Update(Input* input, GamePad* gamePad) override;
 	void Draw() override;
+	void ParticleDraw(ID3D12GraphicsCommandList* cmdList) override;
 
 	void Reset();
 
@@ -47,7 +48,7 @@ private:
 	Vector3 Distance_{0, 0, 0};
 	Vector3 enemyPos;
 	Vector3 playerPos;
-
+	Vector3 particlePos;
 	Model* bulletM_ = nullptr;
 
 	int MaxBulletSize_;
@@ -59,7 +60,7 @@ private:
 	float keyPressTimer_;
 	float bulletSizeUpTimer_;
 	float bulletCoolTimer_;
-	float koutyokuTimer_ = 120.0f;
+	float koutyokuTimer_;
 
 	bool isShot = false;
 

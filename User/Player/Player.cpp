@@ -84,22 +84,22 @@ void Player::Initialize(TTEngine::DirectXCommon* dxCommon, Enemy* enemy) {
 
 	//}
 
-	SPHERE_COLISSION_NUM = 1;
-	sphere.resize(SPHERE_COLISSION_NUM);
-	spherePos.resize(SPHERE_COLISSION_NUM);
+	//SPHERE_COLISSION_NUM = 1;
+	//sphere.resize(SPHERE_COLISSION_NUM);
+	//spherePos.resize(SPHERE_COLISSION_NUM);
 
-	for (int i = 0; i < SPHERE_COLISSION_NUM; i++)
-	{
-		sphere[i] = new SphereCollider;
-		CollisionManager::GetInstance()->AddCollider(sphere[i]);
-		spherePos[i] = fbxPlayerO_->GetPosition();
-		sphere[i]->SetBasisPos(&spherePos[i]);
-		sphere[i]->SetRadius(1.0f);
-		sphere[i]->SetAttribute(COLLISION_ATTR_PLAYERS);
-		sphere[i]->Update();
-		
+	//for (int i = 0; i < SPHERE_COLISSION_NUM; i++)
+	//{
+	//	sphere[i] = new SphereCollider;
+	//	CollisionManager::GetInstance()->AddCollider(sphere[i]);
+	//	spherePos[i] = fbxPlayerO_->GetPosition();
+	//	sphere[i]->SetBasisPos(&spherePos[i]);
+	//	sphere[i]->SetRadius(1.0f);
+	//	sphere[i]->SetAttribute(COLLISION_ATTR_PLAYERS);
+	//	sphere[i]->Update();
+	//	
 
-	}
+	//}
 	startCount = clock() / 1000;
 
 	blowAwayPos = fbxPlayerO_->GetPosition();
@@ -966,7 +966,7 @@ void Player::Reset()
 	}
 	ResetAttribute();
 
- //	playerO_->SetColor({1, 1, 1, 1});
+ 	playerO_->SetScale({1, 1, 1});
 
 	//playerO_->SetPosition({0,0,-50});
 	//playerO_->SetRotation({0,0,0});
@@ -1032,24 +1032,24 @@ void Player::Reset()
 
 void Player::ResetAttribute()
 {
-	for (int i = 0; i < SPHERE_COLISSION_NUM; i++)
-	{
-		sphere[i] = new SphereCollider;
-		CollisionManager::GetInstance()->AddCollider(sphere[i]);
-		spherePos[i] = fbxPlayerO_->GetPosition();
-		sphere[i]->SetBasisPos(&spherePos[i]);
-		sphere[i]->SetRadius(1.0f);
-		sphere[i]->SetAttribute(COLLISION_ATTR_PLAYERS);
-		sphere[i]->Update();
-		////test
-		//coliderPosTest_[i] = Object3d::Create();
-		//coliderPosTest_[i]->SetModel(hpModel_.get());
-		//coliderPosTest_[i]->SetPosition(sphere[i]->center);
-		//coliderPosTest_[i]->SetScale({ sphere[i]->GetRadius(),sphere[i]->GetRadius() ,sphere[i]->GetRadius() });
-		//coliderPosTest_[i]->SetRotate({ 0,0,0 });
-		//coliderPosTest_[i]->Update();
+	//for (int i = 0; i < SPHERE_COLISSION_NUM; i++)
+	//{
+	//	sphere[i] = new SphereCollider;
+	//	CollisionManager::GetInstance()->AddCollider(sphere[i]);
+	//	spherePos[i] = fbxPlayerO_->GetPosition();
+	//	sphere[i]->SetBasisPos(&spherePos[i]);
+	//	sphere[i]->SetRadius(1.0f);
+	//	sphere[i]->SetAttribute(COLLISION_ATTR_PLAYERS);
+	//	sphere[i]->Update();
+	//	////test
+	//	//coliderPosTest_[i] = Object3d::Create();
+	//	//coliderPosTest_[i]->SetModel(hpModel_.get());
+	//	//coliderPosTest_[i]->SetPosition(sphere[i]->center);
+	//	//coliderPosTest_[i]->SetScale({ sphere[i]->GetRadius(),sphere[i]->GetRadius() ,sphere[i]->GetRadius() });
+	//	//coliderPosTest_[i]->SetRotate({ 0,0,0 });
+	//	//coliderPosTest_[i]->Update();
 
-	}
+	//}
 
 	//// FBX当たり判定初期化
 	//for (int i = 0; i < SPHERE_COLISSION_NUM; i++) {

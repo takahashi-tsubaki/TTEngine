@@ -30,10 +30,15 @@ void Shot::Initialize(FbxObject3d* object, EnemyCharacter* enemy, SceneObjects* 
 	     object_->GetWorldTransform().translation_.y,
 	     object_->GetWorldTransform().translation_.z});
 	sceneObj_->effectO_->SetScale({4, 4, 4});
+	particlePos = object_->GetWorldTransform().translation_;
+
+	koutyokuTimer_ = 60.0f;
+
 }
 
 void Shot::Update(Input* input, GamePad* gamePad)
 {
+	particlePos = object_->GetWorldTransform().translation_;
 
 	speed_ = 1.0f;
 	if ( shotType_ == ShotType::RAPID )
@@ -66,6 +71,8 @@ void Shot::Update(Input* input, GamePad* gamePad)
 		if (gamePad->ButtonInput(A) || input->PushKey(DIK_SPACE)) {
 	
 			bulletSizeUpTimer_-- ;
+			/*sceneObj_->particle_->RandParticle(object_->GetPosition());*/
+			
 			isEffect = true;
 		}
 		if ( bulletSizeUpTimer_ <= 0.0f )
@@ -138,7 +145,6 @@ void Shot::Update(Input* input, GamePad* gamePad)
 
 			shotType_ = ShotType::Nasi;
 			bulletCoolTimer_ = 0.0f;
-			koutyokuTimer_ = 120.0f;
 			isNowShot_ = false;
 			isNowStandBy_ = true;
 			isShot = false; // こいつのリセット処理は一番最後
@@ -150,7 +156,7 @@ void Shot::Update(Input* input, GamePad* gamePad)
 		sceneObj_->effectO_->rotation_.y += 3.0f;
 		//sceneObj_->effectO_->rotation_.z += 3.0f;
 		sceneObj_->effectO_->SetRotation(sceneObj_->effectO_->rotation_);
-
+		//sceneObj_->particle_->Charge(120, particlePos, playerPos, 1.0f);
 	}
 	if (isSubColor == true)
 	{
@@ -174,7 +180,7 @@ void Shot::Update(Input* input, GamePad* gamePad)
 
 	sceneObj_->effectO_->SetScale(sceneObj_->effectO_->scale_);
 	sceneObj_->effectO_->Update();
-
+	sceneObj_->particle_->Update();
 }
 
 void Shot::Draw()
@@ -199,6 +205,10 @@ void Shot::Reset() {
 	bulletCoolTimer_ = 0.0f;
 	keyPressTimer_ = 0.0f;
 	isShot = false;
+}
+
+void Shot::ParticleDraw(ID3D12GraphicsCommandList* cmdList) {
+	sceneObj_->particle_->Draw(cmdList);
 }
 
 

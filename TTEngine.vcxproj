@@ -159,8 +159,10 @@
     <ClCompile Include="Scene\SceneObjects.cpp" />
     <ClCompile Include="Scene\StageSelectScene.cpp" />
     <ClCompile Include="Scene\TitleScene.cpp" />
+    <ClCompile Include="Scene\TutorialScene.cpp" />
     <ClCompile Include="User\ActionManager\Enemy\EnemyAction.cpp" />
     <ClCompile Include="User\ActionManager\Enemy\EnemyActionManager.cpp" />
+    <ClCompile Include="User\ActionManager\Enemy\EnemyHomingShot.cpp" />
     <ClCompile Include="User\ActionManager\Enemy\EnemyIdle.cpp" />
     <ClCompile Include="User\ActionManager\Enemy\EnemyMove.cpp" />
     <ClCompile Include="User\ActionManager\Enemy\EnemyShot.cpp" />
@@ -173,6 +175,7 @@
     <ClCompile Include="User\Bullet\Bullet.cpp" />
     <ClCompile Include="User\Bullet\BulletManager.cpp" />
     <ClCompile Include="User\Bullet\EnemyBullet.cpp" />
+    <ClCompile Include="User\Bullet\HomingBullet.cpp" />
     <ClCompile Include="User\Bullet\PlayerBullet.cpp" />
     <ClCompile Include="User\Enemy\Enemy.cpp" />
     <ClCompile Include="User\PlayerState\Player2.cpp" />
@@ -247,8 +250,10 @@
     <ClInclude Include="Scene\SceneObjects.h" />
     <ClInclude Include="Scene\StageSelectScene.h" />
     <ClInclude Include="Scene\TitleScene.h" />
+    <ClInclude Include="Scene\TutorialScene.h" />
     <ClInclude Include="User\ActionManager\Enemy\EnemyAction.h" />
     <ClInclude Include="User\ActionManager\Enemy\EnemyActionManager.h" />
+    <ClInclude Include="User\ActionManager\Enemy\EnemyHomingShot.h" />
     <ClInclude Include="User\ActionManager\Enemy\EnemyIdle.h" />
     <ClInclude Include="User\ActionManager\Enemy\EnemyMove.h" />
     <ClInclude Include="User\ActionManager\Enemy\EnemyShot.h" />
@@ -261,6 +266,7 @@
     <ClInclude Include="User\Bullet\Bullet.h" />
     <ClInclude Include="User\Bullet\BulletManager.h" />
     <ClInclude Include="User\Bullet\EnemyBullet.h" />
+    <ClInclude Include="User\Bullet\HomingBullet.h" />
     <ClInclude Include="User\Bullet\PlayerBullet.h" />
     <ClInclude Include="User\Enemy\Enemy.h" />
     <ClInclude Include="User\PlayerState\Player2.h" />

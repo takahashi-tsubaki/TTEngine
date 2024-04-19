@@ -93,16 +93,16 @@ void EnemyCharacter::Draw()
 
 void EnemyCharacter::Damage()
 {
-	damageSize += damage;
+	damageSize_ += damage;
 	Hp_ -= damage;
 	decreaseHpCount--;
 	if (decreaseHpCount <= 0) {
-		if (damageSize > 0) {
-			damageSize -= 1;
+		if (damageSize_ > 0) {
+			damageSize_ -= 1;
 		}
 	}
-	if (damageSize <= 0) {
-		damageSize = 0;
+	if (damageSize_ <= 0) {
+		damageSize_ = 0;
 	}
 
 	SetHp(Hp_);
@@ -212,6 +212,8 @@ void EnemyCharacter::CheckHitCollision()
 			if (sphere[i]->GetCollisionInfo().collider_->GetAttribute() ==
 			    COLLISION_ATTR_PLAYERBULLETS) {
 				Damage();
+				/*particle_->Charge(
+				    60, sphere[i]->GetCollisionInfo().inter_, sphere[i]->GetCollisionInfo().inter_,1.0f);*/
 				particle_->RandParticle(sphere[i]->GetCollisionInfo().inter_);
 				hitDeley = 5;
 

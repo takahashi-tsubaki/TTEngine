@@ -102,6 +102,11 @@ void Step::Update(Input* input, GamePad* gamePad)
 
 void Step::Draw() {}
 
+void Step::ParticleDraw(ID3D12GraphicsCommandList* cmdList) {
+	if (cmdList) {
+	}
+}
+
 void Step::Distance(Vector3 start, Vector3 goal)
 {
 	Distance_ = {goal.x - start.x, goal.y - start.y, goal.z - start.z};

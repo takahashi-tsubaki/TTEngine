@@ -20,6 +20,7 @@
 
 #include "PlayerCharacter.h"
 #include "EnemyCharacter.h"
+
 #include "LevelLoader.h"
 
 #include "BulletManager.h"
@@ -34,6 +35,9 @@ enum SpriteNumber
 
 	FIGHT = 11,
 	STARTSIGN,
+	STARTTUTORIAL,
+	TUTORIALTEXT,
+	BATTLETEXT,
 
 	HPBAR = 21,
 	DAMAGEBAR,
@@ -113,6 +117,7 @@ public:
 	Object3d* effectO_ = nullptr;
 
 	Model* bulletM_ = nullptr;
+	Model* homingBulletM_ = nullptr;
 
 	Player* player_ = nullptr;
 	Enemy* enemy_ = nullptr;

@@ -33,3 +33,9 @@ void Idle::Update(Input* input, GamePad* gamePad) {
 }
 
 void Idle::Draw() {}
+
+void Idle::ParticleDraw(ID3D12GraphicsCommandList* cmdList) {
+
+	if (cmdList) {
+	}
+}

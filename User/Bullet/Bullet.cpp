@@ -18,8 +18,14 @@ void Bullet::Initialize(
 
 	bulletO_->worldTransform.translation_ = position;
 
-	bulletO_->SetColor({1.0f, 1.0f, 0.0f, 1.0f});
+	if ( attribute == COLLISION_ATTR_PLAYERBULLETS )
+	{
+		bulletO_->SetColor({1.0f, 1.0f, 0.0f, 1.0f});
+	}
 
+	if (attribute == COLLISION_ATTR_ENEMYBULLETS) {
+		bulletO_->SetColor({1.0f, 0.0f, 0.0f, 1.0f});
+	}
 	velocity_ = velocity;
 
 	angle_ = (atan2(velocity.x, velocity.z) + MyMath::PI / 2);

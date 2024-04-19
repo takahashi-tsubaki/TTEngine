@@ -4,6 +4,11 @@
 /// <summary>
 /// ゲームクリアシーン
 /// </summary>
+///
+
+class PlayerCharacter;
+class EnemyCharacter;
+
 class GameClearScene :
 	public IScene
 {
@@ -37,8 +42,8 @@ protected:
 	Model* skydomeM_ = nullptr;
 
 
-	Player* player_ = nullptr;
-	Enemy* enemy_ = nullptr;
+	PlayerCharacter* player_ = nullptr;
+	EnemyCharacter* enemy_ = nullptr;
 
 	CollisionManager* colMan = nullptr;
 

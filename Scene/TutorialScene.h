@@ -1,38 +1,13 @@
 #pragma once
 #include "IScene.h"
 #include "SceneInc.h"
-#include "BulletManager.h"
-/// <summary>
-/// ゲームプレイシーン
-/// </summary>
-///
 
-enum Number
-{
-	Zero = 0,
-	One = 1,
-	Two = 2,
-	Twenty = 20, 
-	Thirty = 30,
-	Fifty = 50,
-	Sixty = 60,
-	Ninety = 90,
-	HundredTwenty = 120,
-};
+//クラスの前方宣言
+class PlayerCharacter;
+class EnemyCharacter;
 
-enum Size {
-	OneTimes = 1,
-	TwoTimes = 2,
-
-	TenTimes = 10,
-
-
-};
-
-
-
-class PlayScene :
-	public IScene
+class TutorialScene :
+    public IScene
 {
 protected:
 	SceneManager* controller_;
@@ -128,7 +103,7 @@ protected:
 	float addHpSize = 0.1f;
 
 	bool isFinish = false;
-	Vector2 finishSpPos = {WinApp::window_width, WinApp::window_height / 2 };
+	Vector2 finishSpPos = { WinApp::window_width, WinApp::window_height / 2 };
 	int isFinishSpCount = 0;//FIHISHSP_が画面に描画される時間
 	float addfinishSpeed = 0.0f;
 	Vector3 addRotation;
@@ -150,17 +125,17 @@ protected:
 	TTEngine::Audio* audio = nullptr;
 
 	// 音を止める関数
-	IXAudio2SourceVoice* pSourceVoice[10] = {0};
+	IXAudio2SourceVoice* pSourceVoice[ 10 ] = { 0 };
 
 	int soundCheckFlag = 0;
 #pragma endregion
 
-std::list<std::unique_ptr<PlayerBullet>> bullets_;
+	std::list<std::unique_ptr<PlayerBullet>> bullets_;
 
 public:
 	//コンストラクタとデストラクタ
-	PlayScene(SceneManager* controller,SceneObjects* sceneObj);
-	~PlayScene() override;
+	TutorialScene(SceneManager* controller,SceneObjects* sceneObj);
+	~TutorialScene() override;
 
 	/// <summary>
 	/// 初期化
@@ -193,14 +168,6 @@ public:
 	//playSceneでのみ使う各種パラメーターのリセット
 	void ResetParam();
 
-	void gameOverAnimetion();
 
-	void gameClearAnimetion();
-
-	void finishPlayerCamera();
-
-	void finishEnemyCamera();
-
-	//void Pause(Input* input);
 };
 

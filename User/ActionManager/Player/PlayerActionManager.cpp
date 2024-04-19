@@ -6,7 +6,12 @@
 #include "PlayerActionManager.h"
 #include "EnemyCharacter.h"
 
-PlayerActionManager::PlayerActionManager() { action_.reset(new Idle(&*this)); }
+PlayerActionManager::PlayerActionManager() {
+
+	action_.reset(new Idle(&*this));
+
+
+}
 
 PlayerActionManager::~PlayerActionManager() {}
 
@@ -15,7 +20,8 @@ void PlayerActionManager::ActionInitialize(
 	object_ = object;
 	enemy_ = enemy;
 	sceneObj_ = sceneObj;
-	action_.get()->Initialize(object_,enemy_,sceneObj_);
+	action_->Initialize(object_,enemy_,sceneObj_);
+	//particle_.reset(sceneObj_->particle_);
 }
 
 void PlayerActionManager::ActionUpdate(Input* input, GamePad* gamePad)
@@ -61,17 +67,21 @@ void PlayerActionManager::ActionUpdate(Input* input, GamePad* gamePad)
 	{
 		ChangeAction(new Idle(&*this));
 	}
-	action_.get()->Update(input, gamePad);
+	action_->Update(input, gamePad);
 }
 
 void PlayerActionManager::ActionDraw() {
-	action_.get()->Draw();
+	action_->Draw(); }
+
+void PlayerActionManager::ParticleDraw(ID3D12GraphicsCommandList* cmdList)
+{
+	action_->ParticleDraw(cmdList);
 }
 
 void PlayerActionManager::ChangeAction(Action* Action) {
 	action_.reset(Action);
 	ActionInitialize(object_, enemy_, sceneObj_);
-	action_.get()->Initialize(object_, enemy_, sceneObj_);
+	action_->Initialize(object_, enemy_, sceneObj_);
 }
 
 

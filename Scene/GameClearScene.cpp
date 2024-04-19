@@ -1,6 +1,10 @@
 #include "GameClearScene.h"
 #include "ImguiManager.h"
 #include "Ease.h"
+
+#include "PlayerCharacter.h"
+#include "EnemyCharacter.h"
+
 GameClearScene::GameClearScene(SceneManager* controller, SceneObjects* sceneObj)
 {
 	controller_ = controller;
@@ -23,7 +27,7 @@ void GameClearScene::Initialize() {
 	transSP_->Initialize();
 	transSP_->SetSize({10.0f * 275.0f, 10.0f * 183.0f});
 
-	player_ = sceneObj_->player_;
+	player_ = sceneObj_->player;
 	player_->GetFbxObject3d()->SetRotate({0, 0, 0});
 	sceneObj_->spaceButton_->SetPosition({545, 575});
 	playerPos = {0, 50, 0};
@@ -37,7 +41,7 @@ void GameClearScene::Update(Input* input, GamePad* gamePad)
 	gamePad->Update();
 	//sceneObj_->transitionO_->Update();
 	player_->GetFbxObject3d()->Update();
-	player_->GetObject3d()->Update();
+	//player_->GetObject3d()->Update();
 	GameClearAnime();
 	if (input->TriggerKey(DIK_SPACE) || gamePad->ButtonTrigger(X))
 	{
@@ -137,7 +141,7 @@ void GameClearScene::ResetParam()
 	winSPAlpha = 1.0f;
 	addPos = 0.5f;
 	player_->Reset();
-	sceneObj_->enemy_->Reset();
+	sceneObj_->enemy->Reset();
 	color = 1.0f;
 	spSize = 5.0f;
 }

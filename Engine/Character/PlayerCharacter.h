@@ -45,6 +45,9 @@ public:
 
 	void GetSceneObj(SceneObjects* sceneObj) { sceneObj_ = sceneObj; }
 
+	void ParticleDraw(ID3D12GraphicsCommandList* cmdList);
+
+
 private:
 
 	int Hp_;

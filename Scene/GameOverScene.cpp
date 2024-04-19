@@ -1,6 +1,11 @@
 #include "GameOverScene.h"
 #include "ImguiManager.h"
 #include "Ease.h"
+
+
+#include "PlayerCharacter.h"
+#include "EnemyCharacter.h"
+
 GameOverScene::GameOverScene(SceneManager* controller, SceneObjects* sceneObj)
 {
 	controller_ = controller;
@@ -18,7 +23,7 @@ void GameOverScene::Initialize() {
 	loseSP_ = Sprite::Create(SpriteNumber::LOSE, {645, 360}, {1, 1, 1, 1}, {0.5f, 0.5f});
 	loseSP_->Initialize();
 
-	enemy_ = sceneObj_->enemy_;
+	enemy_ = sceneObj_->enemy;
 	sceneObj_->spaceButton_->SetPosition({545,575});
 	enemyPos = {0, 50, 0};
 }
@@ -28,7 +33,7 @@ void GameOverScene::Update(Input* input, GamePad* gamePad)
 	gamePad->Update();
 	sceneObj_->transitionO_->Update();
 	GameOverAnime();
-	enemy_->GetObject3d()->Update();
+	//enemy_->GetObject3d()->Update();
 	enemy_->GetFbxObject3d()->Update();
 	if (input->TriggerKey(DIK_SPACE) || gamePad->ButtonTrigger(X))
 	{
@@ -94,9 +99,9 @@ void GameOverScene::GameOverAnime() {
 		enemyPos.y = 0;
 	}
 
-	enemy_->GetObject3d()->SetPosition(enemyPos);
+	//enemy_->GetObject3d()->SetPosition(enemyPos);
 
-	enemy_->GetObject3d()->UpdateMatrix();
+	//enemy_->GetObject3d()->UpdateMatrix();
 	enemy_->GetFbxObject3d()->SetPosition(enemyPos);
 	enemy_->GetFbxObject3d()->SetRotate({0, 0, 0});
 	enemy_->GetFbxObject3d()->PlayAnimation(0,false);
@@ -119,5 +124,5 @@ void GameOverScene::ResetParam()
 	loseSPAlpha = 1.0f;
 	addPos = 0.5f;
 	enemy_->Reset();
-	sceneObj_->player_->Reset();
+	sceneObj_->player->Reset();
 }

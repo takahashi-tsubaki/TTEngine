@@ -387,6 +387,15 @@
     <ClCompile Include="User\ActionManager\Player\Step.cpp">
       <Filter>ソース ファイル\Action\Player</Filter>
     </ClCompile>
+    <ClCompile Include="User\ActionManager\Enemy\EnemyHomingShot.cpp">
+      <Filter>ソース ファイル\Action\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="User\Bullet\HomingBullet.cpp">
+      <Filter>ソース ファイル\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\TutorialScene.cpp">
+      <Filter>ソース ファイル\scene\SceneManager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene\gameScene.h">
@@ -646,6 +655,15 @@
     </ClInclude>
     <ClInclude Include="User\ActionManager\Player\Step.h">
       <Filter>ヘッダー ファイル\Action\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="User\ActionManager\Enemy\EnemyHomingShot.h">
+      <Filter>ヘッダー ファイル\Action\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="User\Bullet\HomingBullet.h">
+      <Filter>ヘッダー ファイル\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\TutorialScene.h">
+      <Filter>ヘッダー ファイル\scene\SceneManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
