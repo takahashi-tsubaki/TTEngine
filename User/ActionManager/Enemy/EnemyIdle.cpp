@@ -11,7 +11,7 @@ void EnemyIdle::Initialize(FbxObject3d* object, PlayerCharacter* player) {
 
 void EnemyIdle::Update() {
 	
-	
+	object_->PlayAnimation(FBXAnimetion::IdeL,false);
 	object_->Update();
 }
 

@@ -43,10 +43,12 @@ void EnemyMove::Update()
 	}
 	//右方向
 	 else if (moveDirect_ == 3) {
+		object_->PlayAnimation(FBXAnimetion::RightMOVE,false);
 		velocity_ += {(speed_ / scale_), 0, 0};
 	}
 	//左方向
 	 else if (moveDirect_ == 4) {
+		object_->PlayAnimation(FBXAnimetion::LeftMOVE,false);
 		velocity_ += {(speed_ / scale_) * -1, 0, 0};
 	}
 

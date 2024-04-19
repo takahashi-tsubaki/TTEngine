@@ -42,6 +42,10 @@ protected:
 	Player* player_ = nullptr;
 	Enemy* enemy_ = nullptr;
 
+	PlayerCharacter* player = nullptr;
+	EnemyCharacter* enemy = nullptr;
+
+
 	CollisionManager* colMan = nullptr;
 
 	SceneObjects* sceneObj_;

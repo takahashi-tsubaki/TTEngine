@@ -45,6 +45,11 @@ void PlayerCharacter::Initialize(
 		sphere[i]->SetAttribute(COLLISION_ATTR_PLAYERS);
 		sphere[i]->Update();
 	}
+	particle_ = std::make_unique<ParticleManager>();
+	particle_->SetDrawBlendMode(1);
+	particle_->Initialize();
+	particle_->LoadTexture("sprite/particle.png");
+	particle_->Update();
 
 	// 行動マネージャー
 	ActManager_ = std::make_unique<PlayerActionManager>();
@@ -53,11 +58,8 @@ void PlayerCharacter::Initialize(
 
 	Hp_ = 10;
 
-	 particle_ = std::make_unique<ParticleManager>();
-	 particle_->SetDrawBlendMode(1);
-	 particle_->Initialize();
-	 particle_->LoadTexture("sprite/particle.png");
-	 particle_->Update();
+
+
 
 	//PlayerBullet::StaticInitialize();
 }
@@ -87,6 +89,7 @@ void PlayerCharacter::Update(Input* input, GamePad* gamePad)
 
 		ActManager_->ActionUpdate(input, gamePad);
 		particle_->Update();
+	
 	}
 
 	CheckHitCollision();
@@ -95,7 +98,10 @@ void PlayerCharacter::Update(Input* input, GamePad* gamePad)
 void PlayerCharacter::Draw()
 {
 	fbxObject_->Draw(dxCommon_->GetCommandList());
+	
 	ActManager_->ActionDraw();
+
+
 }
 
 void PlayerCharacter::CheckHitCollision()
@@ -206,6 +212,12 @@ void PlayerCharacter::CheckHitCollision()
 	if (hitCountTime <= 0) {
 		isDamage = false;
 	}
+}
+
+void PlayerCharacter::ParticleDraw(ID3D12GraphicsCommandList* cmdList)
+{
+	GetParticle()->Draw(cmdList);
+	ActManager_->ParticleDraw(cmdList);
 }
 
 void PlayerCharacter::Reset() {

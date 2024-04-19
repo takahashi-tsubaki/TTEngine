@@ -1,0 +1,94 @@
+#pragma once
+#include "TutorialManager.h"
+#include "Input.h"
+#include "GamePad.h"
+
+#include "TutorialPlayer.h"
+#include "TutorialEnemy.h"
+
+#include "Audio.h"
+
+class TutorialAction
+{
+
+public:
+
+	TutorialAction();
+	virtual ~TutorialAction();
+
+	virtual void Initialize(FbxObject3d* object,TutorialEnemy* enemy,SceneObjects* sceneObj) = 0;
+
+	virtual void Update(Input* input,GamePad* gamePad) = 0;
+
+	virtual void Draw() = 0;
+
+	virtual void ParticleDraw(ID3D12GraphicsCommandList* cmdList) = 0;
+
+	bool GetIsNowShot() {
+		return isNowShot_;
+	}
+	void SetIsNowShot(bool shot) {
+		isNowShot_ = shot;
+	}
+
+	bool GetIsNowStep() {
+		return isNowStep_;
+	}
+	void SetIsNowStep(bool step) {
+		isNowStep_ = step;
+	}
+
+	bool GetIsStandBy() {
+		return isNowStandBy_;
+	}
+	void SetIsStandBy(bool StandBy) {
+		isNowStandBy_ = StandBy;
+	}
+
+//音声のgetterとsetter
+	TTEngine::Audio* GetAudio() {
+		return audio_;
+	}
+	void SetAudio(TTEngine::Audio* audio) {
+		audio_ = audio;
+	}
+
+	ParticleManager* GetParticle() {
+		return particle_.get();
+	}
+
+	void LoadSound();
+
+	void LoadTexture();
+
+	void LoadParticle();
+
+protected:
+
+	TutorialManager* actionManager_;
+
+	bool isNowShot_;
+
+	bool isNowStep_;
+
+	bool isNowStandBy_;
+
+#pragma region 音関連
+
+	// 音関係まとめ
+
+	TTEngine::Audio* audio_ = nullptr;
+
+	// 音を止める関数
+	IXAudio2SourceVoice* pSourceVoice[ 10 ] = { 0 };
+
+	int soundCheckFlag = 0;
+
+#pragma endregion
+
+	std::unique_ptr<ParticleManager> particle_;
+
+	static std::unique_ptr<ParticleManager> paritcle2_;
+
+};
+

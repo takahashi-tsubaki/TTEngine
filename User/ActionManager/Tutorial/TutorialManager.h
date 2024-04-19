@@ -5,46 +5,44 @@
 #include "GamePad.h"
 #include "FbxObject3d.h"
 
-#include "PlayerBullet.h"
 
-
-//クラスの前方宣言
-class PlayerCharacter;
-class EnemyCharacter;
+class TutorialPlayer;
+class TutorialEnemy;
 class SceneObjects;
-class Action;
 
-class Shot;
-
-class PlayerActionManager {
+class TutorialManager
+{
 
 private:
-	std::shared_ptr<Action> action_;
+	std::shared_ptr<TutorialAction> action_;
 
 public:
 	// コンストラクタ
-	PlayerActionManager();
+	TutorialManager();
 	// デストラクタ
-	~PlayerActionManager();
+	~TutorialManager();
 
 	//std::list<std::unique_ptr<PlayerBullet>> GetBullets() { return bullets_; }
 	//void SetBullets(std::list<std::unique_ptr<PlayerBullet>> bullet) { bullets_ = bullet; }
 
-	void ActionInitialize(FbxObject3d* object, EnemyCharacter* enemy, SceneObjects* sceneObj);
+	void ActionInitialize(FbxObject3d* object,TutorialEnemy* enemy,SceneObjects* sceneObj);
 
-	void ActionUpdate(Input* input, GamePad* gamePad);
+	void ActionUpdate(Input* input,GamePad* gamePad);
 
 	void ActionDraw();
 
-	void ParticleDraw(ID3D12GraphicsCommandList* cmdList);
 
 	// シーンを変更する
 	void ChangeAction(Action* Action);
 
 public:
-	void SetActionNum(int actionNum) { actionNum_ = actionNum; }
+	void SetActionNum(int actionNum) {
+		actionNum_ = actionNum;
+	}
 
-	int GetActionNum() { return actionNum_; }
+	int GetActionNum() {
+		return actionNum_;
+	}
 
 public:
 	bool KeyPushWASD(Input* input);
@@ -56,13 +54,15 @@ public:
 	bool isAnyLStickOffTrigger(GamePad* gamePad);
 
 
-	Action* GetAction() { return action_.get(); }
+	TutorialAction* GetAction() {
+		return action_.get();
+	}
 
 private:
 	FbxObject3d* object_;
 
-	PlayerCharacter* player_;
-	EnemyCharacter* enemy_;
+	TutorialPlayer* player_;
+	TutorialEnemy* enemy_;
 
 	SceneObjects* sceneObj_;
 
@@ -76,5 +76,5 @@ private:
 	bool pushWASD_ = false;
 	bool padLStick_ = false;
 
-	std::unique_ptr<ParticleManager> particle_;
 };
+

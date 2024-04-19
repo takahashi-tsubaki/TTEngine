@@ -5,8 +5,10 @@ PauseScene::PauseScene(SceneManager* controller, SceneObjects* sceneObj)
 	controller_ = controller;
 	sceneObj_ = sceneObj;
 
-	player_ = sceneObj_->player_;
-	enemy_ = sceneObj_->enemy_;
+	player = sceneObj_->player;
+	enemy= sceneObj_->enemy;
+	//sceneObj_->player = player;
+	//sceneObj_->enemy = enemy;
 
 	operationSP_ = Sprite::Create(SpriteNumber::OPERATION, {400, 100});
 	operationSP_->Initialize();
@@ -36,8 +38,10 @@ void PauseScene::Update(Input* input, GamePad* gamePad)
 			checkNum = 1;
 		}
 		if (input->TriggerKey(DIK_TAB) || gamePad->ButtonTrigger(START)) {
-			sceneObj_->player_ = player_;
-			sceneObj_->enemy_ = enemy_;
+			sceneObj_->player = player;
+			sceneObj_->enemy= enemy;
+			//sceneObj_->player = player;
+			//sceneObj_->enemy = enemy;
 			checkNum = 0;
 			controller_->PopScene();
 		}
@@ -47,14 +51,16 @@ void PauseScene::Update(Input* input, GamePad* gamePad)
 	if (checkNum == 1)
 	{
 		if (input->TriggerKey(DIK_ESCAPE) || gamePad->ButtonTrigger(X)) {
-			player_->Reset();
-			enemy_->Reset();
+			player->Reset();
+			enemy->Reset();
 			checkNum = 2;
 			controller_->ChangeSceneNum(S_TITLE);
 		}
 		if (input->TriggerKey(DIK_TAB) || gamePad->ButtonTrigger(START)) {
-			sceneObj_->player_ = player_;
-			sceneObj_->enemy_ = enemy_;
+			sceneObj_->player = player;
+			sceneObj_->enemy = enemy;
+			//sceneObj_->player = player;
+			//sceneObj_->enemy = enemy;
 			checkNum = 0;
 			controller_->PopScene();
 		}
@@ -89,8 +95,8 @@ void PauseScene::Draw()
 	/*fbxObject->Draw(dxCommon_->GetCommandList());*/
 
 	sceneObj_->skydomeO_->Draw();
-	enemy_->Draw();
-	player_->Draw();
+	enemy->Draw();
+	player->Draw();
 	//player_->Draw();
 	//enemy_->Draw();
 

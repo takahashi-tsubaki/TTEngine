@@ -4,6 +4,13 @@
 /// <summary>
 /// ステージセレクトシーン
 /// </summary>
+
+enum CurrentSelectScene
+{
+	Tutorial = 1,
+	Battle =2,
+};
+
 class StageSelectScene :
     public IScene
 {
@@ -14,6 +21,10 @@ protected:
 
 	Sprite* sprite_ = nullptr;
 	Sprite* sprite2_ = nullptr;
+
+	Sprite* tutorialSP_ = nullptr;
+	Sprite* battleSP_ = nullptr;
+
 	Sprite* alart = nullptr;
 
 	Model* model = nullptr;
@@ -72,6 +83,20 @@ protected:
 	const float change = 1.0f;
 	float easeTimer = 0;
 
+	//現在選択しているシーン
+	int currentSceneNum_;
+
+#pragma region 音関連
+
+// 音関係まとめ
+
+	TTEngine::Audio* audio = nullptr;
+
+	// 音を止める関数
+	IXAudio2SourceVoice* pSourceVoice[10] = { 0 };
+
+	int soundCheckFlag = 0;
+#pragma endregion
 
 public:
 	//コンストラクタとデストラクタ
@@ -95,6 +120,8 @@ public:
 	void SceneTransition();
 
 	void ParamReset();
+
+	void ChangeNextScene(Input* input,GamePad* gamePad);
 
 	//void Pause(Input* input);
 };

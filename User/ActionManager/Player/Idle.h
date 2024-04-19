@@ -15,6 +15,7 @@ public:
 	void Initialize(FbxObject3d* object, EnemyCharacter* enemy, SceneObjects* sceneObj) override;
 	void Update(Input* input, GamePad* gamePad) override;
 	void Draw() override;
+	void ParticleDraw(ID3D12GraphicsCommandList* cmdList) override;
 
 private:
 

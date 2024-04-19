@@ -208,16 +208,20 @@ void TitleScene::Draw()
 
 void TitleScene::ParamReset()
 {
+
 	enemy_->GetObject3d()->SetPosition({ 0,0,0 });
 	//カメラの座標と注視点をセット
 	controller_->camera_->SetEye({ player_->GetObject3d()->GetPosition().x,player_->GetObject3d()->GetPosition().y,player_->GetObject3d()->GetPosition().z - 50 });
 	controller_->camera_->SetTarget(enemy_->GetObject3d()->GetPosition());
 	player_->GetObject3d()->SetScale({ 1,1,1 });
 	player_->GetObject3d()->SetPosition({ 0,0,-50 });
+
+	sceneObj_->player_ = player_;
+
+	sceneObj_->enemy_ = enemy_ ;
+
 	sceneObj_->transitionO_->SetScale({400, 400, 60});
 	sceneObj_->transitionO_->SetPosition({ 0,-600,0 });
-	player_->RemoveAttribute();
-	enemy_->RemoveAttribute();
 	transScale_ = { 1,1,1 };
 	cameraRise = false;
 }

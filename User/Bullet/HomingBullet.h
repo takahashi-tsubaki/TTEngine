@@ -1,23 +1,35 @@
 #pragma once
+
 #include "Object3d.h"
 #include "Model.h"
 
 #include "ParticleManager.h"
 
-#include"SphereCollider.h"
-#include"CollisionManager.h"
-#include"CollisionAttribute.h"
+#include "CollisionAttribute.h"
+#include "CollisionManager.h"
+#include "SphereCollider.h"
 
 class EnemyCharacter;
 class PlayerCharacter;
 
-class TutorialPlayer;
-class TutorialEnemy;
+enum BulletTimer
+{
+	UpTime = 60,
+	HomingTime = 120,
+	LivingTime = 150,
 
-class Bullet {
+};
+
+enum ShotPhase
+{
+	Fire ,
+	Homing ,
+};
+
+class HomingBullet {
 public:
-	Bullet();
-	~Bullet();
+	HomingBullet();
+	~HomingBullet();
 
 	/// <summary>
 	/// 初期化
@@ -25,7 +37,9 @@ public:
 	/// <param name="model"></param>
 	/// <param name="position"></param>
 	/// <param name="velocity"></param>
-	void Initialize(const Vector3& position, const Vector3& velocity, const unsigned short attribute);
+	void Initialize(
+	    const Vector3& position, PlayerCharacter* player, const Vector3& velocity,
+	    const unsigned short attribute);
 
 	/// <summary>
 	/// 更新
@@ -63,14 +77,6 @@ public:
 	/// <param name="enemy"></param>
 	void SetEnemy(EnemyCharacter* enemy) { enemy_ = enemy; }
 
-	void SetTEnemy(TutorialEnemy* enemy) {
-		tEnemy_ = enemy;
-	}
-
-	void SetTPlayer(TutorialPlayer* player) {
-		tPlayer_ = player;
-	}
-
 	void SetPlayer(PlayerCharacter* player) { player_ = player; }
 
 	/// <summary>
@@ -78,28 +84,57 @@ public:
 	/// </summary>
 	void Reset();
 
-	static void SetModel(Model* model) { Bullet::model_ = model; }
+	static void SetModel(Model* model) { HomingBullet::model_ = model; }
 
 	///// <summary>
 	///// パーティクルのゲット
 	///// </summary>
 	///// <returns></returns>
-	//ParticleManager* GetParticle() { return particle_.get(); }
+	// ParticleManager* GetParticle() { return particle_.get(); }
+
+	Vector3 GetPosition() { return bulletO_->GetPosition(); }
+
+	void Fire();
+
+	void Homing();
 
 private:
 	float livingTimer;
 
+	float upTimer;
+
+	float homingTimer;
+		//ホーミング精度
+	float homingAccuary_ = 0;
+
 	bool isDead_ = false;
 
+	const float change = 1.0f;
+
+	float kBulletSpeed = change;
+
+	int kHomingTimer_ = 0;
+
+	int phase = ShotPhase::Fire;
+	
+
+
+	int kFireTimer = 0;
+
+	int kStartHomingTime = 30;
+
+	Vector3 angle = {0 , 0 , 1};
+
 	Vector3 velocity_;
+	Vector3 Distance_;
+	Vector3 moveVelocity;
+	Vector3 currentPlayerPos_;
+	Vector3 playerPos_;
 
 	Object3d* bulletO_ = nullptr;
-	//Model* bulletM_ = nullptr;
+	// Model* bulletM_ = nullptr;
 	EnemyCharacter* enemy_ = nullptr;
 	PlayerCharacter* player_ = nullptr;
-
-	TutorialEnemy* tEnemy_ = nullptr;
-	TutorialPlayer* tPlayer_ = nullptr;
 
 	int SPHERE_COLISSION_NUM = 1; // コライダー（スフィア）の数
 	std::vector<SphereCollider*> sphere;
@@ -112,6 +147,9 @@ private:
 	int hitDeley = 0; // 何フレーム連続で当たるか
 
 	float angle_ = 0;
+	float speed = 1.0f;
 
 	static Model* model_;
 };
+
+

@@ -57,7 +57,11 @@ public:
 		return particle_.get();
 	 }
 
-	int GetDamageSize() { return damageSize; }
+	int GetDamageSize() { return damageSize_; }
+	/// 体力のセット
+	void SetDamageSize(int damageSize) {
+		damageSize_ = damageSize;
+	}
 
 	void CheckHitCollision();
 
@@ -73,7 +77,7 @@ private:
 
 	int Hp_;
 	int damage = 1;
-	int damageSize = 0;
+	int damageSize_ = 0;
 	int decreaseHpCount = 60;
 	int hitDeley = 0; // 何フレーム連続で当たるか
 

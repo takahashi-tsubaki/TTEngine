@@ -866,6 +866,32 @@ void ParticleManager::Add(
 	//subColor(0.1f,p);
 }
 
+void ParticleManager::Charge(int life, Vector3 pos, Vector3 velocity, float speed) {
+
+	speed_ = speed;
+	for ( int i = 0; i < 10; i++ )
+	{
+		pos = wtf_.translation_;
+		pos.x += rand()%20-10;
+		pos.y += rand() % 20 - 10;
+		pos.z += rand() % 20 - 10;
+		wtf_.translation_ = pos ;
+		Add(life, wtf_.translation_, {0, 0, 0}, {0, 0, 0}, 10.0f, 0.0f, 0.1f);
+	}
+	
+
+	Distance_ = velocity - wtf_.translation_;
+	Distance_.nomalize();
+
+	Distance_ *= speed_;
+
+	wtf_.translation_ += Distance_;
+
+	wtf_.UpdateMatWorld();
+
+}
+
+
 void ParticleManager::Barrier(Vector3 pos)
 {
 	for ( int i = 0; i < 20; i++ )
@@ -920,7 +946,7 @@ void ParticleManager::RandParticle(Vector3 pos)
 		//	static_cast<float>((rand() % 20 - 10) / 100.0f) }, 2.0f, 0.0f,0.1f);
 
 		
-		Add(30, wtf_.translation_, {0, 0, 0}, {0, 0, 0}, 10.0f, 0.0f, 0.05f);
+		Add(30, wtf_.translation_, {0, 0, 0}, {0, 0, 0}, 5.0f, 10.0f, 0.05f);
 
 
 	}

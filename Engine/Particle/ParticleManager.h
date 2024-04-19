@@ -216,6 +216,7 @@ public: // メンバ関数
 	/// <param name="color">色/param>
 	void Add(int life,Vector3 position,Vector3 velociy,Vector3 accel,float start_scale,float end_scale,float color);
 
+	void Charge(int life,Vector3 pos, Vector3 velocity, float speed);
 
 	void Barrier(Vector3 pos);
 
@@ -270,5 +271,6 @@ private: // メンバ変数
 	WorldTransform wtf_;
 	Matrix4 bill;
 	Vector4 color_ = {1,1,1,1};
-
+	Vector3 Distance_;
+	float speed_ = 1.0f;
 };

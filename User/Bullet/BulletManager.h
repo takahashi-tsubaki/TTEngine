@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Bullet.h"
+#include "HomingBullet.h"
 
 #pragma warning(push)
 #pragma warning(disable : 4819)
@@ -31,7 +32,12 @@ public:
 		bullets_.push_back(std::move(bullet_));
 	}
 
-	void ClearBullet() { bullets_.clear(); }
+	inline void AddHomingBullet(std::unique_ptr<HomingBullet> Homingbullet) {
+		homingBullets_.push_back(std::move(Homingbullet));
+	}
+
+	void ClearBullet() { bullets_.clear();
+		homingBullets_.clear();}
 
 
 	void Update();
@@ -45,5 +51,6 @@ private:
 	// プレイヤーの弾モデル関連
 
 	std::list<std::unique_ptr<Bullet>> bullets_;
+	std::list<std::unique_ptr<HomingBullet>> homingBullets_;
 
 };

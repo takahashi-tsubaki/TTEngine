@@ -24,6 +24,8 @@ public:
 
 	virtual void Draw() = 0;
 
+	virtual void ParticleDraw(ID3D12GraphicsCommandList* cmdList) = 0;
+
 	bool GetIsNowShot() { return isNowShot_; }
 	void SetIsNowShot(bool shot) { isNowShot_ = shot; }
 
@@ -37,7 +39,13 @@ public:
 	TTEngine::Audio* GetAudio() { return audio_; }
 	void SetAudio(TTEngine::Audio* audio) { audio_ = audio; }
 
+	ParticleManager* GetParticle() { return particle_.get(); }
+
 	void LoadSound();
+
+	void LoadTexture();
+
+	void LoadParticle();
 
 protected:
 
@@ -62,5 +70,8 @@ protected:
 
 #pragma endregion
 
+	std::unique_ptr<ParticleManager> particle_;
+
+	static std::unique_ptr<ParticleManager> paritcle2_;
 
 };

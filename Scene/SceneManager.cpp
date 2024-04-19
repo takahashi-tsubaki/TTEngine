@@ -77,6 +77,11 @@ void SceneManager::ChangeScene()
 			_scene.emplace(new StageSelectScene(&*this,sceneObjects_));
 			SceneInitialize();
 			break;
+		case S_TUTORIAL:
+			_scene.pop();
+			_scene.emplace(new TutorialScene(&*this,sceneObjects_));
+			SceneInitialize();
+			break;
 		default:
 			_scene.emplace(new TitleScene(&*this, sceneObjects_));
 			SceneInitialize();
@@ -119,6 +124,10 @@ void SceneManager::PushScene(int number)
 	case S_SELECT:
 		_scene.emplace(new StageSelectScene(&*this,sceneObjects_));
 		break;
+	case S_TUTORIAL:
+		_scene.emplace(new TutorialScene(&*this,sceneObjects_));
+		break;
+
 	default:
 		_scene.emplace(new TitleScene(&*this, sceneObjects_));
 		break;
