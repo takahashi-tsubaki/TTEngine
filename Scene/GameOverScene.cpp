@@ -15,6 +15,7 @@ GameOverScene::GameOverScene(SceneManager* controller, SceneObjects* sceneObj)
 GameOverScene::~GameOverScene()
 {
 	sceneObj_->Reset();
+	ResetParam();
 }
 
 void GameOverScene::Initialize() {

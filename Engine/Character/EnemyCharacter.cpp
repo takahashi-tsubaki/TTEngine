@@ -13,7 +13,7 @@ void EnemyCharacter::Initialize(TTEngine::DirectXCommon* dxCommon, Vector3 posit
 	// グラフィックスパイプライン生成
 	FbxObject3d::CreateGraphicsPipeline();
 
-	fbxModel_.reset(FbxLoader::GetInstance()->LoadModelFromFile("enemy2"));
+	fbxModel_.reset(FbxLoader::GetInstance()->LoadModelFromFile("enemy4"));
 
 	//Fbxオブジェクトの初期化
 	fbxObject_ = FbxObject3d::Create();
