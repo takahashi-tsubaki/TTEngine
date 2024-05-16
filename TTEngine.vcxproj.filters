@@ -411,6 +411,18 @@
     <ClCompile Include="User\Bullet\BombBullet.cpp">
       <Filter>ソース ファイル\Bullet</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Particle\ParticleM.cpp">
+      <Filter>ソース ファイル\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Particle\Particle.cpp">
+      <Filter>ソース ファイル\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Particle\OBJParticle.cpp">
+      <Filter>ソース ファイル\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Math\MathUtility.cpp">
+      <Filter>ソース ファイル\math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene\gameScene.h">
@@ -688,6 +700,18 @@
     </ClInclude>
     <ClInclude Include="User\ActionManager\Player\BombShot.h">
       <Filter>ヘッダー ファイル\Action\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Particle\ParticleM.h">
+      <Filter>ヘッダー ファイル\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Particle\Particle.h">
+      <Filter>ヘッダー ファイル\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Particle\OBJParticle.h">
+      <Filter>ヘッダー ファイル\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Math\MathUtility.h">
+      <Filter>ヘッダー ファイル\math</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

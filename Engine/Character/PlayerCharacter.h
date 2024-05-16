@@ -3,6 +3,7 @@
 #include "PlayerActionManager.h"
 #include "PlayerBullet.h"
 
+
 class SceneObjects;
 
 class EnemyCharacter;
@@ -47,6 +48,9 @@ public:
 
 	void ParticleDraw(ID3D12GraphicsCommandList* cmdList);
 
+	ParticleM* GetParticleM() {
+		return particleM_.get();
+	}
 
 private:
 
@@ -73,7 +77,10 @@ private:
 	std::vector<Vector3> spherePos = {};
 
 	std::unique_ptr<ParticleManager> particle_;
+	std::unique_ptr<ParticleM> particleM_;
+	ObjParticleManager* particleObj_;
 
+	//ObjParticleManager::ParticlePreset ;
 
 	SceneObjects* sceneObj_;
 };

@@ -1,4 +1,4 @@
-﻿#include "MyGame.h"
+#include "MyGame.h"
 
 
 //void DebugOutputFormatString(const char* format, ...) {
@@ -28,7 +28,7 @@ void MyGame::Initialize()
 	Light::StaticInitalize(dxCommon_->GetDevice());
 	//パーティクル情的初期化
 	ParticleManager::StaticInitialize(dxCommon_->GetDevice(), dxCommon_->GetCommandList());
-
+	Particles::StaticInitialize(dxCommon_->GetDevice(),dxCommon_->GetCommandList());
 	//FBXの初期化
 	FbxLoader::GetInstance()->Initialize(dxCommon_->GetDevice());
 

@@ -53,6 +53,8 @@ void GameScene::Initalize(TTEngine::DirectXCommon* dxCommon, Input* input, GameP
 
 	ParticleManager::SetCamera(gameCamera);
 
+	Particles::SetCamera(gameCamera);
+
 	colMan = CollisionManager::GetInstance();
 
 	sceneObjects = new SceneObjects();

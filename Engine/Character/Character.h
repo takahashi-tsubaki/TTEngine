@@ -18,6 +18,8 @@
 #include"CollisionManager.h"
 #include"CollisionAttribute.h"
 
+#include "ParticleM.h"
+#include "OBJParticle.h"
 
 enum FBXAnimetion {
 	IdeL = 0,

@@ -17,17 +17,17 @@ ALICE_SUPPRESS_WARNINGS_END
 #include "GameCamera.h"
 
 
-enum SetBlendMode
+enum SetBlendMODE
 {
-	NOBLEND = 0,//無し
-	ADD,//加算
-	SUB,//減算
+	NOBlend = 0,//無し
+	ADDBlend,//加算
+	SUBBlend,//減算
 };
 
 /// <summary>
 /// パーティクルマネージャー
 /// </summary>
-class ParticleManager
+class Particles
 {
 private: // エイリアス
 	// Microsoft::WRL::を省略
@@ -154,7 +154,6 @@ private:// メンバ関数
 	/// 3Dオブジェクト生成
 	/// </summary>
 	/// <returns></returns>
-	ParticleManager* Create();
 
 	/// <summary>
 	/// デスクリプタヒープの初期化
@@ -172,15 +171,15 @@ private:// メンバ関数
 	void CreateModel();
 
 public: // メンバ関数
-
+	static Particles* Create();
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
-	ParticleManager();
+	Particles();
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
-	~ParticleManager();
+	~Particles();
 
 	void LoadTexture(const std::string& fileName);
 	bool Initialize();
@@ -198,7 +197,7 @@ public: // メンバ関数
 	/// マネージャーの座標をもとにランダムに放出する
 	/// </summary>
 
-	void RandParticle(Vector3 pos);
+	//void RandParticle(Vector3 pos);
 
 	/// <summary>
 	/// パーティクルのリセット
@@ -215,9 +214,9 @@ public: // メンバ関数
 	/// <param name="color">色/param>
 	void Add(int life,Vector3 position,Vector3 velociy,Vector3 accel,float start_scale,float end_scale,float color);
 
-	void Charge(int life,Vector3 pos, Vector3 velocity, float speed);
+	//void Charge(int life,Vector3 pos,Vector3 velocity,float speed);
 
-	void Barrier(Vector3 pos);
+	//void Barrier(Vector3 pos);
 
 	double lerp(double a,double b,double t);
 
@@ -261,7 +260,9 @@ public: // メンバ関数
 		return wtf_;
 	};
 
-	void SetColor(Vector4 color) { color_ = color; }
+	void SetColor(Vector4 color) {
+		color_ = color;
+	}
 
 
 	void subColor(float subcolor,Particle& p);
@@ -271,7 +272,7 @@ private: // メンバ変数
 	// ローカルスケール
 	WorldTransform wtf_;
 	Matrix4 bill;
-	Vector4 color_ = {1,1,1,1};
+	Vector4 color_ = { 1,1,1,1 };
 	Vector3 Distance_;
 	float speed_ = 1.0f;
 };
