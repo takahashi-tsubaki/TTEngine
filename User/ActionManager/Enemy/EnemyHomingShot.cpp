@@ -11,14 +11,14 @@ void EnemyHomingShot::Initialize(FbxObject3d* object, PlayerCharacter* player) {
 	object_ = object;
 	player_ = player;
 
-	koutyokuTimer_ = 300.0f;
-	MaxBulletSize_ = 4;
+	//koutyokuTimer_ = 300.0f;
+	MaxBulletSize_ = 2;
 	isShot = true;
 
 }
 
 void EnemyHomingShot::Update() {
-	speed_ = 1.0f;
+	speed_ = 0.75f;
 	enemyPos = object_->GetPosition();
 	playerPos = player_->GetFbxObject3d()->GetPosition();
 	Distance_ = playerPos - enemyPos ;

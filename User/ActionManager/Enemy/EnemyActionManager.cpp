@@ -93,7 +93,7 @@ void EnemyActionManager::DistanceTwoPoints() {
 void EnemyActionManager::crossRangePattern() {
 	if (moveDirectTimer < 0)
 	{
-		moveDirectTimer = 180;
+		moveDirectTimer = ActionCoolTimer::MoveDirect;
 
 		actionNum_ = generateRandomAction(1, 8);
 
@@ -122,7 +122,7 @@ void EnemyActionManager::middleRangePattern()
 {
 	if (moveDirectTimer < 0)
 	{
-		moveDirectTimer = 180;
+		moveDirectTimer = ActionCoolTimer::MoveDirect;
 
 		actionNum_ = generateRandomAction(1, 9);
 
@@ -157,7 +157,7 @@ void EnemyActionManager::longRangePattern()
 {
 	if (moveDirectTimer < 0)
 	{
-		moveDirectTimer = 180;
+		moveDirectTimer = ActionCoolTimer::MoveDirect;
 
 		actionNum_ = generateRandomAction(1, 10);
 

@@ -4,6 +4,7 @@
 #include "Object3d.h"
 #include "Light.h"
 #include "ParticleManager.h"
+#include "Particle.h"
 #include "PostEffect.h"
 #include "FbxLoader.h"
 

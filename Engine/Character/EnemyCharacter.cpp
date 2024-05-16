@@ -13,7 +13,8 @@ void EnemyCharacter::Initialize(TTEngine::DirectXCommon* dxCommon, Vector3 posit
 	// グラフィックスパイプライン生成
 	FbxObject3d::CreateGraphicsPipeline();
 
-	fbxModel_.reset(FbxLoader::GetInstance()->LoadModelFromFile("enemy2"));
+	//敵モデルのロード
+	fbxModel_.reset(FbxLoader::GetInstance()->LoadModelFromFile("enemy4"));
 
 	//Fbxオブジェクトの初期化
 	fbxObject_ = FbxObject3d::Create();
@@ -214,7 +215,7 @@ void EnemyCharacter::CheckHitCollision()
 				Damage();
 				/*particle_->Charge(
 				    60, sphere[i]->GetCollisionInfo().inter_, sphere[i]->GetCollisionInfo().inter_,1.0f);*/
-				particle_->RandParticle(sphere[i]->GetCollisionInfo().inter_);
+				/*particle_->RandParticle(sphere[i]->GetCollisionInfo().inter_);*/
 				hitDeley = 5;
 
 				SetIsHit(true);

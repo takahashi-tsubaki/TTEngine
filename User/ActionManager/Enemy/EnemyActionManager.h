@@ -7,6 +7,8 @@
 
 #include <random>
 
+#include "EnemyEnum.h"
+
 // クラスの前方宣言
 class PlayerCharacter;
 class EnemyCharacter;

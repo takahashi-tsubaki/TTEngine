@@ -51,6 +51,17 @@ void PlayerCharacter::Initialize(
 	particle_->LoadTexture("sprite/particle.png");
 	particle_->Update();
 
+
+
+	particleM_ = std::make_unique<ParticleM>();
+	particleM_->SetDrawBlendMode(1);
+	particleM_->Init();
+	particleM_->LoadTexture("sprite/particle.png");
+	particleM_->Update();
+
+	particleObj_ = ObjParticleManager::GetInstance();
+	particleObj_->Init(sceneObj_->transitionM_);
+
 	// 行動マネージャー
 	ActManager_ = std::make_unique<PlayerActionManager>();
 	// pActManager_->ColliderInitialize(&sphere, SPHERE_COLISSION_NUM);
@@ -89,7 +100,8 @@ void PlayerCharacter::Update(Input* input, GamePad* gamePad)
 
 		ActManager_->ActionUpdate(input, gamePad);
 		particle_->Update();
-	
+		particleM_->Update();
+		particleObj_->Update();
 	}
 
 	CheckHitCollision();
@@ -101,6 +113,7 @@ void PlayerCharacter::Draw()
 	
 	ActManager_->ActionDraw();
 
+	particleObj_->Draw();
 
 }
 
@@ -181,7 +194,9 @@ void PlayerCharacter::CheckHitCollision()
 					Hp_ -= 1;
 					hitDeley = 3;
 					// particle_->SetColor({0, 0, 1, 1});
-					 particle_->RandParticle(sphere[i]->GetCollisionInfo().inter_);
+					//particleM_->CallExp(sphere[i]->GetCollisionInfo().inter_);
+					//particleM_->CallSmallExp(sphere[i]->GetCollisionInfo().inter_);
+					ObjParticleManager::GetInstance()->SetAnyExp(sphere[ i ]->GetCollisionInfo().inter_);
 					//	被弾時のアニメーションの再生
 					fbxObject_->SetCurrentTimer(0);
 					//fbxObject_->PlayAnimation(FBXAnimetion::HIT, false);
@@ -217,6 +232,7 @@ void PlayerCharacter::CheckHitCollision()
 void PlayerCharacter::ParticleDraw(ID3D12GraphicsCommandList* cmdList)
 {
 	GetParticle()->Draw(cmdList);
+	GetParticleM()->Draw();
 	ActManager_->ParticleDraw(cmdList);
 }
 

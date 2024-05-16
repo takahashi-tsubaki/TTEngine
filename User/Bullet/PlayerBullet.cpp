@@ -21,12 +21,12 @@ void PlayerBullet::Initialize(Model* model, const Vector3& position, const Vecto
 	bulletO_->worldTransform.rotation_.y = (angle_ + MyMath::PI / 2);
 
 
-	BulletParticle_ = std::make_unique<ParticleManager>();
-	BulletParticle_->SetDrawBlendMode(2);
-	BulletParticle_->Initialize();
-	BulletParticle_->LoadTexture("sprite/particle.png");
-	BulletParticle_->GetWorldTransform().scale_ = {30, 30, 30};
-	BulletParticle_->Update();
+	//BulletParticle_ = std::make_unique<ParticleManager>();
+	//BulletParticle_->SetDrawBlendMode(2);
+	//BulletParticle_->Initialize();
+	//BulletParticle_->LoadTexture("sprite/particle.png");
+	//BulletParticle_->GetWorldTransform().scale_ = {30, 30, 30};
+	//BulletParticle_->Update();
 
 
 	sphere.resize(SPHERE_COLISSION_NUM);
@@ -121,7 +121,7 @@ void PlayerBullet::CheckCollision()
 				isDead_ = true;
 				isBulletHit = true;
 				if (isBulletHit == true) {
-					BulletParticle_->RandParticle(sphere[i]->GetCollisionInfo().inter_);
+					//BulletParticle_->RandParticle(sphere[i]->GetCollisionInfo().inter_);
 				}
 
 				livingTimer = 120.0f;
@@ -133,7 +133,7 @@ void PlayerBullet::CheckCollision()
 				isDead_ = true;
 				isBulletHit = true;
 				if (isBulletHit == true) {
-					BulletParticle_->RandParticle(sphere[i]->GetCollisionInfo().inter_);
+					//BulletParticle_->RandParticle(sphere[i]->GetCollisionInfo().inter_);
 				}
 
 				livingTimer = 120.0f;
