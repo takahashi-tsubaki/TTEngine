@@ -10,7 +10,7 @@ void PlayerCharacter::Initialize(
 	dxCommon_ = dxCommon;
 	enemy_ = enemy;
 
-	sceneObj_ = sceneObj;
+	sceneObject_ = sceneObj;
 
 	// fbxの大きさ
 	fbxScale_ = 0.01f;
@@ -45,6 +45,7 @@ void PlayerCharacter::Initialize(
 		sphere[i]->SetAttribute(COLLISION_ATTR_PLAYERS);
 		sphere[i]->Update();
 	}
+
 	particle_ = std::make_unique<ParticleManager>();
 	particle_->SetDrawBlendMode(1);
 	particle_->Initialize();
@@ -60,12 +61,12 @@ void PlayerCharacter::Initialize(
 	particleM_->Update();
 
 	particleObj_ = ObjParticleManager::GetInstance();
-	particleObj_->Init(sceneObj_->transitionM_);
+	particleObj_->Init(sceneObject_->transitionM_);
 
 	// 行動マネージャー
 	ActManager_ = std::make_unique<PlayerActionManager>();
 	// pActManager_->ColliderInitialize(&sphere, SPHERE_COLISSION_NUM);
-	ActManager_->ActionInitialize(fbxObject_.get(), enemy_, sceneObj_);
+	ActManager_->ActionInitialize(fbxObject_.get(), enemy_,sceneObject_);
 
 	Hp_ = 10;
 
@@ -83,6 +84,7 @@ void PlayerCharacter::Update(Input* input, GamePad* gamePad)
 
 	//bullets_ = ActManager_->GetBullets();
 	moveAngle();
+
 	if (GetisDead() == false) {
 		fbxObject_->worldTransform.rotation_ = cameraAngle;
 		particle_->Update();
@@ -114,7 +116,6 @@ void PlayerCharacter::Draw()
 	ActManager_->ActionDraw();
 
 	particleObj_->Draw();
-
 }
 
 void PlayerCharacter::CheckHitCollision()

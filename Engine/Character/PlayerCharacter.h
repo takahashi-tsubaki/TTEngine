@@ -4,7 +4,6 @@
 #include "PlayerBullet.h"
 
 
-class SceneObjects;
 
 class EnemyCharacter;
 
@@ -44,7 +43,7 @@ public:
 
 	ParticleManager* GetParticle() { return particle_.get(); }
 
-	void GetSceneObj(SceneObjects* sceneObj) { sceneObj_ = sceneObj; }
+	void GetSceneObj(SceneObjects* sceneObj) { sceneObject_ = sceneObj; }
 
 	void ParticleDraw(ID3D12GraphicsCommandList* cmdList);
 
@@ -82,5 +81,5 @@ private:
 
 	//ObjParticleManager::ParticlePreset ;
 
-	SceneObjects* sceneObj_;
+	SceneObjects* sceneObject_;
 };

@@ -1,11 +1,13 @@
 #include "EnemyCharacter.h"
 #include "Affin.h"
 
+#include "SceneObjects.h"
 
-void EnemyCharacter::Initialize(TTEngine::DirectXCommon* dxCommon, Vector3 position, PlayerCharacter* player)
+void EnemyCharacter::Initialize(TTEngine::DirectXCommon* dxCommon, Vector3 position, PlayerCharacter* player,SceneObjects* sceneObj)
 {
 	dxCommon_ = dxCommon;
 	player_ = player;
+	sceneObject_ = sceneObj;
 	// fbxの大きさ
 	fbxScale_ = 0.01f;
 	// デバイスのセット
@@ -40,7 +42,8 @@ void EnemyCharacter::Initialize(TTEngine::DirectXCommon* dxCommon, Vector3 posit
 		sphere[i]->Update();
 	}
 
-
+	particleObj_ = ObjParticleManager::GetInstance();
+	particleObj_->Init(sceneObject_->transitionM_);
 
 	// 行動マネージャー
 	ActManager_ = std::make_unique<EnemyActionManager>();
@@ -50,11 +53,14 @@ void EnemyCharacter::Initialize(TTEngine::DirectXCommon* dxCommon, Vector3 posit
 	blowAwayCount = 0;
 	Hp_ = 30;
 
-		 particle_ = std::make_unique<ParticleManager>();
+	particle_ = std::make_unique<ParticleManager>();
 	particle_->SetDrawBlendMode(1);
 	particle_->Initialize();
 	particle_->LoadTexture("sprite/particle.png");
 	particle_->Update();
+
+	particleObj_ = ObjParticleManager::GetInstance();
+	particleObj_->Init(sceneObject_->transitionM_);
 }
 
 void EnemyCharacter::Update()
@@ -80,6 +86,7 @@ void EnemyCharacter::Update()
 		ActManager_->ActionUpdate();
 		fbxObject_->Update();
 		particle_->Update();
+		particleObj_->Update();
 	}
 
 
@@ -89,7 +96,7 @@ void EnemyCharacter::Draw()
 {
 
 	fbxObject_->Draw(dxCommon_->GetCommandList());
-
+	particleObj_->Draw();
 }
 
 void EnemyCharacter::Damage()
@@ -216,6 +223,7 @@ void EnemyCharacter::CheckHitCollision()
 				/*particle_->Charge(
 				    60, sphere[i]->GetCollisionInfo().inter_, sphere[i]->GetCollisionInfo().inter_,1.0f);*/
 				/*particle_->RandParticle(sphere[i]->GetCollisionInfo().inter_);*/
+				ObjParticleManager::GetInstance()->SetAnyExp(sphere[ i ]->GetCollisionInfo().inter_);
 				hitDeley = 5;
 
 				SetIsHit(true);

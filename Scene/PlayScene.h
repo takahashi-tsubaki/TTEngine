@@ -62,8 +62,8 @@ protected:
 
 #pragma endregion スプライト関連
 
-	Model* model = nullptr;
-	Object3d* object = nullptr;
+	Model* model_ = nullptr;
+	Object3d* object_ = nullptr;
 
 	PostEffect* postEffect = nullptr;
 
@@ -93,6 +93,7 @@ protected:
 	Vector3 nowEye;
 
 
+
 	/*Character* Player_ = nullptr;
 	Character* Enemy_ = nullptr;*/
 
@@ -101,7 +102,7 @@ protected:
 #pragma region 演出面で必要なもの
 
 	bool isTransition = true;
-	Vector3 scale = { 1,1,1 };
+	Vector3 scale_ = { 1,1,1 };
 
 	bool isStartSign = true;
 	int startSignCount = 0;
@@ -159,6 +160,20 @@ protected:
 
 std::list<std::unique_ptr<PlayerBullet>> bullets_;
 
+
+#pragma region 背景オブジェクト
+
+LevelEditer* levelEditer = nullptr;
+std::map<std::string,Model*> models;
+std::vector<Object3d*> objects;
+
+Model* fieldModel_ = nullptr;
+Object3d* fieldObj_ = nullptr;
+		// 座標
+Vector3 pos;
+
+#pragma region
+
 public:
 	//コンストラクタとデストラクタ
 	PlayScene(SceneManager* controller,SceneObjects* sceneObj);
@@ -190,6 +205,8 @@ public:
 	/// スタート演出
 	/// </summary>
 	void StartSign(Input* input,GamePad* gamepad);
+
+	void LoadStageObj();
 
 
 	//playSceneでのみ使う各種パラメーターのリセット

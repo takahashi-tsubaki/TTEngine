@@ -310,7 +310,7 @@ void EffectObject3d::UpdateMatrix() {
 	// 親オブジェクトがあれば
 	if (parent != nullptr) {
 		// 親オブジェクトのワールド行列を掛ける
-		matWorld *= parent->matWorld;
+		worldTransform.matWorld_ *= worldTransform.parent_->matWorld_;
 	}
 }
 

@@ -9,7 +9,7 @@ class EnemyCharacter : public Character
 {
 public:
 	// 初期化
-	void Initialize(TTEngine::DirectXCommon* dxCommon, Vector3 position, PlayerCharacter* player);
+	void Initialize(TTEngine::DirectXCommon* dxCommon, Vector3 position, PlayerCharacter* player,SceneObjects* sceneObj);
 
 	// 更新
 	void Update();
@@ -94,6 +94,7 @@ private:
 	std::vector<SphereCollider*> sphere;
 	std::vector<Vector3> spherePos = {};
 
+	ObjParticleManager* particleObj_;
 	//
 	std::unique_ptr<ParticleManager> particle_;
 };

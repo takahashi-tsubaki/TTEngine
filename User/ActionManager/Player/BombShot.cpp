@@ -139,24 +139,24 @@ void BombShot::Update(Input* input,GamePad* gamePad)
 	}
 	if ( isEffect == true )
 	{
-		sceneObj_->effectO_->rotation_.x += 3.0f;
-		sceneObj_->effectO_->rotation_.y += 3.0f;
+		sceneObj_->effectO_->worldTransform.rotation_.x += 3.0f;
+		sceneObj_->effectO_->worldTransform.rotation_.y += 3.0f;
 		//sceneObj_->effectO_->rotation_.z += 3.0f;
-		sceneObj_->effectO_->SetRotation(sceneObj_->effectO_->rotation_);
+		sceneObj_->effectO_->SetRotation(sceneObj_->effectO_->worldTransform.rotation_);
 		//sceneObj_->particle_->Charge(120, particlePos, playerPos, 1.0f);
 	}
 	if ( isSubColor == true )
 	{
 		sceneObj_->effectO_->color_.w -= 0.01f;
-		sceneObj_->effectO_->scale_.x += 0.1f;
-		sceneObj_->effectO_->scale_.y += 0.1f;
+		sceneObj_->effectO_->worldTransform.scale_.x += 0.1f;
+		sceneObj_->effectO_->worldTransform.scale_.y += 0.1f;
 	}
 
 
 	if ( sceneObj_->effectO_->color_.w < 0 )
 	{
-		sceneObj_->effectO_->scale_.x = 4.0f;
-		sceneObj_->effectO_->scale_.y = 4.0f;
+		sceneObj_->effectO_->worldTransform.scale_.x = 4.0f;
+		sceneObj_->effectO_->worldTransform.scale_.y = 4.0f;
 		isEffect = false;
 		isSubColor = false;
 
@@ -165,7 +165,7 @@ void BombShot::Update(Input* input,GamePad* gamePad)
 	}
 	sceneObj_->effectO_->SetColor(sceneObj_->effectO_->color_);
 
-	sceneObj_->effectO_->SetScale(sceneObj_->effectO_->scale_);
+	sceneObj_->effectO_->SetScale(sceneObj_->effectO_->worldTransform.scale_);
 	sceneObj_->effectO_->Update();
 	sceneObj_->particle_->Update();
 }

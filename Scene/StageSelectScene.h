@@ -98,6 +98,8 @@ protected:
 	int soundCheckFlag = 0;
 #pragma endregion
 
+
+
 public:
 	//コンストラクタとデストラクタ
 	StageSelectScene(SceneManager* controller,SceneObjects* sceneObj);

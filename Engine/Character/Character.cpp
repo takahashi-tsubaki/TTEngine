@@ -1,5 +1,5 @@
 #include "Character.h"
-
+#include "SceneObjects.h"
 Character::Character()
 {
 
