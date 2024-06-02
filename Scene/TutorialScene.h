@@ -131,7 +131,8 @@ protected:
 #pragma endregion
 
 	std::list<std::unique_ptr<PlayerBullet>> bullets_;
-
+	Model* fieldModel_ = nullptr;
+	Object3d* fieldObj_ = nullptr;
 public:
 	//コンストラクタとデストラクタ
 	TutorialScene(SceneManager* controller,SceneObjects* sceneObj);

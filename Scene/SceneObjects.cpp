@@ -50,7 +50,7 @@ void SceneObjects::Initialize(SceneManager* controller)
 	controller_ = controller;
 
 	skydomeO_ = Object3d::Create();
-	skydomeM_ = Model::CreateFromOBJ("skydome");
+	skydomeM_ = Model::CreateFromOBJ("skydome2");
 	skydomeO_->SetModel(skydomeM_);
 	skydomeO_->SetScale({ 10,10,10 });
 
@@ -104,9 +104,9 @@ void SceneObjects::Initialize(SceneManager* controller)
 	 audio_->LoadWave("bullet.wav");
 
 	 effectO_ = Object3d::Create();
-	 effectM_ = Model::CreateFromOBJ("tyaji2");
+	 effectM_ = Model::CreateFromOBJ("Wind");
 	 effectO_->SetModel(effectM_);
-	 effectO_->SetScale({4, 4, 4});
+	 effectO_->SetScale({1, 1, 1});
 
 }
 

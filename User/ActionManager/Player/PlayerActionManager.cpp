@@ -70,8 +70,10 @@ void PlayerActionManager::ActionUpdate(Input* input, GamePad* gamePad)
 	action_->Update(input, gamePad);
 }
 
-void PlayerActionManager::ActionDraw() {
-	action_->Draw(); }
+void PlayerActionManager::ActionDraw()
+{
+	action_->Draw();
+}
 
 void PlayerActionManager::ParticleDraw(ID3D12GraphicsCommandList* cmdList)
 {

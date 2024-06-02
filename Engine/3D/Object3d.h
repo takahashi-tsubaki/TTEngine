@@ -249,14 +249,14 @@ public:
 
 	// 色
 	Vector4 color_ = { 1,1,1,1 };
-	// ローカルスケール
-	Vector3 scale_ = { 1,1,1 };
-	// X,Y,Z軸回りのローカル回転角
-	Vector3 rotation_ = { 0,0,0 };
-	// ローカル座標
-	Vector3 position_ = { 0,0,0 };
-	// ローカルワールド変換行列
-	XMMATRIX matWorld;
+	//// ローカルスケール
+	//Vector3 scale_ = { 1,1,1 };
+	//// X,Y,Z軸回りのローカル回転角
+	//Vector3 rotation_ = { 0,0,0 };
+	//// ローカル座標
+	//Vector3 position_ = { 0,0,0 };
+	//// ローカルワールド変換行列
+	//XMMATRIX matWorld;
 
 
 

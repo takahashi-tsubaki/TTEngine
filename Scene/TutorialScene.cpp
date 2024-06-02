@@ -54,7 +54,7 @@ void TutorialScene::Initialize()
 	enemy = new EnemyCharacter();
 
 	player->Initialize(controller_->dxCommon_, { 0, 0, -50 }, enemy, sceneObj_);
-	enemy->Initialize(controller_->dxCommon_, { 0, 0, 0 }, player);
+	enemy->Initialize(controller_->dxCommon_, { 0, 0, 0 }, player,sceneObj_);
 
 
 	// 音声データの初期化と読み取り
@@ -62,6 +62,11 @@ void TutorialScene::Initialize()
 	audio->Initialize();
 
 	audio->LoadWave("oto.wav");
+
+
+	fieldModel_ = Model::CreateFromOBJ("cube2");
+	fieldObj_ = Object3d::Create();
+	fieldObj_->SetModel(fieldModel_);
 
 }
 
@@ -197,6 +202,7 @@ void TutorialScene::Update(Input* input, GamePad* gamePad)
 	sceneObj_->skydomeO_->SetPosition({ sceneObj_->skydomeO_->GetPosition().x,sceneObj_->skydomeO_->GetPosition().y,sceneObj_->skydomeO_->GetPosition().z });
 	sceneObj_->skydomeO_->Update();
 	sceneObj_->transitionO_->Update();
+	fieldObj_->Update();
 }
 
 void TutorialScene::Draw()
@@ -210,6 +216,7 @@ void TutorialScene::Draw()
 
 
 	sceneObj_->skydomeO_->Draw();
+	fieldObj_->Draw();
 
 	player->Draw();
 

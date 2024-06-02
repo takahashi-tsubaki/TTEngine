@@ -21,6 +21,9 @@
 #include "ParticleM.h"
 #include "OBJParticle.h"
 
+
+class SceneObjects;
+
 enum FBXAnimetion {
 	IdeL = 0,
 	LeftMOVE,
@@ -77,6 +80,7 @@ protected:
 	std::unique_ptr<FbxModel> fbxModel_;
 	// fbxの大きさ
 	float fbxScale_;
+	SceneObjects* sceneObject_;
 
 #pragma region フラグ関連
 

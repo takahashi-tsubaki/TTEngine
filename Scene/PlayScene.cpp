@@ -70,6 +70,7 @@ void PlayScene::Initialize()
 
 #pragma endregion
 
+
 	//player_ = sceneObj_->player_;
 	//enemy_ = sceneObj_->enemy_;
 
@@ -77,7 +78,7 @@ void PlayScene::Initialize()
 	enemy = new EnemyCharacter();
 
 	player->Initialize(controller_->dxCommon_, {0, 0, -50}, enemy,sceneObj_);
-	enemy->Initialize(controller_->dxCommon_, {0, 0, 0}, player);
+	enemy->Initialize(controller_->dxCommon_, {0, 0, 0}, player,sceneObj_);
 
 	sceneObj_->player = player ;
 	sceneObj_->enemy = enemy ;
@@ -97,6 +98,12 @@ void PlayScene::Initialize()
 	audio->Initialize();
 
 	audio->LoadWave("oto.wav");
+	//ステージオブジェクトの初期化
+	LoadStageObj();
+
+
+	fieldObj_ = Object3d::Create();
+	fieldObj_->SetModel(fieldModel_);
 }
 
 void PlayScene::Update(Input* input, GamePad* gamePad)
@@ -246,7 +253,7 @@ void PlayScene::Update(Input* input, GamePad* gamePad)
 	sceneObj_->skydomeO_->SetPosition({ sceneObj_->skydomeO_->GetPosition().x,sceneObj_->skydomeO_->GetPosition().y,sceneObj_->skydomeO_->GetPosition().z });
 	sceneObj_->skydomeO_->Update();
 	sceneObj_->transitionO_->Update();
-
+	fieldObj_->Update();
 	
 	//リセット処理
 	if (input->TriggerKey(DIK_R))
@@ -271,6 +278,10 @@ void PlayScene::Update(Input* input, GamePad* gamePad)
 		gameClearAnimetion();
 	}
 
+	for ( auto& object : objects )
+	{
+		object->Update();
+	}
 }
 
 void PlayScene::Draw()
@@ -286,7 +297,14 @@ void PlayScene::Draw()
 
 	sceneObj_->skydomeO_->Draw();
 
-	player->Draw();
+	for ( auto& object : objects )
+	{
+		object->Draw();
+	}
+
+	fieldObj_->Draw();
+
+
 	
 	enemy->Draw();
 
@@ -321,7 +339,7 @@ void PlayScene::Draw()
 	Object3d::PreDraw(controller_->dxCommon_->GetCommandList());
 
 	//// 3Dオブジェクトの描画
-
+	player->Draw();
 
 	//BulletManager::GetInstance()->ParticleDraw(controller_->dxCommon_->GetCommandList());
 	if ( isFinish == false )
@@ -405,7 +423,7 @@ void PlayScene::Draw()
 
 void PlayScene::SceneTransition()
 {
-	sceneObj_->transitionO_->worldTransform.scale_ -= scale;
+	sceneObj_->transitionO_->worldTransform.scale_ -= scale_;
 	sceneObj_->transitionO_->Update();
 }
 
@@ -479,6 +497,50 @@ void PlayScene::StartSign(Input* input,GamePad*gamepad)
 	}
 }
 
+void PlayScene::LoadStageObj()
+{
+	fieldModel_ = Model::CreateFromOBJ("cube2");
+	levelEditer = LevelLoader::LoadFile("fieldObj3");
+
+	models.insert(std::make_pair("cube2",fieldModel_));
+	// レベルデータからオブジェクトを生成、配置
+	for ( auto& objectData : levelEditer->objects )
+	{
+// ファイル名から登録済みモデルを検索
+		Model* model = nullptr;
+		decltype( models )::iterator it = models.find(objectData.filename);
+		if ( it != models.end() )
+		{
+			model = it->second;
+		}
+
+		// モデルを指定して3Dオブジェクトを生成
+		Object3d* newObject = Object3d::Create();
+		newObject->SetModel(model);
+
+
+		pos = objectData.translation;
+		//DirectX::XMStoreFloat3(&pos,objectData.translation);
+		newObject->SetPosition(pos);
+
+		// 回転角
+		Vector3 rot;
+		//DirectX::XMStoreFloat3(&rot,objectData.rotation);
+		rot = objectData.rotation;
+		newObject->SetRotation(rot);
+
+		// 座標
+		Vector3 scale;
+		//DirectX::XMStoreFloat3(&scale,objectData.scaling);
+		scale = objectData.scaling;
+		newObject->SetScale(scale);
+
+		// 配列に登録
+		objects.push_back(newObject);
+	}
+
+}
+
 
 
 void PlayScene::ResetParam()
@@ -487,6 +549,7 @@ void PlayScene::ResetParam()
 	enemy->Reset();
 	//sceneObj_->player_ = player_;
 	//sceneObj_->enemy_ = enemy_;
+
 	controller_->GetGameCamera()->SetFollowerPos(player->GetFbxObject3d()->GetWorldTransformPtr());
 	controller_->GetGameCamera()->SetTargetPos(enemy->GetFbxObject3d()->GetWorldTransformPtr());
 
