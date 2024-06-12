@@ -11,7 +11,8 @@ StageSelectScene::StageSelectScene(SceneManager* controller, SceneObjects* scene
 
 StageSelectScene::~StageSelectScene()
 {
-
+	delete player_;
+	delete enemy_;
 	//sceneObj_->Reset();
 	isTransition = false;
 	delete audio;
@@ -26,8 +27,13 @@ void StageSelectScene::Initialize()
 	battleSP_->Initialize();
 
 
-	player_ = sceneObj_->player_;
-	enemy_ = sceneObj_->enemy_;
+
+	player_ = new PlayerCharacter();
+	enemy_ = new EnemyCharacter();
+
+	//自機と敵の初期化
+	player_->Initialize(controller_->dxCommon_,{},enemy_,sceneObj_);
+	enemy_->Initialize(controller_->dxCommon_,{},player_,sceneObj_);
 
 	controller_->camera_->SetFollowerPos(&followPos);
 
@@ -52,8 +58,10 @@ void StageSelectScene::Update(Input* input, GamePad* gamePad)
 	sceneObj_->selectSkydomeO_->Update();
 	sceneObj_->transitionO_->Update();
 
+	//enemy_->GetObject3d()->Update();
 
 	player_->GetObject3d()->Update();
+
 	//enemy_->GetObject3d()->Update();
 	//ボタンを押したらシーン遷移を行う
 	if (input->TriggerKey(DIK_SPACE) || gamePad->ButtonTrigger(A))
@@ -72,16 +80,18 @@ void StageSelectScene::Update(Input* input, GamePad* gamePad)
 		
 		if ( currentSceneNum_ == CurrentSelectScene::Tutorial )
 		{
-			ParamReset();
+
 			pSourceVoice[ 0 ] = audio->PlayWave("select.wav");
 	/*		pSourceVoice[ 0 ]->SetVolume(0.05f);*/
+			ParamReset();
 			controller_->ChangeSceneNum(S_TUTORIAL);
 		}
 		if ( currentSceneNum_ == CurrentSelectScene::Battle )
 		{
-			ParamReset();
+
 			pSourceVoice[0] = audio->PlayWave("select.wav");
 			//pSourceVoice[ 0 ]->SetVolume(0.05f);
+			ParamReset();
 			controller_->ChangeSceneNum(S_PLAY);
 		}
 
@@ -109,8 +119,8 @@ void StageSelectScene::Draw()
 	sceneObj_->selectSkydomeO_->Draw();
 
 	//enemy_->GetObject3d()->Draw();
-	player_->GetObject3d()->Draw();
-
+	player_->Draw();
+	//enemy_->GetObject3d()->Draw();
 	//skydomeO_->Draw();
 
 	///// <summary>
@@ -210,25 +220,21 @@ void StageSelectScene::Draw()
 
 void StageSelectScene::SceneTransition()
 {
-	playerScale.x -= reduction;
-	playerScale.y += expansion;
-	player_->GetObject3d()->SetScale(playerScale);
+	//playerScale.x -= reduction;
+	//playerScale.y += expansion;
+	player_->GetFbxObject3d()->SetScale({0,0,0});
 
 
-	if ( player_->GetObject3d()->GetScale().x <= 0 )
+	if ( player_->GetFbxObject3d()->GetScale().x <= 0 )
 	{
-		player_->GetObject3d()->SetScale({ 0,0,0 });
+		player_->GetFbxObject3d()->SetScale({ 0,0,0 });
 		enemyScale.x -= reduction;
 		enemyScale.y += expansion;
 		cameraDescent = true;
 		//enemy_->GetObject3d()->SetScale(enemyScale);
 	}
 
-	//if ( enemy_->GetObject3d()->GetScale().x <= 0 )
-	//{
-	//	//enemy_->GetObject3d()->SetScale({ 0,0,0 });
 
-	//}
 
 	if ( cameraDescent == true )
 	{
@@ -258,12 +264,12 @@ void StageSelectScene::ParamReset()
 
 	//controller_->camera_->MoveCamera();
 	//enemy_->GetObject3d()->SetScale({ 1,1,1 });
-	player_->GetObject3d()->SetScale({ 1,1,1 });
+	player_->GetFbxObject3d()->SetScale({ 1,1,1 });
 
-	sceneObj_->player_->GetObject3d()->SetScale({1,1,1});
+	//sceneObj_->player_->GetFbxObject3d()->SetScale({1,1,1});
 	//sceneObj_->enemy_->GetObject3d()->SetScale({ 1,1,1 });
 
-	player_->GetObject3d()->SetPosition({ 0,0,-50 });
+	player_->GetFbxObject3d()->SetPosition({ 0,0,-50 });
 
 	sceneObj_->transitionO_->SetScale({400, 400, 60});
 	sceneObj_->transitionO_->SetPosition({transPos});

@@ -64,7 +64,7 @@ public:
 	/// 初期化
 	/// </summary>
 	/// <param name="controller"></param>
-	void Initialize(SceneManager* controller);
+	void Initialize(SceneManager* controller,SceneObjects* sceneObj);
 
 	/// <summary>
 	/// 更新
@@ -87,7 +87,7 @@ public:
 	void Reset();
 
 public:
-	SceneObjects* sceneObj = nullptr;
+	SceneObjects* sceneObj_ = nullptr;
 
 	FbxModel* fbxModel = nullptr;
 	FbxObject3d* fbxObject = nullptr;
@@ -119,8 +119,6 @@ public:
 	Model* bulletM_ = nullptr;
 	Model* homingBulletM_ = nullptr;
 
-	Player* player_ = nullptr;
-	Enemy* enemy_ = nullptr;
 
 	//Character* Player_ = nullptr;
 	//Character* Enemy_ = nullptr;

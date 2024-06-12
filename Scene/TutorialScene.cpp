@@ -114,18 +114,6 @@ void TutorialScene::Update(Input* input, GamePad* gamePad)
 			controller_->PushScene(S_PAUSE);
 		}
 
-		if (input->TriggerKey(DIK_LSHIFT) || gamePad->ButtonTrigger(BACK))
-		{
-			if (enemy_->GetDebugMode() == false)
-			{
-				enemy_->SetDebugMode(true);
-			}
-			else
-			{
-				enemy_->SetDebugMode(false);
-			}
-		}
-
 
 		
 
@@ -262,11 +250,6 @@ void TutorialScene::Draw()
 		enemy->GetParticle()->Draw(controller_->dxCommon_->GetCommandList());
 	}
 
-
-	if (player_->GetIsMoveLimit() == true)
-	{
-
-	}
 	///// <summary>
 	///// ここに3Dオブジェクトの描画処理を追加できる
 	///// </summary>
@@ -409,8 +392,6 @@ void TutorialScene::ResetParam()
 {
 	player->Reset();
 	enemy->Reset();
-	sceneObj_->player_ = player_;
-	sceneObj_->enemy_ = enemy_;
 	controller_->GetGameCamera()->SetFollowerPos(player->GetFbxObject3d()->GetWorldTransformPtr());
 	controller_->GetGameCamera()->SetTargetPos(enemy->GetFbxObject3d()->GetWorldTransformPtr());
 

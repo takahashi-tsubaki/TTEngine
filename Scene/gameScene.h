@@ -48,8 +48,8 @@ public:
 	/// </summary>
 	void Draw();
 
-
-
+public:
+	SceneObjects* sceneObjects = nullptr;
 private:
 	TTEngine::DirectXCommon* dxCommon_ = nullptr;
 
@@ -86,5 +86,5 @@ private:
 
 	IScene* scene_ = nullptr;
 	SceneManager* sceneManager = nullptr;
-	SceneObjects* sceneObjects = nullptr;
+
 };

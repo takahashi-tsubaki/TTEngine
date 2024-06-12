@@ -5,17 +5,10 @@ PlayScene::PlayScene(SceneManager* controller, SceneObjects* sceneObj)
 {
 	controller_ = controller;
 	sceneObj_ = sceneObj;
-	//sceneObj_->player_->Initialize(controller_->dxCommon_, sceneObj_->enemy_);
-	//sceneObj_->enemy_->Initialize(controller_->dxCommon_, sceneObj_->player_);
-	//sceneObj_->Initialize(controller_);
 }
 
 PlayScene::~PlayScene()
 {
-	//sceneObj_->Reset();
-	//sceneObj_->Delete();
-	//delete player_;
-	//delete enemy_;
 
 	delete alart;
 	delete startSp_;
@@ -23,7 +16,6 @@ PlayScene::~PlayScene()
 	delete damageSP_;
 
 	ResetParam();
-
 }
 
 void PlayScene::Initialize()
@@ -71,17 +63,12 @@ void PlayScene::Initialize()
 #pragma endregion
 
 
-	//player_ = sceneObj_->player_;
-	//enemy_ = sceneObj_->enemy_;
-
 	player = new PlayerCharacter();
 	enemy = new EnemyCharacter();
 
 	player->Initialize(controller_->dxCommon_, {0, 0, -50}, enemy,sceneObj_);
 	enemy->Initialize(controller_->dxCommon_, {0, 0, 0}, player,sceneObj_);
 
-	sceneObj_->player = player ;
-	sceneObj_->enemy = enemy ;
 
 	addRotation = {45, 0, 0};
 
@@ -186,16 +173,13 @@ void PlayScene::Update(Input* input, GamePad* gamePad)
 		if ( isFinish == false )
 		{
 
-
-			//継承したほうのやつ
 			
 			 player->Update(input, gamePad);
 			 enemy->Update();
+
 			controller_->GetGameCamera()->SetFollowerPos(
 			player->GetFbxObject3d()->GetWorldTransformPtr()); // カメラの座標の設定
 
-			//controller_->GetGameCamera()->SetFollowerPos(
-			//player_->GetObject3d()->GetWorldTransformPtr()); // カメラの座標の設定
 
 			controller_->GetGameCamera()->SetTargetPos(
 			    enemy->GetFbxObject3d()->GetWorldTransformPtr());//カメラの注視点の設定
@@ -222,13 +206,11 @@ void PlayScene::Update(Input* input, GamePad* gamePad)
 	}
 
 
-	player->GetFbxObject3d()->Update(); //この2つはCharacterクラスを継承したほう
+	player->GetFbxObject3d()->Update(); 
 	enemy->GetFbxObject3d()->Update();
 
 	BulletManager::GetInstance()->Update();
 
-	//Player_->Update();
-	//Enemy_->Update();
 #pragma endregion
 
 	//パーティクル
@@ -239,16 +221,7 @@ void PlayScene::Update(Input* input, GamePad* gamePad)
 	damageSP_->SetSize({enemy->GetDamageSize() * 32.0f, hpSpSize * 32.0f});
 	startSp_->SetSize({ 1280.0f,startSpSize * 256.0f });
 	transSP_->SetSize({(float)Size::TenTimes * 275.0f,(float) Size::TenTimes* 183.0f});
-	//fbxObject->Update();
 
-//#ifdef _DEBUG
-//	ImGui::Begin("Player");
-//	ImGui::SetWindowPos({ 200 , 200 });
-//	ImGui::SetWindowSize({ 500,100 });
-//	ImGui::InputFloat3("Pos", &player_->GetFbxObject3d()->worldTransform.translation_.x);
-//	ImGui::InputFloat3("Rotate", &player_->GetFbxObject3d()->worldTransform.rotation_.x);
-//	ImGui::End();
-//#endif
 
 	sceneObj_->skydomeO_->SetPosition({ sceneObj_->skydomeO_->GetPosition().x,sceneObj_->skydomeO_->GetPosition().y,sceneObj_->skydomeO_->GetPosition().z });
 	sceneObj_->skydomeO_->Update();
@@ -302,7 +275,7 @@ void PlayScene::Draw()
 		object->Draw();
 	}
 
-	fieldObj_->Draw();
+	//fieldObj_->Draw();
 
 
 	
@@ -433,16 +406,13 @@ void PlayScene::StartSign(Input* input,GamePad*gamepad)
 
 	const float shiftPos = 50.0f;
 
-	//GoalPos = { player_->GetObject3d()->GetPosition().x,player_->GetObject3d()->GetPosition().y + 9 ,player_->GetObject3d()->GetPosition().z - 7 };
+	
 	GoalPos = {
 	    player->GetFbxObject3d()->GetPosition().x, player->GetFbxObject3d()->GetPosition().y + 9,
 	    player->GetFbxObject3d()->GetPosition().z - 7};
 	cameraDis = StartPos  - GoalPos ;
 	addSpeed =  2.0f * (float)Ease::OutCubic(change,0,120,startSignCount);
 
-	//addSpeed *= -1;
-
-	//cameraDis.nomalize();
 	cameraDis *= addSpeed;
 
 	cameraDis.y *= -1;
@@ -499,10 +469,10 @@ void PlayScene::StartSign(Input* input,GamePad*gamepad)
 
 void PlayScene::LoadStageObj()
 {
-	fieldModel_ = Model::CreateFromOBJ("cube2");
-	levelEditer = LevelLoader::LoadFile("fieldObj3");
+	fieldModel_ = Model::CreateFromOBJ("cube");
+	levelEditer = LevelLoader::LoadFile("fieldObj2");
 
-	models.insert(std::make_pair("cube2",fieldModel_));
+	models.insert(std::make_pair("cube",fieldModel_));
 	// レベルデータからオブジェクトを生成、配置
 	for ( auto& objectData : levelEditer->objects )
 	{
@@ -708,7 +678,7 @@ void PlayScene::finishPlayerCamera() {
 
 	// finishCameraVec = {0, 0, 20};
 	//座標の計算
-	finishCameraPlayerVec = MyMath::bVelocity(
+	finishCameraPlayerVec = MyMath::MatVector(
 	    finishCameraPlayerVec, player->GetFbxObject3d()->GetWorldTransform().matWorld_);
 
 	finishCameraPlayerPos = player->GetFbxObject3d()->GetPosition() + finishCameraPlayerVec;
@@ -730,7 +700,7 @@ void PlayScene::finishEnemyCamera() {
 	// finishCameraVec = {0, 0, 20};
 
 	//平行移動だけを取り除いた回転行列の計算
-	finishCameraEnemyVec = MyMath::bVelocity(
+	finishCameraEnemyVec = MyMath::MatVector(
 	    finishCameraEnemyVec, enemy->GetFbxObject3d()->GetWorldTransform().matWorld_);
 
 	finishCameraEnemyPos = enemy->GetFbxObject3d()->GetPosition() + finishCameraEnemyVec;

@@ -39,20 +39,20 @@ void TitleScene::Initialize()
 	//sceneObj_->transitionO_->SetRotation({ 0,0,0 });
 	//sprite2_ = Sprite::Create(8,{200,200});
 
-	player_ = new Player();
-	enemy_ = new Enemy();
+	player_ = new PlayerCharacter();
+	enemy_ = new EnemyCharacter();
 
 	//自機と敵の初期化
-	player_->Initialize(controller_->dxCommon_,enemy_);
-	enemy_->Initialize(controller_->dxCommon_,player_);
+	player_->Initialize(controller_->dxCommon_,{},enemy_,sceneObj_);
+	enemy_->Initialize(controller_->dxCommon_,{},player_,sceneObj_);
 
 	//カメラの座標と注視点をセット
 	//controller_->camera_->SetEye({player_->GetFbxObject3d()->GetPosition().x, player_->GetFbxObject3d()->GetPosition().y,player_->GetFbxObject3d()->GetPosition().z - 50});
 
 	controller_->camera_->SetEye(
-	    {player_->GetObject3d()->GetPosition().x, player_->GetObject3d()->GetPosition().y,
-	     player_->GetObject3d()->GetPosition().z - 50});
-	controller_->camera_->SetTarget(enemy_->GetObject3d()->GetPosition());
+	    {player_->GetFbxObject3d()->GetPosition().x, player_->GetFbxObject3d()->GetPosition().y,
+		 player_->GetFbxObject3d()->GetPosition().z - 50});
+	controller_->camera_->SetTarget(enemy_->GetFbxObject3d()->GetPosition());
 
 	sceneObj_->transitionO_->SetScale({ 400,400,60 });
 	sceneObj_->transitionO_->SetPosition({ transPos });
@@ -72,9 +72,10 @@ void TitleScene::Update(Input* input, GamePad* gamePad)
 
 	//player_->TitleAnime();
 
+	//player_->GetObject3d()->Update();
 	player_->GetObject3d()->Update();
-	//player_->GetFbxObject3d()->Update();
 	enemy_->GetObject3d()->Update();
+	//enemy_->GetFbxObject3d()->Update();
 
 	/*player_->Update(input,gamePad);
 	enemy_->Update();*/
@@ -84,7 +85,7 @@ void TitleScene::Update(Input* input, GamePad* gamePad)
 	//ボタンを押したらシーン遷移を行う
 	if (input->TriggerKey(DIK_SPACE) || gamePad->ButtonTrigger(A))
 	{
-	/*	isTransition = true;*/
+		isTransition = true;
 		ParamReset();
 		controller_->ChangeSceneNum(S_SELECT);
 
@@ -114,9 +115,12 @@ void TitleScene::Draw()
 	sceneObj_->skydomeO_->Draw();
 	if ( transScale_.x >= 0 )
 	{
-		enemy_->GetObject3d()->Draw();
+		//enemy_->GetObject3d()->Draw();
 		//player_->Draw();
-		player_->GetObject3d()->Draw();
+	/*	player_->GetFbxObject3d()->Draw(controller_->dxCommon_->GetCommandList());*/
+
+		player_->ObjectDraw();
+		//enemy_->Draw();
 	}
 	
 
@@ -209,27 +213,22 @@ void TitleScene::Draw()
 void TitleScene::ParamReset()
 {
 
-	enemy_->GetObject3d()->SetPosition({ 0,0,0 });
+	enemy_->GetFbxObject3d()->SetPosition({ 0,0,0 });
 	//カメラの座標と注視点をセット
-	controller_->camera_->SetEye({ player_->GetObject3d()->GetPosition().x,player_->GetObject3d()->GetPosition().y,player_->GetObject3d()->GetPosition().z - 50 });
-	controller_->camera_->SetTarget(enemy_->GetObject3d()->GetPosition());
-	player_->GetObject3d()->SetScale({ 1,1,1 });
-	player_->GetObject3d()->SetPosition({ 0,0,-50 });
-
-	sceneObj_->player_ = player_;
-
-	sceneObj_->enemy_ = enemy_ ;
+	controller_->camera_->SetEye({ player_->GetFbxObject3d()->GetPosition().x,player_->GetFbxObject3d()->GetPosition().y + 10,player_->GetFbxObject3d()->GetPosition().z - 100 });
+	controller_->camera_->SetTarget(enemy_->GetFbxObject3d()->GetPosition());
+	player_->GetFbxObject3d()->SetScale({ 1,1,1 });
+	player_->GetFbxObject3d()->SetPosition({ 0,0,-50 });
 
 	sceneObj_->transitionO_->SetScale({400, 400, 60});
 	sceneObj_->transitionO_->SetPosition({ 0,-600,0 });
+
 	transScale_ = { 1,1,1 };
 	cameraRise = false;
 }
 
 void TitleScene::SceneTransition()
 {
-	//sceneObj_->transitionO_->worldTransform.scale_ += scale;
-	//sceneObj_->transitionO_->Update();
 
 	moveTimer++;
 
@@ -239,26 +238,23 @@ void TitleScene::SceneTransition()
 
 	playerScale.x -= reduction;
 	playerScale.y += expansion;
-	player_->GetObject3d()->SetScale(playerScale);
+	player_->GetFbxObject3d()->SetScale(playerScale);
 	
 
-	if ( player_->GetObject3d()->GetScale().x <= 0 )
+	if ( player_->GetFbxObject3d()->GetScale().x <= 0 )
 	{
-		player_->GetObject3d()->SetScale({ 0,0,0 });
-		//enemyScale.x -= reduction;
-		//enemyScale.y += expansion;
-		//enemy_->GetObject3d()->SetScale(enemyScale);
+		player_->GetFbxObject3d()->SetScale({ 0,0,0 });
 
 		speed = 3.0f * (float)Ease::InQuart(change,0,180,moveTimer);
 		pos.y *= speed;
-		enemy_->GetObject3d()->SetPosition(enemy_->GetObject3d()->GetPosition() + pos);
-		controller_->GetGameCamera()->target_.y = enemy_->GetObject3d()->GetPosition().y;
+		enemy_->GetFbxObject3d()->SetPosition(enemy_->GetFbxObject3d()->GetPosition() + pos);
+		controller_->GetGameCamera()->target_.y = enemy_->GetFbxObject3d()->GetPosition().y;
 	
 	}
 
 	if ( moveTimer > 180 )
 	{
-		enemy_->GetObject3d()->SetScale({ 0,0,0 });
+		enemy_->GetFbxObject3d()->SetScale({ 0,0,0 });
 
 		cameraRise = true;
 	}
@@ -275,7 +271,6 @@ void TitleScene::SceneTransition()
 		controller_->GetGameCamera()->SetEye(controller_->camera_->eye_);
 		
 		
-		//controller_->camera_->Update();
 	}
 	else
 	{

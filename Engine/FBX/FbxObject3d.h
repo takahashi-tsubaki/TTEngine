@@ -85,6 +85,11 @@ public: // メンバ関数
 	/// </summary>
 	static std::unique_ptr<FbxObject3d> Create();
 
+
+	Vector3 GetScale() {
+		return worldTransform.scale_;
+	}
+
 	/// <summary>
 	/// 大きさの設定
 	/// </summary>
