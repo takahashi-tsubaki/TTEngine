@@ -48,6 +48,8 @@ public:
 	// Fbxオブジェクトの取得
 	FbxObject3d* GetFbxObject3d() { return fbxObject_.get(); }
 
+	Object3d* GetObject3d() { return object_.get();}
+
 	/// <summary>
 	/// カメラのから見た回転座標の移動
 	/// </summary>
@@ -78,6 +80,9 @@ protected:
 	// プレイヤーのFBXモデル
 	std::unique_ptr<FbxObject3d> fbxObject_;
 	std::unique_ptr<FbxModel> fbxModel_;
+
+	std::unique_ptr<Object3d> object_;
+	std::unique_ptr<Model> model_;
 	// fbxの大きさ
 	float fbxScale_;
 	SceneObjects* sceneObject_;

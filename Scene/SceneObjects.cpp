@@ -1,8 +1,8 @@
 #include "SceneObjects.h"
 #include "SceneManager.h"
-void SceneObjects::Initialize(SceneManager* controller)
+void SceneObjects::Initialize(SceneManager* controller,SceneObjects* sceneObj)
 {
-
+	sceneObj_ = sceneObj;
 #pragma region ゲーム前シーン関連
 	Sprite::LoadTexture(SpriteNumber::TITLE, L"Resources/sprite/title2.png"); // タイトル
 	Sprite::LoadTexture(SpriteNumber::STAGESELECT, L"Resources/sprite/stageSelect.png");  // stage select
@@ -82,14 +82,6 @@ void SceneObjects::Initialize(SceneManager* controller)
 	fbxObject->SetPosition({ 0,-10,10 });
 
 
-	player_ = new Player();
-	enemy_ = new Enemy();
-
-
-
-	player_->Initialize(controller_->dxCommon_, enemy_);
-	enemy_->Initialize(controller_->dxCommon_,player_);
-
 	particle_ = std::make_unique<ParticleManager>();
 	particle_->SetDrawBlendMode(1);
 	particle_->Initialize();
@@ -108,6 +100,11 @@ void SceneObjects::Initialize(SceneManager* controller)
 	 effectO_->SetModel(effectM_);
 	 effectO_->SetScale({1, 1, 1});
 
+	 player = new PlayerCharacter();
+	 enemy = new EnemyCharacter();
+
+	 player->Initialize(controller_->GetDxCommon(),{0,0,0},enemy,this);
+	 enemy->Initialize(controller_->GetDxCommon(),{ 0,0,0 },player,this);
 }
 
 void SceneObjects::Delete()
@@ -120,8 +117,6 @@ void SceneObjects::Delete()
 	delete effectO_;
 	delete fbxObject;
 	delete fbxModel;
-	delete player_;
-	delete enemy_;
 
 	delete player;
 	delete enemy;

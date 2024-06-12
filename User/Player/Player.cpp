@@ -154,7 +154,7 @@ void Player::Update(Input* input, GamePad* gamePad)
 	{
 		transNormal = {0, 0.5f, -5};
 
-		transNormal = MyMath::bVelocity(transNormal, playerO_->worldTransform.matWorld_);
+		transNormal = MyMath::MatVector(transNormal, playerO_->worldTransform.matWorld_);
 		//transNormal = MyMath::bVelocity(transNormal, fbxPlayerO_->worldTransform.matWorld_);
 	}
 	
@@ -642,7 +642,7 @@ void Player::Vanish()
 	moveAngle();
 
 	Vector3 offSet = {5, 0, -1000};
-	offSet = MyMath::bVelocity(offSet, enemy_->GetFbxObject3d() ->GetWorldTransform().matWorld_);
+	offSet = MyMath::MatVector(offSet, enemy_->GetFbxObject3d() ->GetWorldTransform().matWorld_);
 
 	VanishPos = enemy_->GetFbxObject3d()->GetPosition() + offSet;
 

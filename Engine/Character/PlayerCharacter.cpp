@@ -70,8 +70,11 @@ void PlayerCharacter::Initialize(
 
 	Hp_ = 10;
 
+	object_.reset(Object3d::Create());
 
+	model_.reset(Model::CreateFromOBJ("human"));
 
+	object_->SetModel(model_.get());
 
 	//PlayerBullet::StaticInitialize();
 }
@@ -116,6 +119,16 @@ void PlayerCharacter::Draw()
 	ActManager_->ActionDraw();
 
 	particleObj_->Draw();
+}
+
+void PlayerCharacter::ObjectUpdate()
+{
+	object_->Update();
+}
+
+void PlayerCharacter::ObjectDraw()
+{
+	object_->Draw();
 }
 
 void PlayerCharacter::CheckHitCollision()

@@ -60,7 +60,7 @@ void GameScene::Initalize(TTEngine::DirectXCommon* dxCommon, Input* input, GameP
 	sceneObjects = new SceneObjects();
 
 	sceneManager = new SceneManager(dxCommon_,gameCamera, sceneObjects);
-	sceneObjects->Initialize(sceneManager);
+	sceneObjects->Initialize(sceneManager,sceneObjects);
 	sceneManager->SceneInitialize();
 
 
@@ -70,31 +70,6 @@ void GameScene::Update()
 {
 	sceneManager->ChangeScene();
 	sceneManager->SceneUpdate(input_,gamePad_);
-	//gameCamera->Update();
-
-	/*Vector3 nowEye = gameCamera->GetEye();
-
-	
-	light_->Update();
-	gamePad_->Update();
-
-	fbxObject->Update();
-
-
-	ImGui::Begin("Camera");
-
-	ImGui::SliderFloat("eye:x", &nowEye.x, -400.0f, 400.0f);
-	ImGui::SliderFloat("eye:xz", &nowEye.z, -400.0f, 400.0f);
-
-	ImGui::End();
-
-	gameCamera->Update();
-
-
-	skydomeO_->Update();
-
-	player_->Update();
-	enemy_->Update();*/
 
 	
 	//当たり判定

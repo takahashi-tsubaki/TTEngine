@@ -112,7 +112,7 @@ void Enemy::Update()
 		
 		transNormal = {0, 0.5f, 5};
 
-		transNormal = MyMath::bVelocity(transNormal, enemyO_->worldTransform.matWorld_);
+		transNormal = MyMath::MatVector(transNormal, enemyO_->worldTransform.matWorld_);
 
 		//transNormal = MyMath::bVelocity(transNormal, enemyFbxO_->worldTransform.matWorld_);
 
@@ -602,7 +602,7 @@ void Enemy::Attack() {
 void Enemy::Vanish()
 {
 	Vector3 offSet = {10, 0, -20};
-	offSet = MyMath::bVelocity(offSet, player_->GetObject3d()->GetWorldTransform().matWorld_);
+	offSet = MyMath::MatVector(offSet, player_->GetObject3d()->GetWorldTransform().matWorld_);
 
 	VanishPos = player_->GetObject3d()->GetPosition() + offSet;
 

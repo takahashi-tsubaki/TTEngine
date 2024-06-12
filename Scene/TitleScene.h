@@ -48,8 +48,8 @@ protected:
 	Vector3 skydomeRotate = { 0,0,0 };
 	float rotateSpeed = 0.001f;
 
-	Player* player_ = nullptr;
-	Enemy* enemy_ = nullptr;
+	PlayerCharacter* player_ = nullptr;
+	EnemyCharacter* enemy_ = nullptr;
 
 	//シーン遷移用の変数たち
 	float reduction = 0.05f;//縮小

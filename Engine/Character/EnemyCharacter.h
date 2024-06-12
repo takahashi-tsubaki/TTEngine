@@ -17,6 +17,9 @@ public:
 	// 描画
 	void Draw() override;
 
+	void ObjectUpdate();
+	void ObjectDraw();
+
 	void Damage();
 
 	void Reset();

@@ -61,6 +61,15 @@ void EnemyCharacter::Initialize(TTEngine::DirectXCommon* dxCommon, Vector3 posit
 
 	particleObj_ = ObjParticleManager::GetInstance();
 	particleObj_->Init(sceneObject_->transitionM_);
+
+
+	object_.reset(Object3d::Create());
+
+	model_.reset(Model::CreateFromOBJ("human"));
+
+	object_->SetModel(model_.get());
+
+	object_->SetPosition({ 0,0,50 });
 }
 
 void EnemyCharacter::Update()
@@ -80,7 +89,7 @@ void EnemyCharacter::Update()
 
 		transNormal = {0, 0.5f, 5};
 
-		transNormal = MyMath::bVelocity(transNormal, fbxObject_->worldTransform.matWorld_);
+		transNormal = MyMath::MatVector(transNormal, fbxObject_->worldTransform.matWorld_);
 		distance_ = distance;
 
 		ActManager_->ActionUpdate();
@@ -89,7 +98,6 @@ void EnemyCharacter::Update()
 		particleObj_->Update();
 	}
 
-
 }
 
 void EnemyCharacter::Draw()
@@ -97,6 +105,16 @@ void EnemyCharacter::Draw()
 
 	fbxObject_->Draw(dxCommon_->GetCommandList());
 	particleObj_->Draw();
+}
+
+void EnemyCharacter::ObjectUpdate()
+{
+	object_->Update();
+}
+
+void EnemyCharacter::ObjectDraw()
+{
+	object_->Draw();
 }
 
 void EnemyCharacter::Damage()

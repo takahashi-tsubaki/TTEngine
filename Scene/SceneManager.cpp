@@ -88,8 +88,6 @@ void SceneManager::ChangeScene()
 			break;
 		}
 		isChange = false;
-
-	
 	}
 	else
 	{

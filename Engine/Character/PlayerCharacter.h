@@ -20,6 +20,9 @@ public:
 	//描画
 	void Draw() override;
 
+	void ObjectUpdate();
+	void ObjectDraw();
+
 	EnemyCharacter* GetEnemy() {return enemy_;}
 
 	Vector3 GetDistance() { return distance_; }
@@ -51,6 +54,7 @@ public:
 		return particleM_.get();
 	}
 
+
 private:
 
 	int Hp_;
@@ -66,6 +70,7 @@ private:
 
 	std::unique_ptr<PlayerActionManager> ActManager_;
 	EnemyCharacter* enemy_ = nullptr;
+
 
 	//// プレイヤーの弾モデル関連
 	//std::list<std::unique_ptr<PlayerBullet>> bullets_;
