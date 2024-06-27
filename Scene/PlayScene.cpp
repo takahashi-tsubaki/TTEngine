@@ -68,7 +68,8 @@ void PlayScene::Initialize()
 
 	player->Initialize(controller_->dxCommon_, {0, 0, -50}, enemy,sceneObj_);
 	enemy->Initialize(controller_->dxCommon_, {0, 0, 0}, player,sceneObj_);
-
+	player->SetAttribute();
+	enemy->SetAttribute();
 
 	addRotation = {45, 0, 0};
 
@@ -126,16 +127,6 @@ void PlayScene::Update(Input* input, GamePad* gamePad)
 #pragma region 戦闘中
 	if ( isFight == true )
 	{
-			//シーンチェンジ
-		if ( input->TriggerKey(DIK_RETURN) || gamePad->ButtonTrigger(X) )
-		{
-
-			player_->Reset();
-			enemy->Reset();
-
-			ResetParam();
-			controller_->ChangeSceneNum(S_SELECT);
-		}
 
 		//ポーズシーンへ
 		if ( input->TriggerKey(DIK_TAB) || gamePad->ButtonTrigger(START) )
@@ -147,17 +138,6 @@ void PlayScene::Update(Input* input, GamePad* gamePad)
 			controller_->PushScene(S_PAUSE);
 		}
 
-		if ( input->TriggerKey(DIK_LSHIFT) || gamePad->ButtonTrigger(BACK) )
-		{
-			if ( enemy_->GetDebugMode() == false )
-			{
-				enemy_->SetDebugMode(true);
-			}
-			else
-			{
-				enemy_->SetDebugMode(false);
-			}
-		}
 
 
 		if (player->GetHp() >= 0 || enemy->GetHp() >= 0)
@@ -322,10 +302,6 @@ void PlayScene::Draw()
 	}
 
 
-	if ( player_->GetIsMoveLimit() == true )
-	{
-		
-	}
 	///// <summary>
 	///// ここに3Dオブジェクトの描画処理を追加できる
 	///// </summary>
@@ -573,7 +549,7 @@ void PlayScene::gameOverAnimetion() {
 	float addRota = 0.0075f;
 
 	addRotation.x += addRota;
-	//addRotation.y += addRota;
+
 	addRotation.z+= addRota;
 	player->GetFbxObject3d()->SetRotate(addRotation);
 
@@ -581,8 +557,6 @@ void PlayScene::gameOverAnimetion() {
 	{
 		transObjAlpha =(float) Size::OneTimes;
 	}
-
-	//transSP_->SetColor({1, 1, 1, transObjAlpha});
 
 	if (isFinishSpCount >28 && isFinishSpCount < Number::Ninety) {
 		finishSP_->SetPosition(finishSpPos);
@@ -656,7 +630,7 @@ void PlayScene::gameClearAnimetion()
 			controller_->ChangeSceneNum(S_CLEAR);
 			
 		}
-		else if (enemy->GetHp() <= Number::Zero && player_->GetHp() <= Number::Zero)
+		else if (enemy->GetHp() <= Number::Zero && player->GetHp() <= Number::Zero)
 		{
 			// 後で追加
 		}

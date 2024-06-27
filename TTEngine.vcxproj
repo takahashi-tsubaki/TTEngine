@@ -59,7 +59,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Engine\Base;$(SolutionDir)Engine\2D;$(SolutionDir)Engine\3D;$(SolutionDir)Scene;$(SolutionDir)Engine\Math;$(SolutionDir)Engine\Particle;$(SolutionDir)Engine\FBX;$(SolutionDir)External\DirectXTex;$(SolutionDir)External\fbx_sdk\include;$(SolutionDir)Engine\FrameWork;$(SolutionDir)External\imgui;$(SolutionDir)Engine\Camera;$(SolutionDir)Engine\Light;$(SolutionDir)User\Enemy;$(SolutionDir)User\Player;$(SolutionDir)User\Bullet;$(SolutionDir)Engine\Collider;$(SolutionDir)External\json;$(SolutionDir)User\PlayerState;$(SolutionDir)Engine\Character;$(SolutionDir)User\ActionManager;$(SolutionDir)User\ActionManager\Player;$(SolutionDir)User\ActionManager\Enemy</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Engine\Base;$(SolutionDir)Engine\2D;$(SolutionDir)Engine\3D;$(SolutionDir)Scene;$(SolutionDir)Engine\Math;$(SolutionDir)Engine\Particle;$(SolutionDir)Engine\FBX;$(SolutionDir)External\DirectXTex;$(SolutionDir)External\fbx_sdk\include;$(SolutionDir)Engine\FrameWork;$(SolutionDir)External\imgui;$(SolutionDir)Engine\Camera;$(SolutionDir)Engine\Light;$(SolutionDir)User\Bullet;$(SolutionDir)Engine\Collider;$(SolutionDir)External\json;$(SolutionDir)Engine\Character;$(SolutionDir)User\ActionManager;$(SolutionDir)User\ActionManager\Player;$(SolutionDir)User\ActionManager\Enemy</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <TreatWarningAsError>true</TreatWarningAsError>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
@@ -84,7 +84,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Engine\Base;$(SolutionDir)Engine\2D;$(SolutionDir)Engine\3D;$(SolutionDir)Scene;$(SolutionDir)Engine\Math;$(SolutionDir)Engine\Particle;$(SolutionDir)Engine\FBX;$(SolutionDir)External\DirectXTex;$(SolutionDir)External\fbx_sdk\include;$(SolutionDir)Engine\FrameWork;$(SolutionDir)External\imgui;$(SolutionDir)Engine\Camera;$(SolutionDir)Engine\Light;$(SolutionDir)User\Enemy;$(SolutionDir)User\Player;$(SolutionDir)User\Bullet;$(SolutionDir)Engine\Collider;$(SolutionDir)External\json;$(SolutionDir)User\PlayerState;$(SolutionDir)Engine\Character;$(SolutionDir)User\ActionManager;$(SolutionDir)User\ActionManager\Player;$(SolutionDir)User\ActionManager\Enemy</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Engine\Base;$(SolutionDir)Engine\2D;$(SolutionDir)Engine\3D;$(SolutionDir)Scene;$(SolutionDir)Engine\Math;$(SolutionDir)Engine\Particle;$(SolutionDir)Engine\FBX;$(SolutionDir)External\DirectXTex;$(SolutionDir)External\fbx_sdk\include;$(SolutionDir)Engine\FrameWork;$(SolutionDir)External\imgui;$(SolutionDir)Engine\Camera;$(SolutionDir)Engine\Light;$(SolutionDir)User\Bullet;$(SolutionDir)Engine\Collider;$(SolutionDir)External\json;$(SolutionDir)Engine\Character;$(SolutionDir)User\ActionManager;$(SolutionDir)User\ActionManager\Player;$(SolutionDir)User\ActionManager\Enemy</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <LanguageStandard>stdcpp20</LanguageStandard>
@@ -168,6 +168,7 @@
     <ClCompile Include="User\ActionManager\Enemy\EnemyActionManager.cpp" />
     <ClCompile Include="User\ActionManager\Enemy\EnemyHomingShot.cpp" />
     <ClCompile Include="User\ActionManager\Enemy\EnemyIdle.cpp" />
+    <ClCompile Include="User\ActionManager\Enemy\EnemyLaser.cpp" />
     <ClCompile Include="User\ActionManager\Enemy\EnemyMove.cpp" />
     <ClCompile Include="User\ActionManager\Enemy\EnemyShot.cpp" />
     <ClCompile Include="User\ActionManager\Player\Action.cpp" />
@@ -182,15 +183,8 @@
     <ClCompile Include="User\Bullet\BulletManager.cpp" />
     <ClCompile Include="User\Bullet\EnemyBullet.cpp" />
     <ClCompile Include="User\Bullet\HomingBullet.cpp" />
+    <ClCompile Include="User\Bullet\Laser.cpp" />
     <ClCompile Include="User\Bullet\PlayerBullet.cpp" />
-    <ClCompile Include="User\Enemy\Enemy.cpp" />
-    <ClCompile Include="User\Enemy\EnemyEnum.cpp" />
-    <ClCompile Include="User\PlayerState\Player2.cpp" />
-    <ClCompile Include="User\PlayerState\PlayerState.cpp" />
-    <ClCompile Include="User\PlayerState\StandBy.cpp" />
-    <ClCompile Include="User\PlayerState\StateManager.cpp" />
-    <ClCompile Include="User\PlayerState\StatePattern.cpp" />
-    <ClCompile Include="User\Player\Player.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\2D\ImguiManager.h" />
@@ -266,6 +260,7 @@
     <ClInclude Include="User\ActionManager\Enemy\EnemyActionManager.h" />
     <ClInclude Include="User\ActionManager\Enemy\EnemyHomingShot.h" />
     <ClInclude Include="User\ActionManager\Enemy\EnemyIdle.h" />
+    <ClInclude Include="User\ActionManager\Enemy\EnemyLaser.h" />
     <ClInclude Include="User\ActionManager\Enemy\EnemyMove.h" />
     <ClInclude Include="User\ActionManager\Enemy\EnemyShot.h" />
     <ClInclude Include="User\ActionManager\Player\Action.h" />
@@ -280,15 +275,8 @@
     <ClInclude Include="User\Bullet\BulletManager.h" />
     <ClInclude Include="User\Bullet\EnemyBullet.h" />
     <ClInclude Include="User\Bullet\HomingBullet.h" />
+    <ClInclude Include="User\Bullet\Laser.h" />
     <ClInclude Include="User\Bullet\PlayerBullet.h" />
-    <ClInclude Include="User\Enemy\Enemy.h" />
-    <ClInclude Include="User\Enemy\EnemyEnum.h" />
-    <ClInclude Include="User\PlayerState\Player2.h" />
-    <ClInclude Include="User\PlayerState\PlayerState.h" />
-    <ClInclude Include="User\PlayerState\StandBy.h" />
-    <ClInclude Include="User\PlayerState\StateManager.h" />
-    <ClInclude Include="User\PlayerState\StatePattern.h" />
-    <ClInclude Include="User\Player\Player.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\shaders\FBXPS.hlsl">

@@ -7,8 +7,6 @@
 
 #include <random>
 
-#include "EnemyEnum.h"
-
 // クラスの前方宣言
 class PlayerCharacter;
 class EnemyCharacter;
@@ -23,6 +21,10 @@ enum RangePattern
 	LONGRange,
 };
 
+enum ActionCoolTimer
+{
+	MoveDirect = 60,
+};
 
 class EnemyActionManager
 {
@@ -70,14 +72,14 @@ private:
 	Vector3 distance_;
 	int actionNum_ = 0;
 
-	float moveDirectTimer = 90;
+	float moveDirectTimer = 180;
 	int moveDirect_;
 
 	int rangepattern;
 
 	int crossRange = 33;
 	int middleRange = 66;
-	int longRange = 100;
+	int longRange = 99;
 	
 	// ランダム生成器の初期化
 	std::random_device random;

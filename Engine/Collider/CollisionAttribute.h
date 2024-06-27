@@ -12,3 +12,5 @@ const unsigned short COLLISION_ATTR_PLAYERBULLETS = 0b1 << 3;
 const unsigned short COLLISION_ATTR_ENEMYS = 0b1 << 4;
 //敵の弾
 const unsigned short COLLISION_ATTR_ENEMYBULLETS = 0b1 << 5;
+//敵のレーザー攻撃
+const unsigned short COLLISION_ATTR_ENEMYLASERS = 0b1 << 6;

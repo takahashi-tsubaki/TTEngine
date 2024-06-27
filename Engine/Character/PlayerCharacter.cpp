@@ -29,22 +29,7 @@ void PlayerCharacter::Initialize(
 	// fbxPlayerO_->SetIsBonesWorldMatCalc(true); // ボーンワールド行列計算あり
 	fbxObject_->Update();
 
-	SPHERE_COLISSION_NUM = 1;
-	sphere.resize(SPHERE_COLISSION_NUM);
-	spherePos.resize(SPHERE_COLISSION_NUM);
-
-
-	// 当たり判定の作成
-	for (int i = 0; i < SPHERE_COLISSION_NUM; i++) {
-		sphere[i] = new SphereCollider;
-		CollisionManager::GetInstance()->AddCollider(sphere[i]);
-		spherePos[i] = fbxObject_->GetPosition();
-		sphere[i]->SetBasisPos(&spherePos[i]);
-		sphere[i]->SetRadius(1.0f);
-
-		sphere[i]->SetAttribute(COLLISION_ATTR_PLAYERS);
-		sphere[i]->Update();
-	}
+	
 
 	particle_ = std::make_unique<ParticleManager>();
 	particle_->SetDrawBlendMode(1);
@@ -219,6 +204,28 @@ void PlayerCharacter::CheckHitCollision()
 
 				break;
 			}
+			//敵のレーザーと当たった時
+			if ( sphere[ i ]->GetCollisionInfo().collider_->GetAttribute() == COLLISION_ATTR_ENEMYLASERS )
+			{
+
+				isDamage = false;
+				hitCountTime = 60;
+				if ( isDamage == false )
+				{
+					Hp_ -= 1;
+					hitDeley = 3;
+					// particle_->SetColor({0, 0, 1, 1});
+					//particleM_->CallExp(sphere[i]->GetCollisionInfo().inter_);
+					//particleM_->CallSmallExp(sphere[i]->GetCollisionInfo().inter_);
+					ObjParticleManager::GetInstance()->SetAnyExp(sphere[ i ]->GetCollisionInfo().inter_);
+					//	被弾時のアニメーションの再生
+					fbxObject_->SetCurrentTimer(0);
+					//fbxObject_->PlayAnimation(FBXAnimetion::HIT, false);
+					isDamage = true;
+				}
+
+				break;
+			}
 		}
 	}
 	if (GetisDead() == true) {
@@ -250,16 +257,36 @@ void PlayerCharacter::ParticleDraw(ID3D12GraphicsCommandList* cmdList)
 	ActManager_->ParticleDraw(cmdList);
 }
 
+void PlayerCharacter::SetAttribute()
+{
+	SPHERE_COLISSION_NUM = 1;
+	sphere.resize(SPHERE_COLISSION_NUM);
+	spherePos.resize(SPHERE_COLISSION_NUM);
+
+
+	// 当たり判定の作成
+	for (int i = 0; i < SPHERE_COLISSION_NUM; i++) {
+		sphere[i] = new SphereCollider;
+		CollisionManager::GetInstance()->AddCollider(sphere[i]);
+		spherePos[i] = fbxObject_->GetPosition();
+		sphere[i]->SetBasisPos(&spherePos[i]);
+		sphere[i]->SetRadius(1.0f);
+
+		sphere[i]->SetAttribute(COLLISION_ATTR_PLAYERS);
+		sphere[i]->Update();
+	}
+}
+
 void PlayerCharacter::Reset() {
 
-	for (int i = 0; i < SPHERE_COLISSION_NUM; i++)
-	{
+	//for (int i = 0; i < SPHERE_COLISSION_NUM; i++)
+	//{
 
-		CollisionManager::GetInstance()->RemoveCollider(sphere[i]);
-		// こいつはいらない
-		/*sphere[i]->GetCollisionInfo().collider->RemoveAttribute(COLLISION_ATTR_PLAYERBULLETS);*/
-	}
-	ResetAttribute();
+	//	CollisionManager::GetInstance()->RemoveCollider(sphere[i]);
+	//	// こいつはいらない
+	//	/*sphere[i]->GetCollisionInfo().collider->RemoveAttribute(COLLISION_ATTR_PLAYERBULLETS);*/
+	//}
+	//ResetAttribute();
 
 	Hp_ = 10;
 	isDamage = false;

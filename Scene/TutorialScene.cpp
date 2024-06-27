@@ -55,7 +55,8 @@ void TutorialScene::Initialize()
 
 	player->Initialize(controller_->dxCommon_, { 0, 0, -50 }, enemy, sceneObj_);
 	enemy->Initialize(controller_->dxCommon_, { 0, 0, 0 }, player,sceneObj_);
-
+	player->SetAttribute();
+	enemy->SetAttribute();
 
 	// 音声データの初期化と読み取り
 	audio = new TTEngine::Audio();
@@ -93,16 +94,6 @@ void TutorialScene::Update(Input* input, GamePad* gamePad)
 #pragma region 戦闘中
 	if (isFight == true)
 	{
-		//シーンチェンジ
-		if (input->TriggerKey(DIK_RETURN) || gamePad->ButtonTrigger(X))
-		{
-
-			player->Reset();
-			enemy->Reset();
-
-			ResetParam();
-			controller_->ChangeSceneNum(S_SELECT);
-		}
 
 		//ポーズシーンへ
 		if (input->TriggerKey(DIK_TAB) || gamePad->ButtonTrigger(START))

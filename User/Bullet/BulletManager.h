@@ -2,6 +2,7 @@
 
 #include "Bullet.h"
 #include "HomingBullet.h"
+#include "Laser.h"
 
 #pragma warning(push)
 #pragma warning(disable : 4819)
@@ -36,6 +37,10 @@ public:
 		homingBullets_.push_back(std::move(Homingbullet));
 	}
 
+	inline void AddLaser(std::unique_ptr<Laser> laser) {
+		lasers_.push_back(std::move(laser));
+	}
+
 	void ClearBullet() { bullets_.clear();
 		homingBullets_.clear();}
 
@@ -52,5 +57,7 @@ private:
 
 	std::list<std::unique_ptr<Bullet>> bullets_;
 	std::list<std::unique_ptr<HomingBullet>> homingBullets_;
+
+	std::list<std::unique_ptr<Laser>> lasers_;
 
 };

@@ -78,7 +78,7 @@ void BombShot::Update(Input* input,GamePad* gamePad)
 
 
 
-	if ( gamePad->ButtonOffTrigger(A) || input->ReleaseKey(DIK_SPACE) )
+	if ( gamePad->ButtonOffTrigger(B) || input->ReleaseKey(DIK_B) )
 	{
 		if ( isShot == false )
 		{

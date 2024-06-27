@@ -39,9 +39,6 @@ protected:
 	Model* skydomeM_ = nullptr;
 
 
-	Player* player_ = nullptr;
-	Enemy* enemy_ = nullptr;
-
 	PlayerCharacter* player = nullptr;
 	EnemyCharacter* enemy = nullptr;
 
@@ -54,10 +51,6 @@ protected:
 	Sprite* enemyHpSprite_ = nullptr;
 
 	Vector3 nowEye;
-
-	//プレイヤーの弾モデル関連
-	std::list <std::unique_ptr<PlayerBullet>> pBullets_;
-	std::list <std::unique_ptr<EnemyBullet>> eBullets_;
 
 	bool finalCheck = false;
 	int checkNum = 0;

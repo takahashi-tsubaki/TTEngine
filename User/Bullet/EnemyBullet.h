@@ -7,7 +7,7 @@
 #include"CollisionManager.h"
 #include"CollisionAttribute.h"
 
-class Player;
+class PlayerCharacter;
 /// <summary>
 /// 敵の弾
 /// </summary>
@@ -33,7 +33,7 @@ public:
 		return isDead_;
 	}
 
-	void SetPlayer(Player* player) {
+	void SetPlayer(PlayerCharacter* player) {
 		player_ = player;
 	}
 
@@ -51,7 +51,7 @@ private:
 
 	bool isDead_;
 
-	Player* player_ = nullptr;
+	PlayerCharacter* player_;
 
 	int SPHERE_COLISSION_NUM = 1;	//コライダー（スフィア）の数
 	std::vector<Matrix4>* collisionBonesMat;	//当たり判定用のボーンのワールド行列

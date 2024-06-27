@@ -1,6 +1,7 @@
 #pragma once
 #include "Input.h"
 #include "GamePad.h"
+#include "Audio.h"
 
 #include "Sprite.h"
 #include "PostEffect.h"
@@ -15,8 +16,6 @@
 #include "Vector3.h"
 
 #include "FbxObject3d.h"
-#include "Player.h"
-#include "Enemy.h"
 
 #include "PlayerCharacter.h"
 #include "EnemyCharacter.h"
@@ -119,6 +118,7 @@ public:
 	Model* bulletM_ = nullptr;
 	Model* homingBulletM_ = nullptr;
 
+	Model* laserM_ = nullptr;
 
 	//Character* Player_ = nullptr;
 	//Character* Enemy_ = nullptr;

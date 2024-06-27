@@ -3,6 +3,7 @@
 #include "EnemyActionManager.h"
 #include "ParticleManager.h"
 
+#include "EnemyBullet.h"
 
 class PlayerCharacter;
 class EnemyCharacter : public Character
@@ -69,6 +70,8 @@ public:
 	void CheckHitCollision();
 
 	void IsDeadAnime();
+
+	void SetAttribute();
 
 private:
 	std::unique_ptr<EnemyActionManager> ActManager_;

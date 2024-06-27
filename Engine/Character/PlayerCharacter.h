@@ -55,6 +55,8 @@ public:
 	}
 
 
+	void SetAttribute();
+
 private:
 
 	int Hp_;
