@@ -79,10 +79,6 @@ protected:
 	Object3d* skydomeO_ = nullptr;
 	Model* skydomeM_ = nullptr;
 
-
-	Player* player_ = nullptr;
-	Enemy* enemy_ = nullptr;
-
 	CollisionManager* colMan = nullptr;
 
 	SceneObjects* sceneObj_;

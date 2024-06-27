@@ -18,8 +18,6 @@
 
 #include "FbxObject3d.h"
 
-#include "Player.h"
-#include "Enemy.h"
 #include "SceneManager.h"
 #include "SceneObjects.h"
 class GameScene
@@ -76,11 +74,6 @@ private:
 	//天球
 	Object3d* skydomeO_ = nullptr;
 	Model* skydomeM_ = nullptr;
-
-
-
-	Player* player_ = nullptr;
-	Enemy* enemy_ = nullptr;
 
 	CollisionManager* colMan = nullptr;
 

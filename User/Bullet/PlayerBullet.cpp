@@ -1,5 +1,4 @@
 #include "PlayerBullet.h"
-#include "Enemy.h"
 #include "ImguiManager.h"
 
 PlayerBullet::PlayerBullet() { /*bulletM_ = Model::CreateFromOBJ("bullet");*/ }
@@ -134,6 +133,19 @@ void PlayerBullet::CheckCollision()
 				isBulletHit = true;
 				if (isBulletHit == true) {
 					//BulletParticle_->RandParticle(sphere[i]->GetCollisionInfo().inter_);
+				}
+
+				livingTimer = 120.0f;
+				hitDeley = 4;
+				break;
+			}
+			if ( sphere[ i ]->GetCollisionInfo().collider_->GetAttribute() == COLLISION_ATTR_ENEMYLASERS )
+			{
+				isDead_ = true;
+				isBulletHit = true;
+				if ( isBulletHit == true )
+				{
+//BulletParticle_->RandParticle(sphere[i]->GetCollisionInfo().inter_);
 				}
 
 				livingTimer = 120.0f;

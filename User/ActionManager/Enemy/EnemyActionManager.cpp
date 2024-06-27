@@ -3,6 +3,7 @@
 #include "EnemyMove.h"
 #include "EnemyShot.h"
 #include "EnemyHomingShot.h"
+#include "EnemyLaser.h"
 #include "EnemyActionManager.h"
 
 #include "ImguiManager.h"
@@ -27,7 +28,6 @@ void EnemyActionManager::ActionUpdate()
 		moveDirectTimer--;
 	}
 	
-
 	//2点間の距離
 	DistanceTwoPoints();
 
@@ -110,10 +110,11 @@ void EnemyActionManager::crossRangePattern() {
 		}
 		else
 		{
-			if (action_->GetIsNowShot() == false) {
-				action_->SetIsNowShot(true);
-			}
-			ChangeAction(new EnemyShot(&*this, actionNum_));
+			//if (action_->GetIsNowShot() == false) {
+			//	action_->SetIsNowShot(true);
+			//}
+			//ChangeAction(new EnemyShot(&*this, actionNum_));
+			ChangeAction(new EnemyLaser(&*this));
 		}
 	};
 }
@@ -137,18 +138,19 @@ void EnemyActionManager::middleRangePattern()
 		}
 		else if ( actionNum_ >= 5 && actionNum_ <= 8 )//後ろ以外の方向への移動
 		{
-			if ( action_->GetIsNowShot() == false )
-			{
-				action_->SetIsNowShot(true);
-			}
-			ChangeAction(new EnemyHomingShot(&*this,actionNum_));
+			//if ( action_->GetIsNowShot() == false )
+			//{
+			//	action_->SetIsNowShot(true);
+			//}
+			//ChangeAction(new EnemyHomingShot(&*this,actionNum_));
+			ChangeAction(new EnemyLaser(&*this));
 		}
 		else
 		{
-			if (action_->GetIsNowShot() == false) {
-				action_->SetIsNowShot(true);
-			}
-			ChangeAction(new EnemyShot(&*this, actionNum_));
+			//if (action_->GetIsNowShot() == false) {
+			//	action_->SetIsNowShot(true);
+			//}
+			//ChangeAction(new EnemyShot(&*this, actionNum_));
 		}
 	};
 }
@@ -174,19 +176,22 @@ void EnemyActionManager::longRangePattern()
 		}
 		else if ( actionNum_ == 7 || actionNum_ == 8 )//後ろ以外の方向への移動
 		{
-			if ( action_->GetIsNowShot() == false )
-			{
-				action_->SetIsNowShot(true);
-			}
-			ChangeAction(new EnemyHomingShot(&*this,actionNum_));
+			//if ( action_->GetIsNowShot() == false )
+			//{
+			//	action_->SetIsNowShot(true);
+			//}
+			//ChangeAction(new EnemyHomingShot(&*this,actionNum_));
+			//ChangeAction(new EnemyLaser(&*this));
 		}
 		else
 		{
-			if (action_->GetIsNowShot() == false)
-			{
-				action_->SetIsNowShot(true);
-			}
-			ChangeAction(new EnemyShot(&*this, actionNum_));
+			//if (action_->GetIsNowShot() == false)
+			//{
+			//	action_->SetIsNowShot(true);
+			//}
+			//ChangeAction(new EnemyShot(&*this, actionNum_));
+
+			ChangeAction(new EnemyLaser(&*this));
 		}
 	};
 }

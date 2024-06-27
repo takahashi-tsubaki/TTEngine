@@ -120,9 +120,7 @@ void Shot::Update(Input* input, GamePad* gamePad)
 				std::unique_ptr<Bullet> newBullet = std::make_unique<Bullet>();
 				newBullet->Initialize(object_->worldTransform.translation_, Distance_, COLLISION_ATTR_PLAYERBULLETS);
 
-				if (shotType_ == ShotType::ONE) {
-					bulletCoolTimer_ = 15.0f;
-				} else if (shotType_ == ShotType::RAPID) {
+				if (shotType_ == ShotType::RAPID) {
 					bulletCoolTimer_ = 5.0f;
 				}
 
@@ -138,8 +136,9 @@ void Shot::Update(Input* input, GamePad* gamePad)
 			
 		}
 		if (bulletSize_ >= MaxBulletSize_) {
-			koutyokuTimer_--;
+			koutyokuTimer_--;		//次の行動が出来るまでのクールタイム
 		}
+
 		if (koutyokuTimer_ < 0) {
 			bulletSize_ = 0;
 			MaxBulletSize_ = 0;

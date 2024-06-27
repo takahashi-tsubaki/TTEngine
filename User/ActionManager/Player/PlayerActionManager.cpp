@@ -3,6 +3,7 @@
 #include "Move.h"
 #include "Shot.h"
 #include "Step.h"
+#include "BombShot.h"
 #include "PlayerActionManager.h"
 #include "EnemyCharacter.h"
 
@@ -43,24 +44,42 @@ void PlayerActionManager::ActionUpdate(Input* input, GamePad* gamePad)
 		if (action_->GetIsNowStep() == false)
 		{
 			if (action_->GetIsNowShot() == false) {
+				ChangeAction(new Shot(&*this));
 				action_->SetIsNowShot(true);
 			}
 			action_->SetIsStandBy(false);
-			ChangeAction(new Shot(&*this));
+
 		}
 		
 	}
+
+	if ( input->TriggerKey(DIK_B) || gamePad->ButtonTrigger(B) )
+	{
+		if ( action_->GetIsNowStep() == false )
+		{
+			if ( action_->GetIsNowShot() == false )
+			{
+				ChangeAction(new BombShot(&*this));
+				action_->SetIsNowShot(true);
+			}
+			action_->SetIsStandBy(false);
+
+		}
+
+	}
+	
 	//ステップ移動
-	if ( KeyTriggerArrow(input) == true || isAnyLStickOffTrigger(gamePad) == true )
+	if ( KeyTriggerJtoK(input) == true || isAnyLStickOffTrigger(gamePad) == true )
 	{
 		if ( action_->GetIsNowShot() == false )
 		{
 			if ( action_->GetIsNowStep() == false )
 			{
+				ChangeAction(new Step(&*this));
 				action_->SetIsNowStep(true);
 			}
 			action_->SetIsStandBy(false);
-			ChangeAction(new Step(&*this));
+	
 		}
 	}
 	if (action_->GetIsStandBy() == true)
@@ -107,9 +126,9 @@ bool PlayerActionManager::isAnyLStick(GamePad* gamePad) {
 	}
 }
 
-bool PlayerActionManager::KeyTriggerArrow(Input* input)
+bool PlayerActionManager::KeyTriggerJtoK(Input* input)
 {
-	if ( input->TriggerKey(DIK_LEFT) || input->TriggerKey(DIK_RIGHT) )
+	if ( input->TriggerKey(DIK_J) || input->TriggerKey(DIK_K) )
 	{
 		return true;
 	}
@@ -121,7 +140,7 @@ bool PlayerActionManager::KeyTriggerArrow(Input* input)
 
 bool PlayerActionManager::isAnyLStickOffTrigger(GamePad* gamePad)
 {
-	if ( gamePad->StickOffTrigger(L_LEFT) || gamePad->StickOffTrigger(L_RIGHT) )
+	if ( gamePad->StickTrigger(R_LEFT) || gamePad->StickTrigger(R_RIGHT) )
 	{
 		return true;
 	}

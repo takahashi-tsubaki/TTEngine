@@ -16,7 +16,7 @@ void EnemyCharacter::Initialize(TTEngine::DirectXCommon* dxCommon, Vector3 posit
 	FbxObject3d::CreateGraphicsPipeline();
 
 	//敵モデルのロード
-	fbxModel_.reset(FbxLoader::GetInstance()->LoadModelFromFile("enemy4"));
+	fbxModel_.reset(FbxLoader::GetInstance()->LoadModelFromFile("Enemy"));
 
 	//Fbxオブジェクトの初期化
 	fbxObject_ = FbxObject3d::Create();
@@ -26,21 +26,7 @@ void EnemyCharacter::Initialize(TTEngine::DirectXCommon* dxCommon, Vector3 posit
 	// fbxPlayerO_->SetIsBonesWorldMatCalc(true); // ボーンワールド行列計算あり
 	fbxObject_->Update();
 
-	SPHERE_COLISSION_NUM = 1;
-	sphere.resize(SPHERE_COLISSION_NUM);
-	spherePos.resize(SPHERE_COLISSION_NUM);
 
-	//当たり判定の作成
-	for (int i = 0; i < SPHERE_COLISSION_NUM; i++) {
-		sphere[i] = new SphereCollider;
-		CollisionManager::GetInstance()->AddCollider(sphere[i]);
-		spherePos[i] = fbxObject_->GetPosition();
-		sphere[i]->SetBasisPos(&spherePos[i]);
-		sphere[i]->SetRadius(1.0f);
-
-		sphere[i]->SetAttribute(COLLISION_ATTR_ENEMYS);
-		sphere[i]->Update();
-	}
 
 	particleObj_ = ObjParticleManager::GetInstance();
 	particleObj_->Init(sceneObject_->transitionM_);
@@ -138,7 +124,6 @@ void EnemyCharacter::Reset()
 {
 	Hp_ = 30;
 	if (isDead_ == true) {
-		ResetAttribute();
 		isDead_ = false;
 	}
 	blowAwayCount = 0;
@@ -264,7 +249,26 @@ void EnemyCharacter::CheckHitCollision()
 		sphere[i]->Update();
 	}
 }
+void EnemyCharacter::SetAttribute()
+{
+	SPHERE_COLISSION_NUM = 1;
+	sphere.resize(SPHERE_COLISSION_NUM);
+	spherePos.resize(SPHERE_COLISSION_NUM);
 
+
+	// 当たり判定の作成
+	for ( int i = 0; i < SPHERE_COLISSION_NUM; i++ )
+	{
+		sphere[ i ] = new SphereCollider;
+		CollisionManager::GetInstance()->AddCollider(sphere[ i ]);
+		spherePos[ i ] = fbxObject_->GetPosition();
+		sphere[ i ]->SetBasisPos(&spherePos[ i ]);
+		sphere[ i ]->SetRadius(1.0f);
+
+		sphere[ i ]->SetAttribute(COLLISION_ATTR_ENEMYS);
+		sphere[ i ]->Update();
+	}
+}
 void EnemyCharacter::IsDeadAnime() {
 	blowAwayCount++;
 

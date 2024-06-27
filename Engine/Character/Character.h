@@ -32,6 +32,7 @@ enum FBXAnimetion {
 	RightSTEP,
 	ShoT,
 	HiT,
+	Charge,
 };
 
 class Character

@@ -26,4 +26,5 @@ public:
 protected:
 	EnemyActionManager* actionManager_;
 	bool isNowShot_;
+
 };

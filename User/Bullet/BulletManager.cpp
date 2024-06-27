@@ -9,7 +9,7 @@ void BulletManager::Update()
 {
 	bullets_.remove_if([](std::unique_ptr<Bullet>& bullet) { return bullet->GetIsDead(); });
 	homingBullets_.remove_if([](std::unique_ptr<HomingBullet>& bullet) { return bullet->GetIsDead(); });
-
+	lasers_.remove_if([](std::unique_ptr<Laser>& laser) { return laser->GetIsDead(); });
 	for (std::unique_ptr<Bullet>& bullet : bullets_) {
 		bullet->Update();
 		//bullet->GetParticle()->Update();
@@ -17,6 +17,12 @@ void BulletManager::Update()
 
 	for (std::unique_ptr<HomingBullet>& homingBullet : homingBullets_) {
 		homingBullet->Update();
+		// bullet->GetParticle()->Update();
+	};
+
+	for ( std::unique_ptr<Laser>& laser : lasers_ )
+	{
+		laser->Update();
 		// bullet->GetParticle()->Update();
 	};
 
@@ -30,6 +36,12 @@ void BulletManager::Draw()
 
 	for (std::unique_ptr<HomingBullet>& homingBullet : homingBullets_) {
 		homingBullet->Draw();
+		// bullet->GetParticle()->Update();
+	};
+
+	for ( std::unique_ptr<Laser>& laser : lasers_ )
+	{
+		laser->Draw();
 		// bullet->GetParticle()->Update();
 	};
 

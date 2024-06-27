@@ -11,14 +11,12 @@
 #include "Light.h"
 #include "Model.h"
 #include "Object3d.h"
-
+#include "BulletManager.h"
 #include "ParticleManager.h"
 #include "Vector3.h"
 
 #include "FbxObject3d.h"
 
-#include "Player.h"
-#include "Enemy.h"
 #include "Character.h"
 class IScene
 {

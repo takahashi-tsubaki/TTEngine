@@ -91,12 +91,6 @@
     <Filter Include="ソース ファイル\Player">
       <UniqueIdentifier>{2af066da-122d-43b3-9a3b-0356b21c006c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Enemy">
-      <UniqueIdentifier>{e9908776-5210-4be3-bd33-e86f1bfa9503}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\Enemy">
-      <UniqueIdentifier>{74a020c3-dbdb-4b72-84ab-5a7421754e41}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\Bullet">
       <UniqueIdentifier>{75c79add-73c3-4151-b112-0857ba553ee5}</UniqueIdentifier>
     </Filter>
@@ -306,32 +300,11 @@
     <ClCompile Include="User\Bullet\PlayerBullet.cpp">
       <Filter>ソース ファイル\Bullet</Filter>
     </ClCompile>
-    <ClCompile Include="User\Enemy\Enemy.cpp">
-      <Filter>ソース ファイル\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="User\Player\Player.cpp">
-      <Filter>ソース ファイル\Player</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Base\MouseInput.cpp">
       <Filter>Base\.cpp</Filter>
     </ClCompile>
     <ClCompile Include="Scene\StageSelectScene.cpp">
       <Filter>ソース ファイル\scene\SceneManager</Filter>
-    </ClCompile>
-    <ClCompile Include="User\PlayerState\StatePattern.cpp">
-      <Filter>ソース ファイル\PlayerState</Filter>
-    </ClCompile>
-    <ClCompile Include="User\PlayerState\StateManager.cpp">
-      <Filter>ソース ファイル\PlayerState</Filter>
-    </ClCompile>
-    <ClCompile Include="User\PlayerState\PlayerState.cpp">
-      <Filter>ソース ファイル\PlayerState</Filter>
-    </ClCompile>
-    <ClCompile Include="User\PlayerState\Player2.cpp">
-      <Filter>ソース ファイル\PlayerState</Filter>
-    </ClCompile>
-    <ClCompile Include="User\PlayerState\StandBy.cpp">
-      <Filter>ソース ファイル\PlayerState</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Effect\EffectMaterial.cpp">
       <Filter>ソース ファイル\Effect</Filter>
@@ -402,9 +375,6 @@
     <ClCompile Include="Scene\TutorialScene.cpp">
       <Filter>ソース ファイル\scene\SceneManager</Filter>
     </ClCompile>
-    <ClCompile Include="User\Enemy\EnemyEnum.cpp">
-      <Filter>ソース ファイル\Enum</Filter>
-    </ClCompile>
     <ClCompile Include="User\ActionManager\Player\BombShot.cpp">
       <Filter>ソース ファイル\Action\Player</Filter>
     </ClCompile>
@@ -422,6 +392,12 @@
     </ClCompile>
     <ClCompile Include="Engine\Math\MathUtility.cpp">
       <Filter>ソース ファイル\math</Filter>
+    </ClCompile>
+    <ClCompile Include="User\ActionManager\Enemy\EnemyLaser.cpp">
+      <Filter>ソース ファイル\Action\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="User\Bullet\Laser.cpp">
+      <Filter>ソース ファイル\Bullet</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -584,12 +560,6 @@
     <ClInclude Include="Engine\Base\Audio.h">
       <Filter>Base\.h</Filter>
     </ClInclude>
-    <ClInclude Include="User\Enemy\Enemy.h">
-      <Filter>ヘッダー ファイル\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="User\Player\Player.h">
-      <Filter>ヘッダー ファイル\Player</Filter>
-    </ClInclude>
     <ClInclude Include="User\Bullet\EnemyBullet.h">
       <Filter>ヘッダー ファイル\Bullet</Filter>
     </ClInclude>
@@ -607,21 +577,6 @@
     </ClInclude>
     <ClInclude Include="Scene\StageSelectScene.h">
       <Filter>ヘッダー ファイル\scene\SceneManager</Filter>
-    </ClInclude>
-    <ClInclude Include="User\PlayerState\StatePattern.h">
-      <Filter>ヘッダー ファイル\PlayerState</Filter>
-    </ClInclude>
-    <ClInclude Include="User\PlayerState\StateManager.h">
-      <Filter>ヘッダー ファイル\PlayerState</Filter>
-    </ClInclude>
-    <ClInclude Include="User\PlayerState\PlayerState.h">
-      <Filter>ヘッダー ファイル\PlayerState</Filter>
-    </ClInclude>
-    <ClInclude Include="User\PlayerState\Player2.h">
-      <Filter>ヘッダー ファイル\PlayerState</Filter>
-    </ClInclude>
-    <ClInclude Include="User\PlayerState\StandBy.h">
-      <Filter>ヘッダー ファイル\PlayerState</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Effect\EffectMaterial.h">
       <Filter>ヘッダー ファイル\Effect</Filter>
@@ -692,9 +647,6 @@
     <ClInclude Include="Scene\TutorialScene.h">
       <Filter>ヘッダー ファイル\scene\SceneManager</Filter>
     </ClInclude>
-    <ClInclude Include="User\Enemy\EnemyEnum.h">
-      <Filter>ヘッダー ファイル\Enum</Filter>
-    </ClInclude>
     <ClInclude Include="User\Bullet\BombBullet.h">
       <Filter>ヘッダー ファイル\Bullet</Filter>
     </ClInclude>
@@ -712,6 +664,12 @@
     </ClInclude>
     <ClInclude Include="Engine\Math\MathUtility.h">
       <Filter>ヘッダー ファイル\math</Filter>
+    </ClInclude>
+    <ClInclude Include="User\ActionManager\Enemy\EnemyLaser.h">
+      <Filter>ヘッダー ファイル\Action\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="User\Bullet\Laser.h">
+      <Filter>ヘッダー ファイル\Bullet</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

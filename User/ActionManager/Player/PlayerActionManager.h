@@ -51,7 +51,7 @@ public:
 
 	bool isAnyLStick(GamePad* gamePad);
 
-	bool KeyTriggerArrow(Input* input);
+	bool KeyTriggerJtoK(Input* input);
 
 	bool isAnyLStickOffTrigger(GamePad* gamePad);
 

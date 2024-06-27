@@ -122,6 +122,10 @@ public: // メンバ関数
 	/// <param name="flame"></param>
 	void SetFlame(uint32_t flame);
 
+	FbxTime GetFlame() {
+		return currentTime;
+	};
+
 	/// <summary>
 	/// アニメーション再生用
 	/// </summary>

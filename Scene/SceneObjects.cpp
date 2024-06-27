@@ -70,6 +70,9 @@ void SceneObjects::Initialize(SceneManager* controller,SceneObjects* sceneObj)
 	Bullet::SetModel(bulletM_);
 	homingBulletM_ = Model::CreateFromOBJ("bullet");
 	HomingBullet::SetModel(homingBulletM_);
+	laserM_ = Model::CreateFromOBJ("laser");
+	Laser::SetModel(laserM_);
+
 
 	//fbxModel = FbxLoader::GetInstance()->LoadModelFromFile("boss_prot4");
 
