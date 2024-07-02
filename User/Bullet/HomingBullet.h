@@ -14,7 +14,7 @@ class PlayerCharacter;
 
 enum BulletTimer
 {
-	UpTime = 60,
+	UpTime = 45,
 	HomingTime = 120,
 	LivingTime = 150,
 
@@ -147,7 +147,7 @@ private:
 	int hitDeley = 0; // 何フレーム連続で当たるか
 
 	float angle_ = 0;
-	float speed = 1.0f;
+	float speed = 0.75f;
 
 	static Model* model_;
 };

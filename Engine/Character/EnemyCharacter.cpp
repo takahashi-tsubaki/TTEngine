@@ -65,23 +65,19 @@ void EnemyCharacter::Update()
 	CheckHitCollision();
 	if (GetisDead() == false) {
 		fbxObject_->worldTransform.rotation_ = cameraAngle;
-	}
-	if (Hp_ <= 0) {
-		isDead_ = true;
-		IsDeadAnime();
-	}
-	else
-	{
+		transNormal = { 0, 0.5f, 5 };
 
-		transNormal = {0, 0.5f, 5};
-
-		transNormal = MyMath::MatVector(transNormal, fbxObject_->worldTransform.matWorld_);
+		transNormal = MyMath::MatVector(transNormal,fbxObject_->worldTransform.matWorld_);
 		distance_ = distance;
 
 		ActManager_->ActionUpdate();
 		fbxObject_->Update();
 		particle_->Update();
 		particleObj_->Update();
+	}
+	else
+	{
+		IsDeadAnime();
 	}
 
 }
@@ -116,7 +112,6 @@ void EnemyCharacter::Damage()
 	if (damageSize_ <= 0) {
 		damageSize_ = 0;
 	}
-
 	SetHp(Hp_);
 }
 
@@ -233,12 +228,28 @@ void EnemyCharacter::CheckHitCollision()
 
 				break;
 			}
+			if ( sphere[ i ]->GetCollisionInfo().collider_->GetAttribute() ==
+				COLLISION_ATTR_PLAYERBOMBBULLETS )
+			{
+				damageSize_ += damage * 5;
+
+				Hp_ -= damage*5;
+				/*particle_->Charge(
+					60, sphere[i]->GetCollisionInfo().inter_, sphere[i]->GetCollisionInfo().inter_,1.0f);*/
+				/*particle_->RandParticle(sphere[i]->GetCollisionInfo().inter_);*/
+				ObjParticleManager::GetInstance()->SetAnyExp(sphere[ i ]->GetCollisionInfo().inter_);
+				hitDeley = 5;
+
+				SetIsHit(true);
+
+				break;
+			}
 		}
 	}
 
 	if (GetHp() <= 0) {
 		for (int i = 0; i < SPHERE_COLISSION_NUM; i++) {
-			CollisionManager::GetInstance()->RemoveCollider(sphere[i]);
+
 			// こいつはいらない
 			/*sphere[i]->GetCollisionInfo().collider->RemoveAttribute(COLLISION_ATTR_PLAYERBULLETS);*/
 		}

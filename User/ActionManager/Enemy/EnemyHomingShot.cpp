@@ -18,7 +18,7 @@ void EnemyHomingShot::Initialize(FbxObject3d* object, PlayerCharacter* player) {
 }
 
 void EnemyHomingShot::Update() {
-	speed_ = 0.75f;
+	speed_ = 0.05f;
 	enemyPos = object_->GetPosition();
 	playerPos = player_->GetFbxObject3d()->GetPosition();
 	Distance_ = playerPos - enemyPos ;

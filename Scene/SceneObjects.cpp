@@ -30,7 +30,7 @@ void SceneObjects::Initialize(SceneManager* controller,SceneObjects* sceneObj)
 	Sprite::LoadTexture(SpriteNumber::ALART, L"Resources/sprite/alart2.png"); // !マーク
 	Sprite::LoadTexture(SpriteNumber::PAUSE, L"Resources/sprite/Pause.png");        // ポーズ マーク
 	Sprite::LoadTexture(SpriteNumber::OPERATION, L"Resources/sprite/Operation.png"); // ポーズ中のスプライト
-	Sprite::LoadTexture(SpriteNumber::SOUSA, L"Resources/sprite/sousa.png"); // 操作説明のスプライト
+	Sprite::LoadTexture(SpriteNumber::SOUSA, L"Resources/sprite/sousahouhou.png"); // 操作説明のスプライト
 	Sprite::LoadTexture(SpriteNumber::FINALCHECK, L"Resources/sprite/finalCheck.png");//最終確認用のスプライト
 
 #pragma endregion
@@ -66,6 +66,8 @@ void SceneObjects::Initialize(SceneManager* controller,SceneObjects* sceneObj)
 	transitionO_->SetScale({ 1,1,1 });
 
 	////弾モデルの生成
+	bombBulletM_ = Model::CreateFromOBJ("bullet");
+	BombBullet::SetModel(bombBulletM_);
 	bulletM_ = Model::CreateFromOBJ("bullet");
 	Bullet::SetModel(bulletM_);
 	homingBulletM_ = Model::CreateFromOBJ("bullet");

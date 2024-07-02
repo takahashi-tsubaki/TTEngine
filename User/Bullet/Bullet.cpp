@@ -161,13 +161,6 @@ void Bullet::CheckCollision() {
 		spherePos[i] = bulletO_->GetPosition();
 		sphere[i]->Update();
 	}
-
-	/*ImGui::Begin("livingbullet");
-	ImGui::SetWindowPos({ 800 , 400 });
-	ImGui::SetWindowSize({ 500,100 });
-	ImGui::InputFloat("livindBullet",&livingTimer);
-
-	ImGui::End();*/
 }
 
 void Bullet::Reset() {
@@ -178,7 +171,6 @@ void Bullet::Reset() {
 		for (int i = 0; i < SPHERE_COLISSION_NUM; i++) {
 			CollisionManager::GetInstance()->RemoveCollider(sphere[i]);
 			// こいつはいらない
-			/*sphere[i]->GetCollisionInfo().collider->RemoveAttribute(COLLISION_ATTR_PLAYERBULLETS);*/
 		}
 	}
 }

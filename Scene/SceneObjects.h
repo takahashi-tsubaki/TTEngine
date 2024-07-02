@@ -115,6 +115,7 @@ public:
 	Model* effectM_ = nullptr;
 	Object3d* effectO_ = nullptr;
 
+	Model* bombBulletM_ = nullptr;
 	Model* bulletM_ = nullptr;
 	Model* homingBulletM_ = nullptr;
 

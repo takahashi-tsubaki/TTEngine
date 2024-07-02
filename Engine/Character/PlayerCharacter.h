@@ -57,10 +57,13 @@ public:
 
 	void SetAttribute();
 
+	void IsDeadAnime();
+
 private:
 
 	int Hp_;
 	int hitDeley = 0; // 何フレーム連続で当たるか
+	int blowAwayCount = 0;
 
 	float hitCountTime = 60;
 
@@ -69,6 +72,7 @@ private:
 
 	Vector3 distance_;
 	Vector3 oldPos;
+	Vector3 transNormal;
 
 	std::unique_ptr<PlayerActionManager> ActManager_;
 	EnemyCharacter* enemy_ = nullptr;

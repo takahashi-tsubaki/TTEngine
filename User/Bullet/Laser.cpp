@@ -105,7 +105,15 @@ void Laser::CheckCollision()
 				hitDeley = 4;
 				break;
 			}
-
+			if ( sphere[ i ]->GetAttribute() == COLLISION_ATTR_ENEMYLASERS
+				&& sphere[ i ]->GetCollisionInfo().collider_->GetAttribute() == COLLISION_ATTR_PLAYERBOMBBULLETS )
+			{
+				isDead_ = true;
+				livingTimer = 120.0f;
+				//particle_->RandParticle(sphere[i]->GetCollisionInfo().inter_);
+				hitDeley = 4;
+				break;
+			}
 		}
 	}
 	
