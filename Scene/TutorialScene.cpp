@@ -65,7 +65,7 @@ void TutorialScene::Initialize()
 	audio->LoadWave("oto.wav");
 
 
-	fieldModel_ = Model::CreateFromOBJ("cube2");
+	fieldModel_ = Model::CreateFromOBJ("cube6");
 	fieldObj_ = Object3d::Create();
 	fieldObj_->SetModel(fieldModel_);
 
@@ -105,9 +105,6 @@ void TutorialScene::Update(Input* input, GamePad* gamePad)
 			controller_->PushScene(S_PAUSE);
 		}
 
-
-		
-
 		if (player->GetHp() <= 1 )
 		{
 			player->SetHp(10);
@@ -116,33 +113,26 @@ void TutorialScene::Update(Input* input, GamePad* gamePad)
 		{
 			enemy->SetHp(30);
 			enemy->SetDamageSize(0);
+			enemy->SetAttribute();
 		}
 
 
-		if (isFinish == false)
-		{
-			if (player->GetHp() >= 0 || enemy->GetHp() >= 0)
-			{
 
-				player->Update(input, gamePad);
-				enemy->Update();
-			}
+		player->Update(input, gamePad);
+		enemy->Update();
 
-			//継承したほうのやつ
 
-			//enemy->Update();
-			controller_->GetGameCamera()->SetFollowerPos(
-				player->GetFbxObject3d()->GetWorldTransformPtr()); // カメラの座標の設定
+		//継承したほうのやつ
 
-			//controller_->GetGameCamera()->SetFollowerPos(
-			//player_->GetObject3d()->GetWorldTransformPtr()); // カメラの座標の設定
+		//enemy->Update();
+		controller_->GetGameCamera()->SetFollowerPos(
+			player->GetFbxObject3d()->GetWorldTransformPtr()); // カメラの座標の設定
 
-			controller_->GetGameCamera()->SetTargetPos(
-				enemy->GetFbxObject3d()->GetWorldTransformPtr());//カメラの注視点の設定
+		controller_->GetGameCamera()->SetTargetPos(
+			enemy->GetFbxObject3d()->GetWorldTransformPtr());//カメラの注視点の設定
 
-			controller_->GetGameCamera()->MoveCamera();
-		}
-
+		controller_->GetGameCamera()->MoveCamera();
+		
 		isStartSign = false;
 		fightSpCount++;
 		startSignCount = 0;
@@ -268,12 +258,6 @@ void TutorialScene::Draw()
 
 	}
 
-
-	//if (player_->GetHp() > 0 && enemy_->GetVanishTimer()>0)
-	//{
-	//	alart->Draw();
-	//}
-
 	if (isFight == true)
 	{
 		isFightSP_->Draw();
@@ -285,14 +269,6 @@ void TutorialScene::Draw()
 		startSp_->Draw();
 	}
 	finishSP_->Draw();
-
-
-	//if (isFinishSpCount > Number::Ninety)
-	//{
-	//	transSP_->Draw();
-	//}
-
-
 
 	//
 	// スプライト描画後処理
@@ -314,8 +290,6 @@ void TutorialScene::StartSign(Input* input, GamePad* gamepad)
 	Vector3 StartPos = { 2,50,50 };
 
 	const float shiftPos = 50.0f;
-
-	//GoalPos = { player_->GetObject3d()->GetPosition().x,player_->GetObject3d()->GetPosition().y + 9 ,player_->GetObject3d()->GetPosition().z - 7 };
 	GoalPos = {
 		player->GetFbxObject3d()->GetPosition().x, player->GetFbxObject3d()->GetPosition().y + 9,
 		player->GetFbxObject3d()->GetPosition().z - 7 };

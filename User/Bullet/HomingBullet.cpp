@@ -126,7 +126,7 @@ void HomingBullet::Draw() { bulletO_->Draw(); }
 
 void HomingBullet::Shot() {
 
-	currentPlayerPos_ = player_->GetFbxObject3d()->GetPosition();
+	
 
 	//ホーミング強すぎ
 	livingTimer--;
@@ -135,11 +135,13 @@ void HomingBullet::Shot() {
 	if ( upTimer > 0 )
 	{
 		bulletO_->worldTransform.translation_.y += 0.5f;
+		currentPlayerPos_ = player_->GetFbxObject3d()->GetPosition();
 	}
 	if ( upTimer <= 0 )
 	{
 		upTimer = BulletTimer::UpTime;
 		homingTimer--;
+
 	}
 	if (livingTimer <= 0) {
 		isDead_ = true;
@@ -148,6 +150,7 @@ void HomingBullet::Shot() {
 	if (homingTimer > 0)
 	{
 		playerPos_ = player_->GetFbxObject3d()->GetPosition();
+
 		moveVelocity = currentPlayerPos_ - bulletO_->worldTransform.translation_;
 
 		moveVelocity.nomalize();

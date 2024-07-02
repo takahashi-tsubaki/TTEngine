@@ -103,17 +103,14 @@ void BombShot::Update(Input* input,GamePad* gamePad)
 			{
 
 				bulletSize_++;
-				std::unique_ptr<Bullet> newBullet = std::make_unique<Bullet>();
-				newBullet->Initialize(object_->worldTransform.translation_,Distance_,COLLISION_ATTR_PLAYERBULLETS);
-
-				
+				std::unique_ptr<BombBullet> newBullet = std::make_unique<BombBullet>();
+				newBullet->Initialize(object_->worldTransform.translation_,Distance_,COLLISION_ATTR_PLAYERBOMBBULLETS);
 
 				bulletCoolTimer_ = 5.0f;
 
-
 				newBullet->SetEnemy(enemy_);
 
-				BulletManager::GetInstance()->AddBullet(std::move(newBullet));
+				BulletManager::GetInstance()->AddBombBullet(std::move(newBullet));
 
 				pSourceVoice[ 0 ] = sceneObj_->audio_->PlayWave("bullet.wav");
 				pSourceVoice[ 0 ]->SetVolume(0.2f);
@@ -141,9 +138,7 @@ void BombShot::Update(Input* input,GamePad* gamePad)
 	{
 		sceneObj_->effectO_->worldTransform.rotation_.x += 3.0f;
 		sceneObj_->effectO_->worldTransform.rotation_.y += 3.0f;
-		//sceneObj_->effectO_->rotation_.z += 3.0f;
 		sceneObj_->effectO_->SetRotation(sceneObj_->effectO_->worldTransform.rotation_);
-		//sceneObj_->particle_->Charge(120, particlePos, playerPos, 1.0f);
 	}
 	if ( isSubColor == true )
 	{
@@ -197,9 +192,3 @@ void BombShot::Reset() {
 void BombShot::ParticleDraw(ID3D12GraphicsCommandList* cmdList) {
 	sceneObj_->particle_->Draw(cmdList);
 }
-
-
-
-//void Shot::Distance(Vector3 start, Vector3 goal) {}
-//
-//void Shot::DistanceTwoPoints(Vector3 start, Vector3 goal) {}

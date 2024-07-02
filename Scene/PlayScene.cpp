@@ -75,11 +75,7 @@ void PlayScene::Initialize()
 
 	addfinishSpeed = 30.0f;
 
-
 	sceneObj_->transitionO_->SetScale({100,100,1});
-	//実験用
-	/*enemyHpSprite_->SetColor({1, 0, 0, 1});*/
-
 
 	// 音声データの初期化と読み取り
 	audio = new TTEngine::Audio();
@@ -90,6 +86,7 @@ void PlayScene::Initialize()
 	LoadStageObj();
 
 
+	fieldModel_ = Model::CreateFromOBJ("cube6");
 	fieldObj_ = Object3d::Create();
 	fieldObj_->SetModel(fieldModel_);
 }
@@ -127,7 +124,6 @@ void PlayScene::Update(Input* input, GamePad* gamePad)
 #pragma region 戦闘中
 	if ( isFight == true )
 	{
-
 		//ポーズシーンへ
 		if ( input->TriggerKey(DIK_TAB) || gamePad->ButtonTrigger(START) )
 		{
@@ -138,8 +134,6 @@ void PlayScene::Update(Input* input, GamePad* gamePad)
 			controller_->PushScene(S_PAUSE);
 		}
 
-
-
 		if (player->GetHp() >= 0 || enemy->GetHp() >= 0)
 		{
 
@@ -148,8 +142,11 @@ void PlayScene::Update(Input* input, GamePad* gamePad)
 
 
 		}
-
-
+		if ( enemy->GetHp() <= 0)
+		{
+			enemy->SetHp(0);
+			enemy->SetisDead(true);
+		}
 		if ( isFinish == false )
 		{
 
@@ -231,10 +228,15 @@ void PlayScene::Update(Input* input, GamePad* gamePad)
 		gameClearAnimetion();
 	}
 
-	for ( auto& object : objects )
-	{
-		object->Update();
-	}
+	//for ( auto& object : objects )
+	//{
+	//	object->Update();
+	//}
+
+
+	fieldObj_->Update();
+
+
 }
 
 void PlayScene::Draw()
@@ -250,12 +252,12 @@ void PlayScene::Draw()
 
 	sceneObj_->skydomeO_->Draw();
 
-	for ( auto& object : objects )
-	{
-		object->Draw();
-	}
+	//for ( auto& object : objects )
+	//{
+	//	object->Draw();
+	//}
 
-	//fieldObj_->Draw();
+	fieldObj_->Draw();
 
 
 	
@@ -445,10 +447,10 @@ void PlayScene::StartSign(Input* input,GamePad*gamepad)
 
 void PlayScene::LoadStageObj()
 {
-	fieldModel_ = Model::CreateFromOBJ("cube");
+	fieldModel_ = Model::CreateFromOBJ("cube6");
 	levelEditer = LevelLoader::LoadFile("fieldObj2");
 
-	models.insert(std::make_pair("cube",fieldModel_));
+	models.insert(std::make_pair("cube6",fieldModel_));
 	// レベルデータからオブジェクトを生成、配置
 	for ( auto& objectData : levelEditer->objects )
 	{
@@ -466,18 +468,18 @@ void PlayScene::LoadStageObj()
 
 
 		pos = objectData.translation;
-		//DirectX::XMStoreFloat3(&pos,objectData.translation);
+
 		newObject->SetPosition(pos);
 
 		// 回転角
 		Vector3 rot;
-		//DirectX::XMStoreFloat3(&rot,objectData.rotation);
+
 		rot = objectData.rotation;
 		newObject->SetRotation(rot);
 
 		// 座標
 		Vector3 scale;
-		//DirectX::XMStoreFloat3(&scale,objectData.scaling);
+
 		scale = objectData.scaling;
 		newObject->SetScale(scale);
 
@@ -493,8 +495,6 @@ void PlayScene::ResetParam()
 {
 	player->Reset();
 	enemy->Reset();
-	//sceneObj_->player_ = player_;
-	//sceneObj_->enemy_ = enemy_;
 
 	controller_->GetGameCamera()->SetFollowerPos(player->GetFbxObject3d()->GetWorldTransformPtr());
 	controller_->GetGameCamera()->SetTargetPos(enemy->GetFbxObject3d()->GetWorldTransformPtr());
@@ -608,9 +608,6 @@ void PlayScene::gameClearAnimetion()
 	if (transObjAlpha >= (float)Size::OneTimes) {
 		transObjAlpha = (float)Size::OneTimes;
 	}
-	//sceneObj_->transitionO_->SetColor({1, 1, 1, transObjAlpha});
-	//sceneObj_->transitionO_->Update();
-	//transSP_->SetColor({1, 1, 1, transObjAlpha});
 
 	if (isFinishSpCount > 28 && isFinishSpCount < Number::Ninety) {
 		finishSP_->SetPosition(finishSpPos);
@@ -656,12 +653,6 @@ void PlayScene::finishPlayerCamera() {
 	    finishCameraPlayerVec, player->GetFbxObject3d()->GetWorldTransform().matWorld_);
 
 	finishCameraPlayerPos = player->GetFbxObject3d()->GetPosition() + finishCameraPlayerVec;
-
-		// finishCameraVec = {0, 0, 20};
-	//finishCameraPlayerVec = MyMath::bVelocity(
-	//    finishCameraPlayerVec, player_->GetObject3d()->GetWorldTransform().matWorld_);
-
-	//finishCameraPlayerPos = player_->GetObject3d()->GetPosition() + finishCameraPlayerVec;
 
 	finishCameraPlayerTarget = player->GetFbxObject3d()->GetPosition();
 }

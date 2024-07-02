@@ -75,11 +75,11 @@ void PlayerActionManager::ActionUpdate(Input* input, GamePad* gamePad)
 		{
 			if ( action_->GetIsNowStep() == false )
 			{
-				ChangeAction(new Step(&*this));
+
 				action_->SetIsNowStep(true);
 			}
 			action_->SetIsStandBy(false);
-	
+			ChangeAction(new Step(&*this));
 		}
 	}
 	if (action_->GetIsStandBy() == true)

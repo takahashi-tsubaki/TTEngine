@@ -26,7 +26,7 @@ void EnemyMove::Update()
 	DistanceTwoPoints(player_->GetFbxObject3d()->GetPosition(), object_->GetPosition());
 
 	//後ろ方向
-	if (moveDirect_ == 2) {
+	if (moveDirect_ == 2 || moveDirect_ > 4) {
 		// 移動限界に達していない時
 		if (Distance_.z <= MAX_POSITION) {
 			backSpeed = 0.5f;
@@ -36,6 +36,7 @@ void EnemyMove::Update()
 			backSpeed = 0;
 			isMoveLimit = true;
 		}
+		object_->PlayAnimation(FBXAnimetion::BackStep,false);
 		// 上記のうちどちらか小さい値の方をspeedに代入
 		backSpeed = min((MAX_POSITION - Distance_.z), 0.5f);
 		// speedを加算

@@ -33,6 +33,7 @@ enum FBXAnimetion {
 	ShoT,
 	HiT,
 	Charge,
+	BackStep,
 };
 
 class Character

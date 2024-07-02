@@ -2,7 +2,7 @@
 #include "EnemyCharacter.h"
 #include "ImguiManager.h"
 
-Model* BombBullet::model_ = nullptr;
+Model* BombBullet::model_ = nullptr;	
 
 BombBullet::BombBullet() {  }
 
@@ -17,7 +17,8 @@ void BombBullet::Initialize(
 	bulletO_->SetModel(model_);
 
 	bulletO_->worldTransform.translation_ = position;
-
+	bulletO_->worldTransform.scale_ = { 1,1,1 };
+	bulletO_->color_ = { 0,0,0,1 };
 	if ( attribute == COLLISION_ATTR_PLAYERBULLETS )
 	{
 		bulletO_->SetColor({ 1.0f, 1.0f, 0.0f, 1.0f });
@@ -60,7 +61,7 @@ void BombBullet::Initialize(
 	//particle_->LoadTexture("sprite/particle.png");
 	//particle_->Update();
 
-	livingTimer = 150.0f;
+	livingTimer = 45.0f;
 }
 
 void BombBullet::Update() {
@@ -90,10 +91,13 @@ void BombBullet::Draw() {
 void BombBullet::Shot() {
 
 	livingTimer--;
+	bulletO_->worldTransform.scale_.x -= 0.013f;
+	bulletO_->worldTransform.scale_.y -= 0.013f;
+	bulletO_->worldTransform.scale_.z -= 0.013f;
 	if ( livingTimer <= 0 )
 	{
 		isDead_ = true;
-		livingTimer = 150.0f;
+		livingTimer = 45.0f;
 	}
 
 	bulletO_->worldTransform.translation_ += velocity_;
@@ -124,6 +128,15 @@ void BombBullet::CheckCollision() {
 			// 弾の属性が自機の弾で当たった対象が敵の弾だった時
 			if ( sphere[ i ]->GetAttribute() == COLLISION_ATTR_PLAYERBULLETS &&
 				sphere[ i ]->GetCollisionInfo().collider_->GetAttribute() == COLLISION_ATTR_ENEMYBULLETS )
+			{
+				isDead_ = true;
+				livingTimer = 120.0f;
+				//particle_->RandParticle(sphere[i]->GetCollisionInfo().inter_);
+				hitDeley = 4;
+				break;
+			}
+			if ( sphere[ i ]->GetAttribute() == COLLISION_ATTR_PLAYERBOMBBULLETS
+				&& sphere[ i ]->GetCollisionInfo().collider_->GetAttribute() == COLLISION_ATTR_ENEMYS )
 			{
 				isDead_ = true;
 				livingTimer = 120.0f;

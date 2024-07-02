@@ -1,5 +1,6 @@
 #pragma once
 
+#include "BombBullet.h"
 #include "Bullet.h"
 #include "HomingBullet.h"
 #include "Laser.h"
@@ -41,6 +42,11 @@ public:
 		lasers_.push_back(std::move(laser));
 	}
 
+	inline void AddBombBullet(std::unique_ptr<BombBullet> bombBullet)
+	{
+		bombBullets_.push_back(std::move(bombBullet));
+	}
+
 	void ClearBullet() { bullets_.clear();
 		homingBullets_.clear();}
 
@@ -59,5 +65,6 @@ private:
 	std::list<std::unique_ptr<HomingBullet>> homingBullets_;
 
 	std::list<std::unique_ptr<Laser>> lasers_;
+	std::list<std::unique_ptr<BombBullet>> bombBullets_;
 
 };

@@ -95,25 +95,28 @@ void EnemyActionManager::crossRangePattern() {
 	{
 		moveDirectTimer = ActionCoolTimer::MoveDirect;
 
-		actionNum_ = generateRandomAction(1, 8);
+		actionNum_ = generateRandomAction(1, 9);
 
 			
 		if (actionNum_ == 1)
 		{
 			ChangeAction(new EnemyIdle(&*this));
 
-		}else if (actionNum_ >= 2 && actionNum_ < 4)
+		}else if (actionNum_ >= 2 && actionNum_ < 5)
 		{
 			if (action_->GetIsNowShot() == false) {
 				ChangeAction(new EnemyMove(&*this, actionNum_));
 			}
 		}
+		else if ( actionNum_ >= 6 && actionNum_ < 8)
+		{
+			if (action_->GetIsNowShot() == false) {
+				action_->SetIsNowShot(true);
+			}
+			ChangeAction(new EnemyShot(&*this, actionNum_));
+		}
 		else
 		{
-			//if (action_->GetIsNowShot() == false) {
-			//	action_->SetIsNowShot(true);
-			//}
-			//ChangeAction(new EnemyShot(&*this, actionNum_));
 			ChangeAction(new EnemyLaser(&*this));
 		}
 	};
@@ -125,7 +128,7 @@ void EnemyActionManager::middleRangePattern()
 	{
 		moveDirectTimer = ActionCoolTimer::MoveDirect;
 
-		actionNum_ = generateRandomAction(1, 9);
+		actionNum_ = generateRandomAction(1, 10);
 
 		if (actionNum_ == 1) {
 			ChangeAction(new EnemyIdle(&*this));
@@ -136,22 +139,27 @@ void EnemyActionManager::middleRangePattern()
 				ChangeAction(new EnemyMove(&*this, actionNum_));
 			}
 		}
-		else if ( actionNum_ >= 5 && actionNum_ <= 8 )//後ろ以外の方向への移動
+		else if ( actionNum_ == 5 || actionNum_ == 6 )//後ろ以外の方向への移動
 		{
-			//if ( action_->GetIsNowShot() == false )
-			//{
-			//	action_->SetIsNowShot(true);
-			//}
-			//ChangeAction(new EnemyHomingShot(&*this,actionNum_));
-			ChangeAction(new EnemyLaser(&*this));
+			if ( action_->GetIsNowShot() == false )
+			{
+				action_->SetIsNowShot(true);
+			}
+			ChangeAction(new EnemyHomingShot(&*this,actionNum_));
+
+		}
+		else if( actionNum_ >= 7 || actionNum_ < 10 )
+		{
+			if (action_->GetIsNowShot() == false) {
+				action_->SetIsNowShot(true);
+			}
+			ChangeAction(new EnemyShot(&*this, actionNum_));
 		}
 		else
 		{
-			//if (action_->GetIsNowShot() == false) {
-			//	action_->SetIsNowShot(true);
-			//}
-			//ChangeAction(new EnemyShot(&*this, actionNum_));
+			ChangeAction(new EnemyLaser(&*this));
 		}
+
 	};
 }
 
@@ -161,7 +169,7 @@ void EnemyActionManager::longRangePattern()
 	{
 		moveDirectTimer = ActionCoolTimer::MoveDirect;
 
-		actionNum_ = generateRandomAction(1, 10);
+		actionNum_ = generateRandomAction(1, 12);
 
 		if (actionNum_ == 1) {
 			ChangeAction(new EnemyIdle(&*this));
@@ -174,23 +182,26 @@ void EnemyActionManager::longRangePattern()
 
 			}
 		}
-		else if ( actionNum_ == 7 || actionNum_ == 8 )//後ろ以外の方向への移動
+		else if ( actionNum_ == 7)//ホーミング攻撃
 		{
-			//if ( action_->GetIsNowShot() == false )
-			//{
-			//	action_->SetIsNowShot(true);
-			//}
-			//ChangeAction(new EnemyHomingShot(&*this,actionNum_));
-			//ChangeAction(new EnemyLaser(&*this));
+			if ( action_->GetIsNowShot() == false )
+			{
+				action_->SetIsNowShot(true);
+			}
+			ChangeAction(new EnemyHomingShot(&*this,actionNum_));
+		}
+		else if ( actionNum_ >= 8 && actionNum_ <= 10 )
+		{
+			if (action_->GetIsNowShot() == false)
+			{
+				action_->SetIsNowShot(true);
+			}
+			ChangeAction(new EnemyShot(&*this, actionNum_));
+
+		
 		}
 		else
 		{
-			//if (action_->GetIsNowShot() == false)
-			//{
-			//	action_->SetIsNowShot(true);
-			//}
-			//ChangeAction(new EnemyShot(&*this, actionNum_));
-
 			ChangeAction(new EnemyLaser(&*this));
 		}
 	};

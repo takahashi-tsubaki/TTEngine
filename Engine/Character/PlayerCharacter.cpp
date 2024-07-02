@@ -1,7 +1,7 @@
 #include "PlayerCharacter.h"
 #include "EnemyCharacter.h"
 #include "SceneObjects.h"
-
+#include "Affin.h"
 #include "Shot.h"
 
 void PlayerCharacter::Initialize(
@@ -67,10 +67,7 @@ void PlayerCharacter::Initialize(
 void PlayerCharacter::Update(Input* input, GamePad* gamePad)
 {
 
-	//// デスフラグが立った球を削除
-	//bullets_.remove_if([](std::unique_ptr<PlayerBullet>& bullet) { return bullet->GetIsDead(); });
 
-	//bullets_ = ActManager_->GetBullets();
 	moveAngle();
 
 	if (GetisDead() == false) {
@@ -80,10 +77,15 @@ void PlayerCharacter::Update(Input* input, GamePad* gamePad)
 	if (Hp_ <= 0)
 	{
 		isDead_ = true;
+		IsDeadAnime();
 	}
 	else
 	{
 		distance_ = distance;
+
+		transNormal = { 0, 0.5f, -5 };
+
+		transNormal = MyMath::bVelocity(transNormal,fbxObject_->worldTransform.matWorld_);
 
 		// 更...新!!
 		fbxObject_->Update();
@@ -192,9 +194,6 @@ void PlayerCharacter::CheckHitCollision()
 				if (isDamage == false) {
 					Hp_ -= 1;
 					hitDeley = 3;
-					// particle_->SetColor({0, 0, 1, 1});
-					//particleM_->CallExp(sphere[i]->GetCollisionInfo().inter_);
-					//particleM_->CallSmallExp(sphere[i]->GetCollisionInfo().inter_);
 					ObjParticleManager::GetInstance()->SetAnyExp(sphere[ i ]->GetCollisionInfo().inter_);
 					//	被弾時のアニメーションの再生
 					fbxObject_->SetCurrentTimer(0);
@@ -214,9 +213,7 @@ void PlayerCharacter::CheckHitCollision()
 				{
 					Hp_ -= 1;
 					hitDeley = 3;
-					// particle_->SetColor({0, 0, 1, 1});
-					//particleM_->CallExp(sphere[i]->GetCollisionInfo().inter_);
-					//particleM_->CallSmallExp(sphere[i]->GetCollisionInfo().inter_);
+
 					ObjParticleManager::GetInstance()->SetAnyExp(sphere[ i ]->GetCollisionInfo().inter_);
 					//	被弾時のアニメーションの再生
 					fbxObject_->SetCurrentTimer(0);
@@ -233,7 +230,6 @@ void PlayerCharacter::CheckHitCollision()
 
 			CollisionManager::GetInstance()->RemoveCollider(sphere[i]);
 			// こいつはいらない
-			/*sphere[i]->GetCollisionInfo().collider->RemoveAttribute(COLLISION_ATTR_PLAYERBULLETS);*/
 		}
 	}
 	for (int i = 0; i < SPHERE_COLISSION_NUM; i++) {
@@ -277,16 +273,17 @@ void PlayerCharacter::SetAttribute()
 	}
 }
 
+void PlayerCharacter::IsDeadAnime()
+{
+	blowAwayCount++;
+
+	// 水平投射をしながら自機を下に落下させる
+	Affin::HorizontalProjection(fbxObject_->worldTransform,transNormal,1.0f,blowAwayCount);
+
+	fbxObject_->SetPosition(fbxObject_->worldTransform.translation_);
+}
+
 void PlayerCharacter::Reset() {
-
-	//for (int i = 0; i < SPHERE_COLISSION_NUM; i++)
-	//{
-
-	//	CollisionManager::GetInstance()->RemoveCollider(sphere[i]);
-	//	// こいつはいらない
-	//	/*sphere[i]->GetCollisionInfo().collider->RemoveAttribute(COLLISION_ATTR_PLAYERBULLETS);*/
-	//}
-	//ResetAttribute();
 
 	Hp_ = 10;
 	isDamage = false;
@@ -305,13 +302,6 @@ void PlayerCharacter::ResetAttribute()
 		sphere[i]->SetRadius(1.0f);
 		sphere[i]->SetAttribute(COLLISION_ATTR_PLAYERS);
 		sphere[i]->Update();
-		////test
-		// coliderPosTest_[i] = Object3d::Create();
-		// coliderPosTest_[i]->SetModel(hpModel_.get());
-		// coliderPosTest_[i]->SetPosition(sphere[i]->center);
-		// coliderPosTest_[i]->SetScale({ sphere[i]->GetRadius(),sphere[i]->GetRadius()
-		// ,sphere[i]->GetRadius() }); coliderPosTest_[i]->SetRotate({ 0,0,0 });
-		// coliderPosTest_[i]->Update();
 	}
 }
 
@@ -319,7 +309,5 @@ void PlayerCharacter::RemoveAttribute() {
 	for (int i = 0; i < SPHERE_COLISSION_NUM; i++) {
 
 		CollisionManager::GetInstance()->RemoveCollider(sphere[i]);
-		// こいつはいらない
-		/*sphere[i]->GetCollisionInfo().collider->RemoveAttribute(COLLISION_ATTR_PLAYERBULLETS);*/
 	}
 }
