@@ -27,10 +27,6 @@ void EnemyCharacter::Initialize(TTEngine::DirectXCommon* dxCommon, Vector3 posit
 	fbxObject_->Update();
 
 
-
-	particleObj_ = ObjParticleManager::GetInstance();
-	particleObj_->Init(sceneObject_->transitionM_);
-
 	// 行動マネージャー
 	ActManager_ = std::make_unique<EnemyActionManager>();
 	// pActManager_->ColliderInitialize(&sphere, SPHERE_COLISSION_NUM);
@@ -45,9 +41,8 @@ void EnemyCharacter::Initialize(TTEngine::DirectXCommon* dxCommon, Vector3 posit
 	particle_->LoadTexture("sprite/particle.png");
 	particle_->Update();
 
-	particleObj_ = ObjParticleManager::GetInstance();
+	particleObj_ = std::make_unique <ObjParticleManager>();
 	particleObj_->Init(sceneObject_->transitionM_);
-
 
 	object_.reset(Object3d::Create());
 
@@ -221,7 +216,7 @@ void EnemyCharacter::CheckHitCollision()
 				/*particle_->Charge(
 				    60, sphere[i]->GetCollisionInfo().inter_, sphere[i]->GetCollisionInfo().inter_,1.0f);*/
 				/*particle_->RandParticle(sphere[i]->GetCollisionInfo().inter_);*/
-				ObjParticleManager::GetInstance()->SetAnyExp(sphere[ i ]->GetCollisionInfo().inter_);
+				particleObj_->SetAnyExp(sphere[ i ]->GetCollisionInfo().inter_);
 				hitDeley = 5;
 
 				SetIsHit(true);

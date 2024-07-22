@@ -35,6 +35,8 @@ void Shot::Initialize(FbxObject3d* object, EnemyCharacter* enemy, SceneObjects* 
 
 	koutyokuTimer_ = 60.0f;
 
+	//particleObj_ = sceneObj_->particleObj_;//現在挑戦中のチャージエフェクトの3Dパーティクル
+
 }
 
 void Shot::Update(Input* input, GamePad* gamePad)
@@ -154,9 +156,10 @@ void Shot::Update(Input* input, GamePad* gamePad)
 	{
 		sceneObj_->effectO_->worldTransform.rotation_.x += 3.0f;
 		sceneObj_->effectO_->worldTransform.rotation_.y += 3.0f;
-		//sceneObj_->effectO_->rotation_.z += 3.0f;
 		sceneObj_->effectO_->SetRotation(sceneObj_->effectO_->worldTransform.rotation_);
-		//sceneObj_->particle_->Charge(120, particlePos, playerPos, 1.0f);
+
+		//particleObj_->SetCharge(object_->GetPosition());//現在挑戦中のチャージエフェクトの3Dパーティクル
+
 	}
 	if (isSubColor == true)
 	{
@@ -183,6 +186,9 @@ void Shot::Update(Input* input, GamePad* gamePad)
 	sceneObj_->effectO_->Update();
 
 	sceneObj_->particle_->Update();
+
+	//particleObj_->Update();//現在挑戦中のチャージエフェクトの3Dパーティクル
+
 }
 
 void Shot::Draw()
@@ -192,6 +198,8 @@ void Shot::Draw()
 		if (sceneObj_->effectO_->color_.w > 0) {
 			sceneObj_->effectO_->Draw();
 		}
+
+  		//particleObj_->Draw();//現在挑戦中のチャージエフェクトの3Dパーティクル
 	}
 	
 }
@@ -211,6 +219,8 @@ void Shot::Reset() {
 
 void Shot::ParticleDraw(ID3D12GraphicsCommandList* cmdList) {
 	sceneObj_->particle_->Draw(cmdList);
+	//particleObj_->Draw();
+
 }
 
 

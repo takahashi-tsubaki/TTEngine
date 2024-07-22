@@ -41,6 +41,8 @@ private:
 	FbxObject3d* object_;
 
 	SceneObjects* sceneObj_;
+	ObjParticleManager* particleObj_;
+
 
 	Vector3 velocity_{0, 0, 0};
 	PlayerCharacter* player_ = nullptr;

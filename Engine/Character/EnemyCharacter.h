@@ -100,7 +100,7 @@ private:
 	std::vector<SphereCollider*> sphere;
 	std::vector<Vector3> spherePos = {};
 
-	ObjParticleManager* particleObj_;
+	std::unique_ptr<ObjParticleManager> particleObj_;
 	//
 	std::unique_ptr<ParticleManager> particle_;
 };

@@ -94,6 +94,10 @@ void SceneObjects::Initialize(SceneManager* controller,SceneObjects* sceneObj)
 	particle_->Update();
 
 
+	particleObj_ = new ObjParticleManager();
+	particleObj_->Init(transitionM_);
+
+
 	// 音声データの初期化と読み取り
 	 audio_ = new TTEngine::Audio();
 	 audio_->Initialize();

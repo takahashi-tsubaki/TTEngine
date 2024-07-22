@@ -12,6 +12,7 @@
 #include "Object3d.h"
 
 #include "ParticleManager.h"
+#include "OBJParticle.h"
 
 #include "Vector3.h"
 
@@ -131,7 +132,7 @@ public:
 	EnemyCharacter* enemy = nullptr;
 
 	std::unique_ptr<ParticleManager> particle_;
-
+	ObjParticleManager* particleObj_;
 
 #pragma region 音関連
 

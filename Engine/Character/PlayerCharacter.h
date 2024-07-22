@@ -88,7 +88,7 @@ private:
 
 	std::unique_ptr<ParticleManager> particle_;
 	std::unique_ptr<ParticleM> particleM_;
-	ObjParticleManager* particleObj_;
+	std::unique_ptr<ObjParticleManager> particleObj_;
 
 	//ObjParticleManager::ParticlePreset ;
 

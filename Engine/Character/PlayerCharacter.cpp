@@ -45,8 +45,10 @@ void PlayerCharacter::Initialize(
 	particleM_->LoadTexture("sprite/particle.png");
 	particleM_->Update();
 
-	particleObj_ = ObjParticleManager::GetInstance();
+	particleObj_ = std::make_unique <ObjParticleManager>();
 	particleObj_->Init(sceneObject_->transitionM_);
+
+	//particleObj_ = sceneObj->particleObj_;
 
 	// 行動マネージャー
 	ActManager_ = std::make_unique<PlayerActionManager>();
@@ -194,7 +196,7 @@ void PlayerCharacter::CheckHitCollision()
 				if (isDamage == false) {
 					Hp_ -= 1;
 					hitDeley = 3;
-					ObjParticleManager::GetInstance()->SetAnyExp(sphere[ i ]->GetCollisionInfo().inter_);
+					particleObj_->SetAnyExp(sphere[ i ]->GetCollisionInfo().inter_);
 					//	被弾時のアニメーションの再生
 					fbxObject_->SetCurrentTimer(0);
 					//fbxObject_->PlayAnimation(FBXAnimetion::HIT, false);

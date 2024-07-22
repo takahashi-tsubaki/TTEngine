@@ -50,6 +50,8 @@ public: // メンバ関数
 
 	void SetDrawBlendMode(int SetBlendMode);
 
+	void Charge(const Vector3& pos);
+
 	/// <summary>
 	/// マネージャーの座標をもとにランダムに放出する
 	/// </summary>
