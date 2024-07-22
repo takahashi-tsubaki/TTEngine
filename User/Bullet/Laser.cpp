@@ -6,14 +6,11 @@ Model* Laser::model_ = nullptr;
 void Laser::Initialize(const Vector3& position,const Vector3& velocity,const unsigned short attribute)
 {
 
-
-
 	isDead_ = false;
 	bulletO_ = Object3d::Create();
 	bulletO_->SetModel(model_);
 	bulletO_->SetColor({ 1.0f,0.0f,0.0f,1.0f });
 	bulletO_->worldTransform.translation_ = position;
-	//bulletO_->worldTransform.scale_ = { 1,1,20 };
 	velocity_ = velocity;
 	attribute_ = attribute;
 
@@ -34,13 +31,6 @@ void Laser::Initialize(const Vector3& position,const Vector3& velocity,const uns
 		sphere[ i ]->SetRadius(4.0f);
 		sphere[ i ]->SetAttribute(attribute_);
 		sphere[ i ]->Update();
-		////test
-		// coliderPosTest_[i] = Object3d::Create();
-		// coliderPosTest_[i]->SetModel(hpModel_.get());
-		// coliderPosTest_[i]->SetPosition(sphere[i]->center);
-		// coliderPosTest_[i]->SetScale({ sphere[i]->GetRadius(),sphere[i]->GetRadius()
-		// ,sphere[i]->GetRadius() }); coliderPosTest_[i]->SetRotate({ 0,0,0 });
-		// coliderPosTest_[i]->Update();
 	}
 	livingTimer = 60.0f;
 }
@@ -54,10 +44,7 @@ void Laser::Update()
 	{
 		for ( int i = 0; i < SPHERE_COLISSION_NUM; i++ )
 		{
-
 			CollisionManager::GetInstance()->RemoveCollider(sphere[ i ]);
-			// こいつはいらない
-			/*sphere[i]->GetCollisionInfo().collider->RemoveAttribute(COLLISION_ATTR_PLAYERBULLETS);*/
 		}
 	}
 
@@ -93,7 +80,6 @@ void Laser::CheckCollision()
 
 		if ( hitDeley <= 0 && sphere[i]->GetIsHit() == true )
 		{
-//弾の属性が自機の弾で当たった対象が敵だった時
 
 			// 弾の属性が敵の弾で当たった対象が自機だった時
 			if ( sphere[ i ]->GetAttribute() == COLLISION_ATTR_ENEMYLASERS
@@ -101,7 +87,6 @@ void Laser::CheckCollision()
 			{
 				isDead_ = true;
 				livingTimer = 120.0f;
-				//particle_->RandParticle(sphere[i]->GetCollisionInfo().inter_);
 				hitDeley = 4;
 				break;
 			}
@@ -110,7 +95,6 @@ void Laser::CheckCollision()
 			{
 				isDead_ = true;
 				livingTimer = 120.0f;
-				//particle_->RandParticle(sphere[i]->GetCollisionInfo().inter_);
 				hitDeley = 4;
 				break;
 			}
@@ -123,10 +107,4 @@ void Laser::CheckCollision()
 		sphere[ i ]->Update();
 	}
 
-	/*ImGui::Begin("livingbullet");
-	ImGui::SetWindowPos({ 800 , 400 });
-	ImGui::SetWindowSize({ 500,100 });
-	ImGui::InputFloat("livindBullet",&livingTimer);
-
-	ImGui::End();*/
 }

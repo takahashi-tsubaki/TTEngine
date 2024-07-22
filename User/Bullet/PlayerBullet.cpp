@@ -55,28 +55,18 @@ void PlayerBullet::Initialize(Model* model, const Vector3& position, const Vecto
 void PlayerBullet::Update()
 {
 
-
-
 	Shot();
 	CheckCollision();
 	bulletO_->Update();
-
-
-	
 
 	if (isDead_ == true)
 	{
 		for (int i = 0; i < SPHERE_COLISSION_NUM; i++)
 		{
-
 			CollisionManager::GetInstance()->RemoveCollider(sphere[i]);
-			//こいつはいらない
-			/*sphere[i]->GetCollisionInfo().collider->RemoveAttribute(COLLISION_ATTR_PLAYERBULLETS);*/
 
 		}
 	}
-	
-	
 
 	bulletO_->worldTransform.UpdateMatWorld();
 }
@@ -88,7 +78,6 @@ void PlayerBullet::Draw()
 
 void PlayerBullet::Shot()
 {
-
 
 	livingTimer--;
 	if (livingTimer <= 0)
@@ -106,10 +95,7 @@ void PlayerBullet::CheckCollision()
 
 	if (hitDeley > 0) {	//毎フレームヒットを防止
 		hitDeley--;
-		
 	}
-
-
 
 	for (int i = 0; i < SPHERE_COLISSION_NUM; i++)
 	{
@@ -120,7 +106,6 @@ void PlayerBullet::CheckCollision()
 				isDead_ = true;
 				isBulletHit = true;
 				if (isBulletHit == true) {
-					//BulletParticle_->RandParticle(sphere[i]->GetCollisionInfo().inter_);
 				}
 
 				livingTimer = 120.0f;
@@ -132,7 +117,6 @@ void PlayerBullet::CheckCollision()
 				isDead_ = true;
 				isBulletHit = true;
 				if (isBulletHit == true) {
-					//BulletParticle_->RandParticle(sphere[i]->GetCollisionInfo().inter_);
 				}
 
 				livingTimer = 120.0f;
@@ -145,7 +129,6 @@ void PlayerBullet::CheckCollision()
 				isBulletHit = true;
 				if ( isBulletHit == true )
 				{
-//BulletParticle_->RandParticle(sphere[i]->GetCollisionInfo().inter_);
 				}
 
 				livingTimer = 120.0f;
@@ -153,25 +136,12 @@ void PlayerBullet::CheckCollision()
 				break;
 			}
 		}
-
-
-
 	}
+
 	for (int i = 0; i < SPHERE_COLISSION_NUM; i++) {
 		spherePos[i] = bulletO_->GetPosition();
 		sphere[i]->Update();
 	}
-
-	
-	
-
-	/*ImGui::Begin("livingbullet");
-	ImGui::SetWindowPos({ 800 , 400 });
-	ImGui::SetWindowSize({ 500,100 });
-	ImGui::InputFloat("livindBullet",&livingTimer);
-
-	ImGui::End();*/
-
 }
 
 void PlayerBullet::Reset()
@@ -185,9 +155,6 @@ void PlayerBullet::Reset()
 		for (int i = 0; i < SPHERE_COLISSION_NUM; i++)
 		{
 			CollisionManager::GetInstance()->RemoveCollider(sphere[i]);
-			//こいつはいらない
-			/*sphere[i]->GetCollisionInfo().collider->RemoveAttribute(COLLISION_ATTR_PLAYERBULLETS);*/
-
 		}
 	}
 	

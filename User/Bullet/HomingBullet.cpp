@@ -45,56 +45,7 @@ void HomingBullet::Initialize(
 		sphere[i]->SetRadius(1.0f);
 		sphere[i]->SetAttribute(attribute);
 		sphere[i]->Update();
-		////test
-		// coliderPosTest_[i] = Object3d::Create();
-		// coliderPosTest_[i]->SetModel(hpModel_.get());
-		// coliderPosTest_[i]->SetPosition(sphere[i]->center);
-		// coliderPosTest_[i]->SetScale({ sphere[i]->GetRadius(),sphere[i]->GetRadius()
-		// ,sphere[i]->GetRadius() }); coliderPosTest_[i]->SetRotate({ 0,0,0 });
-		// coliderPosTest_[i]->Update();
 	}
-
-	// particle_ = std::make_unique<ParticleManager>();
-	// particle_->SetDrawBlendMode(1);
-	// particle_->Initialize();
-	// particle_->LoadTexture("sprite/particle.png");
-	// particle_->Update();
-	
-//	#pragma region//乱数生成の下準備
-//	//乱数シード生成器
-//	std::random_device seed_gen;
-//	//メルセンヌ・ツイスターの乱数エンジン
-//	std::mt19937_64 engine(seed_gen());
-//	//乱数範囲の設定
-//	std::uniform_real_distribution<float> accuaryDist(0.0 , 2.0);
-//	std::uniform_real_distribution<float> wayDist(0 , 4.0);
-//	std::uniform_real_distribution<float> timeDist(0 , 30.0);
-//
-//#pragma endregion
-//	//精度の決定
-//	homingAccuary_ = accuaryDist(engine);
-//
-//	//回転行列を用意
-//	Matrix4 matRot = matRot.identity();
-//	Matrix4 matRot2 = matRot.identity();
-//
-//	//回転ベクトルを用意
-//	Vector3 rotation = {
-//		MyMath::Dig2Rad((wayDist(engine) - 2) * 20) ,
-//		MyMath::Dig2Rad((wayDist(engine) - 2) * 20) ,
-//		0};
-//
-//	//回転ベクトルを用意
-//
-//	Vector3 rotation2 = {0 ,
-//
-//		MyMath::Dig2Rad((wayDist(engine) - 2) * 20) ,
-//		0};
-//	//回転行列に回転ベクトルを反映
-//	matRot = MyMath::Rotate(rotation , 6);
-//	matRot2 = MyMath::Rotate(rotation2 , 2);
-//	//アングルと回転行列の席を求める
-//	angle = MyMath::bVelocity(angle , matRot2);
 
 	kFireTimer = 0;
 
@@ -114,8 +65,6 @@ void HomingBullet::Update() {
 		for (int i = 0; i < SPHERE_COLISSION_NUM; i++) {
 
 			CollisionManager::GetInstance()->RemoveCollider(sphere[i]);
-			// こいつはいらない
-			/*sphere[i]->GetCollisionInfo().collider->RemoveAttribute(COLLISION_ATTR_PLAYERBULLETS);*/
 		}
 	}
 
@@ -159,10 +108,7 @@ void HomingBullet::Shot() {
 	}
 	else
 	{
-		//moveVelocity = playerPos_ - bulletO_->worldTransform.translation_;
-		//moveVelocity.nomalize();
-		//moveVelocity *= speed;
-		//bulletO_->worldTransform.translation_ += moveVelocity;
+
 	}
 }
 
@@ -179,7 +125,6 @@ void HomingBullet::CheckCollision() {
 			    sphere[i]->GetCollisionInfo().collider_->GetAttribute() == COLLISION_ATTR_ENEMYS) {
 				isDead_ = true;
 				livingTimer = BulletTimer::LivingTime;
-				// particle_->RandParticle(sphere[i]->GetCollisionInfo().inter_);
 				hitDeley = 4;
 				break;
 			}
@@ -189,7 +134,6 @@ void HomingBullet::CheckCollision() {
 			        COLLISION_ATTR_ENEMYBULLETS) {
 				isDead_ = true;
 				livingTimer = BulletTimer::LivingTime;
-				// particle_->RandParticle(sphere[i]->GetCollisionInfo().inter_);
 				hitDeley = 4;
 				break;
 			}
@@ -202,7 +146,6 @@ void HomingBullet::CheckCollision() {
 			    sphere[i]->GetCollisionInfo().collider_->GetAttribute() == COLLISION_ATTR_PLAYERS) {
 				isDead_ = true;
 				livingTimer = BulletTimer::LivingTime;
-				// particle_->RandParticle(sphere[i]->GetCollisionInfo().inter_);
 				hitDeley = 4;
 				break;
 			}
@@ -212,7 +155,7 @@ void HomingBullet::CheckCollision() {
 			        COLLISION_ATTR_PLAYERBULLETS) {
 				isDead_ = true;
 				livingTimer = BulletTimer::LivingTime;
-				// particle_->RandParticle(sphere[i]->GetCollisionInfo().inter_);
+
 				hitDeley = 4;
 				break;
 			}
@@ -223,12 +166,7 @@ void HomingBullet::CheckCollision() {
 		sphere[i]->Update();
 	}
 
-    /*ImGui::Begin("livingbullet");
-	ImGui::SetWindowPos({ 800 , 400 });
-	ImGui::SetWindowSize({ 500,100 });
-	ImGui::InputFloat("livindBullet",&livingTimer);
-
-	ImGui::End();*/}
+}
 
 void HomingBullet::Reset()
 {
@@ -238,8 +176,6 @@ void HomingBullet::Reset()
 	if (isDead_ == true) {
 		for (int i = 0; i < SPHERE_COLISSION_NUM; i++) {
 			CollisionManager::GetInstance()->RemoveCollider(sphere[i]);
-			// こいつはいらない
-			/*sphere[i]->GetCollisionInfo().collider->RemoveAttribute(COLLISION_ATTR_PLAYERBULLETS);*/
 		}
 	}
 }

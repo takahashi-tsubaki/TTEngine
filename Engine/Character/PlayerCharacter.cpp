@@ -26,7 +26,6 @@ void PlayerCharacter::Initialize(
 	fbxObject_->SetModel(fbxModel_.get());
 	fbxObject_->SetScale({fbxScale_, fbxScale_, fbxScale_});
 	fbxObject_->SetPosition(position);
-	// fbxPlayerO_->SetIsBonesWorldMatCalc(true); // ボーンワールド行列計算あり
 	fbxObject_->Update();
 
 	
@@ -48,11 +47,8 @@ void PlayerCharacter::Initialize(
 	particleObj_ = std::make_unique <ObjParticleManager>();
 	particleObj_->Init(sceneObject_->transitionM_);
 
-	//particleObj_ = sceneObj->particleObj_;
-
 	// 行動マネージャー
 	ActManager_ = std::make_unique<PlayerActionManager>();
-	// pActManager_->ColliderInitialize(&sphere, SPHERE_COLISSION_NUM);
 	ActManager_->ActionInitialize(fbxObject_.get(), enemy_,sceneObject_);
 
 	Hp_ = 10;
@@ -178,10 +174,8 @@ void PlayerCharacter::CheckHitCollision()
 	oldPos = fbxObject_->worldTransform.translation_;
 
 	if (hitDeley > 0) { // 毎フレームヒットを防止
-		// playerO_->SetColor({ 0,0,1,1 });
 		hitDeley--;
 	} else {
-		// playerO_->SetColor({ 1,1,1,1 });
 	}
 
 	// 当たり判定の処理
@@ -199,7 +193,6 @@ void PlayerCharacter::CheckHitCollision()
 					particleObj_->SetAnyExp(sphere[ i ]->GetCollisionInfo().inter_);
 					//	被弾時のアニメーションの再生
 					fbxObject_->SetCurrentTimer(0);
-					//fbxObject_->PlayAnimation(FBXAnimetion::HIT, false);
 					isDamage = true;
 				}
 

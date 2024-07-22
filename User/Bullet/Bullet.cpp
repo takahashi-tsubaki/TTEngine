@@ -43,20 +43,7 @@ void Bullet::Initialize(
 		sphere[i]->SetRadius(1.0f);
 		sphere[i]->SetAttribute(attribute);
 		sphere[i]->Update();
-		////test
-		// coliderPosTest_[i] = Object3d::Create();
-		// coliderPosTest_[i]->SetModel(hpModel_.get());
-		// coliderPosTest_[i]->SetPosition(sphere[i]->center);
-		// coliderPosTest_[i]->SetScale({ sphere[i]->GetRadius(),sphere[i]->GetRadius()
-		// ,sphere[i]->GetRadius() }); coliderPosTest_[i]->SetRotate({ 0,0,0 });
-		// coliderPosTest_[i]->Update();
 	}
-
-	//particle_ = std::make_unique<ParticleManager>();
-	//particle_->SetDrawBlendMode(1);
-	//particle_->Initialize();
-	//particle_->LoadTexture("sprite/particle.png");
-	//particle_->Update();
 
 	livingTimer = 150.0f;
 }
@@ -71,8 +58,6 @@ void Bullet::Update() {
 		for (int i = 0; i < SPHERE_COLISSION_NUM; i++) {
 
 			CollisionManager::GetInstance()->RemoveCollider(sphere[i]);
-			// こいつはいらない
-			/*sphere[i]->GetCollisionInfo().collider->RemoveAttribute(COLLISION_ATTR_PLAYERBULLETS);*/
 		}
 	}
 
@@ -107,7 +92,6 @@ void Bullet::CheckCollision() {
 			{
 				isDead_ = true;
 				livingTimer = 120.0f;
-				//particle_->RandParticle(sphere[i]->GetCollisionInfo().inter_);
 				hitDeley = 4;
 				break;
 			}
@@ -117,7 +101,6 @@ void Bullet::CheckCollision() {
 			{
 				isDead_ = true;
 				livingTimer = 120.0f;
-				//particle_->RandParticle(sphere[i]->GetCollisionInfo().inter_);
 				hitDeley = 4;
 				break;
 			}
@@ -126,7 +109,6 @@ void Bullet::CheckCollision() {
 			{
 				isDead_ = true;
 				livingTimer = 120.0f;
-				//particle_->RandParticle(sphere[i]->GetCollisionInfo().inter_);
 				hitDeley = 4;
 				break;
 			}
@@ -141,7 +123,6 @@ void Bullet::CheckCollision() {
 			{
 				isDead_ = true;
 				livingTimer = 120.0f;
-				//particle_->RandParticle(sphere[i]->GetCollisionInfo().inter_);
 				hitDeley = 4;
 				break;
 			}
@@ -151,7 +132,6 @@ void Bullet::CheckCollision() {
 			{
 				isDead_ = true;
 				livingTimer = 120.0f;
-				//particle_->RandParticle(sphere[i]->GetCollisionInfo().inter_);
 				hitDeley = 4;
 				break;
 			}

@@ -23,13 +23,11 @@ void EnemyCharacter::Initialize(TTEngine::DirectXCommon* dxCommon, Vector3 posit
 	fbxObject_->SetModel(fbxModel_.get());
 	fbxObject_->SetScale({fbxScale_, fbxScale_, fbxScale_});
 	fbxObject_->SetPosition(position);
-	// fbxPlayerO_->SetIsBonesWorldMatCalc(true); // ボーンワールド行列計算あり
 	fbxObject_->Update();
 
 
 	// 行動マネージャー
 	ActManager_ = std::make_unique<EnemyActionManager>();
-	// pActManager_->ColliderInitialize(&sphere, SPHERE_COLISSION_NUM);
 	ActManager_->ActionInitialize(fbxObject_.get(), player_);
 
 	blowAwayCount = 0;
@@ -131,13 +129,6 @@ void EnemyCharacter::ResetAttribute()
 		sphere[i]->SetRadius(1.0f);
 		sphere[i]->SetAttribute(COLLISION_ATTR_ENEMYS);
 		sphere[i]->Update();
-		////test
-		// coliderPosTest_[i] = Object3d::Create();
-		// coliderPosTest_[i]->SetModel(hpModel_.get());
-		// coliderPosTest_[i]->SetPosition(sphere[i]->center);
-		// coliderPosTest_[i]->SetScale({ sphere[i]->GetRadius(),sphere[i]->GetRadius()
-		// ,sphere[i]->GetRadius() }); coliderPosTest_[i]->SetRotate({ 0,0,0 });
-		// coliderPosTest_[i]->Update();
 	}
 }
 
@@ -201,11 +192,9 @@ void EnemyCharacter::CheckHitCollision()
 	}
 
 	if (hitDeley > 0) { // 毎フレームヒットを防止
-		// enemyO_->SetColor({ 0,0,1,1 });
 		hitDeley--;
 	} else {
 
-		// enemyO_->SetColor({ 1,1,1,1 });
 	}
 
 	for (int i = 0; i < SPHERE_COLISSION_NUM; i++) {
@@ -213,9 +202,6 @@ void EnemyCharacter::CheckHitCollision()
 			if (sphere[i]->GetCollisionInfo().collider_->GetAttribute() ==
 			    COLLISION_ATTR_PLAYERBULLETS) {
 				Damage();
-				/*particle_->Charge(
-				    60, sphere[i]->GetCollisionInfo().inter_, sphere[i]->GetCollisionInfo().inter_,1.0f);*/
-				/*particle_->RandParticle(sphere[i]->GetCollisionInfo().inter_);*/
 				particleObj_->SetAnyExp(sphere[ i ]->GetCollisionInfo().inter_);
 				hitDeley = 5;
 
@@ -227,11 +213,8 @@ void EnemyCharacter::CheckHitCollision()
 				COLLISION_ATTR_PLAYERBOMBBULLETS )
 			{
 				damageSize_ += damage * 5;
-
 				Hp_ -= damage*5;
-				/*particle_->Charge(
-					60, sphere[i]->GetCollisionInfo().inter_, sphere[i]->GetCollisionInfo().inter_,1.0f);*/
-				/*particle_->RandParticle(sphere[i]->GetCollisionInfo().inter_);*/
+
 				ObjParticleManager::GetInstance()->SetAnyExp(sphere[ i ]->GetCollisionInfo().inter_);
 				hitDeley = 5;
 
@@ -245,8 +228,6 @@ void EnemyCharacter::CheckHitCollision()
 	if (GetHp() <= 0) {
 		for (int i = 0; i < SPHERE_COLISSION_NUM; i++) {
 
-			// こいつはいらない
-			/*sphere[i]->GetCollisionInfo().collider->RemoveAttribute(COLLISION_ATTR_PLAYERBULLETS);*/
 		}
 	}
 	for (int i = 0; i < SPHERE_COLISSION_NUM; i++) {

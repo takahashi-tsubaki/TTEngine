@@ -7,8 +7,6 @@ PauseScene::PauseScene(SceneManager* controller, SceneObjects* sceneObj)
 
 	player = sceneObj_->player;
 	enemy= sceneObj_->enemy;
-	//sceneObj_->player = player;
-	//sceneObj_->enemy = enemy;
 
 	operationSP_ = Sprite::Create(SpriteNumber::OPERATION, {400, 100});
 	operationSP_->Initialize();
@@ -20,7 +18,6 @@ PauseScene::PauseScene(SceneManager* controller, SceneObjects* sceneObj)
 
 PauseScene::~PauseScene()
 {
-	//sceneObj_->Reset();
 }
 
 void PauseScene::Initialize()
@@ -40,8 +37,6 @@ void PauseScene::Update(Input* input, GamePad* gamePad)
 		if (input->TriggerKey(DIK_TAB) || gamePad->ButtonTrigger(START)) {
 			sceneObj_->player = player;
 			sceneObj_->enemy= enemy;
-			//sceneObj_->player = player;
-			//sceneObj_->enemy = enemy;
 			checkNum = 0;
 			controller_->PopScene();
 		}
@@ -59,15 +54,10 @@ void PauseScene::Update(Input* input, GamePad* gamePad)
 		if (input->TriggerKey(DIK_TAB) || gamePad->ButtonTrigger(START)) {
 			sceneObj_->player = player;
 			sceneObj_->enemy = enemy;
-			//sceneObj_->player = player;
-			//sceneObj_->enemy = enemy;
 			checkNum = 0;
 			controller_->PopScene();
 		}
 	}
-
-	//player_->Update(input, gamePad);
-	//enemy_->Update();
 }
 
 void PauseScene::Draw()
@@ -97,8 +87,6 @@ void PauseScene::Draw()
 	sceneObj_->skydomeO_->Draw();
 	enemy->Draw();
 	player->Draw();
-	//player_->Draw();
-	//enemy_->Draw();
 
 	///// <summary>
 	///// ここに3Dオブジェクトの描画処理を追加できる
@@ -113,10 +101,7 @@ void PauseScene::Draw()
 
 	//// 3Dオブジェクトの描画
 
-	/*fbxObject->Draw(dxCommon_->GetCommandList());*/
 
-	//player_->GetParticle()->Draw(controller_->dxCommon_->GetCommandList());
-	//enemy_->GetParticle()->Draw(controller_->dxCommon_->GetCommandList());
 
 	///// <summary>
 	///// ここに3Dオブジェクトの描画処理を追加できる
@@ -159,9 +144,7 @@ void PauseScene::Draw()
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
-	//playerHpSprite_->Draw();
-	//enemyHpSprite_->Draw();
-	//
+
 	// スプライト描画後処理
 	Sprite::PostDraw();
 

@@ -662,8 +662,6 @@ void PlayScene::finishEnemyCamera() {
 
 	finishCameraEnemyVec = {-5, 0, -20}; // オフセット座標の設定
 
-	// finishCameraVec = {0, 0, 20};
-
 	//平行移動だけを取り除いた回転行列の計算
 	finishCameraEnemyVec = MyMath::MatVector(
 	    finishCameraEnemyVec, enemy->GetFbxObject3d()->GetWorldTransform().matWorld_);
